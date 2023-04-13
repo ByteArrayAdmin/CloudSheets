@@ -1,4 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
+
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {Homestyle} from './style';
@@ -24,7 +24,7 @@ const BoardingScreen = () => {
           </Text>
         </View>
         <View>
-          <View style={{marginTop: 160}}>
+          <View style={Homestyle.cutcardview}>
             <Cutcard />
             <View style={Homestyle.cardview}>
               <View>

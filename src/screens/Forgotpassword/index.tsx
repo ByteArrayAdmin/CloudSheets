@@ -20,27 +20,26 @@ const ForgotPassword = () => {
   const navigation = useNavigation();
   const onSubmit = async (data: any) => {
     const {forgetemail} = data;
-    console.log('my useform hook forget@@@@@@@@', forgetemail);
   };
   return (
     <>
       <BackgroundLayout />
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={Forgotscreenstyle.safeareaview}>
         <KeyboardAwareScrollView>
           <View style={Forgotscreenstyle.backbuttonview}>
             <BackButton onpress={() => navigation.navigate('Login')} />
           </View>
 
           <View style={Forgotscreenstyle.forgetpassswordview}>
-            <View style={{marginTop: 40}}>
+            <View style={Forgotscreenstyle.forgotview}>
               <Mediumlogo />
             </View>
-            <View style={{marginTop: 30}}>
+            <View style={Forgotscreenstyle.forgetsyleview}>
               <Text style={Forgotscreenstyle.forgerpasswardtextheading}>
                 {Forgotlabel.Forgotpassword.FORGOTPASSWORD}
               </Text>
             </View>
-            <View style={{marginTop: 10}}>
+            <View style={Forgotscreenstyle.lastview}>
               <Text style={Forgotscreenstyle.subheadingtextstyle}>
                 {Forgotlabel.Forgotpassword.FOGETPASSWORDSUBHEADING}
               </Text>

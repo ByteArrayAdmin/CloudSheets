@@ -1,35 +1,42 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   View,
   SafeAreaView,
   Text,
   ScrollView,
   KeyboardAvoidingView,
-} from 'react-native';
-import BackgroundLayout from '../../../commonComponents/Backgroundlayout/BackgroundLayout';
-import Smlogo from '../../../assets/Images/smalllogo.svg';
-import InputField from '../../../commonComponents/InputField';
-import AuthCard from '../../../commonComponents/AuthCard';
-import Custombutton from '../../../commonComponents/Button';
-import CreateTemplatescreen from '../../../utils/ProjectLabels.json';
-import Templatelogo from '../../../assets/Images/Templatelogo.svg';
-import {Tempatestyle} from './Style';
-import BottomsheetLayout from '../../../Bottomsheet/BottomsheetLayout';
-import {useForm} from 'react-hook-form';
-import Template from '../../../assets/Images/Tempate.svg';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+  TouchableOpacity,
+} from "react-native";
+import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
+import Smlogo from "../../../assets/Images/smalllogo.svg";
+import InputField from "../../../commonComponents/InputField";
+import AuthCard from "../../../commonComponents/AuthCard";
+import Custombutton from "../../../commonComponents/Button";
+import CreateTemplatescreen from "../../../utils/ProjectLabels.json";
+import Templatelogo from "../../../assets/Images/Templatelogo.svg";
+import { Tempatestyle } from "./Style";
+import BottomsheetLayout from "../../../Bottomsheet/BottomsheetLayout";
+import { useForm } from "react-hook-form";
+import Template from "../../../assets/Images/Tempate.svg";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {useNavigation} from '@react-navigation/native';
 
 const CreateTemplate = () => {
   const [visible, setVisible] = useState(false);
-  const {control, handleSubmit} = useForm();
+  const { control, handleSubmit } = useForm();
+  const navigation = useNavigation();
   const toggleBottomNavigationView = () => {
     //Toggling the visibility state of the bottom sheet
     setVisible(!visible);
   };
+
+const CreatePress =()=>{
+  toggleBottomNavigationView()
+}
   return (
     <>
       <BackgroundLayout />
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={Tempatestyle.safeareaview}>
         <View style={Tempatestyle.container}>
           <View style={Tempatestyle.logoview}>
             <Smlogo />
@@ -43,7 +50,7 @@ const CreateTemplate = () => {
             </Text>
           </View>
 
-          <View style={{marginTop: 50}}>
+          <View style={Tempatestyle.authcardview}>
             <AuthCard
               subchildren={
                 <>
@@ -52,7 +59,7 @@ const CreateTemplate = () => {
                       <View>
                         <Templatelogo />
                       </View>
-                      <View style={{marginHorizontal: 40}}>
+                      <View style={Tempatestyle.cartdtetxt}>
                         <View>
                           <Text style={Tempatestyle.cardtextstyle}>
                             {CreateTemplatescreen.CreateTemplatescreen.CARDTEXT}
@@ -88,7 +95,7 @@ const CreateTemplate = () => {
         onBackdropPress={toggleBottomNavigationView}
         children={
           <>
-            <KeyboardAwareScrollView style={{flex: 1}}>
+            <KeyboardAwareScrollView style={{ flex: 1 }}>
               <View style={Tempatestyle.firstview}>
                 <View>
                   <Text style={Tempatestyle.newtemplattext}>
@@ -124,12 +131,12 @@ const CreateTemplate = () => {
                     {CreateTemplatescreen.TemBottomsheet.Cancel}
                   </Text>
                 </View>
-                <View style={{flex: 1}} />
-                <View style={Tempatestyle.secondbutton}>
+                <View style={{ flex: 1 }} />
+                <TouchableOpacity style={Tempatestyle.secondbutton} onPress={()=> CreatePress()}>
                   <Text style={Tempatestyle.create}>
                     {CreateTemplatescreen.TemBottomsheet.Create}
                   </Text>
-                </View>
+                </TouchableOpacity>
               </View>
             </KeyboardAwareScrollView>
           </>

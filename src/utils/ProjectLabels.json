@@ -93,12 +93,6 @@
     "CARDTEXT2": "tapping the button below."
 
   },
-//   "TemBottomsheet":{
-//     "CreateCloudsheet": "Create Cloudsheet",
-//     "SELECTTEMPLATE":"Please select your Template",
-//     "InNewTemplate":"In New Template",
-//     "InExistingTemplate":"In Existing Template"
-// },
 "TemBottomsheet":{
   "NewTemplate":"New Template",
   "PleasenameyourTemplate": "Please name your Template",
@@ -106,5 +100,13 @@
   "EnterTemplateName":"Enter Template Name",
   "Cancel":"Cancel",
    "Create":"Create"
+},
+"Creatcloudsheetlabels":{
+  "ClassAttendance":"Class Attendance",
+  "ColumnName": "Column Name",
+  "PLACEHOLDERTEXT":"Enter Column Name",
+  "ColumnType":"Column Type",
+  "AddNewColumn": "Add New Column"
+
 }
 }

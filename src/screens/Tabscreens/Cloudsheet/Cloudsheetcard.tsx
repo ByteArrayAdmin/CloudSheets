@@ -17,19 +17,19 @@ const Cloudsheetcard = () => (
         <Text style={Cardstyle.jantext}>January Attendance</Text>
         <Text style={Cardstyle.datetext}>Jan 16, 2023 | 12:45 PM</Text>
       </View>
-      <View style={{flex: 1}} />
-      <View style={{marginBottom: 22}}>
+      <View style={Cardstyle.threedotview} />
+      <View style={Cardstyle.threedotview}>
         <Threedots />
       </View>
     </View>
     <View style={Cardstyle.Horizontalline}>
-      <View style={{borderBottomWidth: 0.2}} />
+      <View style={Cardstyle.emptyview} />
     </View>
     <View style={Cardstyle.lastview}>
       <View>
         <Smallfolder />
       </View>
-      <View style={{paddingLeft: 6}}>
+      <View style={Cardstyle.lastview}>
         <Text style={Cardstyle.Text}>Monthly Expenses (3)</Text>
       </View>
     </View>
@@ -81,4 +81,14 @@ const Cardstyle = StyleSheet.create({
     color: '#001521',
     opacity: 0.5,
   },
+  threedotview:{
+    flex: 1
+  },
+  threedotsubview:{
+    marginBottom: 22
+  },
+  emptyview:{
+    borderBottomWidth: 0.2
+  },
+  lastview:{paddingLeft: 6}
 });

@@ -106,4 +106,9 @@ export const loginstyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  lastview:{
+    flexDirection: 'row',
+    marginTop: 60,
+    justifyContent: 'center',
+  }
 });

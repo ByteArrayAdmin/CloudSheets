@@ -89,4 +89,13 @@ export const styles = StyleSheet.create({
     bottom: 80,
     right: 15,
   },
+  upgradeconatinerstyle:{
+    flex:1
+  },
+  lastview:{
+    flex:1
+  },
+  flatlistview:{
+flex:1
+  }
 });

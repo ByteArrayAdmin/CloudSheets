@@ -29,20 +29,12 @@ const Signup = () => {
   const navigation = useNavigation();
   const onRegisterPressed = async (data: any) => {
     const {name, username, email, mobilenunber, password} = data;
-    console.log(
-      'my useform hook',
-      name,
-      username,
-      password,
-      email,
-      mobilenunber,
-    );
   };
 
   return (
     <>
       <BackgroundLayout />
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={styles.safeareastyle}>
         <KeyboardAwareScrollView>
           <View style={styles.skipText}>
             <Text style={styles.skioptextcolor}>
@@ -133,7 +125,8 @@ const Signup = () => {
           </View>
 
           <View>
-            <View style={styles.ORviewstyle}>
+        {/* //This feature is commented for now  */}
+            {/* <View style={styles.ORviewstyle}>
               <View style={styles.Horizontalline} />
               <View style={{paddingHorizontal: 15}}>
                 <Text style={styles.ortextstyle}>
@@ -141,9 +134,9 @@ const Signup = () => {
                 </Text>
               </View>
               <View style={styles.Horizontalline} />
-            </View>
+            </View> */}
 
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 marginTop: 30,
@@ -156,7 +149,7 @@ const Signup = () => {
               <View style={styles.googleapplebutton}>
                 <Appleicon />
               </View>
-            </View>
+            </View> */}
 
             <View
               style={{

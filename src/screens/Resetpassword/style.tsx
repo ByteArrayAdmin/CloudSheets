@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import {FONTS} from '../../utils/Constant';
 
 export const resetscreenstyle = StyleSheet.create({
+  safeareaview:
+  {
+flex:1
+  },
   backbuttonview: {
     marginTop: 20,
     marginHorizontal: 15,
@@ -21,4 +25,8 @@ export const resetscreenstyle = StyleSheet.create({
     color: '#FFFFFF',
     opacity: 0.8,
   },
+  logoview:{
+    marginTop: 40
+  },
+
 });
