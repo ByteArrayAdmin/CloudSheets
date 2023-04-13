@@ -32,7 +32,6 @@ const CreateTemplate = () => {
 
 const CreatePress =()=>{
   toggleBottomNavigationView()
-  navigation.navigate("CreatSpreadsheet")
 }
   return (
     <>
