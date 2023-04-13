@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-coudsheet-staging-75009-authRole",
+      "UnauthRoleArn": "arn:aws:iam::308754397164:role/amplify-coudsheet-staging-75009-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::308754397164:role/amplify-coudsheet-staging-75009-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-coudsheet-staging-75009-deployment",
+      "UnauthRoleName": "amplify-coudsheet-staging-75009-unauthRole",
+      "StackName": "amplify-coudsheet-staging-75009",
+      "StackId": "arn:aws:cloudformation:us-east-1:308754397164:stack/amplify-coudsheet-staging-75009/54608250-ce06-11ed-b34e-0a12e2c1edf3",
+      "AmplifyAppId": "d11924ekg6byqw"
+    },
+    "categories": {
+      "auth": {
+        "CoudSheet": {}
+      }
+    }
+  }
+}
