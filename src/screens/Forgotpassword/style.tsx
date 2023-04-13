@@ -2,6 +2,9 @@ import {StyleSheet} from 'react-native';
 import {FONTS} from '../../utils/Constant';
 
 export const Forgotscreenstyle = StyleSheet.create({
+  safeareaview:{
+flex:1
+  },
   Forgotscreenstyle: {
     backgroundColor: '#0061FF',
     height: '50%',
@@ -35,4 +38,15 @@ export const Forgotscreenstyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  forgotview:{
+    marginTop: 40
+  },
+  forgetsyleview:{
+    marginTop: 30
+  },
+  lastview:{
+    marginTop:10
+  }
+  
+  
 });

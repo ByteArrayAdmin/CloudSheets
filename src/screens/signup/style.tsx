@@ -6,6 +6,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#0061FF',
     height: '40%',
   },
+  safeareastyle:{
+    flex:1
+  },
   registerdText: {
     color: 'white',
     opacity: 0.8,

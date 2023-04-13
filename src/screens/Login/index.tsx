@@ -1,37 +1,35 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import AuthCard from '../../commonComponents/AuthCard';
-import InputField from '../../commonComponents/InputField';
-import {SafeAreaView, Text, View, TouchableOpacity} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {emailRegex} from '../../utils/Constant';
-import Mesageicon from 'src/assets/Images/Message.svg';
-import {useForm} from 'react-hook-form';
-import Lock from 'src/assets/Images/Lock.svg';
-import CommonButton from '../../commonComponents/Button';
-import {loginstyle} from './style';
-import {useNavigation} from '@react-navigation/native';
-import Googleicon from '../../assets/Images/Googlricon.svg';
-import Appleicon from '../../assets/Images/Apple.svg';
-import BackgroundLayout from '../../commonComponents/Backgroundlayout/BackgroundLayout';
-import LoginLabels from '../../utils/ProjectLabels.json';
-import Mediumlogo from '../../assets/Images/Mediumlogo.svg'
+import React, { useState } from "react";
+import AuthCard from "../../commonComponents/AuthCard";
+import InputField from "../../commonComponents/InputField";
+import { SafeAreaView, Text, View, TouchableOpacity } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { emailRegex } from "../../utils/Constant";
+import Mesageicon from "src/assets/Images/Message.svg";
+import { useForm } from "react-hook-form";
+import Lock from "src/assets/Images/Lock.svg";
+import CommonButton from "../../commonComponents/Button";
+import { loginstyle } from "./style";
+import { useNavigation } from "@react-navigation/native";
+import Googleicon from "../../assets/Images/Googlricon.svg";
+import Appleicon from "../../assets/Images/Apple.svg";
+import BackgroundLayout from "../../commonComponents/Backgroundlayout/BackgroundLayout";
+import LoginLabels from "../../utils/ProjectLabels.json";
+import Mediumlogo from "../../assets/Images/Mediumlogo.svg";
 
 const Login = () => {
-  const {control, handleSubmit} = useForm();
+  const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
 
   const onLoginPressed = async (data: any) => {
-    const {youremail, yourpasswaord} = data;
-    console.log('my useform hook Login@@@@@@@@', youremail, yourpasswaord);
-    //console.log('my jason data@@@@@@@@@@@@', Labels.LoginScreen.CloudSheets);
+    const { youremail, yourpasswaord } = data;
 
-    navigation.navigate('Tabnavigator');
+    navigation.navigate("Tabnavigator");
   };
   return (
     <>
       <BackgroundLayout />
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <KeyboardAwareScrollView>
           <View style={loginstyle.skipText}>
             <Text style={loginstyle.skioptextcolor}>Skip</Text>
@@ -62,7 +60,10 @@ const Login = () => {
                     Image={Mesageicon}
                     rules={{
                       required: LoginLabels.LoginScreen.EMAIL_VALIDATION,
-                      pattern: {value: emailRegex, message: 'Email is invalid'},
+                      pattern: {
+                        value: emailRegex,
+                        message: "Email is invalid",
+                      },
                     }}
                   />
                   <InputField
@@ -81,7 +82,8 @@ const Login = () => {
                   />
                   <View style={loginstyle.fogetpasswaordview}>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('forgetpassword')}>
+                      onPress={() => navigation.navigate("forgetpassword")}
+                    >
                       <Text style={loginstyle.fogettext}>
                         {LoginLabels.LoginScreen.FORGET_PASSWARD}
                       </Text>
@@ -92,16 +94,18 @@ const Login = () => {
             />
           </View>
 
-          <View>
-            <View style={loginstyle.ORviewstyle}>
+          {/* This feature is commented for now */}
+
+          
+            {/* <View style={loginstyle.ORviewstyle}>
               <View style={loginstyle.Horizontalline} />
               <View style={{paddingHorizontal: 15}}>
                 <Text style={loginstyle.ortextstyle}>OR</Text>
               </View>
               <View style={loginstyle.Horizontalline} />
-            </View>
+            </View> */}
 
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 marginTop: 30,
@@ -114,14 +118,11 @@ const Login = () => {
               <View style={loginstyle.googleapplebutton}>
                 <Appleicon />
               </View>
-            </View>
-
+            </View> */}
+            
+<View>
             <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 60,
-                justifyContent: 'center',
-              }}>
+              style={loginstyle.lastview}>
               <View>
                 <Text style={loginstyle.alreadyamember}>
                   {LoginLabels.LoginScreen.DONTHAVE_ACCOUNT}

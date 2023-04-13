@@ -14,7 +14,7 @@ const InputField = (props: any) => {
           <>
             <View style={styles.container}>
               <View style={styles.imagepadding}>
-                <props.Image />
+            {props.Image ? <props.Image />:null}  
               </View>
               <View style={styles.viewWidth}>
                 <TextInput
@@ -51,7 +51,7 @@ export default InputField;
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 18,
     backgroundColor: '#F6F8FA',
     borderRadius: 8,
     flexDirection: 'row',
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   textinputview: {
     width: '75%',
   },
-  imagepadding: {paddingHorizontal: 15},
+  imagepadding: {paddingHorizontal: 12},
   viewWidth: {width: '75%'},
   inputview: {
     height: 50,

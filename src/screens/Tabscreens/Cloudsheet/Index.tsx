@@ -22,7 +22,7 @@ const ClousheetList = () => {
         <View style={styles.secondview} />
         <View style={styles.thirdview} />
       </View>
-      <View style={{flex: 1}}>
+      <View style={styles.flatlistview}>
         <FlatListHeader />
 
         <FlatList

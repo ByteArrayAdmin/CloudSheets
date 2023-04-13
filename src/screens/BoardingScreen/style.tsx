@@ -63,4 +63,7 @@ export const Homestyle = StyleSheet.create({
     bottom: -70,
     borderColor: '#0061FF',
   },
+  cutcardview:{
+    marginTop:160
+  }
 });

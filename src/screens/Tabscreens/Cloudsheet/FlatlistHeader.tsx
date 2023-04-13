@@ -23,7 +23,7 @@ const FlatListHeader = () => {
               {Clousheetlistscreen.cloudsheetlistconstant.SHEETS}
             </Text>
           </View>
-          <View style={{flex: 1}} />
+          <View style={styles.upgradeconatinerstyle} />
           <View style={styles.upgradeContainer}>
             <View>
               <CrownLogo />
@@ -50,7 +50,7 @@ const FlatListHeader = () => {
               {Clousheetlistscreen.cloudsheetlistconstant.RECENT_CLOUD_SHEETS}
             </Text>
           </View>
-          <View style={{flex: 1}} />
+          <View style={styles.lastview} />
           <View>
             <Text style={styles.viewalltext}>
               {Clousheetlistscreen.cloudsheetlistconstant.VIEWALL}
