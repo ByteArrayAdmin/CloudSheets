@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text,Image,StyleSheet} from 'react-native';
+import {View, Text,Image,StyleSheet, TouchableOpacity} from 'react-native';
 import { FONTS } from '../utils/Constant';
 
 const NewCommonHeader = (props:any)=>{
@@ -7,9 +7,9 @@ const NewCommonHeader = (props:any)=>{
         <View style={{borderWidth:1,height:130,backgroundColor:"#0061FF"}}>
  <View>
         <View style={styles.headerconatiner}>
-          <View>
+          <TouchableOpacity onPress={props.onPress}>
             {props.BackButton}
-          </View>
+          </TouchableOpacity>
           <View style={styles.foldericonmargin}>
             {props.Folder}
           </View>

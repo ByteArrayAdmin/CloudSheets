@@ -121,4 +121,10 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     paddingLeft: 8,
   },
+  inputview: {
+    height: 50,
+    width: '100%',
+    fontFamily: FONTS.inter_regular,
+  },
+  
 });

@@ -60,6 +60,7 @@ const ResetPassword = () => {
                         required:
                           Resetpasswordlabel.Resetpassword.VALIDATION_REQUIRED,
                       }}
+                      styles={resetscreenstyle.inputview}
                     />
                     <InputField
                       name="confirmpassword"
@@ -78,6 +79,7 @@ const ResetPassword = () => {
                           value === getValues().newpassword ||
                           "Passwords do not match",
                       }}
+                      styles={resetscreenstyle.inputview}
                     />
 
                     <CommonButton

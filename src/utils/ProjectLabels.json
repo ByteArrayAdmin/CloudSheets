@@ -106,7 +106,9 @@
   "ColumnName": "Column Name",
   "PLACEHOLDERTEXT":"Enter Column Name",
   "ColumnType":"Column Type",
-  "AddNewColumn": "Add New Column"
+  "AddNewColumn": "Add New Column",
+  "CreateSpreadsheet":"Create Spreadsheet",
+  "Validationmsg": "This field is Required"
 
 }
 }

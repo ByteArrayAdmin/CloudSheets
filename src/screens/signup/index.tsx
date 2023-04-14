@@ -69,6 +69,7 @@ const Signup = () => {
                       required: signupLabel.signupcontant.NAME_VALIDATION_MSG,
                     }}
                     placxeholdertextstyle={styles.placeholdertextstyle}
+                    styles={styles.inputview}
                   />
                   <InputField
                     name="username"
@@ -79,6 +80,7 @@ const Signup = () => {
                       required:
                         signupLabel.signupcontant.USERNAME_VALIDATION_MSG,
                     }}
+                    styles={styles.inputview}
                   />
                   <InputField
                     name="email"
@@ -90,6 +92,7 @@ const Signup = () => {
                       pattern: {value: emailRegex, message: 'Email is invalid'},
                     }}
                     keyboardType={'email-address'}
+                    styles={styles.inputview}
                   />
                   <InputField
                     name="mobilenunber"
@@ -103,6 +106,7 @@ const Signup = () => {
                         signupLabel.signupcontant.MOBILENO_VALIDATION_MSG,
                     }}
                     keyboardType={'phone-pad'}
+                    styles={styles.inputview}
                   />
                   <InputField
                     name="password"
@@ -114,6 +118,7 @@ const Signup = () => {
                         signupLabel.signupcontant.PASSWARD_VALIDATION_MSG,
                     }}
                     secureTextEntry={true}
+                    styles={styles.inputview}
                   />
                   <CommonButton
                     onPress={handleSubmit(onRegisterPressed)}

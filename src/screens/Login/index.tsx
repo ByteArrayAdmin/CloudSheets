@@ -58,6 +58,7 @@ const Login = () => {
                     control={control}
                     placeholder={LoginLabels.LoginScreen.PLACEHOLDER_EMAIL}
                     Image={Mesageicon}
+                    styles={loginstyle.inputview}
                     rules={{
                       required: LoginLabels.LoginScreen.EMAIL_VALIDATION,
                       pattern: {
@@ -75,6 +76,7 @@ const Login = () => {
                       required: LoginLabels.LoginScreen.PASSWAORD,
                     }}
                     secureTextEntry={true}
+                    styles={loginstyle.inputview}
                   />
                   <CommonButton
                     onPress={handleSubmit(onLoginPressed)}

@@ -28,5 +28,10 @@ flex:1
   logoview:{
     marginTop: 40
   },
+  inputview: {
+    height: 50,
+    width: '100%',
+    fontFamily: FONTS.inter_regular,
+  },
 
 });

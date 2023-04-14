@@ -6,71 +6,73 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import NewCommonHeader from "../../commonComponents/NewCommonHeader";
 import BackButton from "../../commonComponents/Backbutton";
 import Folder from "../../assets/Images/folder12.svg";
 import labels from "../../utils/ProjectLabels.json";
-import InputField from "../../commonComponents/InputField";
+import SpreadsheetCard from "./SpreardsheetCard";
+import Addbutton from "../../assets/Images/Add.svg";
+import { COLOURS } from "../../utils/Constant";
+import Createspreadstyle from "./style";
+import Custombutton from "../../commonComponents/Button";
 import { useForm } from "react-hook-form";
-import DropDownPicker from "react-native-dropdown-picker";
+import { useNavigation } from "@react-navigation/native";
 
 const CreatSpreadsheet = () => {
+  const navigation = useNavigation();
+  const [Data, setData] = useState([{ id: 1 }]);
   const { control, handleSubmit } = useForm();
- 
-  const [value, setValue] = useState(null);
-  const Data = [{ id: 1 }];
-  const renderItems = () => (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.columntext}>
-          {labels.Creatcloudsheetlabels.ColumnName}
-        </Text>
-      </View>
-      <View style={{width:"100%"}}> 
-        <InputField
-          name="name"
-          control={control}
-          placeholder={labels.Creatcloudsheetlabels.PLACEHOLDERTEXT}
-          Image={false}
-          // rules={{
-          //   required: signupLabel.signupcontant.NAME_VALIDATION_MSG,
-          // }}
-          // placxeholdertextstyle={styles.placeholdertextstyle}
-        />
-       
+  const onSubmit = async (data: any) => {};
 
-        <View>
-          <Text>helllo</Text>
-        </View>
-      </View>
-    </View>
+  const AddColoumn = () => {
+    const newIndex = Data.length;
+    setData((oldArray) => [...Data, { id: newIndex }]);
+  };
+  const renderItems = ({ index }) => (
+    <SpreadsheetCard control={control} index={index} />
   );
   return (
     <>
-      <View style={{ flex: 1 }}>
-        <NewCommonHeader
-          BackButton={<BackButton />}
-          Folder={<Folder />}
-          heading={labels.Creatcloudsheetlabels.ClassAttendance}
-        />
-        <FlatList data={Data} renderItem={renderItems} />
-      </View>
+      <ScrollView>
+        <View>
+          <NewCommonHeader
+            BackButton={<BackButton />}
+            Folder={<Folder />}
+            heading={labels.Creatcloudsheetlabels.ClassAttendance}
+            onPress={navigation.canGoBack()}
+          />
+          <View>
+            <FlatList data={Data} renderItem={renderItems} />
+            <View style={Createspreadstyle.buttonview}>
+              <TouchableOpacity
+                onPress={() => AddColoumn()}
+                style={Createspreadstyle.addcoloumbutton}
+              >
+                <View>
+                  <Addbutton />
+                </View>
+                <View>
+                  <Text style={Createspreadstyle.Addcolumnbuttontext}>
+                    {labels.Creatcloudsheetlabels.AddNewColumn}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Custombutton
+                onPress={handleSubmit(onSubmit)}
+                Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
+              />
+            </View>
+
+            <View style={Createspreadstyle.Bottomgap}></View>
+          </View>
+        </View>
+      </ScrollView>
     </>
   );
 };
 
 export default CreatSpreadsheet;
-
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 15,
-    marginTop: 15,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 10,
-  },
-  columntext: {
-    paddingTop: 15,
-    paddingHorizontal: 22,
-  },
-});

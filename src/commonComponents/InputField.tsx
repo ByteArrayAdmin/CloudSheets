@@ -22,10 +22,11 @@ const InputField = (props: any) => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   placeholder={props.placeholder}
-                  style={styles.inputview}
+                  style={props.styles}
                   secureTextEntry={props.secureTextEntry}
                   placeholderTextColor="#001521"
                   keyboardType={props.keyboardType}
+                
                 />
               </View>
               <View></View>
@@ -61,11 +62,6 @@ const styles = StyleSheet.create({
   textinputview: {
     width: '75%',
   },
-  imagepadding: {paddingHorizontal: 12},
+  imagepadding: {paddingHorizontal: 9},
   viewWidth: {width: '75%'},
-  inputview: {
-    height: 50,
-    width: '100%',
-    fontFamily: FONTS.inter_regular,
-  },
 });
