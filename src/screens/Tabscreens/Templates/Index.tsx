@@ -34,6 +34,7 @@ const CreatePress =()=>{
   
   navigation.navigate("CreatSpreadsheet")
   toggleBottomNavigationView()
+  console.log("my project  toggle")
 }
   return (
     <>
