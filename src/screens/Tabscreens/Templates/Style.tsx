@@ -115,4 +115,10 @@ export const Tempatestyle = StyleSheet.create({
   cartdtetxt: {
     marginHorizontal: 40,
   },
+  inputview: {
+    height: 50,
+    width: '100%',
+    fontFamily: FONTS.inter_regular,
+  },
+  
 });

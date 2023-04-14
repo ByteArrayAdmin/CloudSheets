@@ -57,7 +57,9 @@ const ForgotPassword = () => {
                     rules={{
                       required: Forgotlabel.Forgotpassword.EMAILREQUIRED,
                       pattern: {value: emailRegex, message: 'Email is invalid'},
+                    
                     }}
+                    styles={Forgotscreenstyle.inputview}
                   />
 
                   <CommonButton

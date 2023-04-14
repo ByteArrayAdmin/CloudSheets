@@ -31,7 +31,10 @@ const CreateTemplate = () => {
   };
 
 const CreatePress =()=>{
+  
+  navigation.navigate("CreatSpreadsheet")
   toggleBottomNavigationView()
+  console.log("my project  toggle")
 }
   return (
     <>
@@ -123,6 +126,8 @@ const CreatePress =()=>{
                     CreateTemplatescreen.TemBottomsheet.EnterTemplateName
                   }
                   Image={Template}
+                  styles={Tempatestyle.inputview}
+
                 />
               </View>
               <View style={Tempatestyle.Buttonview}>

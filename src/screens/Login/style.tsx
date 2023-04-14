@@ -110,5 +110,10 @@ export const loginstyle = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 60,
     justifyContent: 'center',
-  }
+  },
+  inputview: {
+    height: 50,
+    width: '100%',
+    fontFamily: FONTS.inter_regular,
+  },
 });
