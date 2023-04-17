@@ -7,9 +7,9 @@ const NewCommonHeader = (props:any)=>{
         <View style={{borderWidth:1,height:130,backgroundColor:"#0061FF"}}>
  <View>
         <View style={styles.headerconatiner}>
-          <TouchableOpacity onPress={props.onPress}>
+          
             {props.BackButton}
-          </TouchableOpacity>
+          
           <View style={styles.foldericonmargin}>
             {props.Folder}
           </View>

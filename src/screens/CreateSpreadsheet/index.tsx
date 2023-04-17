@@ -7,6 +7,7 @@ import {
   FlatList,
   StyleSheet,
   ScrollView,
+  Alert,
 } from "react-native";
 import NewCommonHeader from "../../commonComponents/NewCommonHeader";
 import BackButton from "../../commonComponents/Backbutton";
@@ -18,7 +19,7 @@ import { COLOURS } from "../../utils/Constant";
 import Createspreadstyle from "./style";
 import Custombutton from "../../commonComponents/Button";
 import { useForm } from "react-hook-form";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 
 const CreatSpreadsheet = () => {
   const navigation = useNavigation();
@@ -38,10 +39,13 @@ const CreatSpreadsheet = () => {
       <ScrollView>
         <View>
           <NewCommonHeader
-            BackButton={<BackButton />}
+            BackButton={<BackButton onpress={()=>navigation.goBack()} />}
             Folder={<Folder />}
             heading={labels.Creatcloudsheetlabels.ClassAttendance}
-            onPress={navigation.canGoBack()}
+            // onPress={() =>navigation.dispatch(CommonActions.reset({routes:[
+            //   {name:'CreateTemplate'}
+            // ]}))}
+            onPress={()=>Alert.alert("called")}
           />
           <View>
             <FlatList data={Data} renderItem={renderItems} />
