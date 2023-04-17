@@ -24,7 +24,11 @@ const CreatSpreadsheet = () => {
   const navigation = useNavigation();
   const [Data, setData] = useState([{ id: 1 }]);
   const { control, handleSubmit } = useForm();
-  const onSubmit = async (data: any) => {};
+  
+  const onSubmit = async (data: any) => {
+
+  navigation.navigate("AddrowClassattendance");
+  };
 
   const AddColoumn = () => {
     const newIndex = Data.length;

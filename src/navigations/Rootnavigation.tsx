@@ -7,6 +7,8 @@ import ResetPassword from '../screens/Resetpassword';
 import BoardingScreen from '../screens/BoardingScreen/Index';
 import {Tabnavigator} from './Tabnavigator';
 import CreatSpreadsheet from '../screens/CreateSpreadsheet/index';
+import AddrowClassattendance from '../screens/AddrowClassattendance';
+import RowdetailForm from '../screens/RowDetailform';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +49,16 @@ const Rootnavigation = () => {
        <Stack.Screen
         name="CreatSpreadsheet"
         component={CreatSpreadsheet}
+        options={{headerShown: false, gestureEnabled: false, animation: 'fade'}}
+      />
+      <Stack.Screen
+        name="AddrowClassattendance"
+        component={AddrowClassattendance}
+        options={{headerShown: false, gestureEnabled: false, animation: 'fade'}}
+      />
+       <Stack.Screen
+        name="RowdetailForm"
+        component={RowdetailForm}
         options={{headerShown: false, gestureEnabled: false, animation: 'fade'}}
       />
     </Stack.Navigator>
