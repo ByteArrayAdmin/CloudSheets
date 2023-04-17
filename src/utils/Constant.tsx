@@ -18,5 +18,8 @@ export const COLOURS ={
   Skyblue:"#0061FF",
   black:"#001521",
   offwhite:"#F6F8FA",
-  GREY:"#ECEEF0"
+  GREY:"#ECEEF0",
+  ligthwhite:"rgba(255, 255, 255, 0.1)",
+  whitepointfive:"rgba(255, 255, 255, 1)"
+
 }

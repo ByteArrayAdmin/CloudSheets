@@ -110,5 +110,25 @@
   "CreateSpreadsheet":"Create Spreadsheet",
   "Validationmsg": "This field is Required"
 
+},
+"AddrowClassattendance":{
+  "ClassAttendance":"Class Attendance",
+  "Placeholdertext":"| Enter Spreadsheet Name",
+  "buttontext":"Add Row"
+},
+"Rowdetailsform":{
+  "headerlabel":"January Attendance",
+  "Name":"Name",
+  "Attendance_Date": "Attendance Date",
+  "Present": "Present",
+  "Samples":"Samples",
+  "Placeholdername":"Enter Name",
+  "PlaceholderEnterDate": "Enter Date",
+  "PlaceholderPresent":"Present",
+  "placeholderEnterSamples":"Enter Samples"
+
+
+
+
 }
 }

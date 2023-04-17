@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -6,34 +6,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-} from 'react-native';
-import Logo from '../assets/Images/Logo.svg';
-import {styles} from '../screens/signup/style';
-import {Signupconstant} from '../../src/utils/Constant';
+} from "react-native";
+import Logo from "../assets/Images/Logo.svg";
+import { styles } from "../screens/signup/style";
+import { Signupconstant } from "../../src/utils/Constant";
 
 const Layout = (props: any) => {
   return (
-    <SafeAreaView style={{flex: 1}}>
-        
-      <View
-        style={{
-          // Try setting `flexDirection` to `"row"`.
-          flex: 1,
-          backgroundColor: 'white',
-        }}>
-        <View style={{flex: 1, backgroundColor: '#0061FF'}} />
-        <View style={{flex: 1, backgroundColor: 'white'}} />
+    <SafeAreaView style={style.maincontainer}>
+      <View style={style.subcontainer}>
+        <View style={style.backgroundview} />
+        <View style={style.backgroundviewhite} />
         <View style={styles.skipText}>
           <Text style={styles.skioptextcolor}>{Signupconstant.SKIP}</Text>
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View style={{marginTop: 100}}>
+        <View style={style.cardstyle}>
+          <View style={style.view}>
             <Logo />
           </View>
         </View>
@@ -54,4 +42,21 @@ const Layout = (props: any) => {
 
 export default Layout;
 
-const style = StyleSheet.create({});
+const style = StyleSheet.create({
+  maincontainer: {
+    flex: 1,
+  },
+  subcontainer: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  backgroundview: { flex: 1, backgroundColor: "#0061FF" },
+  backgroundviewhite: { flex: 1, backgroundColor: "white" },
+  cardstyle: {
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  view: { marginTop: 100 },
+});
