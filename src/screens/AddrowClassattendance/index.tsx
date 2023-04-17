@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -17,6 +17,7 @@ import { FONTS, COLOURS } from "../../utils/Constant";
 import { useNavigation } from "@react-navigation/native";
 const AddrowClassattendance = () => {
     const navigation = useNavigation();
+    const [text, onChangeText] = useState('');
 
 
   return (
@@ -46,8 +47,8 @@ const AddrowClassattendance = () => {
           <View style={Style.inputview}>
             <TextInput
               style={Style.inputviewstyle}
-              // onChangeText={onChangeText}
-              // value={text}
+              onChangeText={onChangeText}
+              value={text}
               placeholder={labels.AddrowClassattendance.Placeholdertext}
               placeholderTextColor={COLOURS.white}
             />

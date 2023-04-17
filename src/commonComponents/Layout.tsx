@@ -10,6 +10,7 @@ import {
 import Logo from "../assets/Images/Logo.svg";
 import { styles } from "../screens/signup/style";
 import { Signupconstant } from "../../src/utils/Constant";
+import { FONTS,COLOURS } from "../../src/utils/Constant";
 
 const Layout = (props: any) => {
   return (
@@ -48,10 +49,10 @@ const style = StyleSheet.create({
   },
   subcontainer: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: COLOURS.white,
   },
-  backgroundview: { flex: 1, backgroundColor: "#0061FF" },
-  backgroundviewhite: { flex: 1, backgroundColor: "white" },
+  backgroundview: { flex: 1, backgroundColor: COLOURS.Skyblue },
+  backgroundviewhite: { flex: 1, backgroundColor: COLOURS.white },
   cardstyle: {
     position: "absolute",
     alignSelf: "center",
