@@ -11,8 +11,7 @@
     "LOGIN": "Login",
     "EMAIL_VALIDATION": "please enter email",
     "INVALID_EMAIL": "please enter valid email",
-    "PASSWAORD": "please enter password",
-
+    "PASSWAORD": "please enter password"
   },
 
   "signupcontant": {
@@ -79,56 +78,51 @@
     "JANUARY_ATTENDANCE": "January Attendance",
     "MONTHLY_EXPENSES": "Monthly Expenses (3)"
   },
-  "Guestbottomsheet":{
-    "YOUAREAGUEST":"You are a Guest",
-    "REGISTERTOCONTINUE":"Please Register to continue",
+  "Guestbottomsheet": {
+    "YOUAREAGUEST": "You are a Guest",
+    "REGISTERTOCONTINUE": "Please Register to continue",
     "Registernow": "Register Now"
-
   },
-  "CreateTemplatescreen":{
-    "Cloud":"Cloud",
-    "Sheets":"Sheets",
-    "CARDTEXT":"Create your own customize template by ",
-    "CreateTemplate":"Create Template",
+  "CreateTemplatescreen": {
+    "Cloud": "Cloud",
+    "Sheets": "Sheets",
+    "CARDTEXT": "Create your own customize template by ",
+    "CreateTemplate": "Create Template",
     "CARDTEXT2": "tapping the button below."
-
   },
-"TemBottomsheet":{
-  "NewTemplate":"New Template",
-  "PleasenameyourTemplate": "Please name your Template",
-  "TemplateName": "Template Name",
-  "EnterTemplateName":"Enter Template Name",
-  "Cancel":"Cancel",
-   "Create":"Create"
-},
-"Creatcloudsheetlabels":{
-  "ClassAttendance":"Class Attendance",
-  "ColumnName": "Column Name",
-  "PLACEHOLDERTEXT":"Enter Column Name",
-  "ColumnType":"Column Type",
-  "AddNewColumn": "Add New Column",
-  "CreateSpreadsheet":"Create Spreadsheet",
-  "Validationmsg": "This field is Required"
-
-},
-"AddrowClassattendance":{
-  "ClassAttendance":"Class Attendance",
-  "Placeholdertext":"| Enter Spreadsheet Name",
-  "buttontext":"Add Row"
-},
-"Rowdetailsform":{
-  "headerlabel":"January Attendance",
-  "Name":"Name",
-  "Attendance_Date": "Attendance Date",
-  "Present": "Present",
-  "Samples":"Samples",
-  "Placeholdername":"Enter Name",
-  "PlaceholderEnterDate": "Enter Date",
-  "PlaceholderPresent":"Present",
-  "placeholderEnterSamples":"Enter Samples"
-
-
-
-
-}
+  "TemBottomsheet": {
+    "NewTemplate": "New Template",
+    "PleasenameyourTemplate": "Please name your Template",
+    "TemplateName": "Template Name",
+    "EnterTemplateName": "Enter Template Name",
+    "Cancel": "Cancel",
+    "Create": "Create"
+  },
+  "Creatcloudsheetlabels": {
+    "ClassAttendance": "Class Attendance",
+    "ColumnName": "Column Name",
+    "PLACEHOLDERTEXT": "Enter Column Name",
+    "ColumnType": "Column Type",
+    "AddNewColumn": "Add New Column",
+    "CreateSpreadsheet": "Create Spreadsheet",
+    "Validationmsg": "This field is Required"
+  },
+  "AddrowClassattendance": {
+    "ClassAttendance": "Class Attendance",
+    "Placeholdertext": "| Enter Spreadsheet Name",
+    "buttontext": "Add Row"
+  },
+  "Rowdetailsform": {
+    "headerlabel": "January Attendance",
+    "Name": "Name",
+    "Attendance_Date": "Attendance Date",
+    "Present": "Present",
+    "Samples": "Samples",
+    "Placeholdername": "Enter Name",
+    "PlaceholderEnterDate": "Enter Date",
+    "PlaceholderPresent": "Yes/No",
+    "placeholderEnterSamples": "Enter Samples",
+    "Submit": "Submit",
+    "valodationmessage":"This field is required"
+  }
 }

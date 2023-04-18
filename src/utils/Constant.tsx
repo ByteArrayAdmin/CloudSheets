@@ -20,6 +20,7 @@ export const COLOURS ={
   offwhite:"#F6F8FA",
   GREY:"#ECEEF0",
   ligthwhite:"rgba(255, 255, 255, 0.1)",
-  whitepointfive:"rgba(255, 255, 255, 1)"
+  whitepointfive:"rgba(255, 255, 255, 1)",
+  red:"#FF0000"
 
 }
