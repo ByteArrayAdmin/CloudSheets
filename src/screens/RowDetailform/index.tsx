@@ -25,6 +25,7 @@ const RowdetailForm = () => {
   const navigation = useNavigation();
   const { control, handleSubmit } = useForm();
   const [open, setopen] = useState(false);
+  const[defaultdate, setdefaultdate] = useState(new Date());
   const [date, setdate] = useState("");
   const onLoginPressed = async (data: any) => {
     const { date } = data;

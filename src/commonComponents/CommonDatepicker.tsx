@@ -10,14 +10,13 @@ import DatePicker from "react-native-date-picker";
 import { Controller } from "react-hook-form";
 
 const CommonDatepicker = (props: any) => {
-  const [date, setDate] = useState(new Date());
 
   return (
     <View>
       <Controller
         name={props.name}
         control={props.control}
-        defaultValue={date}
+        defaultValue={props.defaultdate}
         render={({ field: { onChange, value } }) => (
           <DatePicker
             modal

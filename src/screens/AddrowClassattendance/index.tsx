@@ -19,6 +19,7 @@ const AddrowClassattendance = () => {
     const navigation = useNavigation();
     const [text, onChangeText] = useState('');
     
+    
 
 
   return (
