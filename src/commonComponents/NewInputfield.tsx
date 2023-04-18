@@ -63,12 +63,10 @@ const styles = StyleSheet.create({
     width: "75%",
   },
   viewWidth: { width: "75%" },
-  errormsgtext:
-    { color: COLOURS.red, marginLeft: 20 },
-    flexprop:{
-    flex: 1 
-    },
+  errormsgtext: { color: COLOURS.red, marginLeft: 20 },
+  flexprop: {
+    flex: 1,
+  },
 
-   scanmargin: { marginRight: 17 }
-  
+  scanmargin: { marginRight: 17 },
 });
