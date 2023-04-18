@@ -29,8 +29,8 @@ const NewInputField = (props: any) => {
                   keyboardType={props.keyboardType}
                 />
               </View>
-              <View style={{ flex: 1 }}></View>
-              <View style={{ marginRight: 17 }}>{props.Scanimage}</View>
+              <View style={styles.flexprop}></View>
+              <View style={styles.scanmargin}>{props.Scanimage}</View>
               <View></View>
             </View>
             {error && (
@@ -64,6 +64,11 @@ const styles = StyleSheet.create({
   },
   viewWidth: { width: "75%" },
   errormsgtext:
-    { color: "red", marginLeft: 20 }
+    { color: COLOURS.red, marginLeft: 20 },
+    flexprop:{
+    flex: 1 
+    },
+
+   scanmargin: { marginRight: 17 }
   
 });

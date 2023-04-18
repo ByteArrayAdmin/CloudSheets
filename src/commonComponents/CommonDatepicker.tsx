@@ -10,7 +10,6 @@ import DatePicker from "react-native-date-picker";
 import { Controller } from "react-hook-form";
 
 const CommonDatepicker = (props: any) => {
-
   return (
     <View>
       <Controller
