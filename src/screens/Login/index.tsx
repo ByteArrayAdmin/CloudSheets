@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <>
       <BackgroundLayout />
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView>
         <KeyboardAwareScrollView>
           <View style={loginstyle.skipText}>
             <Text style={loginstyle.skioptextcolor}>Skip</Text>

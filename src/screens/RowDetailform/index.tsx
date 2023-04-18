@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  ScrollView
 } from "react-native";
 import NewCommonHeader from "../../commonComponents/NewCommonHeader";
 import BackButton from "../../commonComponents/Backbutton";
@@ -20,6 +21,7 @@ import Custombutton from "../../commonComponents/Button";
 import Scanimage from "../../assets/Images/Scan.svg";
 import { Styles } from "./style";
 import { useNavigation } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const RowdetailForm = () => {
   const navigation = useNavigation();
@@ -27,8 +29,10 @@ const RowdetailForm = () => {
   const [open, setopen] = useState(false);
   const[defaultdate, setdefaultdate] = useState(new Date());
   const [date, setdate] = useState("");
-  const onLoginPressed = async (data: any) => {
+  const onSubmitPressed = async (data: any) => {
     const { date } = data;
+    navigation.navigate("Attendancelist")
+
   };
 
   const toggle = (value: boolean, value2: any) => {
@@ -41,15 +45,18 @@ const RowdetailForm = () => {
   useEffect(() => {}, [open]);
 
   return (
+    <KeyboardAwareScrollView>
     <View style={Styles.container}>
+      
       <View>
         <NewCommonHeader
-          BackButton={<BackButton />}
+          BackButton={<BackButton onPress={()=>navigation.goBack()} />}
           Folder={<Document />}
           heading={labels.Rowdetailsform.headerlabel}
           onPress={navigation.canGoBack()}
         />
       </View>
+      
       <View style={Styles.sucontainer}>
         <View style={Styles.formcontainer}>
           <View>
@@ -90,6 +97,7 @@ const RowdetailForm = () => {
             name={"date"}
             control={control}
             toggle={toggle}
+            defaultdate={defaultdate}
           />
           <View>
             <Text style={Styles.presenttextview}>
@@ -128,11 +136,12 @@ const RowdetailForm = () => {
       </View>
       <View style={Styles.lastview}>
         <Custombutton
-          onPress={handleSubmit(onLoginPressed)}
+          onPress={handleSubmit(onSubmitPressed)}
           Register={labels.Rowdetailsform.Submit}
         />
       </View>
     </View>
+    </KeyboardAwareScrollView>
   );
 };
 

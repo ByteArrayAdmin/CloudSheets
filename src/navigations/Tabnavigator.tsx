@@ -1,18 +1,19 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Homescreen from '../screens/Tabscreens/Home/Homescreen';
-import Home from '../assets/Images/Home.svg';
-import {FONTS} from '../utils/Constant';
-import React from 'react';
-import Boldhome from '../assets/Images/Boldhome.svg';
-import ClousheetList from '../screens/Tabscreens/Cloudsheet/Index';
-import CreateTemplate from '../..//src/screens/Tabscreens/Templates/Index';
-import Documenticon from '../assets/Images/document.svg';
-import Template from '../assets/Images/Tempate.svg';
-import UserDetails from '../screens/Tabscreens/UserTab/User';
-import UserCircle from '../assets/Images/usercircle.svg';
-import Boldcheetsheet from '../assets/Images/Boldcheatsheet.svg';
-import Boldtemplateicon from '../assets/Images/Bloldtemplateicon';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Homescreen from "../screens/Tabscreens/Home/Homescreen";
+import Home from "../assets/Images/Home.svg";
+import { FONTS } from "../utils/Constant";
+import React from "react";
+import Boldhome from "../assets/Images/Boldhome.svg";
+import ClousheetList from "../screens/Tabscreens/Cloudsheet/Index";
+import CreateTemplate from "../..//src/screens/Tabscreens/Templates/Index";
+import Documenticon from "../assets/Images/document.svg";
+import Template from "../assets/Images/Tempate.svg";
+import UserDetails from "../screens/Tabscreens/UserTab/User";
+import UserCircle from "../assets/Images/usercircle.svg";
+import Boldcheetsheet from "../assets/Images/Boldcheatsheet.svg";
+import Boldtemplateicon from "../assets/Images/Bloldtemplateicon";
+import UpdateCloudsheet from "../screens/Tabscreens/Cloudsheet/Updatecloudsheet";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -23,7 +24,7 @@ const DashBoardTab = () => {
       <Stack.Screen
         name="Home"
         component={Homescreen}
-        options={{headerShown: false, gestureEnabled: false}}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
     </Stack.Navigator>
   );
@@ -35,7 +36,12 @@ const CloudsheetList = () => {
       <Stack.Screen
         name="ClousheetList"
         component={ClousheetList}
-        options={{headerShown: false, gestureEnabled: false}}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="UpdateCloudsheet"
+        component={UpdateCloudsheet}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
     </Stack.Navigator>
   );
@@ -47,7 +53,7 @@ const Templates = () => {
       <Stack.Screen
         name="CreateTemplate"
         component={CreateTemplate}
-        options={{headerShown: false, gestureEnabled: false}}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
     </Stack.Navigator>
   );
@@ -59,7 +65,7 @@ const User = () => {
       <Stack.Screen
         name="userdetails"
         component={UserDetails}
-        options={{headerShown: false, gestureEnabled: false}}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
     </Stack.Navigator>
   );
@@ -72,13 +78,14 @@ export const Tabnavigator = () => {
       screenOptions={{
         lazy: true,
         tabBarStyle: {
-          position: 'absolute',
+          position: "absolute",
           opacity: 0.9,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#FFFFFF',
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#FFFFFF",
         },
-      }}>
+      }}
+    >
       <Tab.Screen
         name="DashBoardTab"
         component={DashBoardTab}
@@ -86,12 +93,12 @@ export const Tabnavigator = () => {
           tabBarLabelStyle: {
             fontFamily: FONTS.inter_medium,
             fontSize: 10,
-            color: '#0061FF',
+            color: "#0061FF",
           },
-          tabBarActiveTintColor: '#0061FF',
-          tabBarLabel: 'Home',
+          tabBarActiveTintColor: "#0061FF",
+          tabBarLabel: "Home",
           headerShown: false,
-          tabBarIcon: ({focused}) => {
+          tabBarIcon: ({ focused }) => {
             return focused ? <Boldhome /> : <Home />;
           },
         }}
@@ -104,12 +111,12 @@ export const Tabnavigator = () => {
           tabBarLabelStyle: {
             fontFamily: FONTS.inter_medium,
             fontSize: 10,
-            color: '#0061FF',
+            color: "#0061FF",
           },
-          tabBarActiveTintColor: '#0061FF',
-          tabBarLabel: 'Cloudsheet',
+          tabBarActiveTintColor: "#0061FF",
+          tabBarLabel: "Cloudsheet",
           headerShown: false,
-          tabBarIcon: ({focused}) => {
+          tabBarIcon: ({ focused }) => {
             return focused ? <Boldcheetsheet /> : <Documenticon />;
           },
         }}
@@ -121,12 +128,12 @@ export const Tabnavigator = () => {
           tabBarLabelStyle: {
             fontFamily: FONTS.inter_medium,
             fontSize: 10,
-            color: '#0061FF',
+            color: "#0061FF",
           },
-          tabBarActiveTintColor: '#0061FF',
-          tabBarLabel: 'Templates',
+          tabBarActiveTintColor: "#0061FF",
+          tabBarLabel: "Templates",
           headerShown: false,
-          tabBarIcon: ({focused}) => {
+          tabBarIcon: ({ focused }) => {
             return focused ? <Boldtemplateicon /> : <Template />;
           },
         }}
@@ -138,12 +145,12 @@ export const Tabnavigator = () => {
           tabBarLabelStyle: {
             fontFamily: FONTS.inter_medium,
             fontSize: 10,
-            color: '#0061FF',
+            color: "#0061FF",
           },
-          tabBarActiveTintColor: '#0061FF',
-          tabBarLabel: 'User',
+          tabBarActiveTintColor: "#0061FF",
+          tabBarLabel: "User",
           headerShown: false,
-          tabBarIcon: ({focused}) => {
+          tabBarIcon: ({ focused }) => {
             return focused ? <UserCircle /> : <UserCircle />;
           },
         }}

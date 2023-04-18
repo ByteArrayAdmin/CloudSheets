@@ -21,6 +21,7 @@ export const COLOURS ={
   GREY:"#ECEEF0",
   ligthwhite:"rgba(255, 255, 255, 0.1)",
   whitepointfive:"rgba(255, 255, 255, 1)",
-  red:"#FF0000"
+  red:"#FF0000",
+  lightgrey:"#E7EFF6"
 
 }

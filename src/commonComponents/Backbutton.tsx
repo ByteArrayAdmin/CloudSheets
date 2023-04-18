@@ -5,7 +5,7 @@ import Bacakarrow from '../assets/Images/backlatest.svg';
 
 const BackButton = (props: any) => {
   return (
-    <TouchableOpacity onPress={props.onpress}>
+    <TouchableOpacity onPress={props.onPress}>
       <Bacakarrow />
     </TouchableOpacity>
   );
