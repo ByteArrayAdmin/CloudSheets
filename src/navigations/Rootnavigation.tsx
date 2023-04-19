@@ -9,6 +9,8 @@ import { Tabnavigator } from "./Tabnavigator";
 import CreatSpreadsheet from "../screens/CreateSpreadsheet/index";
 import AddrowClassattendance from "../screens/AddrowClassattendance";
 import RowdetailForm from "../screens/RowDetailForm";
+import Attendancelist from "../screens/AttendanceList";
+import Updateattendance from "../screens/UpdateAttendance";
 
 const Stack = createNativeStackNavigator();
 
@@ -90,6 +92,24 @@ const Rootnavigation = () => {
       <Stack.Screen
         name="RowdetailForm"
         component={RowdetailForm}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="Attendancelist"
+        component={Attendancelist}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+       <Stack.Screen
+        name="Updateattendance"
+        component={Updateattendance}
         options={{
           headerShown: false,
           gestureEnabled: false,

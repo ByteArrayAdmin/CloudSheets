@@ -1,30 +1,34 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity,SafeAreaView} from "react-native";
 import { COLOURS, FONTS } from "../utils/Constant";
 
 const NewCommonHeader = (props: any) => {
   return (
-    <View style={styles.maincontainer}>
-      <View>
-        <View style={styles.headerconatiner}>
-          <TouchableOpacity onPress={props.onPress}>
-            {props.BackButton}
-          </TouchableOpacity>
-          <View style={styles.foldericonmargin}>{props.Folder}</View>
-          <View>
-            <Text style={styles.classattendancetext}>{props.heading}</Text>
+    <><SafeAreaView style={styles.backgroundcolour}>
+    </SafeAreaView><View style={styles.maincontainer}>
+        <View>
+          <View style={styles.headerconatiner}>
+            
+              {props.BackButton}
+          
+            <View style={styles.foldericonmargin}>{props.Folder}</View>
+            <View>
+              <Text style={styles.classattendancetext}>{props.heading}</Text>
+            </View>
           </View>
         </View>
-      </View>
-    </View>
+      </View></>
   );
 };
 
 export default NewCommonHeader;
 
 const styles = StyleSheet.create({
+  backgroundcolour:{
+    backgroundColor: COLOURS.Skyblue
+  },
   maincontainer: {
-    height: 130,
+    height: 100,
     backgroundColor: COLOURS.Skyblue,
   },
 
@@ -32,7 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 15,
-    marginTop: 60,
+    marginTop: 22,
   },
   foldericonmargin: {
     marginLeft: 16,

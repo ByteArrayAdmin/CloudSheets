@@ -12,22 +12,19 @@ import Folder from "../../assets/Images/folder12.svg";
 import labels from "../../utils/ProjectLabels.json";
 import Folderlogo from "../../assets/Images/folder_minus.svg";
 import Fatlogo from "../../assets/Images/fatrows.svg";
-import {Style} from './style'
+import { Style } from "./style";
 import { FONTS, COLOURS } from "../../utils/Constant";
 import { useNavigation } from "@react-navigation/native";
 const AddrowClassattendance = () => {
-    const navigation = useNavigation();
-    const [text, onChangeText] = useState('');
-    
-    
-
+  const navigation = useNavigation();
+  const [text, onChangeText] = useState("");
 
   return (
     <View style={Style.container}>
       <View style={Style.subcontainer}>
         <View style={Style.headerview}>
           <View>
-            <BackButton />
+            <BackButton onPress={()=>navigation.goBack()} />
           </View>
           <View style={Style.iconview}>
             <Folder />
@@ -60,14 +57,16 @@ const AddrowClassattendance = () => {
 
       <View>
         <View style={Style.buttonview}>
-          <View
-            style={Style.subuttnview}
-          >
+          <View style={Style.subuttnview}>
             <View style={Style.buttonviewnew}>
               <Fatlogo />
             </View>
-            <TouchableOpacity onPress={()=>navigation.navigate("RowdetailForm")}>
-              <Text style={Style.addrowtext}>{labels.AddrowClassattendance.buttontext}</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("RowdetailForm")}
+            >
+              <Text style={Style.addrowtext}>
+                {labels.AddrowClassattendance.buttontext}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -77,5 +76,3 @@ const AddrowClassattendance = () => {
 };
 
 export default AddrowClassattendance;
-
-

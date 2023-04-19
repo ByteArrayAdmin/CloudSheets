@@ -42,7 +42,7 @@ const CreatSpreadsheet = () => {
       <ScrollView>
         <View>
           <NewCommonHeader
-            BackButton={<BackButton />}
+            BackButton={<BackButton onPress={()=>navigation.goBack()} />}
             Folder={<Folder />}
             heading={labels.Creatcloudsheetlabels.ClassAttendance}
             onPress={navigation.canGoBack()}
