@@ -11,7 +11,7 @@ import GuestModel from '../../../Bottomsheet/BottomsheetLayout';
 import {BottomSheet} from 'react-native-btr';
 import Exclaimationlogo from '../../../assets/Images/exclaimationlogo.svg';
 import modelLabels from '../../../utils/ProjectLabels.json';
-import { Tempatestyle } from '../Templates/Style';
+import { Tempatestyle } from '../Templates/Createtemplate/Style';
 
 const Homescreen = () => {
   const [visible, setVisible] = useState(false);

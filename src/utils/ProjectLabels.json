@@ -123,19 +123,18 @@
     "PlaceholderPresent": "Yes/No",
     "placeholderEnterSamples": "Enter Samples",
     "Submit": "Submit",
-    "valodationmessage":"This field is required"
+    "valodationmessage": "This field is required"
   },
-  "Attendancelistlabels":{
-    "JanuaryAttendance":"January  Attendance",
-    "Searchhere":"Search here",
-    "Name":"Name",
-    "AttendanceDate":"Attendance Date",
-    "Present":"Present",
-    "Samples":"Samples",
-    "buttontext":"Add Row"
-
+  "Attendancelistlabels": {
+    "JanuaryAttendance": "January  Attendance",
+    "Searchhere": "Search here",
+    "Name": "Name",
+    "AttendanceDate": "Attendance Date",
+    "Present": "Present",
+    "Samples": "Samples",
+    "buttontext": "Add Row"
   },
-  "updateRowdetaiform":{
+  "updateRowdetaiform": {
     "headerlabel": "January Attendance",
     "Name": "Name",
     "Attendance_Date": "Attendance Date",
@@ -146,11 +145,19 @@
     "PlaceholderPresent": "Yes/No",
     "placeholderEnterSamples": "Enter Samples",
     "Submit": "Submit",
-    "valodationmessage":"This field is required",
-    "Cancel":"Cancel",
-    "Update":"Update"
+    "valodationmessage": "This field is required",
+    "Cancel": "Cancel",
+    "Update": "Update"
+  },
+  "updatecloudsheet":{
+    "Cloud":"Cloud",
+    "Sheets":"Sheets",
+    "UpdatedCloudSheet":"Updated CloudSheet",
+    "Cardtext":"Here your “CloudSheet record",
+    "Ok":"Ok",
+    "successfully_updated":"successfully updated"
 
-
+    
 
   }
 }

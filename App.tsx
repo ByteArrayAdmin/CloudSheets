@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import Rootnavigation from './src/navigations/Rootnavigation';
 import {NavigationContainer} from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,10 +6,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 function App(): JSX.Element {
   return (
     <>
-    
-      <NavigationContainer>
+    <NavigationContainer>
         <Rootnavigation />
       </NavigationContainer>
+
+    
+      
    
    </>
   

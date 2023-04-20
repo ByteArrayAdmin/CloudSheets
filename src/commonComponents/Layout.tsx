@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import Logo from "../assets/Images/Logo.svg";
-import { styles } from "../screens/signup/style";
+import { styles } from "../screens/Auth/signup/style";
 import { Signupconstant } from "../../src/utils/Constant";
 import { FONTS,COLOURS } from "../../src/utils/Constant";
 

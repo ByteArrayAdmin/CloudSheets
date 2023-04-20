@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import {styles} from '../screens/signup/style';
+import {styles} from '../screens/Auth/signup/style';
 import Googleicon from '../assets/Images/Googlricon.svg';
 import Appleicon from '../assets/Images/Apple.svg';
 import {Signupconstant} from '../../src/utils/Constant';

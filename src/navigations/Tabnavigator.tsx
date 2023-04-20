@@ -1,12 +1,14 @@
+
+import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Homescreen from "../screens/Tabscreens/Home/Homescreen";
 import Home from "../assets/Images/Home.svg";
 import { FONTS } from "../utils/Constant";
-import React from "react";
+
 import Boldhome from "../assets/Images/Boldhome.svg";
-import ClousheetList from "../screens/Tabscreens/Cloudsheet/Index";
-import CreateTemplate from "../..//src/screens/Tabscreens/Templates/Index";
+import ClousheetList from "../screens/Tabscreens/Cloudsheet/RecentCloudsheet_List/Index";
+import CreateTemplate from "../screens/Tabscreens/Templates/Createtemplate/Index";
 import Documenticon from "../assets/Images/document.svg";
 import Template from "../assets/Images/Tempate.svg";
 import UserDetails from "../screens/Tabscreens/UserTab/User";
