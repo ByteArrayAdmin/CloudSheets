@@ -1,35 +1,55 @@
-import React, { useEffect, useState,useRef,useMemo,useCallback} from "react";
+import React, { useEffect, useState,useRef,useMemo,useCallback, useImperativeHandle,forwardRef} from "react";
 import {
   SafeAreaView,
   Text,
   View,
   TouchableOpacity,
-  Alert,
   StyleSheet,
+  Button,
+  Alert
 } from 'react-native';
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 
 
 const CommonBottomsheet = (props:any) => {
-    const snapPoints = useMemo(() => ["50%"], []);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  
 
-    const handleSnapPress = useCallback((index:any) => {
-       props.sheetRef.current?.snapToIndex(0);
-      }, []);
+  const handlePresentModalPress = useCallback(() => {
+    console.log("child function callled")
+  //  bottomSheetModalRef.current?.present();
+  
+  }, []);
+
+  
+
+  
+
+  
+  
   return (
     <View>
-       <BottomSheet
-        index={0}
-        ref={props.sheetRef}
-        snapPoints={snapPoints}
-        onChange={handleSnapPress}
-      >
-        <BottomSheetView>
-          <Text>Awesome </Text>
-        </BottomSheetView>
-      </BottomSheet>
-      </View>
-  )
+      <BottomSheetModalProvider>
+        <View>
+          
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            index={1}
+            snapPoints={props.snapPoints}
+            onChange={props.handleSheetChanges}
+          >
+            <View>
+              <Text>Awesome 🎉</Text>
+            </View>
+          </BottomSheetModal>
+        </View>
+      </BottomSheetModalProvider>
+    </View>
+  );
 }
 
-export default CommonBottomsheet
+export default CommonBottomsheet;

@@ -1,6 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Signup from "../screens/Auth/signup"
+import Signup from "../screens/Auth/signup";
 import Login from "../screens/Auth/Login";
 import ForgotPassword from "../screens/Auth/Forgotpassword";
 import ResetPassword from "../screens/Auth/Resetpassword";
@@ -11,6 +11,7 @@ import AddrowClassattendance from "../screens/Tabscreens/Templates/AddrowClassat
 import RowdetailForm from "../screens/Tabscreens/Templates/RowDetailForm";
 import Attendancelist from "../screens/Tabscreens/Templates/AttendanceList";
 import Updateattendance from "../screens/Tabscreens/Templates/UpdateAttendance";
+import TemplateList from "../screens/Tabscreens/Templates/TemplateList";
 
 const Stack = createNativeStackNavigator();
 
@@ -107,9 +108,18 @@ const Rootnavigation = () => {
           animation: "fade",
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Updateattendance"
         component={Updateattendance}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="TemplateList"
+        component={TemplateList}
         options={{
           headerShown: false,
           gestureEnabled: false,

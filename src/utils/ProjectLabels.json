@@ -149,15 +149,20 @@
     "Cancel": "Cancel",
     "Update": "Update"
   },
-  "updatecloudsheet":{
-    "Cloud":"Cloud",
-    "Sheets":"Sheets",
-    "UpdatedCloudSheet":"Updated CloudSheet",
-    "Cardtext":"Here your “CloudSheet record",
-    "Ok":"Ok",
-    "successfully_updated":"successfully updated"
-
-    
-
+  "updatecloudsheet": {
+    "Cloud": "Cloud",
+    "Sheets": "Sheets",
+    "UpdatedCloudSheet": "Updated CloudSheet",
+    "Cardtext": "Here your “CloudSheet record",
+    "Ok": "Ok",
+    "successfully_updated": "successfully updated"
+  },
+  "Templatelistlabel": {
+    "Template": "Template",
+    "Listtxt": "List of Cloudsheets",
+    "ViewAll": "View All"
+  },
+  "TabBarTemplateList": {
+    "Template": "Template"
   }
 }

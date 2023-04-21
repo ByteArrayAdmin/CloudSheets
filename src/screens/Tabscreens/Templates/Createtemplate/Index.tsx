@@ -19,7 +19,7 @@ import BottomsheetLayout from "../../../../Bottomsheet/BottomsheetLayout";
 import { useForm } from "react-hook-form";
 import Template from "../../../../assets/Images/Tempate.svg";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const CreateTemplate = () => {
   const [visible, setVisible] = useState(false);
@@ -30,12 +30,11 @@ const CreateTemplate = () => {
     setVisible(!visible);
   };
 
-const CreatePress =()=>{
-  
-  navigation.navigate("CreatSpreadsheet")
-  toggleBottomNavigationView()
-  console.log("my project  toggle")
-}
+  const CreatePress = () => {
+    navigation.navigate("CreatSpreadsheet");
+    toggleBottomNavigationView();
+    console.log("my project  toggle");
+  };
   return (
     <>
       <BackgroundLayout />
@@ -59,9 +58,13 @@ const CreatePress =()=>{
                 <>
                   <View style={Tempatestyle.Cardcontainer}>
                     <View style={Tempatestyle.subcontainer}>
-                      <View>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate("TabBarTemplateList")
+                        }
+                      >
                         <Templatelogo />
-                      </View>
+                      </TouchableOpacity>
                       <View style={Tempatestyle.cartdtetxt}>
                         <View>
                           <Text style={Tempatestyle.cardtextstyle}>
@@ -127,7 +130,6 @@ const CreatePress =()=>{
                   }
                   Image={Template}
                   styles={Tempatestyle.inputview}
-
                 />
               </View>
               <View style={Tempatestyle.Buttonview}>
@@ -137,7 +139,10 @@ const CreatePress =()=>{
                   </Text>
                 </View>
                 <View style={{ flex: 1 }} />
-                <TouchableOpacity style={Tempatestyle.secondbutton} onPress={()=> CreatePress()}>
+                <TouchableOpacity
+                  style={Tempatestyle.secondbutton}
+                  onPress={() => CreatePress()}
+                >
                   <Text style={Tempatestyle.create}>
                     {CreateTemplatescreen.TemBottomsheet.Create}
                   </Text>

@@ -1,7 +1,7 @@
-import React from 'react';
-import {View, Image, TextInput, StyleSheet, Text} from 'react-native';
-import {Controller} from 'react-hook-form';
-import {FONTS} from '../utils/Constant';
+import React from "react";
+import { View, Image, TextInput, StyleSheet, Text } from "react-native";
+import { Controller } from "react-hook-form";
+import { FONTS, COLOURS } from "../utils/Constant";
 
 const InputField = (props: any) => {
   return (
@@ -10,11 +10,14 @@ const InputField = (props: any) => {
         control={props.control}
         name={props.name}
         rules={props.rules}
-        render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+        render={({
+          field: { value, onChange, onBlur },
+          fieldState: { error },
+        }) => (
           <>
             <View style={styles.container}>
               <View style={styles.imagepadding}>
-            {props.Image ? <props.Image />:null}  
+                {props.Image ? <props.Image /> : null}
               </View>
               <View style={styles.viewWidth}>
                 <TextInput
@@ -24,17 +27,16 @@ const InputField = (props: any) => {
                   placeholder={props.placeholder}
                   style={props.styles}
                   secureTextEntry={props.secureTextEntry}
-                  placeholderTextColor="#001521"
+                  placeholderTextColor={COLOURS.black}
                   keyboardType={props.keyboardType}
-                
                 />
               </View>
               <View></View>
               <View></View>
             </View>
             {error && (
-              <Text style={{color: 'red', marginLeft: 20}}>
-                {error.message || 'Error'}
+              <Text style={styles.errortextstyle}>
+                {error.message || "Error"}
               </Text>
             )}
           </>
@@ -53,15 +55,16 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
     marginTop: 18,
-    backgroundColor: '#F6F8FA',
+    backgroundColor: "#F6F8FA",
     borderRadius: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
 
   textinputview: {
-    width: '75%',
+    width: "75%",
   },
-  imagepadding: {paddingHorizontal: 9},
-  viewWidth: {width: '75%'},
+  imagepadding: { paddingHorizontal: 9 },
+  viewWidth: { width: "75%" },
+  errortextstyle: { color: "red", marginLeft: 20 },
 });

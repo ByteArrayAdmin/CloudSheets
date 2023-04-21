@@ -1,4 +1,3 @@
-
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -16,6 +15,7 @@ import UserCircle from "../assets/Images/usercircle.svg";
 import Boldcheetsheet from "../assets/Images/Boldcheatsheet.svg";
 import Boldtemplateicon from "../assets/Images/Bloldtemplateicon";
 import UpdateCloudsheet from "../screens/Tabscreens/Cloudsheet/Updatecloudsheet";
+import TabBarTemplateList from "../screens/Tabscreens/Templates/TabBarTemplateList";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -55,6 +55,11 @@ const Templates = () => {
       <Stack.Screen
         name="CreateTemplate"
         component={CreateTemplate}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="TabBarTemplateList"
+        component={TabBarTemplateList}
         options={{ headerShown: false, gestureEnabled: false }}
       />
     </Stack.Navigator>

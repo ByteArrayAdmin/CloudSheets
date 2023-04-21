@@ -15,59 +15,63 @@ import { COLOURS, FONTS } from "../../../../utils/Constant";
 import AuthCard from "../../../../commonComponents/AuthCard";
 import Logo from "../../../../assets/Images/updatecloud.svg";
 import { Styles } from "../../Templates/RowDetailForm/style";
-import CustomButton from "../../../../commonComponents/Button"
-
+import CustomButton from "../../../../commonComponents/Button";
+import { useNavigation } from "@react-navigation/native";
 const UpdateCloudsheet = () => {
+  const navigation = useNavigation();
+
   return (
     <>
       <BackgroundLayout />
       <SafeAreaView style={Style.container}>
-        <View>
-          <View style={Style.logoview}>
-            <Smlogo />
+        <ScrollView>
+          <View>
+            <View style={Style.logoview}>
+              <Smlogo />
+            </View>
+            <View style={Style.cloudview}>
+              <Text style={Style.cloudtext}>
+                {labels.updatecloudsheet.Cloud}
+              </Text>
+              <Text style={Style.sheetetxt}>
+                {labels.updatecloudsheet.Sheets}
+              </Text>
+            </View>
+            <View style={Style.Authcardview}>
+              <AuthCard
+                subchildren={
+                  <>
+                    <View style={Style.cardcontainer}>
+                      <View style={Style.logospacing}>
+                        <Logo />
+                      </View>
+                      <View>
+                        <Text style={Style.updatetext}>
+                          {labels.updatecloudsheet.UpdatedCloudSheet}
+                        </Text>
+                      </View>
+
+                      <View style={Style.cardtext}>
+                        <Text style={Style.cardtextstyle}>
+                          {labels.updatecloudsheet.Cardtext}
+                        </Text>
+                        <Text style={Style.cardtextstyle}>
+                          {labels.updatecloudsheet.successfully_updated}
+                        </Text>
+                      </View>
+                    </View>
+                    <View>
+                      <CustomButton
+                        Register={labels.updatecloudsheet.Ok}
+                        onPress={() => navigation.navigate("TemplateList")}
+                      />
+                    </View>
+                  </>
+                }
+              />
+            </View>
           </View>
-          <View style={Style.cloudview}>
-            <Text style={Style.cloudtext}>{labels.updatecloudsheet.Cloud}</Text>
-            <Text style={Style.sheetetxt}>
-              {labels.updatecloudsheet.Sheets}
-            </Text>
-          </View>
-          <View style={Style.Authcardview}>
-            <AuthCard
-              subchildren={
-                <><View style={Style.cardcontainer}>
-                  <View style={Style.logospacing}>
-                    <Logo />
-                  </View>
-                  <View>
-                    <Text style={Style.updatetext}>
-                      {labels.updatecloudsheet.UpdatedCloudSheet}
-                    </Text>
-                  </View>
-
-                  <View style={Style.cardtext}>
-                    <Text style={Style.cardtextstyle}>
-                      {labels.updatecloudsheet.Cardtext}
-                    </Text>
-                    <Text style={Style.cardtextstyle}>
-                      {labels.updatecloudsheet.successfully_updated}
-                    </Text>
-                  </View>
-
-
-                </View><View>
-                    <CustomButton Register={labels.updatecloudsheet.Ok} />
-                  </View></>
-                 
-
-                
-              }
-            />
-            
-                  
-                
-          </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </>
   );

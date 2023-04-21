@@ -29,32 +29,23 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SmallButton from "../../../../commonComponents/SmallButton";
 import LightSmallButton from "../../../../commonComponents/LightSmallbutton";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 const Updateattendance = () => {
   const navigation = useNavigation();
   const { control, handleSubmit } = useForm();
   const [open, setopen] = useState(false);
+  const [open1, setopen1] = useState(false);
   const [defaultdate, setdefaultdate] = useState(new Date());
   const [date, setdate] = useState("");
   const [index, setindex] = useState("");
-  // hooks
-  const sheetRef = useRef<BottomSheet>(null);
+  //const childRef = useRef(null);
 
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
   // variables
-  const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
-  const handleSheetChange = useCallback((index) => {
-    console.log("handleSheetChange", index);
-  }, []);
-
-  // callbacks
-  const handleSnapPress = useCallback((index) => {
-    console.log("my bottomindeex======>", index);
-    sheetRef.current?.snapToIndex(index);
-  }, []);
-  const handleClosePress = useCallback(() => {
-    sheetRef.current?.close();
-  }, []);
+  // const handleSheetChanges = useCallback((index: number) => {
+  //   console.log("handleSheetChanges", index);
+  // }, []);
+  
 
   const onSubmitPressed = async (data: any) => {
     const { date } = data;
@@ -71,10 +62,6 @@ const Updateattendance = () => {
   useEffect(() => {}, [open]);
   return (
     <KeyboardAwareScrollView>
-      <Button title="Snap To 90%" onPress={() => handleSnapPress(2)} />
-      <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
-      <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} />
-      <Button title="Close" onPress={() => handleClosePress()} />
       <View style={Styles.container}>
         <View>
           <NewCommonHeader
@@ -108,7 +95,6 @@ const Updateattendance = () => {
             </View>
             <TouchableOpacity
               style={Styles.datepickerview}
-              onPress={() => setopen(true)}
             >
               <View>
                 <Text style={Styles.enterdate}>
@@ -162,30 +148,21 @@ const Updateattendance = () => {
             </View>
           </View>
         </View>
+
         <View style={Styles.buttonview}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setopen1(!open1)}>
             <LightSmallButton buttontext={labels.updateRowdetaiform.Cancel} />
           </TouchableOpacity>
           <View style={Styles.justgap}></View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ClousheetTab")}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("ClousheetTab")}>
             <SmallButton buttontext={labels.updateRowdetaiform.Update} />
           </TouchableOpacity>
         </View>
+        {/* <CommonBottomsheet
+          index={1}
+          snapPoints={snapPoints}
+        /> */}
       </View>
-      <BottomSheet
-        ref={sheetRef}
-        snapPoints={snapPoints}
-        onChange={handleSheetChange}
-      >
-        <BottomSheetView>
-          <Text>Awesome 🔥</Text>
-        </BottomSheetView>
-      </BottomSheet>
-      {/* <CommonBottomsheet 
-      sheetRef={sheetRef}
-      onChange={handleSheetChange}/> */}
     </KeyboardAwareScrollView>
   );
 };
