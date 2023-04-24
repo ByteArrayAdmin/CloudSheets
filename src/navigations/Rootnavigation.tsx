@@ -12,6 +12,7 @@ import RowdetailForm from "../screens/Tabscreens/Templates/RowDetailForm";
 import Attendancelist from "../screens/Tabscreens/Templates/AttendanceList";
 import Updateattendance from "../screens/Tabscreens/Templates/UpdateAttendance";
 import TemplateList from "../screens/Tabscreens/Templates/TemplateList";
+import ExpensesList from "../screens/Tabscreens/Templates/ExpensesList";
 
 const Stack = createNativeStackNavigator();
 
@@ -120,6 +121,15 @@ const Rootnavigation = () => {
       <Stack.Screen
         name="TemplateList"
         component={TemplateList}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="ExpensesList"
+        component={ExpensesList}
         options={{
           headerShown: false,
           gestureEnabled: false,

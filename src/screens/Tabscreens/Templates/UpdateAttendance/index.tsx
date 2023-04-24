@@ -158,10 +158,7 @@ const Updateattendance = () => {
             <SmallButton buttontext={labels.updateRowdetaiform.Update} />
           </TouchableOpacity>
         </View>
-        {/* <CommonBottomsheet
-          index={1}
-          snapPoints={snapPoints}
-        /> */}
+  
       </View>
     </KeyboardAwareScrollView>
   );

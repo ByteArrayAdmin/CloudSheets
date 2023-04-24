@@ -20,7 +20,8 @@ import { styles } from "./style";
 const TabBarTemplateList = () => {
   const DATA = useState([{ id: 1 }, { id: 1 }]);
   const navigation = useNavigation();
-  const renderItems = () => <Card />;
+
+  const renderItems = () => <TouchableOpacity onPress={()=>navigation.navigate("ExpensesList")}><Card /></TouchableOpacity>;
   return (
     <>
       <View>

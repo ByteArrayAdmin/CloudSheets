@@ -10,12 +10,13 @@ import ClousheetList from "../screens/Tabscreens/Cloudsheet/RecentCloudsheet_Lis
 import CreateTemplate from "../screens/Tabscreens/Templates/Createtemplate/Index";
 import Documenticon from "../assets/Images/document.svg";
 import Template from "../assets/Images/Tempate.svg";
-import UserDetails from "../screens/Tabscreens/UserTab/User";
+import UserSection from "../screens/Tabscreens/UserTab/UserSection"
 import UserCircle from "../assets/Images/usercircle.svg";
 import Boldcheetsheet from "../assets/Images/Boldcheatsheet.svg";
 import Boldtemplateicon from "../assets/Images/Bloldtemplateicon";
 import UpdateCloudsheet from "../screens/Tabscreens/Cloudsheet/Updatecloudsheet";
 import TabBarTemplateList from "../screens/Tabscreens/Templates/TabBarTemplateList";
+import SubcriptionScreen from "../screens/Tabscreens/UserTab/SubscriptionPlanScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -70,8 +71,13 @@ const User = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="userdetails"
-        component={UserDetails}
+        name="UserSection"
+        component={UserSection}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+       <Stack.Screen
+        name="SubcriptionScreen"
+        component={SubcriptionScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />
     </Stack.Navigator>

@@ -1,31 +1,47 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import {View, SafeAreaView, Text} from 'react-native';
-import BackgroundLayout from '../../../commonComponents/Backgroundlayout/BackgroundLayout';
-import Smlogo from '../../../assets/Images/smalllogo.svg';
-import {welcomscreenstyle} from './style';
-import AuthCard from '../../../commonComponents/AuthCard';
-import Custombutton from '../../../commonComponents/Button';
-import welocmehomelabel from '../../../utils/ProjectLabels.json';
-import GuestModel from '../../../Bottomsheet/BottomsheetLayout';
-import {BottomSheet} from 'react-native-btr';
-import Exclaimationlogo from '../../../assets/Images/exclaimationlogo.svg';
-import modelLabels from '../../../utils/ProjectLabels.json';
-import { Tempatestyle } from '../Templates/Createtemplate/Style';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { View, SafeAreaView, Text, TouchableOpacity } from "react-native";
+import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
+import Smlogo from "../../../assets/Images/smalllogo.svg";
+import { welcomscreenstyle } from "./style";
+import AuthCard from "../../../commonComponents/AuthCard";
+import Custombutton from "../../../commonComponents/Button";
+import welocmehomelabel from "../../../utils/ProjectLabels.json";
+import GuestModel from "../../../Bottomsheet/BottomsheetLayout";
+import { BottomSheet } from "react-native-btr";
+import Exclaimationlogo from "../../../assets/Images/exclaimationlogo.svg";
+import modelLabels from "../../../utils/ProjectLabels.json";
+import { Tempatestyle } from "../Templates/Createtemplate/Style";
+import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 
-const Homescreen = () => {
+const Homescreen = (props: any) => {
   const [visible, setVisible] = useState(false);
+  const childRef = useRef(null);
   const toggleBottomNavigationView = () => {
     //Toggling the visibility state of the bottom sheet
     setVisible(!visible);
+  };
+  const child = useRef(null);
+
+  const handleOnClick = () => {
+    childRef.current.childFunction1();
   };
 
   return (
     <>
       <BackgroundLayout />
 
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={welcomscreenstyle.container}>
+          <TouchableOpacity onPress={() => handleOnClick()}>
+            <Text>helloo</Text>
+          </TouchableOpacity>
+
           <View style={welcomscreenstyle.logoview}>
             <Smlogo />
           </View>
@@ -37,13 +53,12 @@ const Homescreen = () => {
               {welocmehomelabel.HomeWelcomeScreen.SHEETS}
             </Text>
           </View>
-          <View style={{marginTop: 50}}>
+          <View style={welcomscreenstyle.cardspace}>
             <AuthCard
               subchildren={
                 <>
-                  <View
-                    style={{alignItems: 'center', justifyContent: 'center'}}>
-                    <View style={{marginTop: 30}}>
+                  <View style={welcomscreenstyle.subcard}>
+                    <View style={welcomscreenstyle.textview}>
                       <Text style={welcomscreenstyle.welcometotext}>
                         {welocmehomelabel.HomeWelcomeScreen.WELCOMETO}
                       </Text>
@@ -53,7 +68,7 @@ const Homescreen = () => {
                         {welocmehomelabel.HomeWelcomeScreen.Clodesheetcardtext}
                       </Text>
                     </View>
-                    <View style={{marginHorizontal: 50, marginTop: 15}}>
+                    <View style={welcomscreenstyle.secondcardtext}>
                       <Text style={welcomscreenstyle.cardtext}>
                         {welocmehomelabel.HomeWelcomeScreen.Cardtext}
                       </Text>
@@ -65,13 +80,14 @@ const Homescreen = () => {
                   />
 
                   <BottomSheet
-                  style={Tempatestyle.Bottomsheetview}
+                    style={Tempatestyle.Bottomsheetview}
                     visible={visible}
                     onBackButtonPress={toggleBottomNavigationView}
-                    onBackdropPress={toggleBottomNavigationView}>
+                    onBackdropPress={toggleBottomNavigationView}
+                  >
                     <View style={welcomscreenstyle.bottomNavigationView}>
                       <View style={welcomscreenstyle.subconatiner}>
-                        <View style={{marginTop: 30}}>
+                        <View style={{ marginTop: 30 }}>
                           <Exclaimationlogo />
                         </View>
                         <View>
@@ -96,6 +112,7 @@ const Homescreen = () => {
             />
           </View>
         </View>
+        <CommonBottomsheet ref={childRef} />
       </SafeAreaView>
     </>
   );

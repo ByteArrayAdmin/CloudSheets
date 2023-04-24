@@ -164,5 +164,41 @@
   },
   "TabBarTemplateList": {
     "Template": "Template"
+  },
+  "ExpensesList": {
+    "JanuaryExpenses": "January Expenses",
+    "Searchhere": "Search here",
+    "ExpensesName": "Expenses Name",
+    "ExpensesDate": "Expenses Date",
+    "ExpensesType": "Expenses Type",
+    "ExpensesAmount": "Expenses Amount"
+  },
+  "Guestscreen":{
+    "MyAccount":"My Account",
+    "Registertext":"Please Register to continue",
+    "Account":"Account",
+  "RateUs":"Rate Us",
+  "PrivacyPolicy":"Privacy Policy",
+  "CustomerSupport":"Customer Support",
+  "TermsandConditions":"Terms and Conditions",
+  "FAQ":"FAQ",
+  "Help":"Help"
+  },
+  "SubscriptionScreen":{
+    "MyAccount":"My Account",
+    "Registertext":"Please Register to continue",
+    "Account":"Account",
+  "RateUs":"Rate Us",
+  "PrivacyPolicy":"Privacy Policy",
+  "CustomerSupport":"Customer Support",
+  "TermsandConditions":"Terms and Conditions",
+  "FAQ":"FAQ",
+  "Help":"Help",
+  "SubscriptionPlan":"Subscription Plan",
+  "Upgradeformorefeatures":"Upgrade for more features",
+  "Password":"Password"
   }
+  
+
+
 }

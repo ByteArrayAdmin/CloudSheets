@@ -21,4 +21,6 @@ export const COLOURS = {
   red: "#FF0000",
   lightgrey: "#E7EFF6",
   shadowcolour: "#000",
+  lightred:"rgba(255, 120, 120, 0.12)",
+  orignalred:"#FF7878"
 };

@@ -64,4 +64,23 @@ export const welcomscreenstyle = StyleSheet.create({
     fontSize: 14,
     color: '#001521',
   },
+  cardspace:{
+   marginTop: 50 
+  },
+  subcard:{
+    alignItems: "center", justifyContent: "center" 
+  },
+  textview:{
+  marginTop: 30 
+  },
+  secondcardtext:{
+    marginHorizontal: 50, marginTop: 15 
+  }
 });
+
+
+export const styles = StyleSheet.create({
+
+
+
+})
