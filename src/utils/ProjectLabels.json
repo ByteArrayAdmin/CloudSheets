@@ -13,7 +13,6 @@
     "INVALID_EMAIL": "please enter valid email",
     "PASSWAORD": "please enter password"
   },
-
   "signupcontant": {
     "SKIP": "skip",
     "CREATE_ACCOUNT": "Create Account",
@@ -173,32 +172,54 @@
     "ExpensesType": "Expenses Type",
     "ExpensesAmount": "Expenses Amount"
   },
-  "Guestscreen":{
-    "MyAccount":"My Account",
-    "Registertext":"Please Register to continue",
-    "Account":"Account",
-  "RateUs":"Rate Us",
-  "PrivacyPolicy":"Privacy Policy",
-  "CustomerSupport":"Customer Support",
-  "TermsandConditions":"Terms and Conditions",
-  "FAQ":"FAQ",
-  "Help":"Help"
+  "Guestscreen": {
+    "MyAccount": "My Account",
+    "Registertext": "Please Register to continue",
+    "Account": "Account",
+    "RateUs": "Rate Us",
+    "PrivacyPolicy": "Privacy Policy",
+    "CustomerSupport": "Customer Support",
+    "TermsandConditions": "Terms and Conditions",
+    "FAQ": "FAQ",
+    "Help": "Help"
   },
-  "SubscriptionScreen":{
-    "MyAccount":"My Account",
-    "Registertext":"Please Register to continue",
-    "Account":"Account",
-  "RateUs":"Rate Us",
-  "PrivacyPolicy":"Privacy Policy",
-  "CustomerSupport":"Customer Support",
-  "TermsandConditions":"Terms and Conditions",
-  "FAQ":"FAQ",
-  "Help":"Help",
-  "SubscriptionPlan":"Subscription Plan",
-  "Upgradeformorefeatures":"Upgrade for more features",
-  "Password":"Password"
+  "SubscriptionScreen": {
+    "MyAccount": "My Account",
+    "Registertext": "Please Register to continue",
+    "Account": "Account",
+    "RateUs": "Rate Us",
+    "PrivacyPolicy": "Privacy Policy",
+    "CustomerSupport": "Customer Support",
+    "TermsandConditions": "Terms and Conditions",
+    "FAQ": "FAQ",
+    "Help": "Help",
+    "SubscriptionPlan": "Subscription Plan",
+    "Upgradeformorefeatures": "Upgrade for more features",
+    "Password": "Password",
+    "Privacy_Policy":"Privacy Policy",
+    "Our_Privacy_Policy":"Our Privacy Policy",
+    "Privacy_Content":"Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu dolor fusce duis sit enim ac laoreet fusce. Nunc pulvinar sed egestas praesent. Viverra sit id justo, erat volutpat pharetra. Volutpat sollicitudin aenean libero, at nulla hendrerit. Ipsum id et mi, suspendisse tristique pharetra risus. Sit nulla urna maecenas a. Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt.",
+    "Terms_Conditions":"Terms & Conditions",
+    "Terms_Content":"Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.",
+    "Help_Content":"Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu dolor fusce duis sit enim ac laoreet fusce. Nunc pulvinar sed egestas praesent. Viverra sit id justo, erat volutpat pharetra. Volutpat sollicitudin aenean libero, at nulla hendrerit. Ipsum id et mi, suspendisse tristique pharetra risus. Sit nulla urna maecenas a. Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt.",
+    "Customer_Support":"Customer Support",
+    "Support":"Support",
+    "Support_Content":"Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.",
+    "Send_Email":"Send Email",
+    "Supported_Mail":"support@bytearray.tech",
+    "Email_Address":"Email Address",
+    "Enter_Email":"Enter Email",
+    "EMAIL_VALIDATION": "please enter email",
+    "INVALID_EMAIL": "please enter valid email",
+    "Subject":"Subject",
+    "Enter_Subject":"Enter Subject",
+    "Subject_Required":"Subject is required!",
+    "Discription":"Discription",
+    "Write_here":"Write here...",
+    "Description_Required":"Description is required",
+    "submit":"submit",
+    "How_App_Work":"How app works?",
+    "FaqContent":"Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget."
+    
   }
-  
-
-
 }
