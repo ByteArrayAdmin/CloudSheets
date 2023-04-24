@@ -1,19 +1,22 @@
+import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Homescreen from "../screens/Tabscreens/Home/Homescreen";
 import Home from "../assets/Images/Home.svg";
 import { FONTS } from "../utils/Constant";
-import React from "react";
+
 import Boldhome from "../assets/Images/Boldhome.svg";
-import ClousheetList from "../screens/Tabscreens/Cloudsheet/Index";
-import CreateTemplate from "../..//src/screens/Tabscreens/Templates/Index";
+import ClousheetList from "../screens/Tabscreens/Cloudsheet/RecentCloudsheet_List/Index";
+import CreateTemplate from "../screens/Tabscreens/Templates/Createtemplate/Index";
 import Documenticon from "../assets/Images/document.svg";
 import Template from "../assets/Images/Tempate.svg";
-import UserDetails from "../screens/Tabscreens/UserTab/User";
+import UserSection from "../screens/Tabscreens/UserTab/UserSection"
 import UserCircle from "../assets/Images/usercircle.svg";
 import Boldcheetsheet from "../assets/Images/Boldcheatsheet.svg";
 import Boldtemplateicon from "../assets/Images/Bloldtemplateicon";
 import UpdateCloudsheet from "../screens/Tabscreens/Cloudsheet/Updatecloudsheet";
+import TabBarTemplateList from "../screens/Tabscreens/Templates/TabBarTemplateList";
+import SubcriptionScreen from "../screens/Tabscreens/UserTab/SubscriptionPlanScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -55,6 +58,11 @@ const Templates = () => {
         component={CreateTemplate}
         options={{ headerShown: false, gestureEnabled: false }}
       />
+      <Stack.Screen
+        name="TabBarTemplateList"
+        component={TabBarTemplateList}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -63,8 +71,13 @@ const User = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="userdetails"
-        component={UserDetails}
+        name="UserSection"
+        component={UserSection}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+       <Stack.Screen
+        name="SubcriptionScreen"
+        component={SubcriptionScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />
     </Stack.Navigator>

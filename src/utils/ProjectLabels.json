@@ -123,19 +123,18 @@
     "PlaceholderPresent": "Yes/No",
     "placeholderEnterSamples": "Enter Samples",
     "Submit": "Submit",
-    "valodationmessage":"This field is required"
+    "valodationmessage": "This field is required"
   },
-  "Attendancelistlabels":{
-    "JanuaryAttendance":"January  Attendance",
-    "Searchhere":"Search here",
-    "Name":"Name",
-    "AttendanceDate":"Attendance Date",
-    "Present":"Present",
-    "Samples":"Samples",
-    "buttontext":"Add Row"
-
+  "Attendancelistlabels": {
+    "JanuaryAttendance": "January  Attendance",
+    "Searchhere": "Search here",
+    "Name": "Name",
+    "AttendanceDate": "Attendance Date",
+    "Present": "Present",
+    "Samples": "Samples",
+    "buttontext": "Add Row"
   },
-  "updateRowdetaiform":{
+  "updateRowdetaiform": {
     "headerlabel": "January Attendance",
     "Name": "Name",
     "Attendance_Date": "Attendance Date",
@@ -146,11 +145,60 @@
     "PlaceholderPresent": "Yes/No",
     "placeholderEnterSamples": "Enter Samples",
     "Submit": "Submit",
-    "valodationmessage":"This field is required",
-    "Cancel":"Cancel",
-    "Update":"Update"
-
-
-
+    "valodationmessage": "This field is required",
+    "Cancel": "Cancel",
+    "Update": "Update"
+  },
+  "updatecloudsheet": {
+    "Cloud": "Cloud",
+    "Sheets": "Sheets",
+    "UpdatedCloudSheet": "Updated CloudSheet",
+    "Cardtext": "Here your “CloudSheet record",
+    "Ok": "Ok",
+    "successfully_updated": "successfully updated"
+  },
+  "Templatelistlabel": {
+    "Template": "Template",
+    "Listtxt": "List of Cloudsheets",
+    "ViewAll": "View All"
+  },
+  "TabBarTemplateList": {
+    "Template": "Template"
+  },
+  "ExpensesList": {
+    "JanuaryExpenses": "January Expenses",
+    "Searchhere": "Search here",
+    "ExpensesName": "Expenses Name",
+    "ExpensesDate": "Expenses Date",
+    "ExpensesType": "Expenses Type",
+    "ExpensesAmount": "Expenses Amount"
+  },
+  "Guestscreen":{
+    "MyAccount":"My Account",
+    "Registertext":"Please Register to continue",
+    "Account":"Account",
+  "RateUs":"Rate Us",
+  "PrivacyPolicy":"Privacy Policy",
+  "CustomerSupport":"Customer Support",
+  "TermsandConditions":"Terms and Conditions",
+  "FAQ":"FAQ",
+  "Help":"Help"
+  },
+  "SubscriptionScreen":{
+    "MyAccount":"My Account",
+    "Registertext":"Please Register to continue",
+    "Account":"Account",
+  "RateUs":"Rate Us",
+  "PrivacyPolicy":"Privacy Policy",
+  "CustomerSupport":"Customer Support",
+  "TermsandConditions":"Terms and Conditions",
+  "FAQ":"FAQ",
+  "Help":"Help",
+  "SubscriptionPlan":"Subscription Plan",
+  "Upgradeformorefeatures":"Upgrade for more features",
+  "Password":"Password"
   }
+  
+
+
 }
