@@ -33,7 +33,7 @@ const UserSection = () => {
         Folder={<UseLogo />}
       />
       <View style={Styles.container}>
-        <TouchableOpacity style={Styles.Registerview} onPress={()=>navigation.navigate("SubcriptionScreen")}>
+        <TouchableOpacity style={Styles.Registerview} onPress={() => navigation.navigate("SubcriptionScreen")}>
           <View>
             <Exclaim />
           </View>
@@ -54,6 +54,7 @@ const UserSection = () => {
           <UseCard
             Logo={<Privacylogo />}
             heading={labels.Guestscreen.PrivacyPolicy}
+            onPress={() => navigation.navigate('PrivacyScreen')}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -61,6 +62,7 @@ const UserSection = () => {
           <UseCard
             Logo={<CusSupportlogo />}
             heading={labels.Guestscreen.CustomerSupport}
+            onPress={()=>navigation.navigate('Customer_Support_Screen')}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -68,15 +70,22 @@ const UserSection = () => {
           <UseCard
             Logo={<TermLogo />}
             heading={labels.Guestscreen.TermsandConditions}
+            onPress={()=>navigation.navigate('Terms_Conditions_Screen')}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View>
-          <UseCard Logo={<Helplogo />} heading={labels.Guestscreen.FAQ} />
+          <UseCard Logo={<Helplogo />}
+           heading={labels.Guestscreen.FAQ} 
+           onPress={()=>navigation.navigate("Faq_Screen")}
+           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View>
-          <UseCard Logo={<MessageLog />} heading={labels.Guestscreen.Help} />
+          <UseCard Logo={<MessageLog />}
+           heading={labels.Guestscreen.Help} 
+           onPress={()=>navigation.navigate('Help_Screen')}
+           />
         </ScrollView>
       </View>
     </>

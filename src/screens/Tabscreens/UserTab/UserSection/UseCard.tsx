@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import Arrow from "../../../../assets/Images/RightArrow.svg";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
@@ -7,7 +7,9 @@ import { COLOURS, FONTS } from "../../../../utils/Constant";
 const UseCard = (props: any) => {
   return (
     <>
-      <View style={Styles.card}>
+      <TouchableOpacity style={Styles.card}
+      onPress={props.onPress}
+      >
         <View>{props.Logo}</View>
         <View>
           <Text style={Styles.text}>{props.heading}</Text>
@@ -16,7 +18,7 @@ const UseCard = (props: any) => {
         <View>
           <Arrow />
         </View>
-      </View>
+      </TouchableOpacity>
       
     </>
   );
