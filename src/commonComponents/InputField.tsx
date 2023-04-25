@@ -26,6 +26,8 @@ const InputField = (props: any) => {
                   onBlur={onBlur}
                   placeholder={props.placeholder}
                   style={props.styles}
+                  textAlignVertical={props.textAlignVertical}
+                  multiline={props.multiline}
                   secureTextEntry={props.secureTextEntry}
                   placeholderTextColor={COLOURS.black}
                   keyboardType={props.keyboardType}

@@ -16,6 +16,12 @@ import ExpensesList from "../screens/Tabscreens/Templates/ExpensesList";
 import EditProfile from "../screens/Tabscreens/UserTab/EditProfile";
 import RateUs from "../screens/Tabscreens/UserTab/Rateus"
 
+import PrivacyScreen from '../screens/Tabscreens/UserTab/UserSection/Privacy_Policy/index';
+import Terms_Conditions_Screen from '../screens/Tabscreens/UserTab/UserSection/Terms_Conditions/index';
+import Help_Screen from '../screens/Tabscreens/UserTab/UserSection/Help/index';
+import Customer_Support_Screen from '../screens/Tabscreens/UserTab/UserSection/Customer_Support/index';
+import Customer_Support_Form from '../screens/Tabscreens/UserTab/UserSection/Customer_Support_Form/index';
+import Faq_Screen from '../screens/Tabscreens/UserTab/UserSection/FAQ/index'
 const Stack = createNativeStackNavigator();
 
 const Rootnavigation = () => {
@@ -132,6 +138,60 @@ const Rootnavigation = () => {
       <Stack.Screen
         name="ExpensesList"
         component={ExpensesList}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="PrivacyScreen"
+        component={PrivacyScreen}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="Terms_Conditions_Screen"
+        component={Terms_Conditions_Screen}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="Help_Screen"
+        component={Help_Screen}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="Customer_Support_Screen"
+        component={Customer_Support_Screen}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="Customer_Support_Form"
+        component={Customer_Support_Form}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="Faq_Screen"
+        component={Faq_Screen}
         options={{
           headerShown: false,
           gestureEnabled: false,

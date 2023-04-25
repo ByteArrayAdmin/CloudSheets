@@ -16,19 +16,20 @@ import {useForm} from 'react-hook-form';
 import CommonButton from '../../../commonComponents/Button';
 // import Googleicon from '../../assets/Images/Googlricon.svg';
 // import Appleicon from '../../assets/Images/Apple.svg';
-import {useNavigation} from '@react-navigation/native';
-import BackgroundLayout from '../../../commonComponents/Backgroundlayout/BackgroundLayout';
-import signupLabel from '../../../utils/ProjectLabels.json';
-import Mediumlogo from '../../../assets/Images/Mediumlogo.svg';
+import { useNavigation } from "@react-navigation/native";
+import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
+import signupLabel from "../../../utils/ProjectLabels.json";
+import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
 
-import AuthCard from '../../../commonComponents/AuthCard';
+import AuthCard from "../../../commonComponents/AuthCard";
+//Aws configiuration code commented for now
 
 // Amplify.configure(awsconfig);
 const Signup = () => {
-  const {control, handleSubmit} = useForm();
+  const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
   const onRegisterPressed = async (data: any) => {
-    const {name, username, email, mobilenunber, password} = data;
+    const { name, username, email, mobilenunber, password } = data;
   };
 
   return (
@@ -89,9 +90,12 @@ const Signup = () => {
                     Image={Mesageicon}
                     rules={{
                       required: signupLabel.signupcontant.EMAIL_VALIDATION_MSG,
-                      pattern: {value: emailRegex, message: 'Email is invalid'},
+                      pattern: {
+                        value: emailRegex,
+                        message: "Email is invalid",
+                      },
                     }}
-                    keyboardType={'email-address'}
+                    keyboardType={"email-address"}
                     styles={styles.inputview}
                   />
                   <InputField
@@ -105,7 +109,7 @@ const Signup = () => {
                       required:
                         signupLabel.signupcontant.MOBILENO_VALIDATION_MSG,
                     }}
-                    keyboardType={'phone-pad'}
+                    keyboardType={"phone-pad"}
                     styles={styles.inputview}
                   />
                   <InputField
@@ -130,7 +134,7 @@ const Signup = () => {
           </View>
 
           <View>
-        {/* //This feature is commented for now  */}
+            {/* //This feature is commented for now  */}
             {/* <View style={styles.ORviewstyle}>
               <View style={styles.Horizontalline} />
               <View style={{paddingHorizontal: 15}}>
@@ -158,18 +162,19 @@ const Signup = () => {
 
             <View
               style={{
-                flexDirection: 'row',
+                flexDirection: "row",
                 marginTop: 60,
-                justifyContent: 'center',
-              }}>
+                justifyContent: "center",
+              }}
+            >
               <View>
                 <Text style={styles.alreadyamember}>
                   {signupLabel.signupcontant.Bottomtext}
                 </Text>
               </View>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                 <Text style={styles.sigintext}>
-                  {signupLabel.signupcontant['Sign in']}
+                  {signupLabel.signupcontant["Sign in"]}
                 </Text>
               </TouchableOpacity>
             </View>
