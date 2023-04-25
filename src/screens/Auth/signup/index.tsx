@@ -1,19 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
 
-import React from "react";
-import { SafeAreaView, Text, View, TouchableOpacity } from "react-native";
-import { styles } from "./style";
-import InputField from "../../../commonComponents/InputField";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { emailRegex } from "../../../utils/Constant";
+import React from 'react';
+import {SafeAreaView, Text, View, TouchableOpacity} from 'react-native';
+import {styles} from './style';
+import InputField from '../../../commonComponents/InputField';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {emailRegex} from '../../../utils/Constant';
 // import {Amplify} from 'aws-amplify';
 // import awsconfig from '../../../aws-exports';
-import Progfileicon from "../../../assets/Images/profile.svg";
-import Mesageicon from "../../../assets/Images/Message.svg";
-import VectorIcom from "../../../assets/Images/Vector.svg";
-import Lock from "../../../assets/Images/Lock.svg";
-import { useForm } from "react-hook-form";
-import CommonButton from "../../../commonComponents/Button";
+import Progfileicon from '../../../assets/Images/profile.svg';
+import Mesageicon from '../../../assets/Images/Message.svg';
+import VectorIcom from '../../../assets/Images/Vector.svg';
+import Lock from '../../../assets/Images/Lock.svg';
+import {useForm} from 'react-hook-form';
+import CommonButton from '../../../commonComponents/Button';
 // import Googleicon from '../../assets/Images/Googlricon.svg';
 // import Appleicon from '../../assets/Images/Apple.svg';
 import { useNavigation } from "@react-navigation/native";

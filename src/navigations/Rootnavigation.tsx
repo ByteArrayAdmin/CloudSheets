@@ -13,6 +13,9 @@ import Attendancelist from "../screens/Tabscreens/Templates/AttendanceList";
 import Updateattendance from "../screens/Tabscreens/Templates/UpdateAttendance";
 import TemplateList from "../screens/Tabscreens/Templates/TemplateList";
 import ExpensesList from "../screens/Tabscreens/Templates/ExpensesList";
+import EditProfile from "../screens/Tabscreens/UserTab/EditProfile";
+import RateUs from "../screens/Tabscreens/UserTab/Rateus"
+
 import PrivacyScreen from '../screens/Tabscreens/UserTab/UserSection/Privacy_Policy/index';
 import Terms_Conditions_Screen from '../screens/Tabscreens/UserTab/UserSection/Terms_Conditions/index';
 import Help_Screen from '../screens/Tabscreens/UserTab/UserSection/Help/index';
@@ -189,6 +192,24 @@ const Rootnavigation = () => {
       <Stack.Screen
         name="Faq_Screen"
         component={Faq_Screen}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+       <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+       <Stack.Screen
+        name="RateUs"
+        component={RateUs}
         options={{
           headerShown: false,
           gestureEnabled: false,

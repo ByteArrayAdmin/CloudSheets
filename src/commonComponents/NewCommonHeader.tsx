@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity,SafeAreaView} from "react-native";
 import { COLOURS, FONTS } from "../utils/Constant";
 
+
 const NewCommonHeader = (props: any) => {
   return (
     <><SafeAreaView style={styles.backgroundcolour}>
@@ -50,4 +51,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#FFFFFF",
   },
+  space:{
+    flex:1
+  }
 });
