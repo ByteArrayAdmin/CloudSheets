@@ -82,6 +82,7 @@ const Rateus = () => {
                       placeholder={labels.RateUS.plceholdertext}
                       styles={Styles.inputview}
                       multiline={true}
+                      textAlignVertical={'top'}
                     />
                   </View>
 

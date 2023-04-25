@@ -54,31 +54,32 @@ const UserSection = () => {
           <Text style={Styles.Accounttext}>{labels.Guestscreen.Account}</Text>
         </View>
         <ScrollView>
-          <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
-            <UseCard
-              Logo={<Profile />}
-              heading={labels.Guestscreen.MyAccount}
-            />
-            <View style={Styles.horizontallineview}>
-              <View style={Styles.innerhoeizontaline} />
-            </View>
-          </TouchableOpacity>
+          <UseCard
+            Logo={<Profile />}
+            heading={labels.Guestscreen.MyAccount}
+            onPress={() => navigation.navigate("EditProfile")}
+          />
+          <View style={Styles.horizontallineview}>
+            <View style={Styles.innerhoeizontaline} />
+          </View>
 
           <UseCard Logo={<PassLogo />} heading={labels.Guestscreen.Password} />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate("RateUs")}>
-            <UseCard Logo={<Ratelogo />} heading={labels.Guestscreen.RateUs} />
-            <View style={Styles.horizontallineview}>
-              <View style={Styles.innerhoeizontaline} />
-            </View>
-          </TouchableOpacity>
+          <UseCard
+            Logo={<Ratelogo />}
+            heading={labels.Guestscreen.RateUs}
+            onPress={() => navigation.navigate("RateUs")}
+          />
+          <View style={Styles.horizontallineview}>
+            <View style={Styles.innerhoeizontaline} />
+          </View>
 
           <UseCard
             Logo={<Privacylogo />}
             heading={labels.Guestscreen.PrivacyPolicy}
-            onPress={() => navigation.navigate('PrivacyScreen')}
+            onPress={() => navigation.navigate("PrivacyScreen")}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -86,7 +87,7 @@ const UserSection = () => {
           <UseCard
             Logo={<CusSupportlogo />}
             heading={labels.Guestscreen.CustomerSupport}
-            onPress={()=>navigation.navigate('Customer_Support_Screen')}
+            onPress={() => navigation.navigate("Customer_Support_Screen")}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -94,24 +95,26 @@ const UserSection = () => {
           <UseCard
             Logo={<TermLogo />}
             heading={labels.Guestscreen.TermsandConditions}
-            onPress={()=>navigation.navigate('Terms_Conditions_Screen')}
+            onPress={() => navigation.navigate("Terms_Conditions_Screen")}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View>
-          <UseCard Logo={<Helplogo />}
-           heading={labels.Guestscreen.FAQ} 
-           onPress={()=>navigation.navigate("Faq_Screen")}
-           />
+          <UseCard
+            Logo={<Helplogo />}
+            heading={labels.Guestscreen.FAQ}
+            onPress={() => navigation.navigate("Faq_Screen")}
+          />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View>
           <UseCard Logo={<MessageLog />} heading={labels.Guestscreen.Help} />
           <View style={{ height: Tabheight }}></View>
-          <UseCard Logo={<MessageLog />}
-           heading={labels.Guestscreen.Help} 
-           onPress={()=>navigation.navigate('Help_Screen')}
-           />
+          <UseCard
+            Logo={<MessageLog />}
+            heading={labels.Guestscreen.Help}
+            onPress={() => navigation.navigate("Help_Screen")}
+          />
         </ScrollView>
       </View>
     </>
