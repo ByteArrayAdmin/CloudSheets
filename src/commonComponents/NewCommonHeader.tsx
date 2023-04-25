@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity,SafeAreaView} from "react-native";
 import { COLOURS, FONTS } from "../utils/Constant";
 
+
 const NewCommonHeader = (props: any) => {
   return (
     <><SafeAreaView style={styles.backgroundcolour}>
@@ -15,6 +16,8 @@ const NewCommonHeader = (props: any) => {
             <View>
               <Text style={styles.classattendancetext}>{props.heading}</Text>
             </View>
+            <View style={styles.space}></View>
+            <View>{props.DeleteIcon}</View>
           </View>
         </View>
       </View></>
@@ -47,4 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#FFFFFF",
   },
+  space:{
+    flex:1
+  }
 });

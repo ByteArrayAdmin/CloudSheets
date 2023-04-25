@@ -17,6 +17,7 @@ import Boldtemplateicon from "../assets/Images/Bloldtemplateicon";
 import UpdateCloudsheet from "../screens/Tabscreens/Cloudsheet/Updatecloudsheet";
 import TabBarTemplateList from "../screens/Tabscreens/Templates/TabBarTemplateList";
 import SubcriptionScreen from "../screens/Tabscreens/UserTab/SubscriptionPlanScreen";
+import EditProfile from "../screens/Tabscreens/UserTab/EditProfile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

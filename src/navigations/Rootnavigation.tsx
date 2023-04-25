@@ -13,6 +13,8 @@ import Attendancelist from "../screens/Tabscreens/Templates/AttendanceList";
 import Updateattendance from "../screens/Tabscreens/Templates/UpdateAttendance";
 import TemplateList from "../screens/Tabscreens/Templates/TemplateList";
 import ExpensesList from "../screens/Tabscreens/Templates/ExpensesList";
+import EditProfile from "../screens/Tabscreens/UserTab/EditProfile";
+import RateUs from "../screens/Tabscreens/UserTab/Rateus"
 
 const Stack = createNativeStackNavigator();
 
@@ -130,6 +132,24 @@ const Rootnavigation = () => {
       <Stack.Screen
         name="ExpensesList"
         component={ExpensesList}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+       <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+       <Stack.Screen
+        name="RateUs"
+        component={RateUs}
         options={{
           headerShown: false,
           gestureEnabled: false,

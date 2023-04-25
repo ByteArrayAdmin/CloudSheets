@@ -29,6 +29,7 @@ const InputField = (props: any) => {
                   secureTextEntry={props.secureTextEntry}
                   placeholderTextColor={COLOURS.black}
                   keyboardType={props.keyboardType}
+                  multiline={props.multiline}
                 />
               </View>
               <View></View>
@@ -40,6 +41,8 @@ const InputField = (props: any) => {
               </Text>
             )}
           </>
+
+          
         )}
       />
       {/* <View>

@@ -22,9 +22,13 @@ import TermLogo from "../../../../assets/Images/TermLogo.svg";
 import Helplogo from "../../../../assets/Images/Helplogo.svg";
 import MessageLog from "../../.../../../../assets/Images/MessageLogo.svg";
 import { Styles } from "./style";
+import Profile from "../../../../assets/Images/ProfileLogo.svg";
+import PassLogo from "../../../../assets/Images/PasswordLogo.svg";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const UserSection = () => {
   const navigation = useNavigation();
+  const Tabheight = useBottomTabBarHeight();
   return (
     <>
       <NewCommonHeader
@@ -33,7 +37,10 @@ const UserSection = () => {
         Folder={<UseLogo />}
       />
       <View style={Styles.container}>
-        <TouchableOpacity style={Styles.Registerview} onPress={()=>navigation.navigate("SubcriptionScreen")}>
+        <TouchableOpacity
+          style={Styles.Registerview}
+          onPress={() => navigation.navigate("SubcriptionScreen")}
+        >
           <View>
             <Exclaim />
           </View>
@@ -47,10 +54,27 @@ const UserSection = () => {
           <Text style={Styles.Accounttext}>{labels.Guestscreen.Account}</Text>
         </View>
         <ScrollView>
-          <UseCard Logo={<Ratelogo />} heading={labels.Guestscreen.RateUs} />
+          <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+            <UseCard
+              Logo={<Profile />}
+              heading={labels.Guestscreen.MyAccount}
+            />
+            <View style={Styles.horizontallineview}>
+              <View style={Styles.innerhoeizontaline} />
+            </View>
+          </TouchableOpacity>
+
+          <UseCard Logo={<PassLogo />} heading={labels.Guestscreen.Password} />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View>
+          <TouchableOpacity onPress={() => navigation.navigate("RateUs")}>
+            <UseCard Logo={<Ratelogo />} heading={labels.Guestscreen.RateUs} />
+            <View style={Styles.horizontallineview}>
+              <View style={Styles.innerhoeizontaline} />
+            </View>
+          </TouchableOpacity>
+
           <UseCard
             Logo={<Privacylogo />}
             heading={labels.Guestscreen.PrivacyPolicy}
@@ -77,6 +101,7 @@ const UserSection = () => {
             <View style={Styles.innerhoeizontaline} />
           </View>
           <UseCard Logo={<MessageLog />} heading={labels.Guestscreen.Help} />
+          <View style={{ height: Tabheight }}></View>
         </ScrollView>
       </View>
     </>

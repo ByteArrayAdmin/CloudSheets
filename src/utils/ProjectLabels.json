@@ -173,32 +173,52 @@
     "ExpensesType": "Expenses Type",
     "ExpensesAmount": "Expenses Amount"
   },
-  "Guestscreen":{
-    "MyAccount":"My Account",
-    "Registertext":"Please Register to continue",
-    "Account":"Account",
-  "RateUs":"Rate Us",
-  "PrivacyPolicy":"Privacy Policy",
-  "CustomerSupport":"Customer Support",
-  "TermsandConditions":"Terms and Conditions",
-  "FAQ":"FAQ",
-  "Help":"Help"
+  "Guestscreen": {
+    "MyAccount": "My Account",
+    "Registertext": "Please Register to continue",
+    "Account": "Account",
+    "RateUs": "Rate Us",
+    "PrivacyPolicy": "Privacy Policy",
+    "CustomerSupport": "Customer Support",
+    "TermsandConditions": "Terms and Conditions",
+    "FAQ": "FAQ",
+    "Help": "Help",
+    "Password": "Password"
   },
-  "SubscriptionScreen":{
-    "MyAccount":"My Account",
-    "Registertext":"Please Register to continue",
-    "Account":"Account",
-  "RateUs":"Rate Us",
-  "PrivacyPolicy":"Privacy Policy",
-  "CustomerSupport":"Customer Support",
-  "TermsandConditions":"Terms and Conditions",
-  "FAQ":"FAQ",
-  "Help":"Help",
-  "SubscriptionPlan":"Subscription Plan",
-  "Upgradeformorefeatures":"Upgrade for more features",
-  "Password":"Password"
+  "SubscriptionScreen": {
+    "MyAccount": "My Account",
+    "Registertext": "Please Register to continue",
+    "Account": "Account",
+    "RateUs": "Rate Us",
+    "PrivacyPolicy": "Privacy Policy",
+    "CustomerSupport": "Customer Support",
+    "TermsandConditions": "Terms and Conditions",
+    "FAQ": "FAQ",
+    "Help": "Help",
+    "SubscriptionPlan": "Subscription Plan",
+    "Upgradeformorefeatures": "Upgrade for more features",
+    "Password": "Password"
+  },
+  "EditProfile": {
+    "Edit_Profile": "Edit Profile",
+    "Name": "Name",
+    "PhoneNumber": "Phone Number",
+    "EmailAddress": "Email Address",
+    "DateofBirth": "Date of Birth",
+    "ValidationName": "This Field is Required",
+    "ValidationPhone": "This Field is Required",
+    "Validation_Email": "This Field is Required",
+    "Validation_Date": "This Field is Required",
+    "Update_Profile": "Update Profile"
+  },
+  "RateUS": {
+    "Rate": "Rate",
+    "EnjoyOurApp": "Enjoy Our App",
+    "Card_text": "If you enjoy using our app",
+    "SubCardetxt": "please rate us",
+    "SendFeedback":"Send Feedback",
+    "plceholdertext": "Enter review here..",
+    "RateNow":"Rate Now"
   }
   
-
-
 }

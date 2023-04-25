@@ -20,7 +20,7 @@ const cardstyle = StyleSheet.create({
     backgroundColor: COLOURS.white,
     marginTop: 30,
     borderRadius: 8,
-    shadowColor: COLOURS.shadowcolour,
+    shadowColor: COLOURS.lightgrey,
     shadowOffset: {
       width: 0,
       height: 0,

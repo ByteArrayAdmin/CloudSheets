@@ -6,8 +6,8 @@ import {styles} from './style';
 import InputField from '../../../commonComponents/InputField';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {emailRegex} from '../../../utils/Constant';
-import {Amplify} from 'aws-amplify';
-import awsconfig from '../../../aws-exports';
+// import {Amplify} from 'aws-amplify';
+// import awsconfig from '../../../aws-exports';
 import Progfileicon from '../../../assets/Images/profile.svg';
 import Mesageicon from '../../../assets/Images/Message.svg';
 import VectorIcom from '../../../assets/Images/Vector.svg';
@@ -23,7 +23,7 @@ import Mediumlogo from '../../../assets/Images/Mediumlogo.svg';
 
 import AuthCard from '../../../commonComponents/AuthCard';
 
-Amplify.configure(awsconfig);
+// Amplify.configure(awsconfig);
 const Signup = () => {
   const {control, handleSubmit} = useForm();
   const navigation = useNavigation();
