@@ -16,14 +16,9 @@ const NewCommonHeader = (props: any) => {
             <View>
               <Text style={styles.classattendancetext}>{props.heading}</Text>
             </View>
-<<<<<<< HEAD
-            <View style={styles.space}></View>
-            <View>{props.DeleteIcon}</View>
-=======
             <View style={{flex:1}}></View>
             {props.SecondImg?
             <View>{props.SecondImg}</View>:null}
->>>>>>> main
           </View>
         </View>
       </View></>
