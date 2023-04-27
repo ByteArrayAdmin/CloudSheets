@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -11,8 +11,19 @@ import {
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Logo from "../../../../assets/Images/ColourFolder.svg";
 import Threedots from "../../../../assets/Images/threedots.svg";
+import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
+import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
+import labels from "../../../../utils/ProjectLabels.json"
+
 
 const Card = () => {
+
+
+  const Opempopup= ()=>{
+    child.current.childFunction1()
+  }
+  const child = useRef();
+  const SnapPoints= ["40%"]
   return (
     <View style={styles.container}>
       <View>
@@ -23,10 +34,15 @@ const Card = () => {
         <Text style={styles.datestyle}>Jan 16, 2023 | 12:54 PM</Text>
       </View>
       <View style={styles.space}></View>
-      <View style={styles.imagestyle}>
+      <TouchableOpacity style={styles.imagestyle} onPress={Opempopup}>
         <Threedots />
+      </TouchableOpacity >
+      <View>
+        <CommonBottomsheet ref ={child} snapPoints={SnapPoints} children={
+          <EditDeleteCloudsheet name={"My Expenses"} date={"Modify on Jan 11"} 
+          editlabel={labels.TemplatePopupExpenses.Edit_Template} deletelabel={labels.TemplatePopupExpenses["Delete Template"]}/>
+        } />
       </View>
-      <View></View>
     </View>
   );
 };

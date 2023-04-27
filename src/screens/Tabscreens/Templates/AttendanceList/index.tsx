@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -18,6 +19,10 @@ import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Styles } from "../RowDetailForm/style";
 import { useNavigation } from "@react-navigation/native";
+const { height } = Dimensions.get('window');
+
+
+
 
 const Attendancelist = () => {
   const [Data, setdata] = useState([{ id: 1 }]);
@@ -76,7 +81,7 @@ const Style = StyleSheet.create({
   },
   searchbarview: {
     position: "absolute",
-    marginTop: 130,
+   marginTop: height * 0.15, // 10 percentage of the screen height,
     alignSelf: "center",
   },
 

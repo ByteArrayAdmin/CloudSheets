@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   viewWidth: { width: "75%" },
   errormsgtext:
-    { color: COLOURS.red, marginLeft: 20 },
+    { color: COLOURS.red },
     flexprop:{
     flex: 1 
     },

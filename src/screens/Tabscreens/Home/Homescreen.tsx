@@ -26,11 +26,6 @@ const Homescreen = (props: any) => {
     //Toggling the visibility state of the bottom sheet
     setVisible(!visible);
   };
-  const child = useRef(null);
-
-  const handleOnClick = () => {
-    childRef.current.childFunction1();
-  };
 
   return (
     <>
@@ -38,10 +33,6 @@ const Homescreen = (props: any) => {
 
       <SafeAreaView style={{ flex: 1 }}>
         <View style={welcomscreenstyle.container}>
-          <TouchableOpacity onPress={() => handleOnClick()}>
-            <Text>helloo</Text>
-          </TouchableOpacity>
-
           <View style={welcomscreenstyle.logoview}>
             <Smlogo />
           </View>

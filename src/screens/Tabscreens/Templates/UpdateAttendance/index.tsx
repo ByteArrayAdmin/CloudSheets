@@ -29,6 +29,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SmallButton from "../../../../commonComponents/SmallButton";
 import LightSmallButton from "../../../../commonComponents/LightSmallbutton";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
+import Deleteicon from "../../../../assets/Images/delete.svg";
+import DeletePopuop from "../../../Popups/DeletePopup/index";
 
 const Updateattendance = () => {
   const navigation = useNavigation();
@@ -38,14 +40,13 @@ const Updateattendance = () => {
   const [defaultdate, setdefaultdate] = useState(new Date());
   const [date, setdate] = useState("");
   const [index, setindex] = useState("");
-  //const childRef = useRef(null);
+  const childRef = useRef(null);
 
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
-  // variables
-  // const handleSheetChanges = useCallback((index: number) => {
-  //   console.log("handleSheetChanges", index);
-  // }, []);
-  
+  const snapPoints = ["30", "50%"];
+
+  const OpenPopup = () => {
+    childRef.current.childFunction1();
+  };
 
   const onSubmitPressed = async (data: any) => {
     const { date } = data;
@@ -69,6 +70,8 @@ const Updateattendance = () => {
             Folder={<Document />}
             heading={labels.Rowdetailsform.headerlabel}
             onPress={navigation.canGoBack()}
+            SecondImg={<Deleteicon />}
+            onpress={OpenPopup}
           />
         </View>
 
@@ -93,9 +96,7 @@ const Updateattendance = () => {
                 {labels.Rowdetailsform.Attendance_Date}
               </Text>
             </View>
-            <TouchableOpacity
-              style={Styles.datepickerview}
-            >
+            <TouchableOpacity style={Styles.datepickerview}>
               <View>
                 <Text style={Styles.enterdate}>
                   {date ? date : labels.Rowdetailsform.PlaceholderEnterDate}
@@ -154,11 +155,21 @@ const Updateattendance = () => {
             <LightSmallButton buttontext={labels.updateRowdetaiform.Cancel} />
           </TouchableOpacity>
           <View style={Styles.justgap}></View>
-          <TouchableOpacity onPress={() => navigation.navigate("ClousheetTab")}>
-            <SmallButton buttontext={labels.updateRowdetaiform.Update} />
-          </TouchableOpacity>
+            <SmallButton buttontext={labels.updateRowdetaiform.Update} onPress={() => navigation.navigate("ClousheetTab")} />
+        
         </View>
-  
+        <CommonBottomsheet
+          ref={childRef}
+          snapPoints={snapPoints}
+          children={
+            <DeletePopuop
+              Textone={labels.Deletpopup.Text}
+              Texttwo={labels.DeleteAccountpopups.TextSecond}
+              ButtonOnetext={labels.Deletpopup.Create}
+              ButtonTwotext={labels.DeleteAccountpopups.Delete}
+            />
+          }
+        />
       </View>
     </KeyboardAwareScrollView>
   );
