@@ -6,7 +6,7 @@ import { COLOURS, FONTS } from "../utils/Constant";
 const NewCommonHeader = (props: any) => {
   return (
     <><SafeAreaView style={styles.backgroundcolour}>
-    </SafeAreaView><View style={styles.maincontainer}>
+    </SafeAreaView><View style={[styles.maincontainer,{height:props.styling ? props.styling:100}]}>
         <View>
           <View style={styles.headerconatiner}>
             

@@ -50,6 +50,7 @@ export const Homestyle = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign:'center'
   },
   cardtextview: {
     marginTop: 10,

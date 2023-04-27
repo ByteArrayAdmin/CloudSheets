@@ -45,6 +45,7 @@ const Attendancelist = () => {
             BackButton={<BackButton onPress={()=>navigation.goBack()} />}
             Folder={<Document />}
             heading={label.Attendancelistlabels.AttendanceDate}
+            styling={130}
           />
           <View style={Style.searchbarview}>
             <Searchbar placeholder={"Search here"} />
@@ -81,7 +82,7 @@ const Style = StyleSheet.create({
   },
   searchbarview: {
     position: "absolute",
-   marginTop: height * 0.15, // 10 percentage of the screen height,
+   marginTop: height * 0.14, // 10 percentage of the screen height,
     alignSelf: "center",
   },
 
