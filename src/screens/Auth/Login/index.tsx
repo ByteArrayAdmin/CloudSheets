@@ -36,6 +36,7 @@ const Login = () => {
     <>
       <BackgroundLayout />
       <SafeAreaView>
+      
         <KeyboardAwareScrollView>
           <View style={loginstyle.skipText}>
             <Text style={loginstyle.skioptextcolor}>Skip</Text>

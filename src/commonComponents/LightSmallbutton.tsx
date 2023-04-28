@@ -11,9 +11,9 @@ import { FONTS } from "../utils/Constant";
 
 const LightSmallButton = (props: any) => {
   return (
-    <View style={Style.Button}>
+    <TouchableOpacity style={Style.Button} onPress={props.onPress}>
       <Text style={Style.canceltext}>{props.buttontext}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -33,7 +33,7 @@ const InputField = (props: any) => {
                   textAlignVertical={props.textAlignVertical}
                   multiline={props.multiline}
                   secureTextEntry={props.secureTextEntry}
-                  placeholderTextColor={COLOURS.black}
+                  placeholderTextColor={styles.placeholdercolour}
                   keyboardType={props.keyboardType}
                   multiline={props.multiline}
                 />
@@ -80,4 +80,8 @@ const styles = StyleSheet.create({
   imagepadding: { paddingHorizontal: 9 },
   viewWidth: { width: "75%" },
   errortextstyle: { color: "red", marginLeft: 20 },
+  placeholdercolour: {
+    color: COLOURS.black,
+    opacity: 0.5,
+  },
 });

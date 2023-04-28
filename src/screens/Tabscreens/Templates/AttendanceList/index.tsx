@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -18,6 +19,7 @@ import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Styles } from "../RowDetailForm/style";
 import { useNavigation } from "@react-navigation/native";
+const { height } = Dimensions.get("window");
 
 const Attendancelist = () => {
   const [Data, setdata] = useState([{ id: 1 }]);
@@ -37,9 +39,10 @@ const Attendancelist = () => {
       <View style={Style.container}>
         <View>
           <NewCommonHeader
-            BackButton={<BackButton onPress={()=>navigation.goBack()} />}
+            BackButton={<BackButton onPress={() => navigation.goBack()} />}
             Folder={<Document />}
             heading={label.Attendancelistlabels.AttendanceDate}
+            styling={120}
           />
           <View style={Style.searchbarview}>
             <Searchbar placeholder={"Search here"} />
@@ -53,17 +56,19 @@ const Attendancelist = () => {
             ListFooterComponent={<Footer />}
           />
         </View>
-        <TouchableOpacity style={Style.buttonmainview} onPress={()=>navigation.navigate("Updateattendance")}>
+        <TouchableOpacity
+          style={Style.buttonmainview}
+          onPress={() => navigation.navigate("Updateattendance")}
+        >
           <View style={Style.buttonviewnew}>
             <Fatlogo />
           </View>
-          
-            <Text style={Style.addrowtext}>
-              {label.Attendancelistlabels.buttontext}
-            </Text>
-          </TouchableOpacity>
-        </View>
-    
+
+          <Text style={Style.addrowtext}>
+            {label.Attendancelistlabels.buttontext}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
@@ -76,8 +81,9 @@ const Style = StyleSheet.create({
   },
   searchbarview: {
     position: "absolute",
-    marginTop: 130,
+    marginTop: height * 0.13, // 10 percentage of the screen height,
     alignSelf: "center",
+    bottom: -20,
   },
 
   subuttnview: {},
@@ -104,10 +110,10 @@ const Style = StyleSheet.create({
     alignSelf: "center",
     width: "90%",
   },
-  margingap:{
-    marginTop: 30
+  margingap: {
+    marginTop: 30,
   },
-  footer:{
-  height: 300 
-  }
+  footer: {
+    height: 300,
+  },
 });

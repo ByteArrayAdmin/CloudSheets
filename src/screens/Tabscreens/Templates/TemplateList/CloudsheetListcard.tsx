@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -12,8 +12,15 @@ import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Logo from "../../../../assets/Images/ColourFolder.svg";
 import Threedots from "../../../../assets/Images/threedots.svg";
 import Docimage from "../../../../assets/Images/Colouredattendancelist.svg";
+import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
+import Popup from "../../../Popups/TemplateEditPopup";
 
 const CloudsheetListCard = () => {
+  const Child = useRef();
+  const openPopup = () => {
+    Child.current.childFunction1();
+  };
+  const SnapPoints = ["60%"];
   return (
     <View style={styles.container}>
       <View>
@@ -25,9 +32,15 @@ const CloudsheetListCard = () => {
       </View>
       <View style={styles.space}></View>
       <View style={styles.imagestyle}>
-        <Threedots />
+        <TouchableOpacity onPress={openPopup}>
+          <Threedots />
+        </TouchableOpacity>
       </View>
-      <View></View>
+      <CommonBottomsheet
+        snapPoints={SnapPoints}
+        ref={Child}
+        children={<Popup />}
+      />
     </View>
   );
 };

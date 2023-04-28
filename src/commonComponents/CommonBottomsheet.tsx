@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useImperativeHandle,
   forwardRef,
+  Children,
 } from "react";
 import {
   SafeAreaView,
@@ -15,40 +16,42 @@ import {
   Button,
   Alert,
 } from "react-native";
-import BottomSheet, { BottomSheetModal ,BottomSheetBackdrop} from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetModal,
+  BottomSheetBackdrop,
+  useBottomSheetModal,
+} from "@gorhom/bottom-sheet";
 import { COLOURS } from "../utils/Constant";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const CommonBottomsheet = forwardRef((props: any, ref: any) => {
+  const { dismiss, dismissAll } = useBottomSheetModal();
   const sheetRef = useRef<BottomSheet>(null);
   useImperativeHandle(ref, () => ({
     childFunction1() {
       handlePresentModalPress();
-     
     },
+    childFunction2(){
+      CloseModel()
+    }
   }));
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => props.snapPoints, []);
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
-    if(bottomSheetModalRef.current?.present()){
-      bottomSheetModalRef.current?.close();
-    }else{
-      bottomSheetModalRef.current?.present();
-    }
-    
+    bottomSheetModalRef.current?.present()
   }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-    
-    // bottomSheetModalRef.current?.close();
-  }, []);
+  const CloseModel =()=>{
+    dismiss()
+  }
+  const handleSheetChanges = useCallback((index: number) => {}, []);
 
   const renderBackdrop = useCallback(
-    (props:any) => (
+    (props: any) => (
       <BottomSheetBackdrop
         {...props}
         disappearsOnIndex={-1}
@@ -59,31 +62,29 @@ const CommonBottomsheet = forwardRef((props: any, ref: any) => {
   );
 
   return (
-    // <BottomSheetModalProvider>
-       <View>
-        {/* <Button
-          onPress={handlePresentModalPress}
-          title="Present Modal"
-          color="black"
-        /> */}
-        <BottomSheetModal
+    
+      <BottomSheetModal
         backdropComponent={renderBackdrop}
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-        >
-          <View style={styles.contentContainer}>
-            <Text>Awesome 🎉</Text>
-          </View>
-        </BottomSheetModal>
-      </View>
-    // </BottomSheetModalProvider>
+        ref={bottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        enableDismissOnClose={true}
+      >
+        {props.children ? <View>{props.children}</View>:null}
+      </BottomSheetModal>
+    
   );
 });
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: "center",
+    backgroundColor: "grey",
+  },
+  contentContainer: {
     flex: 1,
     padding: 24,
     justifyContent: 'center',
