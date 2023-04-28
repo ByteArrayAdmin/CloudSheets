@@ -1,18 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 
-import React from 'react';
-import {SafeAreaView, Text, View, TouchableOpacity} from 'react-native';
-import {styles} from './style';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { styles } from './style';
 import InputField from '../../../commonComponents/InputField';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {emailRegex} from '../../../utils/Constant';
-// import {Amplify} from 'aws-amplify';
-// import awsconfig from '../../../aws-exports';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { emailRegex } from '../../../utils/Constant';
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from '../../../aws-exports';
 import Progfileicon from '../../../assets/Images/profile.svg';
 import Mesageicon from '../../../assets/Images/Message.svg';
 import VectorIcom from '../../../assets/Images/Vector.svg';
 import Lock from '../../../assets/Images/Lock.svg';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import CommonButton from '../../../commonComponents/Button';
 // import Googleicon from '../../assets/Images/Googlricon.svg';
 // import Appleicon from '../../assets/Images/Apple.svg';
@@ -20,16 +20,77 @@ import { useNavigation } from "@react-navigation/native";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import signupLabel from "../../../utils/ProjectLabels.json";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
-
+import RedCorss from '../../../assets/Images/redcross.svg';
+import BlueTick from '../../../assets/Images/bluetick.svg';
 import AuthCard from "../../../commonComponents/AuthCard";
+import labels from '../../../utils/ProjectLabels.json';
 //Aws configiuration code commented for now
 
-// Amplify.configure(awsconfig);
+Amplify.configure(awsconfig);
 const Signup = () => {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, watch } = useForm();
   const navigation = useNavigation();
+  const userName = watch('username');
+  const [isUserExist, setIsUserExist] = useState(false);
+  useEffect(() => {
+    console.log("username======", userName)
+  }, [userName])
   const onRegisterPressed = async (data: any) => {
-    const { name, username, email, mobilenunber, password } = data;
+    if (isUserExist) {
+
+    } else {
+      const { name, username, email, mobilenumber, password } = data;
+      const userSignUp = {
+        username: username,
+        password: password,
+        attributes: {
+          email: email,
+          phone_number: mobilenumber,
+          name: name,
+        },
+      };
+      try {
+        const response = await Auth.signUp(userSignUp);
+        console.log("signUpResp========", response)
+        // Alert.alert(labels.signupcontant.SUCCESFULLY_REGISTERED);
+        showAlert(username)
+      } catch (error: any) {
+        console.log("SignupErr=======", error)
+        Alert.alert(error?.message);
+      }
+    }
+  };
+
+  const showAlert = (username:any) =>
+    Alert.alert(
+      labels.signupcontant.SUCCESFULLY_REGISTERED,
+      labels.signupcontant.confirmEmailText,
+      [
+        {
+          text: 'Ok',
+          onPress: () => navigation.navigate("OtpScreen",{username:username}),
+
+        },
+      ],
+    );
+
+  const isUserNameAlreadyExist = () => {
+    setIsUserExist(false);
+    const temp_code = '000000';
+    console.log("userName=======", userName)
+    Auth.confirmSignUp(userName, temp_code, {
+      forceAliasCreation: false,
+    })
+      .then(data => console.log("checkIsExist========", data))
+      .catch(err => {
+        console.log("existErr=======", err)
+        if (
+          err.code === 'CodeMismatchException' ||
+          err.code === 'AliasExistsException'
+        ) {
+          setIsUserExist(true);
+        }
+      });
   };
 
   return (
@@ -75,8 +136,14 @@ const Signup = () => {
                   <InputField
                     name="username"
                     control={control}
+                    value={userName}
+                    isUserExist={isUserExist}
+                    onBlur={isUserNameAlreadyExist}
+                    onChangeUser={(text: string) => console.log("onChangeText=========", text)}
                     placeholder={signupLabel.signupcontant.PLACEHOLDER_USERNAME}
                     Image={Progfileicon}
+                    ic_red={RedCorss}
+                    ic_blue={BlueTick}
                     rules={{
                       required:
                         signupLabel.signupcontant.USERNAME_VALIDATION_MSG,
@@ -125,7 +192,9 @@ const Signup = () => {
                     styles={styles.inputview}
                   />
                   <CommonButton
-                    onPress={handleSubmit(onRegisterPressed)}
+                     onPress={handleSubmit(onRegisterPressed)}
+                    // onPress={() => showAlert("shivam.infowind@gmail.com")}
+
                     Register={signupLabel.signupcontant.REGISTER}
                   />
                 </>
@@ -172,7 +241,9 @@ const Signup = () => {
                   {signupLabel.signupcontant.Bottomtext}
                 </Text>
               </View>
-              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Login")}
+              >
                 <Text style={styles.sigintext}>
                   {signupLabel.signupcontant["Sign in"]}
                 </Text>

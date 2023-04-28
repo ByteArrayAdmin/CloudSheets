@@ -16,6 +16,7 @@ import Appleicon from "../../assets/Images/Apple.svg";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import LoginLabels from "../../../utils/ProjectLabels.json";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
+import { Auth } from 'aws-amplify';
 
 const Login = () => {
   const { control, handleSubmit } = useForm();
@@ -23,8 +24,13 @@ const Login = () => {
 
   const onLoginPressed = async (data: any) => {
     const { youremail, yourpasswaord } = data;
-
-    navigation.navigate("Tabnavigator");
+    await Auth.signIn(youremail, yourpasswaord).then((response)=>{
+      console.log("signInResp=======",response)
+      navigation.navigate("Tabnavigator");
+    }).catch((error)=>{
+        console.log("signInErr======",error)
+    })
+    
   };
   return (
     <>

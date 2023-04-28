@@ -32,7 +32,9 @@
     "SUCCESFULLY_REGISTERED": "User Successfully Registered",
     "OR": "OR",
     "Bottomtext": "Already a member?",
-    "Sign in": "Sign In"
+    "Sign in": "Sign In",
+    "userExist":"User already exist!",
+    "confirmEmailText":"A verification link is send on your email please confirm and login."
   },
   "Forgotpassword": {
     "FORGOTPASSWORD": "Forgot Password",
@@ -242,6 +244,14 @@
     "SendFeedback":"Send Feedback",
     "plceholdertext": "Enter review here..",
     "RateNow":"Rate Now"
+  },
+  "OTP_Constants":{
+    "EnterOtp":"Please enter OTP",
+    "OTP_Validation":"OTP is required",
+    "VerifyOTP":"Verify OTP",
+    "ResendOTP":"Resend OTP",
+    "ResendOTPSuccess":"code resent successfully",
+    "Confirmed":"Confirmed"
   }
   
 }

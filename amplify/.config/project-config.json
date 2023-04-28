@@ -2,7 +2,7 @@
   "providers": [
     "awscloudformation"
   ],
-  "projectName": "CoudSheet",
+  "projectName": "CloudSheetBackendEnv",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
