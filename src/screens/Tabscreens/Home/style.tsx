@@ -75,7 +75,7 @@ export const welcomscreenstyle = StyleSheet.create({
   marginTop: 30 
   },
   secondcardtext:{
-    marginHorizontal: 50, marginTop: 15 
+  marginTop: 15 
   }
 });
 

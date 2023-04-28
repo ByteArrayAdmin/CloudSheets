@@ -22,8 +22,8 @@ const AddrowClassattendance = () => {
   const [text, onChangeText] = useState("");
 
   return (
-    <><StatusBar backgroundColor={COLOURS.Skyblue}/>
-    <SafeAreaView style={{backgroundColor:COLOURS.Skyblue}}/>
+    <>
+    <SafeAreaView style={{backgroundColor:COLOURS.Skyblue}}>
       <View style={Style.container}>
         <View style={Style.subcontainer}>
           <View style={Style.headerview}>
@@ -76,7 +76,7 @@ const AddrowClassattendance = () => {
         </View>
       </View>
 
-      <SafeAreaView />
+      </SafeAreaView>
       </>
   );
 };

@@ -15,6 +15,8 @@ export const Style = StyleSheet.create({
     subcontainer: {
       height: 160,
       backgroundColor: COLOURS.Skyblue,
+      
+      
     },
     headerview: {
       flexDirection: "row",
