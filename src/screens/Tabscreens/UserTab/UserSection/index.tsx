@@ -108,13 +108,8 @@ const UserSection = () => {
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View>
-          <UseCard Logo={<MessageLog />} heading={labels.Guestscreen.Help} />
+          <UseCard Logo={<MessageLog />} heading={labels.Guestscreen.Help} onPress={() => navigation.navigate("Help_Screen")} />
           <View style={{ height: Tabheight }}></View>
-          <UseCard
-            Logo={<MessageLog />}
-            heading={labels.Guestscreen.Help}
-            onPress={() => navigation.navigate("Help_Screen")}
-          />
         </ScrollView>
       </View>
     </>

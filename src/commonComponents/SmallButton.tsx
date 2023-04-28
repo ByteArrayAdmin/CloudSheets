@@ -11,11 +11,11 @@ import { COLOURS, FONTS } from '../utils/Constant';
 
 const SmallButton = (props:any) => {
   return (
-    <View style={Style.Button}>
+    <TouchableOpacity style={Style.Button} onPress={props.onPress}>
                   <Text style={Style.canceltext}>
                     {props.buttontext}
                   </Text>
-                </View>
+                </TouchableOpacity>
   )
 }
 

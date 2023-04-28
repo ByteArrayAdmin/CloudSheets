@@ -18,7 +18,7 @@ const Cloudsheetcard = () => (
         <Text style={Cardstyle.datetext}>Jan 16, 2023 | 12:45 PM</Text>
       </View>
       <View style={Cardstyle.threedotview} />
-      <View style={Cardstyle.threedotview}>
+      <View>
         <Threedots />
       </View>
     </View>
@@ -90,7 +90,7 @@ const Cardstyle = StyleSheet.create({
   emptyview:{
     borderBottomWidth: 0.2
   },
-  //lastview:{paddingLeft: 6},
+  
   lastView:{
 flexDirection:'row',
 alignItems:'center',

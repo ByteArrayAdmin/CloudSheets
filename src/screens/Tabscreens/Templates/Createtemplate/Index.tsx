@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   SafeAreaView,
@@ -20,21 +20,20 @@ import { useForm } from "react-hook-form";
 import Template from "../../../../assets/Images/Tempate.svg";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
+import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
+import CreateTemplatePopup from "./../../../Popups/CreateTemplatePopup";
 
 const CreateTemplate = () => {
   const [visible, setVisible] = useState(false);
   const { control, handleSubmit } = useForm();
+  const child = useRef();
   const navigation = useNavigation();
   const toggleBottomNavigationView = () => {
-    //Toggling the visibility state of the bottom sheet
-    setVisible(!visible);
+    child.current.childFunction1();
   };
 
-  const CreatePress = () => {
-    navigation.navigate("CreatSpreadsheet");
-    toggleBottomNavigationView();
-    console.log("my project  toggle");
-  };
+  const snapPoints = ["45%"];
+
   return (
     <>
       <BackgroundLayout />
@@ -92,66 +91,13 @@ const CreateTemplate = () => {
               }
             />
           </View>
+          <CommonBottomsheet
+            ref={child}
+            snapPoints={snapPoints}
+            children={<CreateTemplatePopup />}
+          />
         </View>
       </SafeAreaView>
-      <BottomsheetLayout
-        styless={Tempatestyle.Bottomsheetview}
-        visible={visible}
-        onBackButtonPress={toggleBottomNavigationView}
-        onBackdropPress={toggleBottomNavigationView}
-        children={
-          <>
-            <KeyboardAwareScrollView style={{ flex: 1 }}>
-              <View style={Tempatestyle.firstview}>
-                <View>
-                  <Text style={Tempatestyle.newtemplattext}>
-                    {CreateTemplatescreen.TemBottomsheet.NewTemplate}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={Tempatestyle.subheadingtext}>
-                    {CreateTemplatescreen.TemBottomsheet.PleasenameyourTemplate}
-                  </Text>
-                </View>
-              </View>
-              <View style={Tempatestyle.secondviewmain}>
-                <View>
-                  <Text style={Tempatestyle.entertemplatetext}>
-                    {CreateTemplatescreen.TemBottomsheet.TemplateName}
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <InputField
-                  name="Template"
-                  control={control}
-                  placeholder={
-                    CreateTemplatescreen.TemBottomsheet.EnterTemplateName
-                  }
-                  Image={Template}
-                  styles={Tempatestyle.inputview}
-                />
-              </View>
-              <View style={Tempatestyle.Buttonview}>
-                <View style={Tempatestyle.Button}>
-                  <Text style={Tempatestyle.canceltext}>
-                    {CreateTemplatescreen.TemBottomsheet.Cancel}
-                  </Text>
-                </View>
-                <View style={{ flex: 1 }} />
-                <TouchableOpacity
-                  style={Tempatestyle.secondbutton}
-                  onPress={() => CreatePress()}
-                >
-                  <Text style={Tempatestyle.create}>
-                    {CreateTemplatescreen.TemBottomsheet.Create}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </KeyboardAwareScrollView>
-          </>
-        }
-      />
     </>
   );
 };

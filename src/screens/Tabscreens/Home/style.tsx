@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {FONTS} from '../../../utils/Constant';
+import {FONTS, COLOURS} from '../../../utils/Constant';
 
 export const welcomscreenstyle = StyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ export const welcomscreenstyle = StyleSheet.create({
   cloudtext: {
     fontFamily: FONTS.manrope_bold,
     fontSize: 19,
-    color: '#FFFFFF',
+    color: COLOURS.white,
   },
   logoview: {
     justifyContent: 'center',
@@ -18,24 +18,25 @@ export const welcomscreenstyle = StyleSheet.create({
   sheettext: {
     fontFamily: FONTS.MANROPE_NORMAL,
     fontSize: 19,
-    color: '#FFFFFF',
+    color: COLOURS.white,
   },
   welcometotext: {
     fontFamily: FONTS.MANROPE_NORMAL,
     fontSize: 20,
-    color: '#001521',
+    color: COLOURS.black,
   },
   cloudsheettext: {
     fontFamily: FONTS.manrope_semibold,
     fontSize: 20,
-    color: '#001521',
+    color: COLOURS.black,
   },
   cardtext: {
     fontFamily: FONTS.inter_regular,
     fontSize: 14,
-    color: '#001521',
+    color: COLOURS.black,
     textAlign: 'center',
     opacity: 0.6,
+    padding:5
   },
   welcomtextview: {
     flexDirection: 'row',
@@ -44,7 +45,7 @@ export const welcomscreenstyle = StyleSheet.create({
     marginTop: 10,
   },
   bottomNavigationView: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLOURS.white,
     width: '100%',
     height: 282,
     borderRadius: 25,
@@ -56,13 +57,13 @@ export const welcomscreenstyle = StyleSheet.create({
     paddingTop: 15,
     fontFamily: FONTS.manrope_bold,
     fontSize: 20,
-    color: '#001521',
+    color: COLOURS.black,
   },
   regitercontinuetext: {
     paddingTop: 5,
     fontFamily: FONTS.inter_regular,
     fontSize: 14,
-    color: '#001521',
+    color: COLOURS.black,
   },
   cardspace:{
    marginTop: 50 
@@ -74,7 +75,7 @@ export const welcomscreenstyle = StyleSheet.create({
   marginTop: 30 
   },
   secondcardtext:{
-    marginHorizontal: 50, marginTop: 15 
+  marginTop: 15 
   }
 });
 

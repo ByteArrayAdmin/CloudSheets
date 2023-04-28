@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -17,9 +17,13 @@ import SearcBar from "../../../../commonComponents/Searchbar";
 import ListCard from "./ListCard";
 import { Styles } from "../RowDetailForm/style";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
+import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
+import SubcriptionPlan  from "../../../../screens/Popups/SubcriptionPopup"
 
 const ExpensesList = () => {
   const navigation = useNavigation();
+  const child = useRef();
+  const snapPoints = ["35%"];
   const DATA = [
     { id: 1, itemname: "Grocery" },
     {
@@ -31,7 +35,15 @@ const ExpensesList = () => {
       ExpensesAmount: "$15",
     },
   ];
-  const RenderItems = ({item}) => <ListCard items={item} />;
+
+  const OpenPopup = () => {
+    child.current.childFunction1();
+  };
+
+  useEffect(() => {
+    OpenPopup();
+  }, []);
+  const RenderItems = ({ item }) => <ListCard items={item} />;
   return (
     <View style={Style.container}>
       <View>
@@ -39,6 +51,7 @@ const ExpensesList = () => {
           BackButton={<BackButton onPress={() => navigation.goBack()} />}
           heading={labels.ExpensesList.JanuaryExpenses}
           Folder={<Doclogo />}
+          styling={130}
         />
       </View>
       <View style={Style.searchbarstyle}>
@@ -47,6 +60,13 @@ const ExpensesList = () => {
       <View style={Style.flatlistview}>
         <FlatList data={DATA} renderItem={RenderItems} />
       </View>
+      <CommonBottomsheet
+        ref={child}
+        snapPoints={snapPoints}
+        children={
+          <SubcriptionPlan />
+        }
+      />
     </View>
   );
 };

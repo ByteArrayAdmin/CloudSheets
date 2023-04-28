@@ -1,12 +1,13 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity,SafeAreaView} from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity,SafeAreaView,Dimensions} from "react-native";
 import { COLOURS, FONTS } from "../utils/Constant";
+const { height } = Dimensions.get('window');
 
 
 const NewCommonHeader = (props: any) => {
   return (
     <><SafeAreaView style={styles.backgroundcolour}>
-    </SafeAreaView><View style={styles.maincontainer}>
+    </SafeAreaView><View style={[styles.maincontainer,{height:props.styling ? props.styling:100}]}>
         <View>
           <View style={styles.headerconatiner}>
             
@@ -18,7 +19,7 @@ const NewCommonHeader = (props: any) => {
             </View>
             <View style={{flex:1}}></View>
             {props.SecondImg?
-            <View>{props.SecondImg}</View>:null}
+            <TouchableOpacity onPress={props.onpress}>{props.SecondImg}</TouchableOpacity>:null}
           </View>
         </View>
       </View></>
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOURS.Skyblue
   },
   maincontainer: {
-    height: 100,
+   height: 100,
     backgroundColor: COLOURS.Skyblue,
   },
 

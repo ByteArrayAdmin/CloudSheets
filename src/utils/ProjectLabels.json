@@ -63,7 +63,8 @@
     "SHEETS": "Sheets",
     "WELCOMETO": "Welcome to",
     "Clodesheetcardtext": "CloudSheets",
-    "Cardtext": "Create your own customize sheet by tapping the button below.",
+    "Cardtext": "Create your own customize sheet", 
+    "Cardtexttwo":"by tapping the button below.",
     "buttontext": "Create Cloud Sheet",
     "cartext": "At convallis tristique egestas tellus velit. Morbi nec pretium vel.At convallis tristique."
   },
@@ -197,30 +198,30 @@
     "SubscriptionPlan": "Subscription Plan",
     "Upgradeformorefeatures": "Upgrade for more features",
     "Password": "Password",
-    "Privacy_Policy":"Privacy Policy",
-    "Our_Privacy_Policy":"Our Privacy Policy",
-    "Privacy_Content":"Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu dolor fusce duis sit enim ac laoreet fusce. Nunc pulvinar sed egestas praesent. Viverra sit id justo, erat volutpat pharetra. Volutpat sollicitudin aenean libero, at nulla hendrerit. Ipsum id et mi, suspendisse tristique pharetra risus. Sit nulla urna maecenas a. Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt.",
-    "Terms_Conditions":"Terms & Conditions",
-    "Terms_Content":"Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.",
-    "Help_Content":"Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu dolor fusce duis sit enim ac laoreet fusce. Nunc pulvinar sed egestas praesent. Viverra sit id justo, erat volutpat pharetra. Volutpat sollicitudin aenean libero, at nulla hendrerit. Ipsum id et mi, suspendisse tristique pharetra risus. Sit nulla urna maecenas a. Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt.",
-    "Customer_Support":"Customer Support",
-    "Support":"Support",
-    "Support_Content":"Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.",
-    "Send_Email":"Send Email",
-    "Supported_Mail":"support@bytearray.tech",
-    "Email_Address":"Email Address",
-    "Enter_Email":"Enter Email",
+    "Privacy_Policy": "Privacy Policy",
+    "Our_Privacy_Policy": "Our Privacy Policy",
+    "Privacy_Content": "Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu dolor fusce duis sit enim ac laoreet fusce. Nunc pulvinar sed egestas praesent. Viverra sit id justo, erat volutpat pharetra. Volutpat sollicitudin aenean libero, at nulla hendrerit. Ipsum id et mi, suspendisse tristique pharetra risus. Sit nulla urna maecenas a. Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt.",
+    "Terms_Conditions": "Terms & Conditions",
+    "Terms_Content": "Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.",
+    "Help_Content": "Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu dolor fusce duis sit enim ac laoreet fusce. Nunc pulvinar sed egestas praesent. Viverra sit id justo, erat volutpat pharetra. Volutpat sollicitudin aenean libero, at nulla hendrerit. Ipsum id et mi, suspendisse tristique pharetra risus. Sit nulla urna maecenas a. Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt.",
+    "Customer_Support": "Customer Support",
+    "Support": "Support",
+    "Support_Content": "Morbi sit sed mi eget. Iaculis amet cras non ultrices nullam. Neque gravida mi at condimentum tortor tortor. Consequat cras nunc, sed turpis imperdiet neque sollicitudin orci, pretium. Nibh euismod egestas pulvinar placerat enim. Nisl urna eu enim, egestas a est pellentesque purus mollis. Consectetur odio diam arcu amet, vulputate arcu magna. Duis non mattis in quis. Augue ut aliquam blandit sed ut. Nulla pellentesque nulla purus neque sollicitudin tellus odio eget.",
+    "Send_Email": "Send Email",
+    "Supported_Mail": "support@bytearray.tech",
+    "Email_Address": "Email Address",
+    "Enter_Email": "Enter Email",
     "EMAIL_VALIDATION": "please enter email",
     "INVALID_EMAIL": "please enter valid email",
-    "Subject":"Subject",
-    "Enter_Subject":"Enter Subject",
-    "Subject_Required":"Subject is required!",
-    "Discription":"Discription",
-    "Write_here":"Write here...",
-    "Description_Required":"Description is required",
-    "submit":"submit",
-    "How_App_Work":"How app works?",
-    "FaqContent":"Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget."
+    "Subject": "Subject",
+    "Enter_Subject": "Enter Subject",
+    "Subject_Required": "Subject is required!",
+    "Discription": "Discription",
+    "Write_here": "Write here...",
+    "Description_Required": "Description is required",
+    "submit": "submit",
+    "How_App_Work": "How app works?",
+    "FaqContent": "Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget."
   },
   "EditProfile": {
     "Edit_Profile": "Edit Profile",
@@ -239,14 +240,50 @@
     "EnjoyOurApp": "Enjoy Our App",
     "Card_text": "If you enjoy using our app",
     "SubCardetxt": "please rate us",
-    "SendFeedback":"Send Feedback",
+    "SendFeedback": "Send Feedback",
     "plceholdertext": "Enter review here..",
-    "RateNow":"Rate Now"
+    "RateNow": "Rate Now"
+  },
+  "CreateClousheetPopup": {
+    "CreateCloudsheet": "Create Cloudsheet",
+    "SELECTTEMPLATE": "Please select your Template",
+    "InNewTemplate": "In New Template",
+    "InExistingTemplate": "In Existing Template"
+  },
+  "Edit_Delete_Cloud": {
+    "EditCloudSheetRecord": "Edit CloudSheet Record",
+    "DeleteCloudSheet": "Delete CloudSheet"
+  },
+  "Deletpopup": {
+    "Are_you_sure": "Are you sure?",
+    "Text": "Do you really want to delete this record?",
+    "Text2": "This process cannot be undone",
+    "Cancel": "Cancel",
+    "Delete": "Delete"
+  },
+  "EditTemplatePopup": {
+    "EditCloudSheet": "Edit CloudSheet",
+    "Share_CloudSheet": "Share CloudSheet",
+    "RenameCloudSheet": "Rename CloudSheet",
+    "View_CloudSheet": "View CloudSheet",
+    "Delete_CloudSheet": "Delete CloudSheet"
+  },
+  "TemplatePopupExpenses": {
+    "Edit_Template": "Edit Template",
+    "Delete Template": "Delete Template"
+  },
+  "SubcriptionplanPoup": {
+    "Subscription_Plan": "Subscription Plan",
+    "infotext": "You have completed free plan. Buy",
+    "infotextsecond": "for more than 10 rows.",
+    "SubscriptionPlan": "Subscription Plan",
+    "SubscribeNow":"Subscribe Now"
+  },
+  "DeleteAccountpopups":{
+    "Areyousure":"Are you sure?",
+    "TextFirst":"Do you want to delete the account will be ",
+    "TextSecond":"permanently deleted along with the data?",
+    "Delete":"Delete",
+    "Cancel":"Cancel"
   }
-  
 }
-   
-    
-    
-  
-
