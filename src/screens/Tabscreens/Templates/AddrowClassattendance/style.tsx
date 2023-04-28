@@ -13,13 +13,13 @@ export const Style = StyleSheet.create({
       flex: 1,
     },
     subcontainer: {
-      height: 193,
+      height: 160,
       backgroundColor: COLOURS.Skyblue,
     },
     headerview: {
       flexDirection: "row",
       alignItems: "center",
-      marginTop: 72,
+      marginTop: 30,
       marginHorizontal: 15,
     },
     iconview: {

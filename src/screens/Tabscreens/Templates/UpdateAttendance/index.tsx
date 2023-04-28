@@ -165,7 +165,7 @@ const Updateattendance = () => {
             <DeletePopuop
               Textone={labels.Deletpopup.Text}
               Texttwo={labels.DeleteAccountpopups.TextSecond}
-              ButtonOnetext={labels.Deletpopup.Create}
+              ButtonOnetext={labels.Deletpopup.Cancel}
               ButtonTwotext={labels.DeleteAccountpopups.Delete}
             />
           }

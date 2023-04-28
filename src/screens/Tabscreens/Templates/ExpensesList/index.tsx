@@ -51,6 +51,7 @@ const ExpensesList = () => {
           BackButton={<BackButton onPress={() => navigation.goBack()} />}
           heading={labels.ExpensesList.JanuaryExpenses}
           Folder={<Doclogo />}
+          styling={130}
         />
       </View>
       <View style={Style.searchbarstyle}>

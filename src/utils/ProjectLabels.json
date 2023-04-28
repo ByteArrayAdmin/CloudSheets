@@ -63,7 +63,8 @@
     "SHEETS": "Sheets",
     "WELCOMETO": "Welcome to",
     "Clodesheetcardtext": "CloudSheets",
-    "Cardtext": "Create your own customize sheet by tapping the button below.",
+    "Cardtext": "Create your own customize sheet", 
+    "Cardtexttwo":"by tapping the button below.",
     "buttontext": "Create Cloud Sheet",
     "cartext": "At convallis tristique egestas tellus velit. Morbi nec pretium vel.At convallis tristique."
   },
@@ -257,7 +258,7 @@
     "Are_you_sure": "Are you sure?",
     "Text": "Do you really want to delete this record?",
     "Text2": "This process cannot be undone",
-    "Create": "Create",
+    "Cancel": "Cancel",
     "Delete": "Delete"
   },
   "EditTemplatePopup": {

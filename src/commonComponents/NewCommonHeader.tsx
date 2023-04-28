@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity,SafeAreaView} from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity,SafeAreaView,Dimensions} from "react-native";
 import { COLOURS, FONTS } from "../utils/Constant";
+const { height } = Dimensions.get('window');
 
 
 const NewCommonHeader = (props: any) => {
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOURS.Skyblue
   },
   maincontainer: {
-    height: 100,
+   height: 100,
     backgroundColor: COLOURS.Skyblue,
   },
 

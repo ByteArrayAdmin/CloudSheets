@@ -37,7 +37,7 @@ const TemplateEditPopup = () => {
       <View>
         <Text style={styles.modifytext}>Modify on Jan 11</Text>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.commoncardview}>
           <View>
             <CommonCard

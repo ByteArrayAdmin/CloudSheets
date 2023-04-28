@@ -63,6 +63,9 @@ const Homescreen = (props: any) => {
                       <Text style={welcomscreenstyle.cardtext}>
                         {welocmehomelabel.HomeWelcomeScreen.Cardtext}
                       </Text>
+                      <Text style={welcomscreenstyle.cardtext}>
+                        {welocmehomelabel.HomeWelcomeScreen.Cardtexttwo}
+                      </Text>
                     </View>
                   </View>
                   <Custombutton

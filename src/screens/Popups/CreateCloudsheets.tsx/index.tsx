@@ -40,7 +40,7 @@ const CreatecloudsheetPopup = () => {
     <Edit />
   </View>
   <View>
-    <Text style={Tempatestyle.exitingtemplateview}>
+    <Text style={Tempatestyle.newtemplatetext}>
       {labels.CreateClousheetPopup.InExistingTemplate}
     </Text>
   </View>
