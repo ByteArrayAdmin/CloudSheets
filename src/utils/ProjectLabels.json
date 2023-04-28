@@ -244,7 +244,6 @@
     "SubCardetxt": "please rate us",
     "SendFeedback": "Send Feedback",
     "plceholdertext": "Enter review here..",
-<<<<<<< HEAD
     "RateNow":"Rate Now"
   },
   "OTP_Constants":{
@@ -254,50 +253,5 @@
     "ResendOTP":"Resend OTP",
     "ResendOTPSuccess":"code resent successfully",
     "Confirmed":"Confirmed"
-=======
-    "RateNow": "Rate Now"
-  },
-  "CreateClousheetPopup": {
-    "CreateCloudsheet": "Create Cloudsheet",
-    "SELECTTEMPLATE": "Please select your Template",
-    "InNewTemplate": "In New Template",
-    "InExistingTemplate": "In Existing Template"
-  },
-  "Edit_Delete_Cloud": {
-    "EditCloudSheetRecord": "Edit CloudSheet Record",
-    "DeleteCloudSheet": "Delete CloudSheet"
-  },
-  "Deletpopup": {
-    "Are_you_sure": "Are you sure?",
-    "Text": "Do you really want to delete this record?",
-    "Text2": "This process cannot be undone",
-    "Cancel": "Cancel",
-    "Delete": "Delete"
-  },
-  "EditTemplatePopup": {
-    "EditCloudSheet": "Edit CloudSheet",
-    "Share_CloudSheet": "Share CloudSheet",
-    "RenameCloudSheet": "Rename CloudSheet",
-    "View_CloudSheet": "View CloudSheet",
-    "Delete_CloudSheet": "Delete CloudSheet"
-  },
-  "TemplatePopupExpenses": {
-    "Edit_Template": "Edit Template",
-    "Delete Template": "Delete Template"
-  },
-  "SubcriptionplanPoup": {
-    "Subscription_Plan": "Subscription Plan",
-    "infotext": "You have completed free plan. Buy",
-    "infotextsecond": "for more than 10 rows.",
-    "SubscriptionPlan": "Subscription Plan",
-    "SubscribeNow":"Subscribe Now"
-  },
-  "DeleteAccountpopups":{
-    "Areyousure":"Are you sure?",
-    "TextFirst":"Do you want to delete the account will be ",
-    "TextSecond":"permanently deleted along with the data?",
-    "Delete":"Delete",
-    "Cancel":"Cancel"
->>>>>>> main
   }
 }
