@@ -15,55 +15,83 @@ import {
   Button,
   Alert,
 } from "react-native";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetModal ,BottomSheetBackdrop} from "@gorhom/bottom-sheet";
 import { COLOURS } from "../utils/Constant";
 
 const CommonBottomsheet = forwardRef((props: any, ref: any) => {
   const sheetRef = useRef<BottomSheet>(null);
   useImperativeHandle(ref, () => ({
     childFunction1() {
-      handleSnapPress(0);
-      handleClosePress();
+      handlePresentModalPress();
+     
     },
   }));
 
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
   // variables
-  const snapPoints = useMemo(() => ["25%%", "50%", "90%"], []);
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
 
   // callbacks
-  const handleSheetChange = useCallback((index: any) => {
-    console.log("handleSheetChange", index);
+  const handlePresentModalPress = useCallback(() => {
+    if(bottomSheetModalRef.current?.present()){
+      bottomSheetModalRef.current?.close();
+    }else{
+      bottomSheetModalRef.current?.present();
+    }
+    
   }, []);
-  const handleSnapPress = useCallback((index: any) => {
-    sheetRef.current?.snapToIndex(index);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+    
+    // bottomSheetModalRef.current?.close();
   }, []);
-  const handleClosePress = useCallback(() => {
-    sheetRef.current?.close();
-  }, []);
-  useEffect(() => {
-    sheetRef.current?.close();
-  }, []);
+
+  const renderBackdrop = useCallback(
+    (props:any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={1}
+      />
+    ),
+    []
+  );
+
   return (
-    <View style={styles.container}>
-      <BottomSheet
-        ref={sheetRef}
-        snapPoints={["50%", "80%"]}
-        onChange={handleSheetChange}
-        enablePanDownToClose={true}
-        index={-1}
-      >
-        <BottomSheetView>
-          <Text>Awesome 🔥</Text>
-        </BottomSheetView>
-      </BottomSheet>
-    </View>
+    // <BottomSheetModalProvider>
+       <View>
+        {/* <Button
+          onPress={handlePresentModalPress}
+          title="Present Modal"
+          color="black"
+        /> */}
+        <BottomSheetModal
+        backdropComponent={renderBackdrop}
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+        >
+          <View style={styles.contentContainer}>
+            <Text>Awesome 🎉</Text>
+          </View>
+        </BottomSheetModal>
+      </View>
+    // </BottomSheetModalProvider>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 200,
     flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+    backgroundColor: 'grey',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
 });
 export default CommonBottomsheet;
