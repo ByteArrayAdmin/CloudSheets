@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image, TextInput, StyleSheet, Text } from "react-native";
 import { Controller } from "react-hook-form";
 import { FONTS, COLOURS } from "../utils/Constant";
+import lables from '../utils/ProjectLabels.json';
 
 const InputField = (props: any) => {
   return (
@@ -10,6 +11,7 @@ const InputField = (props: any) => {
         control={props.control}
         name={props.name}
         rules={props.rules}
+
         render={({
           field: { value, onChange, onBlur },
           fieldState: { error },
@@ -21,9 +23,11 @@ const InputField = (props: any) => {
               </View>
               <View style={styles.viewWidth}>
                 <TextInput
+
                   value={value}
                   onChangeText={onChange}
-                  onBlur={onBlur}
+
+                  onBlur={props.onBlur}
                   placeholder={props.placeholder}
                   style={props.styles}
                   textAlignVertical={props.textAlignVertical}
@@ -34,8 +38,12 @@ const InputField = (props: any) => {
                   multiline={props.multiline}
                 />
               </View>
-              <View></View>
-              <View></View>
+              <View>
+                {props.value &&
+                  (props.isUserExist ? <props.ic_red /> : <props.ic_blue />)}
+              </View>
+              {/* <View></View>
+              <View></View> */}
             </View>
             {error && (
               <Text style={styles.errortextstyle}>
@@ -43,12 +51,14 @@ const InputField = (props: any) => {
               </Text>
             )}
           </>
+
+
         )}
       />
-      {/* <View>
-          {props.value &&
-            (props.isUserExist ? <props.redcrossicon /> : <props.iconimage />)}
-        </View> */}
+      <View>
+        {props.value &&
+          (props.isUserExist ? <Text style={styles.errortextstyle}>{lables.signupcontant.userExist}</Text> : null)}
+      </View>
     </View>
   );
 };

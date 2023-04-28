@@ -1,30 +1,77 @@
 {
   "auth": {
-    "CoudSheet": {
+    "cloudsheetbackendenve0c89581": {
       "customAuth": false,
       "dependsOn": [],
-      "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [],
-          "passwordPolicyMinLength": 8
-        },
-        "signupAttributes": [
-          "NAME",
-          "PHONE_NUMBER",
-          "EMAIL"
-        ],
-        "socialProviders": [],
-        "usernameAttributes": [],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      },
       "providerPlugin": "awscloudformation",
-      "service": "Cognito"
+      "service": "Cognito",
+      "serviceType": "imported"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_cloudsheetbackendenve0c89581_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenve0c89581"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenve0c89581_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenve0c89581"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenve0c89581_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenve0c89581"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenve0c89581_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenve0c89581"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenve9feab69_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenve9feab69"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenve9feab69_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenve9feab69"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenve9feab69_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenve9feab69"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenve9feab69_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenve9feab69"
+        }
+      ]
     }
   }
 }

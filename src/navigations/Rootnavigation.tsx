@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Signup from "../screens/Auth/signup";
 import Login from "../screens/Auth/Login";
@@ -21,12 +21,19 @@ import Terms_Conditions_Screen from '../screens/Tabscreens/UserTab/UserSection/T
 import Help_Screen from '../screens/Tabscreens/UserTab/UserSection/Help/index';
 import Customer_Support_Screen from '../screens/Tabscreens/UserTab/UserSection/Customer_Support/index';
 import Customer_Support_Form from '../screens/Tabscreens/UserTab/UserSection/Customer_Support_Form/index';
-import Faq_Screen from '../screens/Tabscreens/UserTab/UserSection/FAQ/index'
+import Faq_Screen from '../screens/Tabscreens/UserTab/UserSection/FAQ/index';
+import OtpScreen from '../screens/Auth/OTP/index';
+import { Auth } from 'aws-amplify';
+
 const Stack = createNativeStackNavigator();
 
 const Rootnavigation = () => {
+  
+  console.log("globlogin=======",global.session)
+  
+
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={global.session == true?'Tabnavigator':'BoardingScreen'} >
       <Stack.Screen
         name="BoardingScreen"
         component={BoardingScreen}
@@ -210,6 +217,15 @@ const Rootnavigation = () => {
        <Stack.Screen
         name="RateUs"
         component={RateUs}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="OtpScreen"
+        component={OtpScreen}
         options={{
           headerShown: false,
           gestureEnabled: false,

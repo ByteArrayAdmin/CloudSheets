@@ -32,7 +32,9 @@
     "SUCCESFULLY_REGISTERED": "User Successfully Registered",
     "OR": "OR",
     "Bottomtext": "Already a member?",
-    "Sign in": "Sign In"
+    "Sign in": "Sign In",
+    "userExist":"User already exist!",
+    "confirmEmailText":"A verification link is send on your email please confirm and login."
   },
   "Forgotpassword": {
     "FORGOTPASSWORD": "Forgot Password",
@@ -242,48 +244,14 @@
     "SubCardetxt": "please rate us",
     "SendFeedback": "Send Feedback",
     "plceholdertext": "Enter review here..",
-    "RateNow": "Rate Now"
+    "RateNow":"Rate Now"
   },
-  "CreateClousheetPopup": {
-    "CreateCloudsheet": "Create Cloudsheet",
-    "SELECTTEMPLATE": "Please select your Template",
-    "InNewTemplate": "In New Template",
-    "InExistingTemplate": "In Existing Template"
-  },
-  "Edit_Delete_Cloud": {
-    "EditCloudSheetRecord": "Edit CloudSheet Record",
-    "DeleteCloudSheet": "Delete CloudSheet"
-  },
-  "Deletpopup": {
-    "Are_you_sure": "Are you sure?",
-    "Text": "Do you really want to delete this record?",
-    "Text2": "This process cannot be undone",
-    "Cancel": "Cancel",
-    "Delete": "Delete"
-  },
-  "EditTemplatePopup": {
-    "EditCloudSheet": "Edit CloudSheet",
-    "Share_CloudSheet": "Share CloudSheet",
-    "RenameCloudSheet": "Rename CloudSheet",
-    "View_CloudSheet": "View CloudSheet",
-    "Delete_CloudSheet": "Delete CloudSheet"
-  },
-  "TemplatePopupExpenses": {
-    "Edit_Template": "Edit Template",
-    "Delete Template": "Delete Template"
-  },
-  "SubcriptionplanPoup": {
-    "Subscription_Plan": "Subscription Plan",
-    "infotext": "You have completed free plan. Buy",
-    "infotextsecond": "for more than 10 rows.",
-    "SubscriptionPlan": "Subscription Plan",
-    "SubscribeNow":"Subscribe Now"
-  },
-  "DeleteAccountpopups":{
-    "Areyousure":"Are you sure?",
-    "TextFirst":"Do you want to delete the account will be ",
-    "TextSecond":"permanently deleted along with the data?",
-    "Delete":"Delete",
-    "Cancel":"Cancel"
+  "OTP_Constants":{
+    "EnterOtp":"Please enter OTP",
+    "OTP_Validation":"OTP is required",
+    "VerifyOTP":"Verify OTP",
+    "ResendOTP":"Resend OTP",
+    "ResendOTPSuccess":"code resent successfully",
+    "Confirmed":"Confirmed"
   }
 }
