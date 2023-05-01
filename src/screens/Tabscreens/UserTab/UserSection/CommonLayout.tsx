@@ -7,7 +7,7 @@ const CommonLayout = (props: any) => {
             <View>
                 <Text style={styles.headingTextStyle}>{props.Heading}</Text>
             </View>
-            <View style={{marginTop:10}}>
+            <View style={styles.space}>
                 <Text style={styles.contentTextStyle}>{props.Content}</Text>
             </View>
         </View>
@@ -40,5 +40,8 @@ const styles = StyleSheet.create({
         fontFamily:FONTS.inter_regular,
         fontSize:12,
         opacity:0.6
+    },
+    space:{
+        marginTop:10
     }
 })

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
 import { useNavigation } from "@react-navigation/native";
@@ -11,7 +11,7 @@ const Help_Screen = () => {
     const navigation = useNavigation()
     return (
         <>
-            <View style={{ backgroundColor: COLOURS.lightBlue, flex: 1 }}>
+            <View style={styles.container}>
                 <NewCommonHeader
                     BackButton={<BackButton onPress={() => navigation.goBack()} />}
                     heading={labels.SubscriptionScreen.Help}
@@ -29,3 +29,9 @@ const Help_Screen = () => {
 }
 
 export default Help_Screen;
+
+const styles = StyleSheet.create({
+    container:{
+        backgroundColor: COLOURS.lightBlue, flex: 1
+    }
+})

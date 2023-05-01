@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {FONTS} from '../../../utils/Constant';
+import {FONTS, COLOURS} from '../../../utils/Constant';
 
 export const resetscreenstyle = StyleSheet.create({
   safeareaview:
@@ -15,14 +15,14 @@ flex:1
     justifyContent: 'center',
   },
   resettextheading: {
-    color: '#FFFFFF',
+    color: COLOURS.white,
     fontSize: 20,
     fontFamily: FONTS.manrope_bold,
   },
   resetsubheadingtextstyle: {
     fontFamily: FONTS.inter_regular,
     fontSize: 14,
-    color: '#FFFFFF',
+    color: COLOURS.white,
     opacity: 0.8,
   },
   logoview:{

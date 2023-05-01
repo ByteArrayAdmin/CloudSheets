@@ -53,7 +53,7 @@ const UserSection = () => {
         <View>
           <Text style={Styles.Accounttext}>{labels.Guestscreen.Account}</Text>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <UseCard
             Logo={<Profile />}
             heading={labels.Guestscreen.MyAccount}

@@ -12,10 +12,10 @@ export const styles = StyleSheet.create({
     bottom: 0,
     position: "absolute",
   },
-  secondview: { flex: 1, backgroundColor: "#0061FF" },
+  secondview: { flex: 1, backgroundColor: COLOURS.Skyblue },
   thirdview: {
     flex: 3,
-    backgroundColor: "#F6F8FA",
+    backgroundColor: COLOURS.offwhite,
   },
   cloudsheetcontainer: {
     flexDirection: "row",
@@ -34,12 +34,12 @@ export const styles = StyleSheet.create({
   cloudtext: {
     fontFamily: FONTS.manrope_semibold,
     fontSize: 18,
-    color: "#FFFFFF",
+    color: COLOURS.white,
   },
   sheettext: {
     fontFamily: FONTS.MANROPE_NORMAL,
     fontSize: 18,
-    color: "#FFFFFF",
+    color: COLOURS.white,
   },
   upgradeContainer: {
     alignItems: "center",
@@ -47,18 +47,17 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 9,
     paddingVertical: 11,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: COLOURS.ligthwhite,
     height: 42,
   },
   upgradetext: {
     paddingLeft: 11,
     fontSize: 13,
     fontFamily: FONTS.inter_medium,
-    color: "#FFFFFF",
+    color: COLOURS.white,
   },
   inputserachview: {
-    backgroundColor: "#FFFFFF",
-    //position:'absolute',
+    backgroundColor: COLOURS.white,
     marginHorizontal: 20,
     width: "94%",
     justifyContent: "center",
@@ -77,12 +76,12 @@ export const styles = StyleSheet.create({
   recentcloudtext: {
     fontFamily: FONTS.inter_medium,
     fontSize: 15,
-    color: "#001521",
+    color: COLOURS.black,
   },
   viewalltext: {
     fontFamily: FONTS.inter_medium,
     fontSize: 13,
-    color: "#0061FF",
+    color: COLOURS.Skyblue,
   },
   AttendanceText: {
     paddingLeft: 15,

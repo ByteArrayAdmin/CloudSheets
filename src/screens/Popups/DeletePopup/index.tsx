@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { FONTS } from "../../../utils/Constant";
+import { COLOURS, FONTS } from "../../../utils/Constant";
 import labels from "../../../utils/ProjectLabels.json";
 import Create from "../../../commonComponents/LightSmallbutton"
 import Delete from "../../../commonComponents/SmallButton"
@@ -41,6 +41,7 @@ const Style = StyleSheet.create({
     fontFamily: FONTS.manrope_semibold,
     fontSize: 20,
     textAlign: "center",
+    color:COLOURS.black
   },
   Textview:{
     justifyContent:'center',
@@ -53,7 +54,8 @@ const Style = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     opacity:0.6,
-    padding:5
+    padding:5,
+    color:COLOURS.black
   },
   Buttonview:{
     flexDirection:'row',

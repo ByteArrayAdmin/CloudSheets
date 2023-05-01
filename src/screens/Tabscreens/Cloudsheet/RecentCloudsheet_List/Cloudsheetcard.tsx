@@ -3,7 +3,7 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Threedots from '../../../../assets/Images/threedots.svg';
 import Docicon from '../../../../assets/Images/januaryAttendicon.svg';
-import {FONTS} from '../../../../utils/Constant';
+import {COLOURS, FONTS} from '../../../../utils/Constant';
 import Smallfolder from '../../../../assets/Images/smallfoldericon.svg';
 
 const Cloudsheetcard = () => (
@@ -18,7 +18,7 @@ const Cloudsheetcard = () => (
         <Text style={Cardstyle.datetext}>Jan 16, 2023 | 12:45 PM</Text>
       </View>
       <View style={Cardstyle.threedotview} />
-      <View>
+      <View style={Cardstyle.threedotstyling}>
         <Threedots />
       </View>
     </View>
@@ -42,7 +42,7 @@ const Cardstyle = StyleSheet.create({
   cardconatiner: {
     marginTop: 15,
     marginHorizontal: 15,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLOURS.white,
     height: 126,
     borderRadius: 10,
   },
@@ -56,7 +56,7 @@ const Cardstyle = StyleSheet.create({
     paddingLeft: 15,
     fontSize: 14,
     fontFamily: FONTS.inter_regular,
-    color: '#001521',
+    color: COLOURS.black,
   },
   datetext: {
     paddingTop: 10,
@@ -78,7 +78,7 @@ const Cardstyle = StyleSheet.create({
   Text: {
     fontFamily: FONTS.inter_regular,
     fontSize: 12,
-    color: '#001521',
+    color: COLOURS.black,
     opacity: 0.5,
   },
   threedotview:{
@@ -97,5 +97,8 @@ alignItems:'center',
 marginTop:16,
 paddingHorizontal:15
   },
-  foldespace:{paddingRight:6}
+  foldespace:{paddingRight:6},
+  threedotstyling:{
+    position:'absolute', right:30, top:26 
+  }
 });

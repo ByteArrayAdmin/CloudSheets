@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { styles } from "screens/Auth/signup/style";
-import { FONTS } from "../../../utils/Constant";
+import { COLOURS, FONTS } from "../../../utils/Constant";
 import CommonCard from "../CommonCard";
 import Edit from "../../../assets/Images/Edit.svg";
 import Delete from "../../../assets/Images/Deleteicon.svg";
@@ -58,12 +58,14 @@ const Style = StyleSheet.create({
     fontSize: 18,
     fontFamily: FONTS.inter_semibold,
     paddingBottom: 10,
+    color:COLOURS.black
   },
   datetetxt: {
     fontSize: 12,
     fontFamily: FONTS.inter_regular,
     paddingBottom: 10,
     opacity: 0.6,
+    color:COLOURS.black
   },
   Cardspace: {
     marginTop: 25,

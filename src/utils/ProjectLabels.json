@@ -9,9 +9,9 @@
     "PLACEHOLDER_EMAIL": "Your Email",
     "PLACEHOLDER_PASSWARD": "Password",
     "LOGIN": "Login",
-    "EMAIL_VALIDATION": "please enter email",
-    "INVALID_EMAIL": "please enter valid email",
-    "PASSWAORD": "please enter password"
+    "EMAIL_VALIDATION": "This Field is Required",
+    "INVALID_EMAIL": "This Field is Required",
+    "PASSWAORD": "This Field is Required"
   },
   "signupcontant": {
     "SKIP": "skip",
@@ -23,12 +23,12 @@
     "PLACEHOLDER_MOBILNUMBER": "Mobile Number",
     "PLACEHOLDER_PASSWORD": "Password",
     "REGISTER": "Register",
-    "NAME_VALIDATION_MSG": "Please Enter the name",
-    "USERNAME_VALIDATION_MSG": "Please Enter the Username",
-    "EMAIL_VALIDATION_MSG": "Please Enter the email",
-    "INVALID_EMAIL_VALIDATION__MSG": "Please Enter the valid Email",
-    "MOBILENO_VALIDATION_MSG": "Please Enter the Mobile Number",
-    "PASSWARD_VALIDATION_MSG": "Please Enter Password",
+    "NAME_VALIDATION_MSG": "This Field is Required",
+    "USERNAME_VALIDATION_MSG": "This Field is Required",
+    "EMAIL_VALIDATION_MSG": "This Field is Required",
+    "INVALID_EMAIL_VALIDATION__MSG": "This Field is Required",
+    "MOBILENO_VALIDATION_MSG": "This Field is Required",
+    "PASSWARD_VALIDATION_MSG": "This Field is Required",
     "SUCCESFULLY_REGISTERED": "User Successfully Registered",
     "OR": "OR",
     "Bottomtext": "Already a member?",
@@ -42,7 +42,7 @@
     "SUBMIT": "Submit",
     "BACKTOLOGIN": "Back to Login",
     "PLACEHOLDERTEXT": "your Email",
-    "EMAILREQUIRED": "please enter Email "
+    "EMAILREQUIRED": "This Field is Required"
   },
   "Resetpassword": {
     "RESETPASSWORD": "Reset Password?",
@@ -125,7 +125,7 @@
     "PlaceholderPresent": "Yes/No",
     "placeholderEnterSamples": "Enter Samples",
     "Submit": "Submit",
-    "valodationmessage": "This field is required"
+    "valodationmessage": "This Field is Required"
   },
   "Attendancelistlabels": {
     "JanuaryAttendance": "January  Attendance",
@@ -155,10 +155,11 @@
     "Cloud": "Cloud",
     "Sheets": "Sheets",
     "UpdatedCloudSheet": "Updated CloudSheet",
-    "Cardtext": "Here your “CloudSheet record",
+    "Cardtext": "Here your “CloudSheet record”",
     "Ok": "Ok",
     "successfully_updated": "successfully updated"
   },
+
   "Templatelistlabel": {
     "Template": "Template",
     "Listtxt": "List of Cloudsheets",

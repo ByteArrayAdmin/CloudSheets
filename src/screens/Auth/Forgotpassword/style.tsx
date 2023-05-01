@@ -1,12 +1,12 @@
 import {StyleSheet} from 'react-native';
-import {FONTS} from '../../../utils/Constant';
+import {FONTS, COLOURS} from '../../../utils/Constant';
 
 export const Forgotscreenstyle = StyleSheet.create({
   safeareaview:{
 flex:1
   },
   Forgotscreenstyle: {
-    backgroundColor: '#0061FF',
+    backgroundColor: COLOURS.Skyblue,
     height: '50%',
   },
   backbuttonview: {
@@ -14,14 +14,14 @@ flex:1
     marginHorizontal: 15,
   },
   forgerpasswardtextheading: {
-    color: '#FFFFFF',
+    color: COLOURS.white,
     fontSize: 20,
     fontFamily: FONTS.manrope_bold,
   },
   subheadingtextstyle: {
     fontFamily: FONTS.inter_regular,
     fontSize: 14,
-    color: '#FFFFFF',
+    color: COLOURS.white,
     opacity: 0.8,
   },
   backtologinview: {

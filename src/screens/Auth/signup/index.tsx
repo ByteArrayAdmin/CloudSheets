@@ -230,11 +230,7 @@ const Signup = () => {
             </View> */}
 
             <View
-              style={{
-                flexDirection: "row",
-                marginTop: 60,
-                justifyContent: "center",
-              }}
+              style={styles.BottomSpace}
             >
               <View>
                 <Text style={styles.alreadyamember}>
