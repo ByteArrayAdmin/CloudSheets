@@ -16,3 +16,12 @@ https://docs.amplify.aws/start/q/integration/react-native/
 5. To run in ios move into ios folder directory in and run the "pod install command"
 6. Open the latest xcode that mentioned in above line and open the ".xcworkspace" in xcode.
 7. Hit the run button to run in simulator.
+
+# Amplify setup at client side.
+1. Open terminal and install amplify CLI globally using the command below,
+    command:- npm install -g @aws-amplify/cli
+3. After that Connect your app to this backend environment using the Amplify CLI by running the following command from your project root folder.
+    command:- amplify pull --appId dtoy4aokzss7t --envName staging
+
+if you need any type of guidence to setup amplify , go through the mentioned link
+link:-https://docs.amplify.aws/cli/start/install/

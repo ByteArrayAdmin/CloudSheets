@@ -185,7 +185,8 @@
     "TermsandConditions": "Terms and Conditions",
     "FAQ": "FAQ",
     "Help": "Help",
-    "Password": "Password"
+    "Password": "Password",
+    "Signout":"Signout"
   },
   "SubscriptionScreen": {
     "MyAccount": "My Account",

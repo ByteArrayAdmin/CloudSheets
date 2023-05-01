@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation ,CommonActions} from "@react-navigation/native";
 import labels from "../../../../utils/ProjectLabels.json";
 import UseLogo from "../.../../../../../assets/Images/userLogo.svg";
 import Exclaim from "../../../../assets/Images/exclaimationlogo.svg";
@@ -25,10 +25,21 @@ import { Styles } from "./style";
 import Profile from "../../../../assets/Images/ProfileLogo.svg";
 import PassLogo from "../../../../assets/Images/PasswordLogo.svg";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-
+import { Auth } from 'aws-amplify';
 const UserSection = () => {
   const navigation = useNavigation();
   const Tabheight = useBottomTabBarHeight();
+
+  async function signOut() {
+    try {
+      await Auth.signOut();
+      navigation.dispatch(CommonActions.reset({routes:[
+        { name: 'Login' },]}))
+    } catch (error) {
+      console.log('error signing out: ', error);
+    }
+  }
+
   return (
     <>
       <NewCommonHeader
@@ -104,6 +115,14 @@ const UserSection = () => {
             Logo={<Helplogo />}
             heading={labels.Guestscreen.FAQ}
             onPress={() => navigation.navigate("Faq_Screen")}
+          />
+          <View style={Styles.horizontallineview}>
+            <View style={Styles.innerhoeizontaline} />
+          </View>
+          <UseCard
+            Logo={<Helplogo />}
+            heading={labels.Guestscreen.Signout}
+            onPress={signOut}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />

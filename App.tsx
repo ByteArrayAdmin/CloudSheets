@@ -34,13 +34,7 @@ function App(): JSX.Element {
           </BottomSheetModalProvider>
         </NavigationContainer>
       </GestureHandlerRootView>
-
-
-
-
-
     </>
-
   );
 }
 

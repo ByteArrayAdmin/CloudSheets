@@ -7,12 +7,16 @@ import Arrowbutton from 'src/assets/Images/btn.svg';
 import Cutcard from 'src/assets/Images/cutcard.svg';
 import {useNavigation} from '@react-navigation/native';
 import HomescreenLabel from '../../utils/ProjectLabels.json';
-import Largelogo from '../../assets/Images/largelogo.svg'
+import Largelogo from '../../assets/Images/largelogo.svg';
+import Ic_design from '../../assets/Images/Ic_design.svg';
 
 const BoardingScreen = () => {
   const navigation = useNavigation();
   return (
     <View style={Homestyle.container}>
+      <View style={{position:'absolute'}}>
+      <Ic_design/>
+      </View>
       <View style={Homestyle.logoview}>
         <Largelogo />
         <View style={Homestyle.mainview}>

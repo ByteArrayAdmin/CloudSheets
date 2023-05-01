@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthCard from "../../../commonComponents/AuthCard";
 import InputField from "../../../commonComponents/InputField";
 import { SafeAreaView, Text, View, TouchableOpacity } from "react-native";
@@ -16,27 +16,54 @@ import Appleicon from "../../assets/Images/Apple.svg";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import LoginLabels from "../../../utils/ProjectLabels.json";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
-import { Auth } from 'aws-amplify';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
+import { listUsers, getUser } from '../../../graphql/queries';
+import {createUser} from '../../../graphql/mutations';
 
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
 
+  useEffect(() => {
+    API.graphql(graphqlOperation(listUsers)).then((response) => {
+      console.log("getUserList========", response)
+    })
+  }, [])
+
   const onLoginPressed = async (data: any) => {
     const { youremail, yourpasswaord } = data;
-    await Auth.signIn(youremail, yourpasswaord).then((response)=>{
-      console.log("signInResp=======",response)
+    await Auth.signIn(youremail, yourpasswaord).then((response) => {
+      console.log("signInResp=======", response.attributes)
+      const syncUser = async () => {
+        const userData = await API.graphql(graphqlOperation(getUser, { id: response.attributes.sub }))
+        console.log("userDataFromTable=========", userData)
+        if (userData.data.getUser) {
+          console.log("user already exist in db")
+          return
+        }
+
+        const newUser = {
+          id:response.attributes.sub,
+          name:response.attributes.name,
+          email:response.attributes.email
+        }
+
+        const newUserResponse = await API.graphql(graphqlOperation(createUser, {input:newUser}))
+
+      }
+      syncUser()
+
       navigation.navigate("Tabnavigator");
-    }).catch((error)=>{
-        console.log("signInErr======",error)
+    }).catch((error) => {
+      console.log("signInErr======", error)
     })
-    
+
   };
   return (
     <>
       <BackgroundLayout />
       <SafeAreaView>
-      
+
         <KeyboardAwareScrollView>
           <View style={loginstyle.skipText}>
             <Text style={loginstyle.skioptextcolor}>Skip</Text>
