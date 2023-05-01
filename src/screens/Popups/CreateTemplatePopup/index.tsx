@@ -64,22 +64,29 @@ const CreateTemplatePopup = () => {
                 onChangeText={onChangeText}
                 value={text}
                 style={Tempatestyle.textInput}
-                placeholder={CreateTemplatescreen.TemBottomsheet.EnterTemplateName}
+                placeholder={
+                  CreateTemplatescreen.TemBottomsheet.EnterTemplateName
+                }
               />
             </View>
           </View>
         </View>
         <View style={Tempatestyle.buttonview}>
           <View>
-            <SmallButton buttontext={"Cancel"} onPress={OnClose} />
+            <SmallButton
+              buttontext={CreateTemplatescreen.TemBottomsheet.Cancel}
+              onPress={OnClose}
+            />
           </View>
 
           <View style={Tempatestyle.space}></View>
           <View>
-            <LightSmallButton buttontext={"Create"} onPress={CreatePress} />
+            <LightSmallButton
+              buttontext={CreateTemplatescreen.TemBottomsheet.Create}
+              onPress={CreatePress}
+            />
           </View>
         </View>
-        
       </View>
       <CommonBottomsheet ref={child} />
     </>

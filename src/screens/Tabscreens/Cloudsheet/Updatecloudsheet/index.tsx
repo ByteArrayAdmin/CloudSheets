@@ -97,15 +97,17 @@ const Style = StyleSheet.create({
   cloudtext: {
     fontFamily: FONTS.manrope_bold,
     fontSize: 19,
-    color: "#FFFFFF",
+    color: COLOURS.white,
   },
   sheetetxt: {
     fontFamily: FONTS.MANROPE_NORMAL,
     fontSize: 19,
-    color: "#FFFFFF",
+    color: COLOURS.white,
   },
   Authcardview: {
     marginTop: 50,
+    justifyContent: "center",
+    marginBottom: 30,
   },
   cardcontainer: {
     marginHorizontal: 20,

@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
   viewWidth: { width: "75%" },
   errortextstyle: { color: "red", marginLeft: 20 },
   placeholdercolour: {
-    color: COLOURS.black,
-    opacity: 0.5,
+    color: COLOURS.black
   },
 });

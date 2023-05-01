@@ -25,10 +25,13 @@ const ListCard = (props: any) => {
             <Text style={style.texthead}>{props.items.itemname}</Text>
           </View>
           <View style={style.Space}></View>
-          <View style={style.arrowstyle}>
+          <TouchableOpacity
+            style={[style.arrowstyle, style.ThreeDotview]}
+            onPress={() => toggle()}
+          >
             <Downarrow />
-          </View>
-          <TouchableOpacity onPress={() => toggle()}>
+          </TouchableOpacity>
+          <TouchableOpacity>
             <Threedot />
           </TouchableOpacity>
         </View>
@@ -116,4 +119,10 @@ const style = StyleSheet.create({
     color: COLOURS.black,
   },
   horizontalspacing: { marginBottom: 20 },
+  ThreeDotview: {
+    width: 25,
+    height: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

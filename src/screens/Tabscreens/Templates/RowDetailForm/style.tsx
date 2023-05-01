@@ -27,8 +27,6 @@ export const Styles = StyleSheet.create({
       paddingLeft: 16,
       fontFamily: FONTS.inter_regular,
       fontSize: 12,
-      color: COLOURS.black,
-      opacity: 0.5,
     },
     nametext: {
       fontSize: 12,
@@ -53,7 +51,7 @@ export const Styles = StyleSheet.create({
       borderRadius: 8,
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: "#F6F8FA",
+      backgroundColor: COLOURS.offwhite,
     },
     presenttextview: {
       paddingTop: 15,

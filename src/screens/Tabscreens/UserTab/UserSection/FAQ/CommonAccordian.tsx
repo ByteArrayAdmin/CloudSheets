@@ -12,13 +12,13 @@ const CommonAccordian = (props:any)=>{
                 <View>
                     <Text style={styles.headingText}>{props.Heading}</Text>
                 </View>
-                <View style={{flex:1}}></View>
+                <View style={styles.space}></View>
                 <View>
                     {props.isOpen?<Ic_upArrow/>:<DropDown/>}
                 </View>
             </View>
             {props.isOpen?
-                <View style={{marginTop:15}}>
+                <View style={styles.viewspace}>
                     <Text style={styles.contentText}>{props.Content}</Text>
                 </View>:null}
         </TouchableOpacity>
@@ -57,5 +57,12 @@ const styles = StyleSheet.create({
         fontFamily:FONTS.inter_regular,
         fontSize:12,
         opacity:0.6
+    },
+    space:{
+        flex:1
+    },
+    viewspace:{
+marginTop:15
     }
+
 })

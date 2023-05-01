@@ -32,7 +32,7 @@ const CloudsheetListCard = () => {
       </View>
       <View style={styles.space}></View>
       <View style={styles.imagestyle}>
-        <TouchableOpacity onPress={openPopup}>
+        <TouchableOpacity style={styles.ThreeDotview} onPress={openPopup}>
           <Threedots />
         </TouchableOpacity>
       </View>
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   imagestyle: {
     position: "absolute",
     right: 15,
-    bottom: 48,
+    bottom: 40,
   },
+  ThreeDotview: {width:25, height:25, justifyContent:'center', alignItems:'center'}
 });

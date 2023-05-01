@@ -4,7 +4,7 @@ import { FONTS, COLOURS } from "../../../../utils/Constant";
 export const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F6F8FA",
+    backgroundColor: COLOURS.offwhite,
   },
   inputview: {
     height: 50,

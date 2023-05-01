@@ -1,13 +1,13 @@
 import {StyleSheet} from 'react-native';
-import {FONTS} from '../../../utils/Constant';
+import {FONTS, COLOURS} from '../../../utils/Constant';
 
 export const loginstyle = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#0061FF',
+    backgroundColor: COLOURS.Skyblue,
     height: '40%',
   },
   registerdText: {
-    color: 'white',
+    color: COLOURS.white,
     opacity: 0.8,
     paddingTop: 10,
     fontSize: 14,
@@ -17,7 +17,7 @@ export const loginstyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 30,
-    backgroundColor: '#0061FF',
+    backgroundColor: COLOURS.Skyblue,
     marginHorizontal: 20,
     height: 48,
     borderRadius: 8,
@@ -29,16 +29,16 @@ export const loginstyle = StyleSheet.create({
     marginHorizontal: 10,
   },
   skioptextcolor: {
-    color: '#FFFFFF',
+    color: COLOURS.white,
     opacity: 0.8,
   },
   CreateAccounttext: {
-    color: '#FFFFFF',
+    color: COLOURS.white,
     fontSize: 20,
     fontFamily: FONTS.manrope_bold,
   },
   registertext: {
-    color: '#FFFFFF',
+    color: COLOURS.white,
     fontSize: 14,
   },
   createAccountview: {
@@ -66,10 +66,10 @@ export const loginstyle = StyleSheet.create({
   Horizontalline: {
     width: 80,
     height: 0.5,
-    backgroundColor: '#5D6886',
+    backgroundColor: COLOURS.Simplegrey,
   },
   ortextstyle: {
-    color: '#5D6886',
+    color: COLOURS.Simplegrey,
     fontFamily: FONTS.inter_regular,
     fontSize: 12,
   },
@@ -78,26 +78,26 @@ export const loginstyle = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 67,
     borderRadius: 10,
-    shadowColor: '#171717',
+    shadowColor: COLOURS.verydarkgrey,
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.1,
     shadowRadius: 12,
-    backgroundColor: 'white',
+    backgroundColor: COLOURS.white,
   },
   alreadyamember: {
     fontFamily: FONTS.inter_regular,
     fontSize: 13,
-    color: '#16213E',
+    color: COLOURS.darkblue,
   },
   sigintext: {
     fontFamily: FONTS.inter_semibold,
-    color: '#0061FF',
+    color: COLOURS.Skyblue,
     fontSize: 13,
     paddingLeft: 8,
   },
 
   fogettext: {
-    color: '#0061FF',
+    color: COLOURS.Skyblue,
     fontFamily: FONTS.inter_regular,
     fontSize: 12,
   },

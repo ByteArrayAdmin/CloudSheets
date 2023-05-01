@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.manrope_semibold,
     fontSize: 20,
     paddingBottom: 10,
+    color:COLOURS.black
   },
   subSubcriptiontext: {
     fontFamily: FONTS.inter_regular,
@@ -58,7 +59,8 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.inter_regular,
     fontSize: 14,
     opacity:0.6,
-    padding:5
+    padding:5,
+    color:COLOURS.black
   },
   Textview:{ flexDirection: "row", justifyContent:'center', alignItems:'center'}
 });

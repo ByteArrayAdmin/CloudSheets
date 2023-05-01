@@ -13,18 +13,17 @@
     },
     "categories": {
       "auth": {
-        "CloudSheetBackendEnv": {},
-        "cloudsheetbackendenve9feab69": {
-          "userPoolId": "us-east-1_pAqQcPBMG",
-          "userPoolName": "CloudSheet_Signup",
-          "webClientId": "ok14b08mjlk4gmngcgeatppll",
-          "nativeClientId": "ok14b08mjlk4gmngcgeatppll"
-        },
         "cloudsheetbackendenve0c89581": {
+          "nativeClientId": "ok14b08mjlk4gmngcgeatppll",
           "userPoolId": "us-east-1_pAqQcPBMG",
           "userPoolName": "CloudSheet_Signup",
-          "webClientId": "ok14b08mjlk4gmngcgeatppll",
-          "nativeClientId": "ok14b08mjlk4gmngcgeatppll"
+          "webClientId": "ok14b08mjlk4gmngcgeatppll"
+        },
+        "cloudsheetbackendenve9feab69": {
+          "nativeClientId": "ok14b08mjlk4gmngcgeatppll",
+          "userPoolId": "us-east-1_pAqQcPBMG",
+          "userPoolName": "CloudSheet_Signup",
+          "webClientId": "ok14b08mjlk4gmngcgeatppll"
         }
       }
     }

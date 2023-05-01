@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { FONTS } from "../../utils/Constant";
+import { COLOURS, FONTS } from "../../utils/Constant";
 
 const CommonCard = (props: any) => {
   return (
@@ -28,5 +28,6 @@ const Style = StyleSheet.create({
     fontFamily: FONTS.inter_regular,
     fontSize: 15,
     paddingLeft: 15,
+    color:COLOURS.black
   },
 });

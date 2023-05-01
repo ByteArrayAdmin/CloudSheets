@@ -45,7 +45,7 @@ const RowdetailForm = () => {
   useEffect(() => {}, [open]);
 
   return (
-    <KeyboardAwareScrollView>
+    
     <View style={Styles.container}>
       
       <View>
@@ -56,7 +56,7 @@ const RowdetailForm = () => {
           onPress={navigation.canGoBack()}
         />
       </View>
-      
+      <KeyboardAwareScrollView>
       <View style={Styles.sucontainer}>
         <View style={Styles.formcontainer}>
           <View>
@@ -140,8 +140,9 @@ const RowdetailForm = () => {
           Register={labels.Rowdetailsform.Submit}
         />
       </View>
+      </KeyboardAwareScrollView>
     </View>
-    </KeyboardAwareScrollView>
+  
   );
 };
 

@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 15,
     marginTop: 15,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLOURS.white,
     borderRadius: 10,
   },
   columntext: {
@@ -92,6 +92,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     paddingLeft: 1,
     fontSize: 12,
+    color:COLOURS.black,
+    opacity:0.3
   },
   inputview: {
     height: 50,

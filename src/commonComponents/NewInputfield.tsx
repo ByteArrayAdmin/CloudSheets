@@ -25,7 +25,7 @@ const NewInputField = (props: any) => {
                   placeholder={props.placeholder}
                   style={props.styles}
                   secureTextEntry={props.secureTextEntry}
-                  placeholderTextColor={COLOURS.black}
+                  placeholderTextColor={styles.placeholdertext}
                   keyboardType={props.keyboardType}
                 />
               </View>
@@ -53,7 +53,7 @@ export default NewInputField;
 const styles = StyleSheet.create({
   container: {
     marginTop: 18,
-    backgroundColor: "#F6F8FA",
+    backgroundColor: COLOURS.offwhite,
     borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
@@ -69,6 +69,10 @@ const styles = StyleSheet.create({
     flex: 1 
     },
 
-   scanmargin: { marginRight: 17 }
+   scanmargin: { marginRight: 17 },
+   placeholdertext:{
+    color:COLOURS.black,
+    opacity:0.5
+   }
   
 });

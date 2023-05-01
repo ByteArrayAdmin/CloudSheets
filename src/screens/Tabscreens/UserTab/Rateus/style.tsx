@@ -33,6 +33,7 @@ export const Styles = StyleSheet.create({
     cardtext: {
       fontFamily: FONTS.inter_regular,
       fontSize: 14,
+      color:COLOURS.black,
       opacity: 0.6,
       paddingVertical: 5,
     },
@@ -41,12 +42,14 @@ export const Styles = StyleSheet.create({
       fontSize: 14,
       opacity: 0.6,
       paddingVertical: 5,
+      color:COLOURS.black,
     },
     textEnjoyapp: {
       fontFamily: FONTS.manrope_semibold,
       fontSize: 20,
       paddingBottom: 5,
       paddingTop: 15,
+      color:COLOURS.black
     },
     ratingview: {
       marginTop: 15,

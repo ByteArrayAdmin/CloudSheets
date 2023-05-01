@@ -23,6 +23,7 @@ const AddrowClassattendance = () => {
 
   return (
     <>
+    <StatusBar backgroundColor={COLOURS.Skyblue}/>
     <SafeAreaView style={{backgroundColor:COLOURS.Skyblue}}>
       <View style={Style.container}>
         <View style={Style.subcontainer}>

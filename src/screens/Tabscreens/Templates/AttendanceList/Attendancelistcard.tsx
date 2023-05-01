@@ -35,7 +35,7 @@ export const Attendancelistcard = () => {
             <Downarrow />
           </View>
           <View>
-            <TouchableOpacity onPress={OpenPopop}>
+            <TouchableOpacity style={Styles.ThreeDotview} onPress={OpenPopop}>
               <Threedot />
             </TouchableOpacity>
           </View>
@@ -158,4 +158,5 @@ const Styles = StyleSheet.create({
   bottomgap: {
     marginBottom: 20,
   },
+ ThreeDotview: {width:25, height:25, justifyContent:'center', alignItems:'center'}
 });

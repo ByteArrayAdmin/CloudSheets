@@ -71,7 +71,7 @@ const CreateTemplate = () => {
                           </Text>
                         </View>
                         <View style={Tempatestyle.cardtetxt2}>
-                          <Text>
+                          <Text style={Tempatestyle.cardtextstyle}>
                             {
                               CreateTemplatescreen.CreateTemplatescreen
                                 .CARDTEXT2

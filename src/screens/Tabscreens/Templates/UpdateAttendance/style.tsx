@@ -28,7 +28,6 @@ export const Styles = StyleSheet.create({
       fontFamily: FONTS.inter_regular,
       fontSize: 12,
       color: COLOURS.black,
-      opacity: 0.5,
     },
     nametext: {
       fontSize: 12,
@@ -53,7 +52,7 @@ export const Styles = StyleSheet.create({
       borderRadius: 8,
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: "#F6F8FA",
+      backgroundColor: COLOURS.offwhite,
     },
     presenttextview: {
       paddingTop: 15,
@@ -72,7 +71,7 @@ export const Styles = StyleSheet.create({
         paddingHorizontal: 55,
         paddingVertical: 15,
         borderRadius: 8,
-        backgroundColor: "#0061FF",
+        backgroundColor: COLOURS.Skyblue,
     },
     buttonview:{
       flexDirection: "row",
@@ -83,6 +82,9 @@ export const Styles = StyleSheet.create({
     },
     justgap:{
       marginHorizontal: 19 
+    },
+    bottomview:{
+      marginBottom:20
     }
     
    

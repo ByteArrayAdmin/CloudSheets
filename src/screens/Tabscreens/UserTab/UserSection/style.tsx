@@ -29,6 +29,7 @@ export const Styles = StyleSheet.create({
     fontFamily: FONTS.inter_regular,
     fontSize: 14,
     paddingVertical: 25,
+    color:COLOURS.black
   },
   innerhoeizontaline: {
     flex: 1,

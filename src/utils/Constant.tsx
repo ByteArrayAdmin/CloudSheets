@@ -23,5 +23,9 @@ export const COLOURS = {
   shadowcolour: "#000",
   lightred:"rgba(255, 120, 120, 0.12)",
   orignalred:"#FF7878",
-  offGrey:" #ECEFF2"
+  offGrey:" #ECEFF2",
+  Simplegrey:"#5D6886",
+ verydarkgrey: "#171717",
+ darkblue:"#16213E",
+ shadow_colour:"#000"
 };

@@ -62,7 +62,7 @@ const Updateattendance = () => {
 
   useEffect(() => {}, [open]);
   return (
-    <KeyboardAwareScrollView>
+    
       <View style={Styles.container}>
         <View>
           <NewCommonHeader
@@ -74,7 +74,7 @@ const Updateattendance = () => {
             onpress={OpenPopup}
           />
         </View>
-
+        <KeyboardAwareScrollView>
         <View style={Styles.sucontainer}>
           <View style={Styles.formcontainer}>
             <View>
@@ -158,20 +158,24 @@ const Updateattendance = () => {
             <SmallButton buttontext={labels.updateRowdetaiform.Update} onPress={() => navigation.navigate("ClousheetTab")} />
         
         </View>
+        <View style={Styles.bottomview}>
+
+        </View>
+      </KeyboardAwareScrollView>
         <CommonBottomsheet
           ref={childRef}
           snapPoints={snapPoints}
           children={
             <DeletePopuop
               Textone={labels.Deletpopup.Text}
-              Texttwo={labels.DeleteAccountpopups.TextSecond}
+              Texttwo={labels.Deletpopup.Text2}
               ButtonOnetext={labels.Deletpopup.Cancel}
               ButtonTwotext={labels.DeleteAccountpopups.Delete}
             />
           }
         />
       </View>
-    </KeyboardAwareScrollView>
+    
   );
 };
 

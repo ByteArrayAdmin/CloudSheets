@@ -18,7 +18,7 @@ import ListCard from "./ListCard";
 import { Styles } from "../RowDetailForm/style";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
-import SubcriptionPlan  from "../../../../screens/Popups/SubcriptionPopup"
+import SubcriptionPlan from "../../../../screens/Popups/SubcriptionPopup";
 
 const ExpensesList = () => {
   const navigation = useNavigation();
@@ -63,9 +63,7 @@ const ExpensesList = () => {
       <CommonBottomsheet
         ref={child}
         snapPoints={snapPoints}
-        children={
-          <SubcriptionPlan />
-        }
+        children={<SubcriptionPlan />}
       />
     </View>
   );

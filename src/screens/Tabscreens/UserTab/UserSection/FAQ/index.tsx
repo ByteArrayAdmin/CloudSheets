@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +15,7 @@ const Faq_Screen = () => {
     const toggle =()=> setIsOpenFirst(previewState=>!previewState)
     return (
         <>
-            <View style={{ backgroundColor: COLOURS.lightBlue, flex: 1 }}>
+            <View style={style.container}>
                 <NewCommonHeader
                     BackButton={<BackButton onPress={() => navigation.goBack()} />}
                     heading={labels.SubscriptionScreen.FAQ}
@@ -30,3 +30,12 @@ const Faq_Screen = () => {
 }
 
 export default Faq_Screen;
+
+
+const style= StyleSheet.create({
+container:{
+    backgroundColor: COLOURS.lightBlue, flex: 1
+
+}
+
+})
