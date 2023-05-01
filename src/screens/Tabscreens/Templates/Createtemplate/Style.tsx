@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FONTS } from "../../../../utils/Constant";
+import { COLOURS, FONTS } from "../../../../utils/Constant";
 
 export const Tempatestyle = StyleSheet.create({
   safeareaview: {
@@ -22,12 +22,12 @@ export const Tempatestyle = StyleSheet.create({
   cloudtext: {
     fontFamily: FONTS.manrope_bold,
     fontSize: 19,
-    color: "#FFFFFF",
+    color: COLOURS.white,
   },
   sheetetxt: {
     fontFamily: FONTS.MANROPE_NORMAL,
     fontSize: 19,
-    color: "#FFFFFF",
+    color: COLOURS.white,
   },
   Cardcontainer: {
     marginTop: 30,
@@ -37,19 +37,18 @@ export const Tempatestyle = StyleSheet.create({
     alignItems: "center",
   },
   cardtextstyle: {
-    paddingTop: 15,
+    paddingTop: 5,
     textAlign: "center",
     fontFamily: FONTS.inter_regular,
     fontSize: 14,
-    color: "#001521",
+    color: COLOURS.black,
   },
   cardtetxt2: {
-    justifyContent: "center",
     alignItems: "center",
     paddingTop: 5,
   },
   Bottomsheetview: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLOURS.white,
     width: "100%",
     height: 375,
     borderRadius: 25,
@@ -63,30 +62,30 @@ export const Tempatestyle = StyleSheet.create({
   newtemplattext: {
     fontSize: 20,
     fontFamily: FONTS.manrope_semibold,
-    color: "#001521",
+    color: COLOURS.black,
   },
   subheadingtext: {
     fontSize: 14,
     fontFamily: FONTS.inter_regular,
-    color: "#001521",
+    color: COLOURS.black,
     paddingTop: 5,
     opacity: 0.6,
   },
   entertemplatetext: {
     fontSize: 12,
     fontFamily: FONTS.inter_regular,
-    color: "#001521",
+    color: COLOURS.black,
     opacity: 0.6,
   },
   canceltext: {
     fontSize: 14,
     fontFamily: FONTS.inter_regular,
-    color: "#FFFFFF",
+    color: COLOURS.white,
   },
   create: {
     fontSize: 14,
     fontFamily: FONTS.inter_regular,
-    color: "#0061FF",
+    color: COLOURS.Skyblue,
   },
   Button: {
     height: 48,
@@ -94,7 +93,7 @@ export const Tempatestyle = StyleSheet.create({
     paddingHorizontal: 55,
     paddingVertical: 15,
     borderRadius: 8,
-    backgroundColor: "#0061FF",
+    backgroundColor: COLOURS.Skyblue,
   },
   secondbutton: {
     height: 48,
@@ -112,13 +111,9 @@ export const Tempatestyle = StyleSheet.create({
   authcardview: {
     marginTop: 50,
   },
-  cartdtetxt: {
-    marginHorizontal: 40,
-  },
   inputview: {
     height: 50,
-    width: '100%',
+    width: "100%",
     fontFamily: FONTS.inter_regular,
   },
-  
 });
