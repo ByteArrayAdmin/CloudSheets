@@ -25,3 +25,10 @@ https://docs.amplify.aws/start/q/integration/react-native/
 
 if you need any type of guidence to setup amplify , go through the mentioned link
 link:-https://docs.amplify.aws/cli/start/install/
+
+# Amplify setup video guide of Project
+
+1. Follow the video instruction for setup, here is the link to access the video: https://drive.google.com/file/d/1QQS7h7zxv_7DUaTctMgjrFq454UYBchj/view?usp=share_link
+
+Note :- Here is the link of Sceenshot of the screen from video: https://drive.google.com/file/d/1PpEPOlikFT0un-nVHOfSWXw-Brok1k3a/view?usp=share_link . It is just for your information the code is in hidden format so you need to copy and then paste it to the terminal.   
+
