@@ -2,19 +2,19 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateUserInput = {
+export type CreateTemplatesInput = {
   id?: string | null,
-  name?: string | null,
-  email?: string | null,
+  template_name?: string | null,
+  userID: string,
   _version?: number | null,
 };
 
-export type ModelUserConditionInput = {
-  name?: ModelStringInput | null,
-  email?: ModelStringInput | null,
-  and?: Array< ModelUserConditionInput | null > | null,
-  or?: Array< ModelUserConditionInput | null > | null,
-  not?: ModelUserConditionInput | null,
+export type ModelTemplatesConditionInput = {
+  template_name?: ModelStringInput | null,
+  userID?: ModelIDInput | null,
+  and?: Array< ModelTemplatesConditionInput | null > | null,
+  or?: Array< ModelTemplatesConditionInput | null > | null,
+  not?: ModelTemplatesConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -57,39 +57,6 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type User = {
-  __typename: "User",
-  id: string,
-  name?: string | null,
-  email?: string | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-};
-
-export type UpdateUserInput = {
-  id: string,
-  name?: string | null,
-  email?: string | null,
-  _version?: number | null,
-};
-
-export type DeleteUserInput = {
-  id: string,
-  _version?: number | null,
-};
-
-export type ModelUserFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  email?: ModelStringInput | null,
-  and?: Array< ModelUserFilterInput | null > | null,
-  or?: Array< ModelUserFilterInput | null > | null,
-  not?: ModelUserFilterInput | null,
-};
-
 export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
@@ -106,6 +73,101 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type Templates = {
+  __typename: "Templates",
+  id: string,
+  template_name?: string | null,
+  userID: string,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateTemplatesInput = {
+  id: string,
+  template_name?: string | null,
+  userID?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteTemplatesInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateUserInput = {
+  id?: string | null,
+  name?: string | null,
+  email?: string | null,
+  _version?: number | null,
+};
+
+export type ModelUserConditionInput = {
+  name?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
+};
+
+export type User = {
+  __typename: "User",
+  id: string,
+  name?: string | null,
+  email?: string | null,
+  Templates?: ModelTemplatesConnection | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type ModelTemplatesConnection = {
+  __typename: "ModelTemplatesConnection",
+  items:  Array<Templates | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type UpdateUserInput = {
+  id: string,
+  name?: string | null,
+  email?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type ModelTemplatesFilterInput = {
+  id?: ModelIDInput | null,
+  template_name?: ModelStringInput | null,
+  userID?: ModelIDInput | null,
+  and?: Array< ModelTemplatesFilterInput | null > | null,
+  or?: Array< ModelTemplatesFilterInput | null > | null,
+  not?: ModelTemplatesFilterInput | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+};
+
 export type ModelUserConnection = {
   __typename: "ModelUserConnection",
   items:  Array<User | null >,
@@ -113,12 +175,12 @@ export type ModelUserConnection = {
   startedAt?: number | null,
 };
 
-export type ModelSubscriptionUserFilterInput = {
+export type ModelSubscriptionTemplatesFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  name?: ModelSubscriptionStringInput | null,
-  email?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
-  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  template_name?: ModelSubscriptionStringInput | null,
+  userID?: ModelSubscriptionIDInput | null,
+  and?: Array< ModelSubscriptionTemplatesFilterInput | null > | null,
+  or?: Array< ModelSubscriptionTemplatesFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -151,6 +213,71 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionUserFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+};
+
+export type CreateTemplatesMutationVariables = {
+  input: CreateTemplatesInput,
+  condition?: ModelTemplatesConditionInput | null,
+};
+
+export type CreateTemplatesMutation = {
+  createTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    template_name?: string | null,
+    userID: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateTemplatesMutationVariables = {
+  input: UpdateTemplatesInput,
+  condition?: ModelTemplatesConditionInput | null,
+};
+
+export type UpdateTemplatesMutation = {
+  updateTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    template_name?: string | null,
+    userID: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteTemplatesMutationVariables = {
+  input: DeleteTemplatesInput,
+  condition?: ModelTemplatesConditionInput | null,
+};
+
+export type DeleteTemplatesMutation = {
+  deleteTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    template_name?: string | null,
+    userID: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type CreateUserMutationVariables = {
   input: CreateUserInput,
   condition?: ModelUserConditionInput | null,
@@ -162,6 +289,22 @@ export type CreateUserMutation = {
     id: string,
     name?: string | null,
     email?: string | null,
+    Templates?:  {
+      __typename: "ModelTemplatesConnection",
+      items:  Array< {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -181,6 +324,22 @@ export type UpdateUserMutation = {
     id: string,
     name?: string | null,
     email?: string | null,
+    Templates?:  {
+      __typename: "ModelTemplatesConnection",
+      items:  Array< {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -200,11 +359,123 @@ export type DeleteUserMutation = {
     id: string,
     name?: string | null,
     email?: string | null,
+    Templates?:  {
+      __typename: "ModelTemplatesConnection",
+      items:  Array< {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+  } | null,
+};
+
+export type GetTemplatesQueryVariables = {
+  id: string,
+};
+
+export type GetTemplatesQuery = {
+  getTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    template_name?: string | null,
+    userID: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListTemplatesQueryVariables = {
+  filter?: ModelTemplatesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTemplatesQuery = {
+  listTemplates?:  {
+    __typename: "ModelTemplatesConnection",
+    items:  Array< {
+      __typename: "Templates",
+      id: string,
+      template_name?: string | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncTemplatesQueryVariables = {
+  filter?: ModelTemplatesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncTemplatesQuery = {
+  syncTemplates?:  {
+    __typename: "ModelTemplatesConnection",
+    items:  Array< {
+      __typename: "Templates",
+      id: string,
+      template_name?: string | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type TemplatesByUserIDQueryVariables = {
+  userID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTemplatesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type TemplatesByUserIDQuery = {
+  templatesByUserID?:  {
+    __typename: "ModelTemplatesConnection",
+    items:  Array< {
+      __typename: "Templates",
+      id: string,
+      template_name?: string | null,
+      userID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -218,6 +489,22 @@ export type GetUserQuery = {
     id: string,
     name?: string | null,
     email?: string | null,
+    Templates?:  {
+      __typename: "ModelTemplatesConnection",
+      items:  Array< {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -240,6 +527,11 @@ export type ListUsersQuery = {
       id: string,
       name?: string | null,
       email?: string | null,
+      Templates?:  {
+        __typename: "ModelTemplatesConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -266,6 +558,11 @@ export type SyncUsersQuery = {
       id: string,
       name?: string | null,
       email?: string | null,
+      Templates?:  {
+        __typename: "ModelTemplatesConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -274,6 +571,60 @@ export type SyncUsersQuery = {
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
+  } | null,
+};
+
+export type OnCreateTemplatesSubscriptionVariables = {
+  filter?: ModelSubscriptionTemplatesFilterInput | null,
+};
+
+export type OnCreateTemplatesSubscription = {
+  onCreateTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    template_name?: string | null,
+    userID: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateTemplatesSubscriptionVariables = {
+  filter?: ModelSubscriptionTemplatesFilterInput | null,
+};
+
+export type OnUpdateTemplatesSubscription = {
+  onUpdateTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    template_name?: string | null,
+    userID: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteTemplatesSubscriptionVariables = {
+  filter?: ModelSubscriptionTemplatesFilterInput | null,
+};
+
+export type OnDeleteTemplatesSubscription = {
+  onDeleteTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    template_name?: string | null,
+    userID: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -287,6 +638,22 @@ export type OnCreateUserSubscription = {
     id: string,
     name?: string | null,
     email?: string | null,
+    Templates?:  {
+      __typename: "ModelTemplatesConnection",
+      items:  Array< {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -305,6 +672,22 @@ export type OnUpdateUserSubscription = {
     id: string,
     name?: string | null,
     email?: string | null,
+    Templates?:  {
+      __typename: "ModelTemplatesConnection",
+      items:  Array< {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -323,6 +706,22 @@ export type OnDeleteUserSubscription = {
     id: string,
     name?: string | null,
     email?: string | null,
+    Templates?:  {
+      __typename: "ModelTemplatesConnection",
+      items:  Array< {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null >,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,

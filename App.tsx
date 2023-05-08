@@ -5,25 +5,29 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { Auth } from 'aws-amplify';
+import {current_UserInfo} from './src/API_Manager/index';
 
 function App(): JSX.Element {
   const [isLogIn, setIsLogIn] = useState(false)
 
   useEffect(() => {
-    Auth.currentUserInfo().then((response) => {
+    getCurrentUser()
+  }, [])
+
+  const getCurrentUser = ()=>{
+    current_UserInfo().then((response)=>{
       console.log("currentUser======", response)
       if (response) {
-        console.log("yaha aa raha hai========")
+        console.log("currentUserTrue========")
         global.session = true
       } else {
         global.session = false
       }
       setIsLogIn(true)
-    }).catch((error) => {
+    }).catch((error)=>{
       console.log("currentUserErr=======", error)
     })
-  }, [])
+  }
 
   return (
     <>

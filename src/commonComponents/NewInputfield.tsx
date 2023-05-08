@@ -52,7 +52,7 @@ export default NewInputField;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 18,
+    // marginTop: 18,
     backgroundColor: COLOURS.offwhite,
     borderRadius: 8,
     flexDirection: "row",

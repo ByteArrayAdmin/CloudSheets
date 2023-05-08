@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -15,11 +15,18 @@ import Folderlogo from "../../../../assets/Images/folder_minus.svg";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Style } from "./style";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 const AddrowClassattendance = () => {
   const navigation = useNavigation();
+  const route = useRoute()
   const [text, onChangeText] = useState("");
+  const [column, setColumn] = useState(route.params.columns)
+  const [templateName, setTemplateName] = useState(route.params.templateName)
+
+  useEffect(()=>{
+    console.log("columns=======",route.params.columns)
+  }, [])
 
   return (
     <>
@@ -36,7 +43,7 @@ const AddrowClassattendance = () => {
             </View>
             <View>
               <Text style={Style.classattendancetext}>
-                {labels.AddrowClassattendance.ClassAttendance}
+                {templateName}
               </Text>
             </View>
           </View>
@@ -66,7 +73,7 @@ const AddrowClassattendance = () => {
                 <Fatlogo />
               </View>
               <TouchableOpacity
-                onPress={() => navigation.navigate("RowdetailForm")}
+                onPress={() => navigation.navigate("RowdetailForm",{columns:column,spreadSheetName:text})}
               >
                 <Text style={Style.addrowtext}>
                   {labels.AddrowClassattendance.buttontext}

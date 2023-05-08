@@ -2,6 +2,57 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createTemplates = /* GraphQL */ `
+  mutation CreateTemplates(
+    $input: CreateTemplatesInput!
+    $condition: ModelTemplatesConditionInput
+  ) {
+    createTemplates(input: $input, condition: $condition) {
+      id
+      template_name
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateTemplates = /* GraphQL */ `
+  mutation UpdateTemplates(
+    $input: UpdateTemplatesInput!
+    $condition: ModelTemplatesConditionInput
+  ) {
+    updateTemplates(input: $input, condition: $condition) {
+      id
+      template_name
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteTemplates = /* GraphQL */ `
+  mutation DeleteTemplates(
+    $input: DeleteTemplatesInput!
+    $condition: ModelTemplatesConditionInput
+  ) {
+    deleteTemplates(input: $input, condition: $condition) {
+      id
+      template_name
+      userID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -11,6 +62,20 @@ export const createUser = /* GraphQL */ `
       id
       name
       email
+      Templates {
+        items {
+          id
+          template_name
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -28,6 +93,20 @@ export const updateUser = /* GraphQL */ `
       id
       name
       email
+      Templates {
+        items {
+          id
+          template_name
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -45,6 +124,20 @@ export const deleteUser = /* GraphQL */ `
       id
       name
       email
+      Templates {
+        items {
+          id
+          template_name
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version

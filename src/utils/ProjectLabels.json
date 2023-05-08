@@ -11,7 +11,8 @@
     "LOGIN": "Login",
     "EMAIL_VALIDATION": "This Field is Required",
     "INVALID_EMAIL": "This Field is Required",
-    "PASSWAORD": "This Field is Required"
+    "PASSWAORD": "This Field is Required",
+    "SKIP":"Skip"
   },
   "signupcontant": {
     "SKIP": "skip",
@@ -94,11 +95,13 @@
   },
   "TemBottomsheet": {
     "NewTemplate": "New Template",
+    "EditTemplate":"Edit Template",
     "PleasenameyourTemplate": "Please name your Template",
     "TemplateName": "Template Name",
     "EnterTemplateName": "Enter Template Name",
     "Cancel": "Cancel",
-    "Create": "Create"
+    "Create": "Create",
+    "Update":"Update"
   },
   "Creatcloudsheetlabels": {
     "ClassAttendance": "Class Attendance",
@@ -254,7 +257,8 @@
     "VerifyOTP":"Verify OTP",
     "ResendOTP":"Resend OTP",
     "ResendOTPSuccess":"code resent successfully",
-    "Confirmed":"Confirmed"
+    "Confirmed":"Confirmed",
+    "Sixty_Sec":60
   },
   "CreateClousheetPopup": {
     "CreateCloudsheet": "Create Cloudsheet",

@@ -1,48 +1,30 @@
 import React, { useRef, useState } from "react";
-import {
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, } from "react-native";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Logo from "../../../../assets/Images/ColourFolder.svg";
 import Threedots from "../../../../assets/Images/threedots.svg";
-import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
-import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
-import labels from "../../../../utils/ProjectLabels.json"
+import moment from 'moment';
 
+const Card = (props: any) => {
 
-const Card = () => {
-
-
-  const Opempopup= ()=>{
+  const OpenPopup = () => {
     child.current.childFunction1()
   }
   const child = useRef();
-  const SnapPoints= ["40%"]
+
   return (
     <View style={styles.container}>
       <View>
         <Logo />
       </View>
       <View>
-        <Text style={styles.textstyle}>Class Attendance</Text>
-        <Text style={styles.datestyle}>Jan 16, 2023 | 12:54 PM</Text>
+        <Text style={styles.textstyle}>{props?.item?.template_name}</Text>
+        <Text style={styles.datestyle}>{moment(props?.item?.createdAt).format("MMM DD, YYYY | h:mm a")}</Text>
       </View>
       <View style={styles.space}></View>
-      <TouchableOpacity style={styles.imagestyle} onPress={Opempopup}>
+      <TouchableOpacity style={styles.imagestyle} onPress={props.onEditTemplate}>
         <Threedots />
       </TouchableOpacity >
-      <View>
-        <CommonBottomsheet ref ={child} snapPoints={SnapPoints} children={
-          <EditDeleteCloudsheet name={"My Expenses"} date={"Modify on Jan 11"} 
-          editlabel={labels.TemplatePopupExpenses.Edit_Template} deletelabel={labels.TemplatePopupExpenses["Delete Template"]}/>
-        } />
-      </View>
     </View>
   );
 };
@@ -76,8 +58,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imagestyle: {
+
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 25,
+    height: 25,
     position: "absolute",
     right: 15,
-    bottom: 48,
+    bottom: 40,
   },
 });

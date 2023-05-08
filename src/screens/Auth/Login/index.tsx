@@ -18,21 +18,16 @@ import LoginLabels from "../../../utils/ProjectLabels.json";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { listUsers, getUser } from '../../../graphql/queries';
-import {createUser} from '../../../graphql/mutations';
+import { createUser } from '../../../graphql/mutations';
+import { userLogin } from '../../../API_Manager/index';
 
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    API.graphql(graphqlOperation(listUsers)).then((response) => {
-      console.log("getUserList========", response)
-    })
-  }, [])
-
   const onLoginPressed = async (data: any) => {
-    const { youremail, yourpasswaord } = data;
-    await Auth.signIn(youremail, yourpasswaord).then((response) => {
+    // const { youremail, yourpasswaord } = data;
+    userLogin(data).then((response: any) => {
       console.log("signInResp=======", response.attributes)
       const syncUser = async () => {
         const userData = await API.graphql(graphqlOperation(getUser, { id: response.attributes.sub }))
@@ -43,21 +38,17 @@ const Login = () => {
         }
 
         const newUser = {
-          id:response.attributes.sub,
-          name:response.attributes.name,
-          email:response.attributes.email
+          id: response.attributes.sub,
+          name: response.attributes.name,
+          email: response.attributes.email
         }
-
-        const newUserResponse = await API.graphql(graphqlOperation(createUser, {input:newUser}))
-
+        const newUserResponse = await API.graphql(graphqlOperation(createUser, { input: newUser }))
       }
       syncUser()
-
       navigation.navigate("Tabnavigator");
-    }).catch((error) => {
-      console.log("signInErr======", error)
+    }).catch((e) => {
+      console.log("loginErr=======", e)
     })
-
   };
   return (
     <>
@@ -65,9 +56,11 @@ const Login = () => {
       <SafeAreaView>
 
         <KeyboardAwareScrollView>
-          <View style={loginstyle.skipText}>
-            <Text style={loginstyle.skioptextcolor}>Skip</Text>
-          </View>
+          <TouchableOpacity style={loginstyle.skipText}
+            onPress={() => navigation.navigate("Tabnavigator")}
+          >
+            <Text style={loginstyle.skioptextcolor}>{LoginLabels.LoginScreen.SKIP}</Text>
+          </TouchableOpacity>
           <View style={loginstyle.createAccountview}>
             <View>
               <Mediumlogo />
