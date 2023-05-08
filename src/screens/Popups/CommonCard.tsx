@@ -10,10 +10,12 @@ import { COLOURS, FONTS } from "../../utils/Constant";
 
 const CommonCard = (props: any) => {
   return (
-    <View style={Style.container}>
+    <TouchableOpacity style={Style.container}
+    onPress={props.onPress}
+    >
       <View>{props.icon}</View>
       <Text style={Style.text}>{props.heading}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

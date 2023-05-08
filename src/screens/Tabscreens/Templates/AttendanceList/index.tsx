@@ -18,12 +18,14 @@ import Attendancelistcard from "./Attendancelistcard";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Styles } from "../RowDetailForm/style";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation ,useRoute} from "@react-navigation/native";
 const { height } = Dimensions.get("window");
 
 const Attendancelist = () => {
-  const [Data, setdata] = useState([{ id: 1 }]);
+  
   const navigation = useNavigation();
+  const route = useRoute()
+  const [Data, setdata] = useState([{ id: 1 }]);
 
   const Footer = () => {
     return <View style={Style.footer} />;

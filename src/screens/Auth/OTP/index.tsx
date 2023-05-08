@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../commonComponents/Button';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Auth } from 'aws-amplify';
+import { confirm_Signup, resend_OTP } from '../../../API_Manager/index';
 const OtpScreen = () => {
 
     const { control, handleSubmit, watch } = useForm();
@@ -23,16 +24,14 @@ const OtpScreen = () => {
     const verificaton = async (data: any) => {
         const { otp } = data
         console.log("OTPData========", data, userName)
-
-        try {
-            const response = await Auth.confirmSignUp(userName, otp);
+        confirm_Signup(userName, otp).then((response) => {
             console.log("OTPResp=========", response)
             Alert.alert(labels.OTP_Constants.Confirmed);
             navigation.navigate("Login")
-        } catch (error: any) {
-            console.log("OTPErr=======", error)
-            Alert.alert(error?.message);
-        }
+        }).catch((e) => {
+            console.log("OTPErr=======", e)
+            Alert.alert(e?.message);
+        })
     }
 
     useEffect(() => {
@@ -45,18 +44,17 @@ const OtpScreen = () => {
             }
         }, 1000);
     }, [count])
-    
+
     const resendOtpFunc = async () => {
         setDisable(true)
-        setCount(60)
-        try {
-            let response = await Auth.resendSignUp(userName);
+        setCount(labels.OTP_Constants.Sixty_Sec)
+        resend_OTP(userName).then((response)=>{
             console.log("resendResp=========", response)
             Alert.alert(labels.OTP_Constants.ResendOTPSuccess)
-        } catch (err) {
+        }).catch((err)=>{
             console.log('error resending code: ', err);
             Alert.alert(err?.message);
-        }
+        })
     }
 
     return (
@@ -130,7 +128,6 @@ const styles = StyleSheet.create({
     },
     resendBtnView: {
         flexDirection: 'row',
-
         height: 40,
         width: "40%",
         alignSelf: 'flex-end',

@@ -30,7 +30,7 @@ const SpreadsheetCard = (props: any) => {
       </View>
       <View>
         <InputField
-          name={`name${props.index}`}
+          name={`columnName${props.index}`}
           control={props.control}
           placeholder={labels.Creatcloudsheetlabels.PLACEHOLDERTEXT}
           Image={false}
@@ -52,7 +52,7 @@ const SpreadsheetCard = (props: any) => {
               buttonTextStyle={styles.dropdown1BtnTxtStyle}
               onselect={(index: any, data: any) => Dropdown(index, data)}
               control={props.control}
-              name={`firstdropdown${props.index}`}
+              name={`columnType${props.index}`}
               rules={{
                 required: labels.Creatcloudsheetlabels.Validationmsg,
               }}

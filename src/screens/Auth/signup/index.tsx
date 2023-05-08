@@ -24,6 +24,7 @@ import RedCorss from '../../../assets/Images/redcross.svg';
 import BlueTick from '../../../assets/Images/bluetick.svg';
 import AuthCard from "../../../commonComponents/AuthCard";
 import labels from '../../../utils/ProjectLabels.json';
+import { userSignup, userExist } from '../../../API_Manager/index';
 //Aws configiuration code commented for now
 
 Amplify.configure(awsconfig);
@@ -35,6 +36,7 @@ const Signup = () => {
   useEffect(() => {
     console.log("username======", userName)
   }, [userName])
+
   const onRegisterPressed = async (data: any) => {
     if (isUserExist) {
 
@@ -49,27 +51,23 @@ const Signup = () => {
           name: name,
         },
       };
-      try {
-        const response = await Auth.signUp(userSignUp);
-        console.log("signUpResp========", response)
-        // Alert.alert(labels.signupcontant.SUCCESFULLY_REGISTERED);
+      userSignup(userSignUp).then((response) => {
         showAlert(username)
-      } catch (error: any) {
-        console.log("SignupErr=======", error)
-        Alert.alert(error?.message);
-      }
+      }).catch((e) => {
+        console.log("SignupErr=======", e)
+        Alert.alert(e?.message);
+      })
     }
   };
 
-  const showAlert = (username:any) =>
+  const showAlert = (username: any) =>
     Alert.alert(
       labels.signupcontant.SUCCESFULLY_REGISTERED,
       labels.signupcontant.confirmEmailText,
       [
         {
           text: 'Ok',
-          onPress: () => navigation.navigate("OtpScreen",{username:username}),
-
+          onPress: () => navigation.navigate("OtpScreen", { username: username }),
         },
       ],
     );
@@ -78,19 +76,16 @@ const Signup = () => {
     setIsUserExist(false);
     const temp_code = '000000';
     console.log("userName=======", userName)
-    Auth.confirmSignUp(userName, temp_code, {
-      forceAliasCreation: false,
+    userExist(userName, temp_code).then((response) => {
+      console.log("checkIsExist========", response)
+    }).catch((err) => {
+      if (
+        err.code === 'CodeMismatchException' ||
+        err.code === 'AliasExistsException'
+      ) {
+        setIsUserExist(true);
+      }
     })
-      .then(data => console.log("checkIsExist========", data))
-      .catch(err => {
-        console.log("existErr=======", err)
-        if (
-          err.code === 'CodeMismatchException' ||
-          err.code === 'AliasExistsException'
-        ) {
-          setIsUserExist(true);
-        }
-      });
   };
 
   return (
@@ -98,11 +93,13 @@ const Signup = () => {
       <BackgroundLayout />
       <SafeAreaView style={styles.safeareastyle}>
         <KeyboardAwareScrollView>
-          <View style={styles.skipText}>
+          <TouchableOpacity style={styles.skipText}
+            onPress={() => navigation.navigate("Login")}
+          >
             <Text style={styles.skioptextcolor}>
               {signupLabel.signupcontant.SKIP}
             </Text>
-          </View>
+          </TouchableOpacity>
           <View style={styles.createAccountview}>
             <View>
               <Mediumlogo />
@@ -192,7 +189,7 @@ const Signup = () => {
                     styles={styles.inputview}
                   />
                   <CommonButton
-                     onPress={handleSubmit(onRegisterPressed)}
+                    onPress={handleSubmit(onRegisterPressed)}
                     // onPress={() => showAlert("shivam.infowind@gmail.com")}
 
                     Register={signupLabel.signupcontant.REGISTER}
