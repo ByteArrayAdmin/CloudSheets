@@ -2,7 +2,7 @@ projects:
   CloudSheetBackendEnv:
     schemaPath: amplify/backend/api/CloudSheetBackendEnv/build/schema.graphql
     includes:
-      - src/graphql/**/*.ts
+      - src/graphql/mutations.ts
     excludes:
       - ./amplify/**
     extensions:

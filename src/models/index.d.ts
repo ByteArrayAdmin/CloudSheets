@@ -6,6 +6,106 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/
 
 
 
+type EagerSpreadSheetRows = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SpreadSheetRows, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly items?: string | null;
+  readonly userID: string;
+  readonly templatesID: string;
+  readonly spreadsheetID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySpreadSheetRows = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SpreadSheetRows, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly items?: string | null;
+  readonly userID: string;
+  readonly templatesID: string;
+  readonly spreadsheetID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type SpreadSheetRows = LazyLoading extends LazyLoadingDisabled ? EagerSpreadSheetRows : LazySpreadSheetRows
+
+export declare const SpreadSheetRows: (new (init: ModelInit<SpreadSheetRows>) => SpreadSheetRows) & {
+  copyOf(source: SpreadSheetRows, mutator: (draft: MutableModel<SpreadSheetRows>) => MutableModel<SpreadSheetRows> | void): SpreadSheetRows;
+}
+
+type EagerSpreadSheet = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SpreadSheet, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly spreadsheet_name?: string | null;
+  readonly templatesID: string;
+  readonly userID: string;
+  readonly SpreadSheetRows?: (SpreadSheetRows | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySpreadSheet = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<SpreadSheet, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly spreadsheet_name?: string | null;
+  readonly templatesID: string;
+  readonly userID: string;
+  readonly SpreadSheetRows: AsyncCollection<SpreadSheetRows>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type SpreadSheet = LazyLoading extends LazyLoadingDisabled ? EagerSpreadSheet : LazySpreadSheet
+
+export declare const SpreadSheet: (new (init: ModelInit<SpreadSheet>) => SpreadSheet) & {
+  copyOf(source: SpreadSheet, mutator: (draft: MutableModel<SpreadSheet>) => MutableModel<SpreadSheet> | void): SpreadSheet;
+}
+
+type EagerTemplateColumns = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<TemplateColumns, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly column_Name?: string | null;
+  readonly column_Type?: string | null;
+  readonly templatesID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyTemplateColumns = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<TemplateColumns, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly column_Name?: string | null;
+  readonly column_Type?: string | null;
+  readonly templatesID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type TemplateColumns = LazyLoading extends LazyLoadingDisabled ? EagerTemplateColumns : LazyTemplateColumns
+
+export declare const TemplateColumns: (new (init: ModelInit<TemplateColumns>) => TemplateColumns) & {
+  copyOf(source: TemplateColumns, mutator: (draft: MutableModel<TemplateColumns>) => MutableModel<TemplateColumns> | void): TemplateColumns;
+}
+
 type EagerTemplates = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Templates, 'id'>;
@@ -14,6 +114,9 @@ type EagerTemplates = {
   readonly id: string;
   readonly template_name?: string | null;
   readonly userID: string;
+  readonly TemplateColumns?: (TemplateColumns | null)[] | null;
+  readonly SpreadSheets?: (SpreadSheet | null)[] | null;
+  readonly SpreadSheetRows?: (SpreadSheetRows | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -26,6 +129,9 @@ type LazyTemplates = {
   readonly id: string;
   readonly template_name?: string | null;
   readonly userID: string;
+  readonly TemplateColumns: AsyncCollection<TemplateColumns>;
+  readonly SpreadSheets: AsyncCollection<SpreadSheet>;
+  readonly SpreadSheetRows: AsyncCollection<SpreadSheetRows>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -45,6 +151,8 @@ type EagerUser = {
   readonly name?: string | null;
   readonly email?: string | null;
   readonly Templates?: (Templates | null)[] | null;
+  readonly SpreadSheets?: (SpreadSheet | null)[] | null;
+  readonly SpreadSheetRows?: (SpreadSheetRows | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -58,6 +166,8 @@ type LazyUser = {
   readonly name?: string | null;
   readonly email?: string | null;
   readonly Templates: AsyncCollection<Templates>;
+  readonly SpreadSheets: AsyncCollection<SpreadSheet>;
+  readonly SpreadSheetRows: AsyncCollection<SpreadSheetRows>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

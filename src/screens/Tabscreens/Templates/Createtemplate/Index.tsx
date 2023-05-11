@@ -26,7 +26,7 @@ import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreateTemplatePopup from "./../../../Popups/CreateTemplatePopup";
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
 
-import { create_Template,update_Template, current_UserInfo, get_Template_List , delete_Template} from '../../../../API_Manager/index';
+import { create_Template, update_Template, current_UserInfo, get_Template_List, delete_Template,get_ColumnByTemplateId } from '../../../../API_Manager/index';
 
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import Card from "../TabBarTemplateList/Card";
@@ -80,7 +80,7 @@ const CreateTemplate = () => {
     })
   }
 
-  const onRefreshList = ()=>{
+  const onRefreshList = () => {
     getTemplateList(userId)
   }
 
@@ -95,6 +95,8 @@ const CreateTemplate = () => {
   }
 
   const onCreateTemplate = (templateName: String) => {
+    let arr1 = templateList
+    let newTemp
     console.log("templateName===========", templateName)
     let uid = uuid.v1().toString()
     let timeStamp = moment().unix().toString()
@@ -104,20 +106,30 @@ const CreateTemplate = () => {
       id: newUniqueId,
       template_name: templateName,
       userID: userId
-      
+
     }
     console.log("rowData======", newTemplate)
 
-    create_Template(newTemplate).then((response) => {
+    create_Template(newTemplate).then((response: any) => {
       console.log("createTempResp=======", response)
+      arr1.push(response.data.createTemplates)
+      setTemplateList(arr1)
+      child.current.childFunction2();
+      // newTemp = response.data.createTemplates
+      navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates });
+      
+      setExtraData(new Date())
     }).catch((err) => {
       console.log("createTempErr=======", err)
     })
-    child.current.childFunction2();
-    // navigation.navigate("CreatSpreadsheet",{templateName:templateName});
+    
+    
   }
 
-  const onUpdateTemplates = (templateName: any, templateId: any, version:any) => {
+  const onUpdateTemplates = (templateName: any, templateId: any, version: any) => {
+
+    
+
     let arr1 = templateList
     arr1.forEach(element => {
       if (element.id == templateId) {
@@ -132,41 +144,42 @@ const CreateTemplate = () => {
       id: templateId,
       template_name: templateName,
       userID: userId,
-      _version:version
+      _version: version
     }
-    console.log("updatedRow==========",updateTemplate)
-    update_Template(updateTemplate).then((response)=>{
-      console.log("updateTemplate========",response)
-    }).catch((error)=>{
+    console.log("updatedRow==========", updateTemplate)
+    update_Template(updateTemplate).then((response: any) => {
+      console.log("updateTemplate========", response)
+      navigation.navigate("CreatSpreadsheet", { template: response.data.updateTemplates });
+    }).catch((error) => {
       console.log("updateTempErr=======", error)
     })
   }
 
-  const onDeleteTemplate = (selectedTemplate:any)=>{
+  const onDeleteTemplate = (selectedTemplate: any) => {
     let arr1 = templateList
     let index
     arr1.forEach(element => {
-      if(element.id == selectedTemplate.id){
+      if (element.id == selectedTemplate.id) {
         index = arr1.indexOf(element)
       }
-      
+
     });
-    arr1.splice(index,1)
+    arr1.splice(index, 1)
     setTemplateList(arr1)
     setExtraData(new Date())
     const deleteTemplate = {
       id: selectedTemplate.id,
       // template_name: selectedTemplate.template_name,
       // userID: selectedTemplate.userID,
-      _version:selectedTemplate._version,
-      _deleted:true
+      _version: selectedTemplate._version,
+      _deleted: true
     }
-    delete_Template(deleteTemplate).then((response)=>{
-        console.log("deleteTempResp=======",response)
-    }).catch((error)=>{
+    delete_Template(selectedTemplate.id).then((response) => {
+      console.log("deleteTempResp=======", response)
+    }).catch((error) => {
       console.log("deleteTempErr=======", error)
     })
-    console.log("index========",index)
+    // console.log("index========",index)
   }
 
   const onEditTemplate = () => {
@@ -187,7 +200,7 @@ const CreateTemplate = () => {
     <View style={styles.container}>
       {templateList.length > 0 ?
         <>
-          <View style={[styles.container,{marginBottom:bottomTabHeight}]}>
+          <View style={[styles.container, { marginBottom: bottomTabHeight }]}>
             <NewCommonHeader
               BackButton={<BackButton onPress={() => navigation.goBack()} />}
               heading={labels.TabBarTemplateList.Template}
@@ -201,7 +214,7 @@ const CreateTemplate = () => {
                 extraData={extraData}
                 refreshing={false}
                 onRefresh={onRefreshList}
-                
+
               />
             </View>
           </View>
@@ -280,17 +293,17 @@ const CreateTemplate = () => {
             isEditTemplate={isEditTemplate}
             selectedTemplate={selectedTemplate}
             onCreateTemplate={(templateName: String) => onCreateTemplate(templateName)}
-            onUpdateTemplate={(templateName: any, templateId: any,version:any) => onUpdateTemplates(templateName, templateId, version)}
+            onUpdateTemplate={(templateName: any, templateId: any, version: any) => onUpdateTemplates(templateName, templateId, version)}
           />}
       />
       <View>
         <CommonBottomsheet ref={editTempRef} snapPoints={snapPoints} children={
-          <EditDeleteCloudsheet 
-          editTemplate={() => onEditTemplate()}
-          deleteTemplate={(selectedTemplate:any)=>onDeleteTemplate(selectedTemplate)}
-          selectedTemplate={selectedTemplate} 
-          editlabel={labels.TemplatePopupExpenses.Edit_Template} 
-          deletelabel={labels.TemplatePopupExpenses["Delete Template"]} 
+          <EditDeleteCloudsheet
+            editTemplate={() => onEditTemplate()}
+            deleteTemplate={(selectedTemplate: any) => onDeleteTemplate(selectedTemplate)}
+            selectedTemplate={selectedTemplate}
+            editlabel={labels.TemplatePopupExpenses.Edit_Template}
+            deletelabel={labels.TemplatePopupExpenses["Delete Template"]}
           />
         } />
       </View>
