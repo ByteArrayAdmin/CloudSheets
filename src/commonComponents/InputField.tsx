@@ -23,7 +23,6 @@ const InputField = (props: any) => {
               </View>
               <View style={styles.viewWidth}>
                 <TextInput
-
                   value={value}
                   onChangeText={onChange}
 

@@ -17,16 +17,38 @@ import { Style } from "./style";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {create_SpreadSheet} from '../../../../API_Manager/index';
+import uuid from 'react-native-uuid';
+import moment from 'moment';
 const AddrowClassattendance = () => {
   const navigation = useNavigation();
   const route = useRoute()
   const [text, onChangeText] = useState("");
-  const [column, setColumn] = useState(route.params.columns)
-  const [templateName, setTemplateName] = useState(route.params.templateName)
+  const [template, setTemplate] = useState(route.params.template)
 
   useEffect(()=>{
-    console.log("columns=======",route.params.columns)
+    console.log("columns=======",route.params.template)
   }, [])
+
+  const onAddRow = ()=>{
+    let uid = uuid.v1().toString()
+    let timeStamp = moment().unix().toString()
+    let newUniqueId = uid + "-" + timeStamp
+    let newSpreadData = {
+      id:newUniqueId,
+      spreadsheet_name:text,
+      templatesID:template.id,
+      userID:template.userID
+
+    }
+    console.log("spreadSheetData=======",newSpreadData)
+    create_SpreadSheet(newSpreadData).then((response)=>{
+        console.log("spreadResp=======",response)
+        navigation.navigate("RowdetailForm",{spreadSheet:response.data.createSpreadSheet})
+    }).catch((error)=>{
+      console.log("spreadErr=====",error)
+    })
+  }
 
   return (
     <>
@@ -43,7 +65,7 @@ const AddrowClassattendance = () => {
             </View>
             <View>
               <Text style={Style.classattendancetext}>
-                {templateName}
+                {template?.template_name}
               </Text>
             </View>
           </View>
@@ -73,7 +95,8 @@ const AddrowClassattendance = () => {
                 <Fatlogo />
               </View>
               <TouchableOpacity
-                onPress={() => navigation.navigate("RowdetailForm",{columns:column,spreadSheetName:text})}
+                // onPress={() => navigation.navigate("RowdetailForm",{spreadSheetName:text})}
+                onPress={()=>onAddRow()}
               >
                 <Text style={Style.addrowtext}>
                   {labels.AddrowClassattendance.buttontext}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FlatList,
   View,
@@ -19,6 +19,7 @@ import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Styles } from "../RowDetailForm/style";
 import { useNavigation ,useRoute} from "@react-navigation/native";
+import {get_SpreadSheetRowBySpreadSheetId} from '../../../../API_Manager/index';
 const { height } = Dimensions.get("window");
 
 const Attendancelist = () => {
@@ -26,14 +27,32 @@ const Attendancelist = () => {
   const navigation = useNavigation();
   const route = useRoute()
   const [Data, setdata] = useState([{ id: 1 }]);
+  const [spreadSheet, setSpreadSheet] = useState(route?.params?.spreadSheet)
+  const [spreadSheetName, setSpreadSheetName] = useState(route?.params?.spreadSheet?.spreadsheet_name)
+  const [spreadSheetData, setSpreadSheetData] = useState([])
+
+  useEffect(()=>{
+      console.log("spreadsheet========",route?.params?.spreadSheet)
+      getSpreadsheetBySpreadsheetId(route?.params?.spreadSheet?.id)
+  }, [])
+
+  const getSpreadsheetBySpreadsheetId = (spreadSheetId:String)=>{
+    get_SpreadSheetRowBySpreadSheetId(spreadSheetId).then((response: any)=>{
+        console.log("spreadsheetResp========",response)
+        setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items)
+    }).catch((error)=>{
+        console.log("spreadSheetListErr========",error)
+    })
+  }
 
   const Footer = () => {
     return <View style={Style.footer} />;
   };
 
-  const renderItems = () => (
+  const renderItems = ({item}:any) => (
+    console.log("spreadItem======",item),
     <View style={Style.margingap}>
-      <Attendancelistcard />
+      <Attendancelistcard  item={item} />
     </View>
   );
   return (
@@ -41,9 +60,9 @@ const Attendancelist = () => {
       <View style={Style.container}>
         <View>
           <NewCommonHeader
-            BackButton={<BackButton onPress={() => navigation.goBack()} />}
+            BackButton={<BackButton onPress={() => navigation.navigate('CreateTemplate')} />}
             Folder={<Document />}
-            heading={label.Attendancelistlabels.AttendanceDate}
+            heading={spreadSheetName}
             styling={120}
           />
           <View style={Style.searchbarview}>
@@ -53,14 +72,15 @@ const Attendancelist = () => {
 
         <View style={Style.flatlistview}>
           <FlatList
-            data={Data}
+            data={spreadSheetData}
             renderItem={renderItems}
             ListFooterComponent={<Footer />}
           />
         </View>
         <TouchableOpacity
           style={Style.buttonmainview}
-          onPress={() => navigation.navigate("Updateattendance")}
+          // onPress={() => navigation.navigate("Updateattendance")}
+          onPress={()=>navigation.navigate("RowdetailForm",{spreadSheet:spreadSheet})}
         >
           <View style={Style.buttonviewnew}>
             <Fatlogo />

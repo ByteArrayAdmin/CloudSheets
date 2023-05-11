@@ -24,6 +24,9 @@ import { Styles } from "./style";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { styles } from "screens/Auth/signup/style";
+import {get_ColumnByTemplateId, create_SpreadSheet_Row} from '../../../../API_Manager/index';
+import uuid from 'react-native-uuid';
+import moment from 'moment';
 
 const RowdetailForm = () => {
   const navigation = useNavigation();
@@ -32,12 +35,35 @@ const RowdetailForm = () => {
   const [open, setopen] = useState(false);
   const [defaultdate, setdefaultdate] = useState(new Date());
   const [date, setdate] = useState("");
-  const [spreadSheetName, setSpreadSheetName] = useState(route.params.spreadSheetName)
-  const [columns, setColumns] = useState(route.params.columns)
+  const [spreadSheet, setSpreadSheet] = useState(route.params.spreadSheet)
+  const [columns, setColumns] = useState([])
+
+  useEffect(() => {
+    console.log("spreadName======", route.params.spreadSheet)
+    getColumnByID(route.params.spreadSheet.templatesID)
+  }, [])
+
   const onSubmitPressed = async (data: any) => {
     const { date } = data;
     console.log("rowData=======",data)
-    navigation.navigate("Attendancelist",{row:data})
+    let uid = uuid.v1().toString()
+    let timeStamp = moment().unix().toString()
+    let newUniqueId = uid + "-" + timeStamp
+
+    let newRow = {
+      id:newUniqueId,
+      userID: spreadSheet?.userID,
+      templatesID: spreadSheet?.templatesID,
+      spreadsheetID: spreadSheet?.id,
+      items:JSON.stringify(data)
+    }
+
+    create_SpreadSheet_Row(newRow).then((response)=>{
+        console.log("spreadRowResp==========",response)
+        navigation.navigate("Attendancelist",{spreadSheet:spreadSheet})
+    }).catch((error)=>{
+      console.log("spreadRowErr========",error)
+    })
 
   };
 
@@ -48,36 +74,40 @@ const RowdetailForm = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("spreadName======", route.params.spreadSheetName)
-    console.log("ColName=========", route.params.columns)
-  }, [])
+  const getColumnByID = (templateId:String)=>{
+    get_ColumnByTemplateId(templateId).then((response:any)=>{
+        console.log("getColResp======",response)
+        setColumns(response.data.templateColumnsByTemplatesID.items)
+    }).catch((error)=>{
+      console.log("getColmErr=====",error)
+    })
+  }
 
   useEffect(() => { }, [open]);
 
   const renderItem = ({ item ,index}: any) => (
     console.log("itemIndex======",index),
     <View>
-      {item.columnType == "Text" ?
+      {item.column_Type == "Text" ?
         <>
           <View style={Styles.viewMargin}>
-            <Text style={Styles.nametext}>{item.columnName}</Text>
+            <Text style={Styles.nametext}>{item.column_Name}</Text>
           </View>
-          <View>
+          <View style={{marginBottom:10}}>
             <NewInputField
-              name={item.columnName}
+              name={item.column_Name}
               control={control}
-              placeholder={item.columnName}
+              placeholder={item.column_Name}
               rules={{
                 required: labels.Rowdetailsform.valodationmessage,
               }}
               styles={Styles.inputview}
             />
-          </View></> : item.columnType == "Date" ?
+          </View></> : item.column_Type == "Date" ?
           <>
             <View>
               <Text style={Styles.Attendancetext}>
-                {labels.Rowdetailsform.Attendance_Date}
+                {item.column_Name}
               </Text>
             </View>
             <TouchableOpacity
@@ -96,21 +126,21 @@ const RowdetailForm = () => {
             </TouchableOpacity>
             <CommonDatepicker
               open={open}
-              name={item.columnName}
+              name={item.column_Name}
               control={control}
               toggle={toggle}
               defaultdate={defaultdate}
             />
-          </> : item.columnType == "Yes/No" ?
+          </> : item.column_Type == "Yes/No" ?
             <>
               <View >
-                <Text style={Styles.Attendancetext}>{item.columnName}</Text>
+                <Text style={Styles.Attendancetext}>{item.column_Name}</Text>
               </View>
               <View>
                 <NewInputField
-                  name={item.columnName}
+                  name={item.column_Name}
                   control={control}
-                  placeholder={item.columnName}
+                  placeholder={item.column_Name}
                   rules={{
                     required: labels.Rowdetailsform.valodationmessage,
                   }}
@@ -155,7 +185,7 @@ const RowdetailForm = () => {
         <NewCommonHeader
           BackButton={<BackButton onPress={() => navigation.goBack()} />}
           Folder={<Document />}
-          heading={labels.Rowdetailsform.headerlabel}
+          heading={spreadSheet?.spreadsheet_name}
           onPress={navigation.canGoBack()}
         />
       </View>
@@ -166,7 +196,7 @@ const RowdetailForm = () => {
             showsVerticalScrollIndicator={false}
               data={columns}
               renderItem={renderItem}
-              ListFooterComponent={Footer}
+              // ListFooterComponent={Footer}
             />
           </View>
         </View>

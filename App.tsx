@@ -6,6 +6,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {current_UserInfo} from './src/API_Manager/index';
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+Amplify.configure(awsconfig);
 
 function App(): JSX.Element {
   const [isLogIn, setIsLogIn] = useState(false)

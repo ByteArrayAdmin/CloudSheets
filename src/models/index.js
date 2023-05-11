@@ -4,9 +4,12 @@ import { schema } from './schema';
 
 
 
-const { Templates, User } = initSchema(schema);
+const { SpreadSheetRows, SpreadSheet, TemplateColumns, Templates, User } = initSchema(schema);
 
 export {
+  SpreadSheetRows,
+  SpreadSheet,
+  TemplateColumns,
   Templates,
   User
 };

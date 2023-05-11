@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef,useState } from "react";
 import label from "../../../../utils/ProjectLabels.json";
 import {
   FlatList,
@@ -16,9 +16,10 @@ import { useNavigation } from "@react-navigation/native";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Edit_Delete_Cloudsheet from "../../../Popups/Edit_Delete_Cloudsheet/index";
 
-export const Attendancelistcard = () => {
+export const Attendancelistcard = (props: any) => {
   const child = useRef();
   const snapPoints = ["35%", "50%"];
+  const [items,setItems] = useState(JSON.parse(props?.item.items))
 
   const OpenPopop = () => {
     child.current.childFunction1();
@@ -28,7 +29,7 @@ export const Attendancelistcard = () => {
       <View style={Styles.innercontainer}>
         <View style={Styles.subcontainer}>
           <View>
-            <Text style={Styles.nametext}>Rahul Raj</Text>
+            <Text style={Styles.nametext}>{Object.values(items)[0]}</Text>
           </View>
           <View style={Styles.emptyview}></View>
           <View style={Styles.gap}>
@@ -44,7 +45,7 @@ export const Attendancelistcard = () => {
           <View style={Styles.innerhoeizontaline} />
         </View>
         <View style={Styles.bottomgap}>
-          <View style={Styles.detailview}>
+          {/* <View style={Styles.detailview}>
             <View>
               <Text style={Styles.labelheading}>
                 {label.Attendancelistlabels.Name}
@@ -87,7 +88,19 @@ export const Attendancelistcard = () => {
             <View>
               <Text style={Styles.detailnametext}>-</Text>
             </View>
-          </View>
+          </View> */}
+          
+          {
+          
+          Object.keys(items).map((key) => {
+            return (
+              <View style={Styles.detailview}>
+              <Text style={Styles.labelheading}>{key}</Text>
+              <View style={Styles.emptyview}></View>
+              <Text style={Styles.detailnametext}>{(items)[key]}</Text>
+              </View>
+            )
+         })}
         </View>
       </View>
 

@@ -2,6 +2,210 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateSpreadSheetRows = /* GraphQL */ `
+  subscription OnCreateSpreadSheetRows(
+    $filter: ModelSubscriptionSpreadSheetRowsFilterInput
+  ) {
+    onCreateSpreadSheetRows(filter: $filter) {
+      id
+      items
+      userID
+      templatesID
+      spreadsheetID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateSpreadSheetRows = /* GraphQL */ `
+  subscription OnUpdateSpreadSheetRows(
+    $filter: ModelSubscriptionSpreadSheetRowsFilterInput
+  ) {
+    onUpdateSpreadSheetRows(filter: $filter) {
+      id
+      items
+      userID
+      templatesID
+      spreadsheetID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteSpreadSheetRows = /* GraphQL */ `
+  subscription OnDeleteSpreadSheetRows(
+    $filter: ModelSubscriptionSpreadSheetRowsFilterInput
+  ) {
+    onDeleteSpreadSheetRows(filter: $filter) {
+      id
+      items
+      userID
+      templatesID
+      spreadsheetID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateSpreadSheet = /* GraphQL */ `
+  subscription OnCreateSpreadSheet(
+    $filter: ModelSubscriptionSpreadSheetFilterInput
+  ) {
+    onCreateSpreadSheet(filter: $filter) {
+      id
+      spreadsheet_name
+      templatesID
+      userID
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateSpreadSheet = /* GraphQL */ `
+  subscription OnUpdateSpreadSheet(
+    $filter: ModelSubscriptionSpreadSheetFilterInput
+  ) {
+    onUpdateSpreadSheet(filter: $filter) {
+      id
+      spreadsheet_name
+      templatesID
+      userID
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteSpreadSheet = /* GraphQL */ `
+  subscription OnDeleteSpreadSheet(
+    $filter: ModelSubscriptionSpreadSheetFilterInput
+  ) {
+    onDeleteSpreadSheet(filter: $filter) {
+      id
+      spreadsheet_name
+      templatesID
+      userID
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateTemplateColumns = /* GraphQL */ `
+  subscription OnCreateTemplateColumns(
+    $filter: ModelSubscriptionTemplateColumnsFilterInput
+  ) {
+    onCreateTemplateColumns(filter: $filter) {
+      id
+      column_Name
+      column_Type
+      templatesID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateTemplateColumns = /* GraphQL */ `
+  subscription OnUpdateTemplateColumns(
+    $filter: ModelSubscriptionTemplateColumnsFilterInput
+  ) {
+    onUpdateTemplateColumns(filter: $filter) {
+      id
+      column_Name
+      column_Type
+      templatesID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteTemplateColumns = /* GraphQL */ `
+  subscription OnDeleteTemplateColumns(
+    $filter: ModelSubscriptionTemplateColumnsFilterInput
+  ) {
+    onDeleteTemplateColumns(filter: $filter) {
+      id
+      column_Name
+      column_Type
+      templatesID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateTemplates = /* GraphQL */ `
   subscription OnCreateTemplates(
     $filter: ModelSubscriptionTemplatesFilterInput
@@ -10,6 +214,52 @@ export const onCreateTemplates = /* GraphQL */ `
       id
       template_name
       userID
+      TemplateColumns {
+        items {
+          id
+          column_Name
+          column_Type
+          templatesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheets {
+        items {
+          id
+          spreadsheet_name
+          templatesID
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -26,6 +276,52 @@ export const onUpdateTemplates = /* GraphQL */ `
       id
       template_name
       userID
+      TemplateColumns {
+        items {
+          id
+          column_Name
+          column_Type
+          templatesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheets {
+        items {
+          id
+          spreadsheet_name
+          templatesID
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -42,6 +338,52 @@ export const onDeleteTemplates = /* GraphQL */ `
       id
       template_name
       userID
+      TemplateColumns {
+        items {
+          id
+          column_Name
+          column_Type
+          templatesID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheets {
+        items {
+          id
+          spreadsheet_name
+          templatesID
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -61,6 +403,37 @@ export const onCreateUser = /* GraphQL */ `
           id
           template_name
           userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheets {
+        items {
+          id
+          spreadsheet_name
+          templatesID
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
           createdAt
           updatedAt
           _version
@@ -98,6 +471,37 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         startedAt
       }
+      SpreadSheets {
+        items {
+          id
+          spreadsheet_name
+          templatesID
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -117,6 +521,37 @@ export const onDeleteUser = /* GraphQL */ `
           id
           template_name
           userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheets {
+        items {
+          id
+          spreadsheet_name
+          templatesID
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        nextToken
+        startedAt
+      }
+      SpreadSheetRows {
+        items {
+          id
+          items
+          userID
+          templatesID
+          spreadsheetID
           createdAt
           updatedAt
           _version

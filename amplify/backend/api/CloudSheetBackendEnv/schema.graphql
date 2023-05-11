@@ -1,7 +1,33 @@
+type SpreadSheetRows @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  items: String
+  userID: ID! @index(name: "byUser")
+  templatesID: ID! @index(name: "byTemplates")
+  spreadsheetID: ID! @index(name: "bySpreadSheet")
+}
+
+type SpreadSheet @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  spreadsheet_name: String
+  templatesID: ID! @index(name: "byTemplates")
+  userID: ID! @index(name: "byUser")
+  SpreadSheetRows: [SpreadSheetRows] @hasMany(indexName: "bySpreadSheet", fields: ["id"])
+}
+
+type TemplateColumns @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  column_Name: String
+  column_Type: String
+  templatesID: ID! @index(name: "byTemplates")
+}
+
 type Templates @model @auth(rules: [{allow: public}]) {
   id: ID!
   template_name: String
   userID: ID! @index(name: "byUser")
+  TemplateColumns: [TemplateColumns] @hasMany(indexName: "byTemplates", fields: ["id"])
+  SpreadSheets: [SpreadSheet] @hasMany(indexName: "byTemplates", fields: ["id"])
+  SpreadSheetRows: [SpreadSheetRows] @hasMany(indexName: "byTemplates", fields: ["id"])
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -9,5 +35,7 @@ type User @model @auth(rules: [{allow: public}]) {
   name: String
   email: String
   Templates: [Templates] @hasMany(indexName: "byUser", fields: ["id"])
+  SpreadSheets: [SpreadSheet] @hasMany(indexName: "byUser", fields: ["id"])
+  SpreadSheetRows: [SpreadSheetRows] @hasMany(indexName: "byUser", fields: ["id"])
 }
  

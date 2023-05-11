@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import DatePicker from "react-native-date-picker";
 import { Controller } from "react-hook-form";
+import moment from 'moment';
 
 const CommonDatepicker = (props: any) => {
   return (
