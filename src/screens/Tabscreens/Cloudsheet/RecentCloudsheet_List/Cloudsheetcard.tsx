@@ -1,21 +1,26 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import Threedots from '../../../../assets/Images/threedots.svg';
 import Docicon from '../../../../assets/Images/januaryAttendicon.svg';
-import {COLOURS, FONTS} from '../../../../utils/Constant';
+import { COLOURS, FONTS } from '../../../../utils/Constant';
 import Smallfolder from '../../../../assets/Images/smallfoldericon.svg';
+import IC_purpleDoc from '../../../../assets/Images/IC_purpleDoc.svg';
+import Ic_redDoc from '../../../../assets/Images/Ic_redDoc.svg';
+import moment from 'moment';
 
-const Cloudsheetcard = () => (
+const Cloudsheetcard = (props: any) => (
   <View style={Cardstyle.cardconatiner}>
     <View style={Cardstyle.subconatainer}>
       <View>
-        <Docicon />
+        {props.index % 2 ?
+          <Docicon /> : props.index % 3 ?
+            <IC_purpleDoc /> : <Ic_redDoc />
+        }
       </View>
-
       <View>
-        <Text style={Cardstyle.jantext}>January Attendance</Text>
-        <Text style={Cardstyle.datetext}>Jan 16, 2023 | 12:45 PM</Text>
+        <Text style={Cardstyle.jantext}>{props?.item?.spreadsheet_name}</Text>
+        <Text style={Cardstyle.datetext}>{moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm:a")}</Text>
       </View>
       <View style={Cardstyle.threedotview} />
       <View style={Cardstyle.threedotstyling}>
@@ -81,24 +86,24 @@ const Cardstyle = StyleSheet.create({
     color: COLOURS.black,
     opacity: 0.5,
   },
-  threedotview:{
+  threedotview: {
     flex: 1
   },
-  threedotsubview:{
+  threedotsubview: {
     marginBottom: 22
   },
-  emptyview:{
+  emptyview: {
     borderBottomWidth: 0.2
   },
-  
-  lastView:{
-flexDirection:'row',
-alignItems:'center',
-marginTop:16,
-paddingHorizontal:15
+
+  lastView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 16,
+    paddingHorizontal: 15
   },
-  foldespace:{paddingRight:6},
-  threedotstyling:{
-    position:'absolute', right:30, top:26 
+  foldespace: { paddingRight: 6 },
+  threedotstyling: {
+    position: 'absolute', right: 30, top: 26
   }
 });

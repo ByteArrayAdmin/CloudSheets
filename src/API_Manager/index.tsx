@@ -1,5 +1,5 @@
 import { Amplify, Auth, API, graphqlOperation, DataStore } from 'aws-amplify';
-import { listUsers, getUser, templatesByUserID, templateColumnsByTemplatesID, spreadSheetRowsBySpreadsheetID } from '../graphql/queries';
+import { listUsers, getUser, templatesByUserID, templateColumnsByTemplatesID, spreadSheetRowsBySpreadsheetID, spreadSheetsByUserID } from '../graphql/queries';
 import { createTemplates, updateTemplates, deleteTemplates, createTemplateColumns, createSpreadSheet ,createSpreadSheetRows} from '../graphql/mutations';
 import { DeleteTemplatesInput, DeleteTemplatesMutation } from '../API';
 import { GraphQLQuery } from '@aws-amplify/api';
@@ -90,7 +90,13 @@ export const create_Template = async (newTemplate: any) => {
 export const get_Template_List = async (userId: any) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const getTemplate = await API.graphql(graphqlOperation(templatesByUserID, { userID: userId }))
+            const filter = {
+                _deleted: {
+                  eq: true,
+                },
+              };
+            
+         const getTemplate = await API.graphql(graphqlOperation(templatesByUserID, { userID: userId }))
             resolve(getTemplate);
         } catch (e) {
             reject(e);
@@ -193,6 +199,17 @@ export const create_SpreadSheet = async (newSpreadSheet: any) => {
         try {
             const createSpreadsheet = await API.graphql(graphqlOperation(createSpreadSheet, { input: newSpreadSheet }))
             resolve(createSpreadsheet);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+export const get_CloudsheetByUserID = async (userId: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const getCloudsheet = await API.graphql(graphqlOperation(spreadSheetsByUserID, { userID: userId }))
+            resolve(getCloudsheet);
         } catch (e) {
             reject(e);
         }

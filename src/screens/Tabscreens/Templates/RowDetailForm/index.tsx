@@ -31,7 +31,7 @@ import moment from 'moment';
 const RowdetailForm = () => {
   const navigation = useNavigation();
   const route = useRoute()
-  const { control, handleSubmit } = useForm();
+  const { reset,control, handleSubmit } = useForm();
   const [open, setopen] = useState(false);
   const [defaultdate, setdefaultdate] = useState(new Date());
   const [date, setdate] = useState("");
@@ -60,6 +60,7 @@ const RowdetailForm = () => {
 
     create_SpreadSheet_Row(newRow).then((response)=>{
         console.log("spreadRowResp==========",response)
+        reset()
         navigation.navigate("Attendancelist",{spreadSheet:spreadSheet})
     }).catch((error)=>{
       console.log("spreadRowErr========",error)
