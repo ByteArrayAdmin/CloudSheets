@@ -57,6 +57,9 @@ const SpreadsheetCard = (props: any) => {
               rules={{
                 required: labels.Creatcloudsheetlabels.Validationmsg,
               }}
+              dropdownstyle={styles.dropdowmstyle}
+              rowstyle={styles.rowStyle}
+              rowTextStyle={styles.rowTextStyle}
             />
           </View>
         </View>
@@ -105,5 +108,25 @@ const styles = StyleSheet.create({
   },
   commondropdownview:{
     marginHorizontal: 18, marginBottom: 15 
-  }
+  },
+  dropdowmstyle:{
+    marginTop:0,
+    backgroundColor:COLOURS.offwhite,
+    borderRadius:10,
+    height:160
+  },
+  rowStyle:{
+
+    // backgroundColor:COLOURS.GREY,
+     marginHorizontal:5,
+     marginVertical:8,
+     height:40
+
+
+  },
+  rowTextStyle:{
+    fontWeight: 'bold',
+    textAlign: 'left',
+    fontSize:18,paddingLeft:6
+   }
 });

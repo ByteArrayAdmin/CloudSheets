@@ -38,6 +38,9 @@ const Dropdown = (props: any) => {
               }}
               dropdownIconPosition={"right"}
               buttonTextStyle={props.buttonTextStyle}
+              dropdownStyle={props.dropdownstyle}
+              rowStyle={props.rowstyle}
+              rowTextStyle={props.rowTextStyle}
             />
             <View style={{marginLeft:-16}}>
               {error && (

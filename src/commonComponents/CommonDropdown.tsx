@@ -35,6 +35,8 @@ const Dropdown = (props: any) => {
               }}
               dropdownIconPosition={"right"}
               buttonTextStyle={props.buttonTextStyle}
+              dropdownStyle={props.dropdowmstyle}
+              rowStyle={props.rowStyle}
             />
             <View style={Styles.erroview}>
               {error && (

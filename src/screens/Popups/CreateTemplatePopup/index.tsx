@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import SmallButton from "../../../commonComponents/SmallButton";
 import LightSmallButton from "../../../commonComponents/LightSmallbutton";
 import { useNavigation } from "@react-navigation/native";
-import BottomSheet, { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import Logo from "../../../assets/Images/templatemodel.svg";
 
