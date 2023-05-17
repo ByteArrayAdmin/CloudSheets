@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
-import { useNavigation ,CommonActions} from "@react-navigation/native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import labels from "../../../../utils/ProjectLabels.json";
 import UseLogo from "../.../../../../../assets/Images/userLogo.svg";
 import Exclaim from "../../../../assets/Images/exclaimationlogo.svg";
@@ -25,6 +25,9 @@ import { Styles } from "./style";
 import Profile from "../../../../assets/Images/ProfileLogo.svg";
 import PassLogo from "../../../../assets/Images/PasswordLogo.svg";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import Crown from "../../../../assets/Images/crown.svg";
+import SubcriptionScreenCard from "../SubscriptionPlanScreen/SubscriptionScreenCard";
+
 import { Auth } from 'aws-amplify';
 const UserSection = () => {
   const navigation = useNavigation();
@@ -33,11 +36,21 @@ const UserSection = () => {
   async function signOut() {
     try {
       await Auth.signOut();
-      navigation.dispatch(CommonActions.reset({routes:[
-        { name: 'Login' },]}))
+      navigation.dispatch(CommonActions.reset({
+        routes: [
+          { name: 'Login' },]
+      }))
     } catch (error) {
       console.log('error signing out: ', error);
     }
+  }
+
+  const onClickRegister = ()=>{
+    
+    navigation.dispatch(CommonActions.reset({
+      routes: [
+        { name: 'Signupscreen' },]
+    }))
   }
 
   return (
@@ -48,26 +61,47 @@ const UserSection = () => {
         Folder={<UseLogo />}
       />
       <View style={Styles.container}>
-        <TouchableOpacity
-          style={Styles.Registerview}
-          onPress={() => navigation.navigate("SubcriptionScreen")}
-        >
-          <View>
-            <Exclaim />
-          </View>
-          <View>
-            <Text style={Styles.registertext}>
-              {labels.Guestscreen.Registertext}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {global.isLoggedInUser ?
+          <>
+            <View style={Styles.SubcriptionplanView}>
+              <View>
+                <Text style={Styles.subcriptext}>
+                  {labels.SubscriptionScreen.SubscriptionPlan}
+                </Text>
+                <Text style={Styles.subcripsubtext}>
+                  {labels.SubscriptionScreen.Upgradeformorefeatures}
+                </Text>
+              </View>
+              <View style={Styles.space}></View>
+              <View style={Styles.crownpadding}>
+                <Crown />
+              </View>
+            </View>
+          </>
+          :
+          <TouchableOpacity
+            style={Styles.Registerview}
+            onPress={() => onClickRegister()}
+          >
+            <View>
+              <Exclaim />
+            </View>
+            <View>
+              <Text style={Styles.registertext}>
+                {labels.Guestscreen.Registertext}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        }
         <View>
           <Text style={Styles.Accounttext}>{labels.Guestscreen.Account}</Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
+        {global.isLoggedInUser ?
+          <>
           <UseCard
             Logo={<Profile />}
-            heading={labels.Guestscreen.MyAccount}
+            heading={labels.Guestscreen.Profile}
             onPress={() => navigation.navigate("EditProfile")}
           />
           <View style={Styles.horizontallineview}>
@@ -77,7 +111,7 @@ const UserSection = () => {
           <UseCard Logo={<PassLogo />} heading={labels.Guestscreen.Password} />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
-          </View>
+          </View></>:null}
           <UseCard
             Logo={<Ratelogo />}
             heading={labels.Guestscreen.RateUs}

@@ -1,4 +1,4 @@
-import React, { useRef,useState } from "react";
+import React, { useRef, useState } from "react";
 import label from "../../../../utils/ProjectLabels.json";
 import {
   FlatList,
@@ -7,11 +7,12 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
+import Ic_upArrow from '../../../../assets/Images/Ic_upArrow.svg';
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Edit_Delete_Cloudsheet from "../../../Popups/Edit_Delete_Cloudsheet/index";
@@ -19,13 +20,18 @@ import Edit_Delete_Cloudsheet from "../../../Popups/Edit_Delete_Cloudsheet/index
 export const Attendancelistcard = (props: any) => {
   const child = useRef();
   const snapPoints = ["35%", "50%"];
-  const [items,setItems] = useState(JSON.parse(props?.item.items))
-
+  const [items, setItems] = useState(JSON.parse(props?.item.items))
+  const [isOpen, setIsOpen] = useState(false)
   const OpenPopop = () => {
     child.current.childFunction1();
   };
+
+  const toggleSwitch = ()=>setIsOpen(previousState => !previousState);
+
   return (
-    <View style={Styles.container}>
+    <TouchableOpacity style={Styles.container}
+    onPress={toggleSwitch}
+    >
       <View style={Styles.innercontainer}>
         <View style={Styles.subcontainer}>
           <View>
@@ -33,7 +39,7 @@ export const Attendancelistcard = (props: any) => {
           </View>
           <View style={Styles.emptyview}></View>
           <View style={Styles.gap}>
-            <Downarrow />
+            {isOpen?<Ic_upArrow/>:<Downarrow />}
           </View>
           <View>
             <TouchableOpacity style={Styles.ThreeDotview} onPress={OpenPopop}>
@@ -44,64 +50,19 @@ export const Attendancelistcard = (props: any) => {
         <View style={Styles.horizontallineview}>
           <View style={Styles.innerhoeizontaline} />
         </View>
+        {isOpen?
         <View style={Styles.bottomgap}>
-          {/* <View style={Styles.detailview}>
-            <View>
-              <Text style={Styles.labelheading}>
-                {label.Attendancelistlabels.Name}
-              </Text>
-            </View>
-            <View style={Styles.emptyview}></View>
-            <View>
-              <Text style={Styles.detailnametext}>Rahul Raj</Text>
-            </View>
-          </View>
-          <View style={Styles.detailview}>
-            <View>
-              <Text style={Styles.labelheading}>
-                {label.Attendancelistlabels.AttendanceDate}
-              </Text>
-            </View>
-            <View style={Styles.emptyview}></View>
-            <View>
-              <Text style={Styles.detailnametext}>16 January,2023</Text>
-            </View>
-          </View>
-          <View style={Styles.detailview}>
-            <View>
-              <Text style={Styles.labelheading}>
-                {label.Attendancelistlabels.Present}
-              </Text>
-            </View>
-            <View style={Styles.emptyview}></View>
-            <View>
-              <Text style={Styles.detailnametext}>Yes</Text>
-            </View>
-          </View>
-          <View style={Styles.detailview}>
-            <View>
-              <Text style={Styles.labelheading}>
-                {label.Attendancelistlabels.Samples}
-              </Text>
-            </View>
-            <View style={Styles.emptyview}></View>
-            <View>
-              <Text style={Styles.detailnametext}>-</Text>
-            </View>
-          </View> */}
-          
           {
-          
-          Object.keys(items).map((key) => {
-            return (
-              <View style={Styles.detailview}>
-              <Text style={Styles.labelheading}>{key}</Text>
-              <View style={Styles.emptyview}></View>
-              <Text style={Styles.detailnametext}>{(items)[key]}</Text>
-              </View>
-            )
-         })}
-        </View>
+            Object.keys(items).map((key) => {
+              return (
+                <View style={Styles.detailview}>
+                  <Text style={Styles.labelheading}>{key}</Text>
+                  <View style={Styles.emptyview}></View>
+                  <Text style={Styles.detailnametext}>{(items)[key]}</Text>
+                </View>
+              )
+            })}
+        </View>:null}
       </View>
 
       <CommonBottomsheet
@@ -116,7 +77,7 @@ export const Attendancelistcard = (props: any) => {
           />
         }
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -171,5 +132,5 @@ const Styles = StyleSheet.create({
   bottomgap: {
     marginBottom: 20,
   },
- ThreeDotview: {width:25, height:25, justifyContent:'center', alignItems:'center'}
+  ThreeDotview: { width: 25, height: 25, justifyContent: 'center', alignItems: 'center' }
 });

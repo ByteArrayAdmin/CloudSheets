@@ -41,4 +41,28 @@ export const Styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 15,
   },
+  SubcriptionplanView: {
+    backgroundColor: COLOURS.Skyblue,
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 25,
+    paddingLeft: 25,
+    height: 108,
+    borderRadius: 10,
+  },
+  subcriptext: {
+    color: COLOURS.white,
+    fontFamily: FONTS.manrope_bold,
+    fontSize: 20,
+  },
+  subcripsubtext: {
+    color: COLOURS.white,
+    fontFamily: FONTS.inter_regular,
+    fontSize: 12,
+    paddingTop: 5,
+  },
+  space: {
+    flex: 1,
+  },
+  crownpadding:{ paddingRight: 24 }
 });
