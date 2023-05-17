@@ -1,26 +1,23 @@
 import React, { useState } from "react";
 import {
-  SafeAreaView,
   Text,
   View,
-  TouchableOpacity,
-  FlatList,
   StyleSheet,
-  ScrollView,
 } from "react-native";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Logo from "../../../../assets/Images/ColourFolder.svg";
 import Threedots from "../../../../assets/Images/threedots.svg";
+import moment from 'moment';
 
-const HeadingCard = () => {
+const HeadingCard = (props: any) => {
   return (
     <View style={styles.container}>
       <View>
         <Logo />
       </View>
       <View>
-        <Text style={styles.textstyle}>Class Attendance</Text>
-        <Text style={styles.datestyle}>Jan 16, 2023 | 12:54 PM</Text>
+        <Text style={styles.textstyle}>{props?.template?.template_name}</Text>
+        <Text style={styles.datestyle}>{moment(props?.template?.createdAt).format("MMM DD, YYYY | HH:mm a")}</Text>
       </View>
       <View style={styles.space}></View>
       <View style={styles.imagestyle}>
@@ -41,7 +38,6 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 15,
     borderRadius: 10,
-    marginBottom: 20,
   },
   textstyle: {
     fontFamily: FONTS.inter_semibold,

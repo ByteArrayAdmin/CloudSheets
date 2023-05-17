@@ -3,31 +3,21 @@ import {
   View,
   SafeAreaView,
   Text,
-  ScrollView,
-  KeyboardAvoidingView,
   TouchableOpacity,
-  Alert,
   FlatList
 } from "react-native";
 import BackgroundLayout from "../../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../../assets/Images/smalllogo.svg";
-import InputField from "../../../../commonComponents/InputField";
 import AuthCard from "../../../../commonComponents/AuthCard";
 import Custombutton from "../../../../commonComponents/Button";
 import CreateTemplatescreen from "../../../../utils/ProjectLabels.json";
 import Templatelogo from "../../../../assets/Images/Templatelogo.svg";
 import { Tempatestyle } from "./Style";
-import BottomsheetLayout from "../../../../Bottomsheet/BottomsheetLayout";
-import { useForm } from "react-hook-form";
-import Template from "../../../../assets/Images/Tempate.svg";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreateTemplatePopup from "./../../../Popups/CreateTemplatePopup";
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
-
-import { create_Template, update_Template, current_UserInfo, get_Template_List, delete_Template,get_ColumnByTemplateId } from '../../../../API_Manager/index';
-
+import { create_Template, update_Template, current_UserInfo, get_Template_List, delete_Template, get_ColumnByTemplateId } from '../../../../API_Manager/index';
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import Card from "../TabBarTemplateList/Card";
 import labels from "../../../../utils/ProjectLabels.json";
@@ -43,15 +33,13 @@ const CreateTemplate = () => {
   const child = useRef();
   const editTempRef = useRef();
   const navigation = useNavigation();
-  const DATA = useState([{ id: 1 }, { id: 1 }]);
-  const [visible, setVisible] = useState(false);
-  const { control, handleSubmit } = useForm();
   const [userId, setUserId] = useState('')
   const [templateList, setTemplateList] = useState([])
   const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [isEditTemplate, setIsEditTemplate] = useState(false)
   const [extraData, setExtraData] = useState(new Date())
   const bottomTabHeight = useBottomTabBarHeight()
+  const [count, setCount] = useState(1)
 
   const toggleBottomNavigationView = () => {
     setIsEditTemplate(false)
@@ -69,11 +57,17 @@ const CreateTemplate = () => {
     getUserId()
   }, [])
 
-
   const getTemplateList = (userId: any) => {
-    get_Template_List(userId).then((response) => {
+    let arr = []
+    get_Template_List(userId).then((response: any) => {
       console.log("getTempResp=======", response)
-      setTemplateList(response.data.templatesByUserID.items)
+      response.data.templatesByUserID.items.forEach(element => {
+        if (element._deleted != true) {
+          arr.push(element)
+        }
+      });
+      // setTemplateList(response.data.templatesByUserID.items)
+      setTemplateList(arr)
 
     }).catch((error) => {
       console.log("getTempErr======", error)
@@ -85,7 +79,7 @@ const CreateTemplate = () => {
   }
 
   const getUserId = () => {
-    current_UserInfo().then((response) => {
+    current_UserInfo().then((response: any) => {
       setUserId(response.attributes.sub)
       getTemplateList(response.attributes.sub)
       console.log("currentUser=========", response)
@@ -106,7 +100,6 @@ const CreateTemplate = () => {
       id: newUniqueId,
       template_name: templateName,
       userID: userId
-
     }
     console.log("rowData======", newTemplate)
 
@@ -115,20 +108,14 @@ const CreateTemplate = () => {
       arr1.push(response.data.createTemplates)
       setTemplateList(arr1)
       child.current.childFunction2();
-      // newTemp = response.data.createTemplates
-      navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates });
-      
+      navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate });
       setExtraData(new Date())
     }).catch((err) => {
       console.log("createTempErr=======", err)
     })
-    
-    
   }
 
   const onUpdateTemplates = (templateName: any, templateId: any, version: any) => {
-
-    
 
     let arr1 = templateList
     arr1.forEach(element => {
@@ -149,7 +136,7 @@ const CreateTemplate = () => {
     console.log("updatedRow==========", updateTemplate)
     update_Template(updateTemplate).then((response: any) => {
       console.log("updateTemplate========", response)
-      navigation.navigate("CreatSpreadsheet", { template: response.data.updateTemplates });
+      navigation.navigate("CreatSpreadsheet", { template: response.data.updateTemplates, isEdit: isEditTemplate });
     }).catch((error) => {
       console.log("updateTempErr=======", error)
     })
@@ -162,24 +149,23 @@ const CreateTemplate = () => {
       if (element.id == selectedTemplate.id) {
         index = arr1.indexOf(element)
       }
-
     });
     arr1.splice(index, 1)
     setTemplateList(arr1)
     setExtraData(new Date())
     const deleteTemplate = {
       id: selectedTemplate.id,
-      // template_name: selectedTemplate.template_name,
-      // userID: selectedTemplate.userID,
-      _version: selectedTemplate._version,
+      template_name: selectedTemplate.template_name,
+      userID: selectedTemplate.userID,
+      _version: 1,
       _deleted: true
     }
-    delete_Template(selectedTemplate.id).then((response) => {
+    delete_Template(selectedTemplate).then((response) => {
       console.log("deleteTempResp=======", response)
+      child.current.childFunction2();
     }).catch((error) => {
       console.log("deleteTempErr=======", error)
     })
-    // console.log("index========",index)
   }
 
   const onEditTemplate = () => {
@@ -189,12 +175,28 @@ const CreateTemplate = () => {
   }
   const snapPoints = ["45%"];
 
+  const onDoubleTab = (template: any)=>{
+    setCount(count+1)
+    console.log("totalCount======",count)
+    if(count == 2){
+      navigation.navigate("TemplateList",{template:template})
+
+    }else{
+      setTimeout(() => {
+        setCount(1)
+      }, 3000);
+    }
+  }
+
   const renderItems = ({ item }: any) => (
-    <TouchableOpacity onPress={() => navigation.navigate("ExpensesList")}>
+    <TouchableOpacity
+    //  onPress={() => navigation.navigate("ExpensesList")}
+    onPress={()=>onDoubleTab(item)}
+     
+     >
       <Card item={item} onEditTemplate={() => OpenPopup(item)} />
     </TouchableOpacity>
   )
-
 
   return (
     <View style={styles.container}>
@@ -206,7 +208,6 @@ const CreateTemplate = () => {
               heading={labels.TabBarTemplateList.Template}
               Folder={<Folder />}
             />
-
             <View style={styles.Flatlistviewone}>
               <FlatList
                 data={templateList}
@@ -214,7 +215,6 @@ const CreateTemplate = () => {
                 extraData={extraData}
                 refreshing={false}
                 onRefresh={onRefreshList}
-
               />
             </View>
           </View>

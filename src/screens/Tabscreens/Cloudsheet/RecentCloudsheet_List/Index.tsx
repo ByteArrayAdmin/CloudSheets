@@ -10,50 +10,59 @@ import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreatecloudsheetPopup from "../../../Popups/CreateCloudsheets.tsx";
 import SearcBar from "../../../../commonComponents/Searchbar";
 import Clousheetlistscreen from "../../../../utils/ProjectLabels.json";
-import {get_CloudsheetByUserID, current_UserInfo} from '../../../../API_Manager/index';
+import { get_CloudsheetByUserID, current_UserInfo } from '../../../../API_Manager/index';
+import { useNavigation } from "@react-navigation/native";
 
 const ClousheetList = () => {
   const bottomTabHeight = useBottomTabBarHeight();
-  const Data = [
-    { id: 1 },
-    { id: 1 },
-    { id: 1 },
-    { id: 1 },
-    { id: 1 },
-    { id: 1 },
-  ];
+
 
   const ChildRef = useRef();
   const snapPoints = ["40%", "50%"];
+  const navigation = useNavigation()
   const [cloudSheetList, setCloudSheetList] = useState([])
   const [userId, setUserId] = useState('')
+  const [count, setCount] = useState(1)
 
-  useEffect(()=>{
+  useEffect(() => {
+    console.log("currentUser=======", global.isLoggedInUser)
     get_CurrentUserId()
   }, [])
 
-  
 
-  const get_CurrentUserId = ()=>{
-    current_UserInfo().then((response: any)=>{
-        console.log("currentUserResp======",response.attributes.sub)
-        get_CloudsheetBy_UserID(response.attributes.sub)
-        setUserId(response.attributes.sub)
-    }).catch((error)=>{
-      console.log("userIdErr=======",error)
+
+  const get_CurrentUserId = () => {
+    current_UserInfo().then((response: any) => {
+      console.log("currentUserResp======", response.attributes.sub)
+      get_CloudsheetBy_UserID(response.attributes.sub)
+      setUserId(response.attributes.sub)
+    }).catch((error) => {
+      console.log("userIdErr=======", error)
     })
   }
   const onRefreshList = () => {
     get_CloudsheetBy_UserID(userId)
   }
 
-  const get_CloudsheetBy_UserID = (userID:any)=>{
-    get_CloudsheetByUserID(userID).then((response: any)=>{
-      console.log('cloudsheetRespByuserID========',response)
+  const get_CloudsheetBy_UserID = (userID: any) => {
+    get_CloudsheetByUserID(userID).then((response: any) => {
+      console.log('cloudsheetRespByuserID========', response)
       setCloudSheetList(response.data.spreadSheetsByUserID.items)
-    }).catch((error)=>{
-      console.log("cloudSheetErr=======",error)
+    }).catch((error) => {
+      console.log("cloudSheetErr=======", error)
     })
+  }
+  const onDoubleTab = (spreadSheetId: any)=>{
+    setCount(count+1)
+    console.log("totalCount======",count)
+    if(count == 2){
+      navigation.navigate("ExpensesList",{spreadSheetId:spreadSheetId})
+
+    }else{
+      setTimeout(() => {
+        setCount(1)
+      }, 3000);
+    }
   }
 
   const Opensheet = () => {
@@ -63,7 +72,14 @@ const ClousheetList = () => {
     return <View style={{ height: bottomTabHeight }} />;
   };
 
-  const renderItems = ({item,index}: any) => <Cloudsheetcard index={index} item={item} />;
+  const renderItems = ({ item, index }: any) => (
+    console.log("items=======",item),
+    <TouchableOpacity
+    onPress={()=>onDoubleTab(item.id)}
+    >
+    <Cloudsheetcard index={index} item={item} />
+    </TouchableOpacity>
+  );
 
   return (
     <>

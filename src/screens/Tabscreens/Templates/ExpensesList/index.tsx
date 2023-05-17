@@ -11,7 +11,7 @@ import {
 import NewCommonHeader from ".././../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 import labels from "../../../../utils/ProjectLabels.json";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useRoute } from "@react-navigation/native";
 import Doclogo from "../../../../assets/Images/documentdark.svg";
 import SearcBar from "../../../../commonComponents/Searchbar";
 import ListCard from "./ListCard";
@@ -19,11 +19,15 @@ import { Styles } from "../RowDetailForm/style";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import SubcriptionPlan from "../../../../screens/Popups/SubcriptionPopup";
+import {get_SpreadSheetRowBySpreadSheetId} from '../../../../API_Manager/index';
 
-const ExpensesList = () => {
+const ExpensesList = (props: any) => {
+  const route = useRoute()
   const navigation = useNavigation();
   const child = useRef();
   const snapPoints = ["35%"];
+  const [spreadSheetId, setSpreadSheetId] = useState(route?.params?.spreadSheetId)
+  const [spreadSheetData, setSpreadSheetData] = useState([])
   const DATA = [
     { id: 1, itemname: "Grocery" },
     {
@@ -41,9 +45,21 @@ const ExpensesList = () => {
   };
 
   useEffect(() => {
-    OpenPopup();
+    console.log("spreadSheetId========",spreadSheetId)
+    // OpenPopup();
+    get_SpreadSheetRowBySpreadSheetID()
   }, []);
-  const RenderItems = ({ item }) => <ListCard items={item} />;
+
+  const get_SpreadSheetRowBySpreadSheetID = ()=>{
+    get_SpreadSheetRowBySpreadSheetId(spreadSheetId).then((response: any)=>{
+        console.log("spreadRowResp======",response)
+        setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items)
+    }).catch((error)=>{
+        console.log("spreadRowErr========",error)
+    })
+  }
+
+  const RenderItems = ({ item }: any) => <ListCard items={item} />;
   return (
     <View style={Style.container}>
       <View>
@@ -58,7 +74,7 @@ const ExpensesList = () => {
         <SearcBar placeholder={labels.ExpensesList.Searchhere} />
       </View>
       <View style={Style.flatlistview}>
-        <FlatList data={DATA} renderItem={RenderItems} />
+        <FlatList data={spreadSheetData} renderItem={RenderItems} />
       </View>
       <CommonBottomsheet
         ref={child}

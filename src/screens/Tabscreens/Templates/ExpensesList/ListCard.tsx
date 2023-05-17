@@ -8,36 +8,43 @@ import {
 } from "react-native";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
+import Ic_upArrow from '../../../../assets/Images/Ic_upArrow.svg';
+
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import Label from "../../../../utils/ProjectLabels.json";
 import SubCard from "./SubCard";
+import { styles } from "screens/Auth/signup/style";
 
 const ListCard = (props: any) => {
+  console.log("items=======",props?.items)
   const [open, setopen] = useState(false);
+  const [rowData, setRowData] = useState(JSON.parse(props?.items?.items))
   const toggle = () => {
     setopen(!open);
   };
   return (
-    <View style={style.container}>
+    <TouchableOpacity style={style.container}
+    onPress={() => toggle()}
+    >
       <View style={style.innercontainer}>
         <View style={style.subview}>
           <View>
-            <Text style={style.texthead}>{props.items.itemname}</Text>
+            <Text style={style.texthead}>{Object.values(rowData)[0] }</Text>
           </View>
           <View style={style.Space}></View>
-          <TouchableOpacity
+          <View
             style={[style.arrowstyle, style.ThreeDotview]}
-            onPress={() => toggle()}
+            // onPress={() => toggle()}
           >
-            <Downarrow />
-          </TouchableOpacity>
-          <TouchableOpacity>
+            {open?<Ic_upArrow/> : <Downarrow />}
+          </View>
+          <TouchableOpacity style={style.threeDotStyle}>
             <Threedot />
           </TouchableOpacity>
         </View>
         {open ? (
-          <View styel={style.horizontalspacing}>
-            <View style={style.horizontallineview}>
+          <View style={style.horizontalspacing}>
+            {/* <View style={style.horizontallineview}>
               <View style={style.innerhoeizontaline} />
             </View>
             <SubCard
@@ -55,11 +62,21 @@ const ListCard = (props: any) => {
             <SubCard
               subhaeding={Label.ExpensesList.ExpensesAmount}
               details={props.items.ExpensesAmount}
-            />
+            /> */}
+            {
+            Object.keys(rowData).map((key) => {
+              return (
+                <View style={style.detailview}>
+                  <Text style={style.labelheading}>{key}</Text>
+                  <View style={style.emptyview}></View>
+                  <Text style={style.detailnametext}>{(rowData)[key]}</Text>
+                </View>
+              )
+            })}
           </View>
         ) : null}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -125,4 +142,25 @@ const style = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  detailview: { marginTop: 16, flexDirection: "row", alignItems: "center" },
+  labelheading: {
+    fontSize: 12,
+    fontFamily: FONTS.inter_regular,
+    color: COLOURS.black,
+    opacity: 0.5,
+  },
+  emptyview: {
+    flex: 1,
+  },
+  detailnametext: {
+    fontSize: 14,
+    fontFamily: FONTS.inter_regular,
+    color: COLOURS.black,
+  },
+  threeDotStyle:{
+    height:25,
+    width:25,
+    justifyContent:'center',
+    alignItems:'center'
+  }
 });

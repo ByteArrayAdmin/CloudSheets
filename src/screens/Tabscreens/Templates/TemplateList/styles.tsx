@@ -6,14 +6,15 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   Flatlistviewone: {
-    marginTop: 15,
-    marginHorizontal: 15,
+    // marginTop: 15,
+    // marginHorizontal: 15,
   },
   recentlistview: {
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 15,
     marginTop: 20,
+    marginBottom:20
   },
   space: {
     flex: 1,
@@ -29,8 +30,9 @@ export const styles = StyleSheet.create({
     color: COLOURS.Skyblue,
   },
   secondflatlistview: {
-    marginTop: 20,
+    marginTop: 15,
     marginHorizontal: 15,
+    flex:1,
   },
   widgetposition: {
     position: "absolute",

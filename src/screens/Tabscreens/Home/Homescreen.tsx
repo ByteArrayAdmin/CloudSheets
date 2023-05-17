@@ -4,6 +4,7 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
+  useEffect
 } from "react";
 import { View, SafeAreaView, Text, TouchableOpacity } from "react-native";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
@@ -18,14 +19,49 @@ import Exclaimationlogo from "../../../assets/Images/exclaimationlogo.svg";
 import modelLabels from "../../../utils/ProjectLabels.json";
 import { Tempatestyle } from "../Templates/Createtemplate/Style";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
+import { current_UserInfo } from '../../../API_Manager/index';
+import { useNavigation, CommonActions } from "@react-navigation/native";
+
 
 const Homescreen = (props: any) => {
-  const [visible, setVisible] = useState(false);
+
   const childRef = useRef(null);
+  const navigation = useNavigation();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    currentuser()
+  }, [])
+
+  const currentuser = () => {
+    current_UserInfo().then((response: any) => {
+      console.log("currUser=====", response)
+      if (response) {
+        global.isLoggedInUser = true
+      } else {
+        global.isLoggedInUser = false
+      }
+    }).catch((error) => {
+      console.log("currentUserErr=======", error)
+    })
+  }
+
   const toggleBottomNavigationView = () => {
     //Toggling the visibility state of the bottom sheet
-    setVisible(!visible);
+    if (global.isLoggedInUser) {
+
+    } else {
+      setVisible(!visible);
+    }
   };
+
+  const onClickRegister = ()=>{
+    setVisible(!visible);
+    navigation.dispatch(CommonActions.reset({
+      routes: [
+        { name: 'Signupscreen' },]
+    }))
+  }
 
   return (
     <>
@@ -97,7 +133,7 @@ const Homescreen = (props: any) => {
                       </View>
                       <Custombutton
                         Register={modelLabels.Guestbottomsheet.Registernow}
-                        onPress={() => toggleBottomNavigationView()}
+                        onPress={() => onClickRegister()}
                       />
                     </View>
                   </BottomSheet>

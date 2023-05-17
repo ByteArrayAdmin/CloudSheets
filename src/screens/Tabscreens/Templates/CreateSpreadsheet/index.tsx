@@ -7,6 +7,7 @@ import {
   FlatList,
   StyleSheet,
   ScrollView,
+  Alert
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -20,7 +21,8 @@ import { useForm } from "react-hook-form";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import uuid from 'react-native-uuid';
 import moment from 'moment';
-import { create_Template_Column } from '../../../../API_Manager/index';
+import { create_Template_Column, get_ColumnByTemplateId } from '../../../../API_Manager/index';
+import ColumnCard from './ColumnCard';
 
 const CreatSpreadsheet = () => {
   const navigation = useNavigation();
@@ -28,12 +30,29 @@ const CreatSpreadsheet = () => {
   const [Data, setData] = useState([]);
   const [template, setTemplate] = useState(route?.params?.template)
   const [templateID, setTemplateID] = useState(route?.params?.template?.id)
+  const [isEdit, setIsEdit] = useState(route?.params?.isEdit)
   const { control, handleSubmit } = useForm();
+  const [columnList, setColumnList] = useState([]);
+  const [extraData, setExtraData] = useState(new Date())
 
   useEffect(() => {
     console.log("templateName=======", route?.params?.template)
-    AddColoumn()
+    console.log("isEdit=========", isEdit)
+    if (isEdit) {
+      getExistingColumn()
+    }else{
+      AddColoumn()
+    }
   }, [])
+
+  const getExistingColumn = () => {
+    get_ColumnByTemplateId(templateID).then((response: any) => {
+      console.log("responseCol=====", response)
+      setColumnList(response.data.templateColumnsByTemplatesID.items)
+    }).catch((error) => {
+      console.log("getColmErr=======", error)
+    })
+  }
 
   const onSubmit = async (data: any) => {
     console.log("ColumnArray=======", data)
@@ -68,21 +87,25 @@ const CreatSpreadsheet = () => {
     console.log("arrWithID===========", Data)
 
     newArray.map((el: any, index) => {
-      console.log("arrayIndex======",index)
+      console.log("arrayIndex======", index)
       el.id = Data[index].id;
       el.templatesID = Data[index].templatesID;
       return el
     }
     );
     console.log("updateArrWithID===========", newArray)
-    
+
     create_Template_Column(newArray).then((response) => {
       console.log("createColmResponse=========", response)
     }).catch((error) => {
       console.log("createColmErr======", error)
     })
-
-    navigation.navigate("AddrowClassattendance",{template:template});
+    if (isEdit) {
+      navigation.goBack()
+    }else{
+      navigation.navigate("AddrowClassattendance", { template: template });
+    }
+    
   };
 
   const AddColoumn = () => {
@@ -93,9 +116,35 @@ const CreatSpreadsheet = () => {
     setData((oldArray) => [...Data, { id: newUniqueId, templatesID: templateID }]);
 
   };
-  const renderItems = ({ index }) => (
+
+  const removeColumnAlert = (item: any, index: any) => {
+    Alert.alert(labels.Creatcloudsheetlabels.Delete_Column, labels.Creatcloudsheetlabels.Delete_Warning, [
+      {
+        text: labels.Creatcloudsheetlabels.Cancel,
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: labels.Creatcloudsheetlabels.OK, onPress: () => removeColumn(item, index) },
+    ]);
+  }
+
+  const removeColumn = (item: any, index: any) => {
+    console.log("removeCol=========", item, index)
+    let arr1 = columnList
+    arr1.splice(index, 1)
+    setColumnList(arr1)
+    setExtraData(new Date())
+
+  }
+
+  const renderItems = ({ index }: any) => (
     <SpreadsheetCard control={control} index={index} />
   );
+
+  const renderExistingColumn = ({ item, index }: any) => (
+    <ColumnCard item={item} onPressRemove={() => removeColumnAlert(item, index)} />
+  )
+
   return (
     <>
       <ScrollView>
@@ -106,6 +155,13 @@ const CreatSpreadsheet = () => {
             heading={template?.template_name}
             onPress={navigation.canGoBack()}
           />
+          <View>
+            <FlatList
+              style={{ marginTop: 10, marginHorizontal: 15 }}
+              data={columnList} renderItem={renderExistingColumn}
+              extraData={extraData}
+            />
+          </View>
           <View>
             <FlatList data={Data} renderItem={renderItems} />
             <View style={Createspreadstyle.buttonview}>
@@ -125,10 +181,19 @@ const CreatSpreadsheet = () => {
               </TouchableOpacity>
             </View>
             <View>
+              {!isEdit?
               <Custombutton
                 onPress={handleSubmit(onSubmit)}
                 Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
-              />
+              />:Data.length>0?
+              <Custombutton
+                onPress={handleSubmit(onSubmit)}
+                Register={labels.Creatcloudsheetlabels.Update_Column}
+              />:<Custombutton
+              onPress={handleSubmit(onSubmit)}
+              Register={labels.Creatcloudsheetlabels.Done}
+            />
+              }
             </View>
 
             <View style={Createspreadstyle.Bottomgap}></View>

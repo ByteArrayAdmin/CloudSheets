@@ -1,6 +1,6 @@
 import { Amplify, Auth, API, graphqlOperation, DataStore } from 'aws-amplify';
-import { listUsers, getUser, templatesByUserID, templateColumnsByTemplatesID, spreadSheetRowsBySpreadsheetID, spreadSheetsByUserID } from '../graphql/queries';
-import { createTemplates, updateTemplates, deleteTemplates, createTemplateColumns, createSpreadSheet ,createSpreadSheetRows} from '../graphql/mutations';
+import { listUsers, getUser, templatesByUserID, templateColumnsByTemplatesID, spreadSheetRowsBySpreadsheetID, spreadSheetsByUserID,spreadSheetsByTemplatesID } from '../graphql/queries';
+import { createTemplates, updateTemplates, deleteTemplates, createTemplateColumns, createSpreadSheet, createSpreadSheetRows } from '../graphql/mutations';
 import { DeleteTemplatesInput, DeleteTemplatesMutation } from '../API';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { Templates } from '../models/index';
@@ -90,13 +90,7 @@ export const create_Template = async (newTemplate: any) => {
 export const get_Template_List = async (userId: any) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const filter = {
-                _deleted: {
-                  eq: true,
-                },
-              };
-            
-         const getTemplate = await API.graphql(graphqlOperation(templatesByUserID, { userID: userId }))
+            const getTemplate = await API.graphql(graphqlOperation(templatesByUserID, { userID: userId }))
             resolve(getTemplate);
         } catch (e) {
             reject(e);
@@ -115,44 +109,23 @@ export const update_Template = async (newTemplate: any) => {
     })
 }
 
-// export const delete_Template = async (newTemplate: any) => {
-//     console.log("newTemp=======", newTemplate)
-//     const temp = {
-//         id: newTemplate.id,
-//         template_name: newTemplate.template_name,
-//         userID: newTemplate.userID,
-//         _version: newTemplate._version,
-//         _deleted: newTemplate._deleted,
-//     }
-//     const updateTemp = new Templates(temp)
+export const delete_Template = async (newTemplate: any) => {
+    console.log("newTemp=======", newTemplate)
 
-//     const templateDetails: DeleteTemplatesInput = {
-//         id: newTemplate.id,
-//         _version: newTemplate._version
-//     };
-//     return new Promise(async (resolve, reject) => {
-//         try {
+    const templateDetails: DeleteTemplatesInput = {
+        id: newTemplate.id,
+        _version:newTemplate._version
+    };
 
-//             const deleteTemplate = await API.graphql<GraphQLQuery<DeleteTemplatesMutation>>({ 
-//                 query: deleteTemplates, 
-//                 variables: { input: templateDetails }
-//               });
-
-//             resolve(deleteTemplate);
-//         } catch (e) {
-//             reject(e);
-//         }
-//     })
-// }
-
-export const delete_Template = (templateId: String) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const modelToDelete = await DataStore.query(Templates, '889ef7e2-ee4f-11ed-8e1d-f50b6a3352cc-1683626088');
-            DataStore.delete(modelToDelete);
-            // const modelToDelete = await DataStore.delete(Templates, '889ef7e2-ee4f-11ed-8e1d-f50b6a3352cc-1683626088');
-            // let deleteItem =  DataStore.delete(modelToDelete);
-            resolve(modelToDelete);
+
+            const deleteTemplate = await API.graphql<GraphQLQuery<DeleteTemplatesMutation>>({ 
+                query: deleteTemplates, 
+                variables: { input: templateDetails }
+              });
+
+            resolve(deleteTemplate);
         } catch (e) {
             reject(e);
         }
@@ -209,6 +182,17 @@ export const get_CloudsheetByUserID = async (userId: any) => {
     return new Promise(async (resolve, reject) => {
         try {
             const getCloudsheet = await API.graphql(graphqlOperation(spreadSheetsByUserID, { userID: userId }))
+            resolve(getCloudsheet);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+export const getCloudsheetByTemplateID = async(templateId: any)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            const getCloudsheet = await API.graphql(graphqlOperation(spreadSheetsByTemplatesID, { templatesID: templateId }))
             resolve(getCloudsheet);
         } catch (e) {
             reject(e);

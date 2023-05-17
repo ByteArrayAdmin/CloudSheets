@@ -110,7 +110,14 @@
     "ColumnType": "Column Type",
     "AddNewColumn": "Add New Column",
     "CreateSpreadsheet": "Create Spreadsheet",
-    "Validationmsg": "This field is Required"
+    "Validationmsg": "This field is Required",
+    "Delete_Column":"Delete Column",
+    "Delete_Warning":"Are you sure want to delete this existing column?",
+    "Cancel":"Cancel",
+    "OK":"OK",
+    "Done":"Done",
+    "Update_Column":"Update Column"
+
   },
   "AddrowClassattendance": {
     "ClassAttendance": "Class Attendance",
@@ -180,6 +187,7 @@
     "ExpensesAmount": "Expenses Amount"
   },
   "Guestscreen": {
+    "Profile":"Profile",
     "MyAccount": "My Account",
     "Registertext": "Please Register to continue",
     "Account": "Account",
