@@ -23,6 +23,7 @@ import Customer_Support_Screen from '../screens/Tabscreens/UserTab/UserSection/C
 import Customer_Support_Form from '../screens/Tabscreens/UserTab/UserSection/Customer_Support_Form/index';
 import Faq_Screen from '../screens/Tabscreens/UserTab/UserSection/FAQ/index';
 import OtpScreen from '../screens/Auth/OTP/index';
+import ExistingTemplateList from '../screens/Tabscreens/Cloudsheet/ExistingTemplates/index';
 import { Auth } from 'aws-amplify';
 
 const Stack = createNativeStackNavigator();
@@ -136,6 +137,15 @@ const Rootnavigation = () => {
       <Stack.Screen
         name="TemplateList"
         component={TemplateList}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="ExistingTemplateList"
+        component={ExistingTemplateList}
         options={{
           headerShown: false,
           gestureEnabled: false,

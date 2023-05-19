@@ -27,5 +27,6 @@ export const COLOURS = {
   Simplegrey:"#5D6886",
  verydarkgrey: "#171717",
  darkblue:"#16213E",
- shadow_colour:"#000"
+ shadow_colour:"#000",
+ cardBorder_lightBlue:"rgba(0, 97, 255, 0.5)"
 };

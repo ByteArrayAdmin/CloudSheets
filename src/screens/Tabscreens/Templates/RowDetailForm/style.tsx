@@ -13,7 +13,7 @@ export const Styles = StyleSheet.create({
       flex: 1,
     },
     sucontainer: {
-      
+      flex:1,
       marginHorizontal: 15,
       marginTop: 18,
       backgroundColor: COLOURS.white,
@@ -21,6 +21,7 @@ export const Styles = StyleSheet.create({
     },
     formcontainer: {
       paddingHorizontal: 15,
+      flex:1
       // paddingVertical: 15,
 
     },
@@ -66,6 +67,7 @@ export const Styles = StyleSheet.create({
       flex: 1,
     },
     calenderlogview: { marginRight: 17 },
-    lastview: { marginTop: 0 },
-    viewMargin:{marginVertical:15}
+    lastview: { flex:1 ,justifyContent:'flex-end',bottom:30},
+    viewMargin:{marginVertical:15},
+    
   });

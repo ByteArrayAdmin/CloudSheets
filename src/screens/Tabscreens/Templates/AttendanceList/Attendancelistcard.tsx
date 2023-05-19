@@ -13,7 +13,7 @@ import Downarrow from "../.././../../assets/Images/dropdown.svg";
 import Ic_upArrow from '../../../../assets/Images/Ic_upArrow.svg';
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Edit_Delete_Cloudsheet from "../../../Popups/Edit_Delete_Cloudsheet/index";
 
@@ -22,47 +22,50 @@ export const Attendancelistcard = (props: any) => {
   const snapPoints = ["35%", "50%"];
   const [items, setItems] = useState(JSON.parse(props?.item.items))
   const [isOpen, setIsOpen] = useState(false)
+
   const OpenPopop = () => {
     child.current.childFunction1();
   };
 
-  const toggleSwitch = ()=>setIsOpen(previousState => !previousState);
+  const toggleSwitch = () => setIsOpen(previousState => !previousState);
 
   return (
     <TouchableOpacity style={Styles.container}
-    onPress={toggleSwitch}
+      onPress={toggleSwitch}
     >
-      <View style={Styles.innercontainer}>
+    
+      <View style={[Styles.innercontainer,{borderColor:isOpen?COLOURS.lightgrey:COLOURS.cardBorder_lightBlue}]}>
         <View style={Styles.subcontainer}>
           <View>
             <Text style={Styles.nametext}>{Object.values(items)[0]}</Text>
           </View>
           <View style={Styles.emptyview}></View>
           <View style={Styles.gap}>
-            {isOpen?<Ic_upArrow/>:<Downarrow />}
+            {isOpen ? <Ic_upArrow /> : <Downarrow />}
           </View>
           <View>
-            <TouchableOpacity style={Styles.ThreeDotview} onPress={OpenPopop}>
+            <TouchableOpacity style={Styles.ThreeDotview} onPress={props.openEditRecord}>
               <Threedot />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={Styles.horizontallineview}>
-          <View style={Styles.innerhoeizontaline} />
-        </View>
-        {isOpen?
-        <View style={Styles.bottomgap}>
-          {
-            Object.keys(items).map((key) => {
-              return (
-                <View style={Styles.detailview}>
-                  <Text style={Styles.labelheading}>{key}</Text>
-                  <View style={Styles.emptyview}></View>
-                  <Text style={Styles.detailnametext}>{(items)[key]}</Text>
-                </View>
-              )
-            })}
-        </View>:null}
+
+        {isOpen ?
+          <View style={Styles.bottomgap}>
+            <View style={Styles.horizontallineview}>
+              <View style={Styles.innerhoeizontaline} />
+            </View>
+            {
+              Object.keys(items).map((key) => {
+                return (
+                  <View style={Styles.detailview}>
+                    <Text style={Styles.labelheading}>{key}</Text>
+                    <View style={Styles.emptyview}></View>
+                    <Text style={Styles.detailnametext}>{(items)[key]}</Text>
+                  </View>
+                )
+              })}
+          </View> : null}
       </View>
 
       <CommonBottomsheet
@@ -90,6 +93,7 @@ const Styles = StyleSheet.create({
 
     backgroundColor: COLOURS.white,
     borderRadius: 8,
+    borderWidth:1
   },
   emptyview: {
     flex: 1,

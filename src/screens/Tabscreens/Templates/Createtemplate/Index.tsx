@@ -108,7 +108,7 @@ const CreateTemplate = () => {
       arr1.push(response.data.createTemplates)
       setTemplateList(arr1)
       child.current.childFunction2();
-      navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate });
+      navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate, isFrom: "TemplateTab" });
       setExtraData(new Date())
     }).catch((err) => {
       console.log("createTempErr=======", err)
@@ -175,13 +175,13 @@ const CreateTemplate = () => {
   }
   const snapPoints = ["45%"];
 
-  const onDoubleTab = (template: any)=>{
-    setCount(count+1)
-    console.log("totalCount======",count)
-    if(count == 2){
-      navigation.navigate("TemplateList",{template:template})
+  const onDoubleTab = (template: any) => {
+    setCount(count + 1)
+    console.log("totalCount======", count)
+    if (count == 2) {
+      navigation.navigate("TemplateList", { template: template })
 
-    }else{
+    } else {
       setTimeout(() => {
         setCount(1)
       }, 3000);
@@ -190,10 +190,10 @@ const CreateTemplate = () => {
 
   const renderItems = ({ item }: any) => (
     <TouchableOpacity
-    //  onPress={() => navigation.navigate("ExpensesList")}
-    onPress={()=>onDoubleTab(item)}
-     
-     >
+      //  onPress={() => navigation.navigate("ExpensesList")}
+      onPress={() => onDoubleTab(item)}
+
+    >
       <Card item={item} onEditTemplate={() => OpenPopup(item)} />
     </TouchableOpacity>
   )

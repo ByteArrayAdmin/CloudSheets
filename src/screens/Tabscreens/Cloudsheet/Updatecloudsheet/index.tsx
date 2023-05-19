@@ -63,7 +63,7 @@ const UpdateCloudsheet = () => {
                     <View>
                       <CustomButton
                         Register={labels.updatecloudsheet.Ok}
-                        onPress={() => navigation.navigate("TemplateList")}
+                        onPress={() => navigation.navigate("ClousheetList")}
                       />
                     </View>
                   </>

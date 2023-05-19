@@ -25,6 +25,7 @@ const AddrowClassattendance = () => {
   const route = useRoute()
   const [text, onChangeText] = useState("");
   const [template, setTemplate] = useState(route.params.template)
+  const [isFrom,setIsFrom] = useState(route?.params?.isFrom)
 
   useEffect(()=>{
     console.log("columns=======",route.params.template)
@@ -44,7 +45,7 @@ const AddrowClassattendance = () => {
     console.log("spreadSheetData=======",newSpreadData)
     create_SpreadSheet(newSpreadData).then((response)=>{
         console.log("spreadResp=======",response)
-        navigation.navigate("RowdetailForm",{spreadSheet:response.data.createSpreadSheet})
+        navigation.navigate("RowdetailForm",{spreadSheet:response.data.createSpreadSheet,isFrom:isFrom})
     }).catch((error)=>{
       console.log("spreadErr=====",error)
     })

@@ -135,7 +135,9 @@
     "PlaceholderPresent": "Yes/No",
     "placeholderEnterSamples": "Enter Samples",
     "Submit": "Submit",
-    "valodationmessage": "This Field is Required"
+    "valodationmessage": "This Field is Required",
+    "Cancel":"Cancel",
+    "Update":"Update"
   },
   "Attendancelistlabels": {
     "JanuaryAttendance": "January  Attendance",
@@ -184,7 +186,9 @@
     "ExpensesName": "Expenses Name",
     "ExpensesDate": "Expenses Date",
     "ExpensesType": "Expenses Type",
-    "ExpensesAmount": "Expenses Amount"
+    "ExpensesAmount": "Expenses Amount",
+    "Edit_CloudSheet_Record":"Edit CloudSheet Record",
+    "Delete_CloudSheet_Record":"Delete CloudSheet Record"
   },
   "Guestscreen": {
     "Profile":"Profile",

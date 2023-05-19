@@ -5,11 +5,15 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  LayoutAnimation
 } from "react-native";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
 import Ic_upArrow from '../../../../assets/Images/Ic_upArrow.svg';
-
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import Label from "../../../../utils/ProjectLabels.json";
 import SubCard from "./SubCard";
@@ -22,61 +26,49 @@ const ListCard = (props: any) => {
   const toggle = () => {
     setopen(!open);
   };
+  const toggleButton = () => {
+    setopen((prev) => !prev);
+    LayoutAnimation.configureNext({
+      ...LayoutAnimation.Presets.easeInEaseOut,
+      duration: 300,
+    });
+  };
   return (
-    <TouchableOpacity style={style.container}
-    onPress={() => toggle()}
-    >
-      <View style={style.innercontainer}>
+      <View style={[style.innercontainer,{borderWidth:1, borderColor:open?COLOURS.lightgrey:COLOURS.cardBorder_lightBlue}]}>
         <View style={style.subview}>
           <View>
             <Text style={style.texthead}>{Object.values(rowData)[0] }</Text>
           </View>
           <View style={style.Space}></View>
-          <View
-            style={[style.arrowstyle, style.ThreeDotview]}
-            // onPress={() => toggle()}
+          <TouchableOpacity
+            style={style.arrowstyle}
+            onPress={() => toggleButton()}
           >
             {open?<Ic_upArrow/> : <Downarrow />}
-          </View>
-          <TouchableOpacity style={style.threeDotStyle}>
+          </TouchableOpacity>
+          <TouchableOpacity style={style.threeDotStyle}
+          onPress={props.onPressThreeDot}
+          >
             <Threedot />
           </TouchableOpacity>
         </View>
         {open ? (
-          <View style={style.horizontalspacing}>
-            {/* <View style={style.horizontallineview}>
-              <View style={style.innerhoeizontaline} />
-            </View>
-            <SubCard
-              subhaeding={Label.ExpensesList.ExpensesName}
-              details={props.items.itemname}
-            />
-            <SubCard
-              subhaeding={Label.ExpensesList.ExpensesDate}
-              details={props.items.ExpensesDate}
-            />
-            <SubCard
-              subhaeding={Label.ExpensesList.ExpensesType}
-              details={props.items.ExpensesType}
-            />
-            <SubCard
-              subhaeding={Label.ExpensesList.ExpensesAmount}
-              details={props.items.ExpensesAmount}
-            /> */}
+          <Animated.View style={style.horizontalspacing}>
+            <Animated.View style={style.seprator}></Animated.View>
             {
             Object.keys(rowData).map((key) => {
               return (
-                <View style={style.detailview}>
-                  <Text style={style.labelheading}>{key}</Text>
-                  <View style={style.emptyview}></View>
-                  <Text style={style.detailnametext}>{(rowData)[key]}</Text>
-                </View>
+                <Animated.View style={style.detailview}>
+                  <Animated.Text style={style.labelheading}>{key}</Animated.Text>
+                  <Animated.View style={style.emptyview}></Animated.View>
+                  <Animated.Text style={style.detailnametext}>{(rowData)[key]}</Animated.Text>
+                </Animated.View>
               )
             })}
-          </View>
+          </Animated.View>
         ) : null}
       </View>
-    </TouchableOpacity>
+    
   );
 };
 
@@ -102,6 +94,8 @@ const style = StyleSheet.create({
   },
   arrowstyle: {
     marginRight: 16,
+    paddingHorizontal:18,
+    paddingVertical:10
   },
   innerhoeizontaline: {
     flex: 1,
@@ -162,5 +156,9 @@ const style = StyleSheet.create({
     width:25,
     justifyContent:'center',
     alignItems:'center'
+  },
+  seprator:{
+    borderWidth:1,
+    borderColor:COLOURS.lightgrey
   }
 });
