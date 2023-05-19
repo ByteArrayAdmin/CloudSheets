@@ -31,6 +31,7 @@ const CreatSpreadsheet = () => {
   const [template, setTemplate] = useState(route?.params?.template)
   const [templateID, setTemplateID] = useState(route?.params?.template?.id)
   const [isEdit, setIsEdit] = useState(route?.params?.isEdit)
+  const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
   const { control, handleSubmit } = useForm();
   const [columnList, setColumnList] = useState([]);
   const [extraData, setExtraData] = useState(new Date())
@@ -103,7 +104,7 @@ const CreatSpreadsheet = () => {
     if (isEdit) {
       navigation.goBack()
     }else{
-      navigation.navigate("AddrowClassattendance", { template: template });
+      navigation.navigate("AddrowClassattendance", { template: template ,isFrom:isFrom});
     }
     
   };

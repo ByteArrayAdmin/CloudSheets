@@ -14,21 +14,21 @@ const CommonDatepicker = (props: any) => {
   return (
     <View>
       <Controller
+        
         name={props.name}
         control={props.control}
         defaultValue={props.defaultdate}
         render={({ field: { onChange, value } }) => (
           <DatePicker
             modal
+            mode={'date'}
             open={props.open}
             date={value}
             onConfirm={(date) => {
               onChange(date);
               props.toggle(false, date);
             }}
-            onCancel={() => {
-              props.toggle(false);
-            }}
+            onCancel={props.onCancel}
           />
         )}
       />

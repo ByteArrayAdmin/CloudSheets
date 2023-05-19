@@ -8,6 +8,7 @@ const NewInputField = (props: any) => {
   return (
     <View>
       <Controller
+      defaultValue={props.defaultValue}
         control={props.control}
         name={props.name}
         rules={props.rules}

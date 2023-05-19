@@ -45,7 +45,7 @@ const CloudsheetList = () => {
       <Stack.Screen
         name="UpdateCloudsheet"
         component={UpdateCloudsheet}
-        options={{ headerShown: false, gestureEnabled: false }}
+        options={{ headerShown: false, gestureEnabled: false ,animation:'fade'}}
       />
     </Stack.Navigator>
   );
@@ -93,7 +93,7 @@ export const Tabnavigator = () => {
         lazy: true,
         tabBarStyle: {
           position: "absolute",
-          opacity: 0.9,
+          // opacity: 0.9,
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "#FFFFFF",
