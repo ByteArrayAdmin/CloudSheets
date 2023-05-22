@@ -1,11 +1,9 @@
-import React, { useState,useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   FlatList,
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
-  StatusBar,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
@@ -18,15 +16,15 @@ import Attendancelistcard from "./Attendancelistcard";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Styles } from "../RowDetailForm/style";
-import { useNavigation ,useRoute} from "@react-navigation/native";
-import {get_SpreadSheetRowBySpreadSheetId} from '../../../../API_Manager/index';
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { get_SpreadSheetRowBySpreadSheetId } from '../../../../API_Manager/index';
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Edit_Delete_Cloudsheet from "../../../Popups/Edit_Delete_Cloudsheet/index";
 import EditSpreadsheetRecord from '../../../Popups/EditSpreadsheetRecord';
 const { height } = Dimensions.get("window");
 
 const Attendancelist = () => {
-  
+
   const navigation = useNavigation();
   const route = useRoute()
   const child = useRef()
@@ -38,40 +36,45 @@ const Attendancelist = () => {
   const [selectedRow, setSelectedRow] = useState({})
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
 
-  useEffect(()=>{
-      console.log("spreadsheet========",route?.params?.spreadSheet)
-      getSpreadsheetBySpreadsheetId(route?.params?.spreadSheet?.id)
+  // ---------- Initial Rendering ---------
+  useEffect(() => {
+    console.log("spreadsheet========", route?.params?.spreadSheet)
+    getSpreadsheetBySpreadsheetId(route?.params?.spreadSheet?.id)
   }, [])
 
-  const getSpreadsheetBySpreadsheetId = (spreadSheetId:String)=>{
-    get_SpreadSheetRowBySpreadSheetId(spreadSheetId).then((response: any)=>{
-        console.log("spreadsheetResp========",response)
-        setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items)
-    }).catch((error)=>{
-        console.log("spreadSheetListErr========",error)
+  // ------------- Get SpreadSheet List -----------
+  const getSpreadsheetBySpreadsheetId = (spreadSheetId: String) => {
+    get_SpreadSheetRowBySpreadSheetId(spreadSheetId).then((response: any) => {
+      console.log("spreadsheetResp========", response)
+      setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items)
+    }).catch((error) => {
+      console.log("spreadSheetListErr========", error)
     })
   }
-  const openEditRecordPopup = (spreadSheetRow: any)=>{
+
+  // --------- Open Edit Record Popup --------
+  const openEditRecordPopup = (spreadSheetRow: any) => {
     setSelectedRow(spreadSheetRow)
     child.current.childFunction1();
   }
 
-  const onEditRecord = ()=>{
+  // --------- onClick Edit Record --------
+  const onEditRecord = () => {
     child.current.childFunction2();
 
-    console.log("spreadSheetRow======",selectedRow)
-    console.log("spreadSheet======",spreadSheet)
-     navigation.navigate("RowdetailForm",{spreadSheetRow:selectedRow,spreadSheet:spreadSheet,isEdit:true,isFrom:isFrom})
+    console.log("spreadSheetRow======", selectedRow)
+    console.log("spreadSheet======", spreadSheet)
+    navigation.navigate("RowdetailForm", { spreadSheetRow: selectedRow, spreadSheet: spreadSheet, isEdit: true, isFrom: isFrom })
   }
 
   const Footer = () => {
     return <View style={Style.footer} />;
   };
 
-  const renderItems = ({item}:any) => (
-    console.log("spreadItem======",item),
+  const renderItems = ({ item }: any) => (
+    console.log("spreadItem======", item),
     <View style={Style.margingap}>
-      <Attendancelistcard  item={item} openEditRecord={()=>openEditRecordPopup(item)} />
+      <Attendancelistcard item={item} openEditRecord={() => openEditRecordPopup(item)} />
     </View>
   );
   return (
@@ -79,7 +82,7 @@ const Attendancelist = () => {
       <View style={Style.container}>
         <View>
           <NewCommonHeader
-            BackButton={<BackButton onPress={() =>isFrom =="CloudSheetTab"? navigation.navigate('ClousheetList'): navigation.navigate('CreateTemplate')} />}
+            BackButton={<BackButton onPress={() => isFrom == "CloudSheetTab" ? navigation.navigate('ClousheetList') : navigation.navigate('CreateTemplate')} />}
             Folder={<Document />}
             heading={spreadSheetName}
             styling={120}
@@ -88,7 +91,6 @@ const Attendancelist = () => {
             <Searchbar placeholder={"Search here"} />
           </View>
         </View>
-
         <View style={Style.flatlistview}>
           <FlatList
             data={spreadSheetData}
@@ -99,7 +101,7 @@ const Attendancelist = () => {
         <TouchableOpacity
           style={Style.buttonmainview}
           // onPress={() => navigation.navigate("Updateattendance")}
-          onPress={()=>navigation.navigate("RowdetailForm",{spreadSheet:spreadSheet})}
+          onPress={() => navigation.navigate("RowdetailForm", { spreadSheet: spreadSheet })}
         >
           <View style={Style.buttonviewnew}>
             <Fatlogo />
@@ -114,13 +116,12 @@ const Attendancelist = () => {
         ref={child}
         snapPoints={snapPoints}
         children={<EditSpreadsheetRecord
-          editRecord={()=>onEditRecord()}
-           spreadSheetRow={selectedRow}
-           editlabel={label.Edit_Delete_Cloud.EditCloudSheetRecord}
-            deletelabel={label.Edit_Delete_Cloud.DeleteCloudSheet}
-           />}
+          editRecord={() => onEditRecord()}
+          spreadSheetRow={selectedRow}
+          editlabel={label.Edit_Delete_Cloud.EditCloudSheetRecord}
+          deletelabel={label.Edit_Delete_Cloud.DeleteCloudSheet}
+        />}
       />
-      
     </>
   );
 };
@@ -137,7 +138,6 @@ const Style = StyleSheet.create({
     alignSelf: "center",
     bottom: -20,
   },
-
   subuttnview: {},
   buttonviewnew: { paddingRight: 10 },
   addrowtext: {

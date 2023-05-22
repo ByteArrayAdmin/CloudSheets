@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  SafeAreaView,
-  Text,
   View,
   TouchableOpacity,
   FlatList,
   StyleSheet,
-  ScrollView,
 } from "react-native";
 import NewCommonHeader from ".././../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -15,13 +12,12 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Doclogo from "../../../../assets/Images/documentdark.svg";
 import SearcBar from "../../../../commonComponents/Searchbar";
 import ListCard from "./ListCard";
-import { Styles } from "../RowDetailForm/style";
-import { COLOURS, FONTS } from "../../../../utils/Constant";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import SubcriptionPlan from "../../../../screens/Popups/SubcriptionPopup";
 import { get_SpreadSheetRowBySpreadSheetId } from '../../../../API_Manager/index';
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
 import EditSpreadsheetRecord from "../../../../screens/Popups/EditSpreadsheetRecord/index";
+import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
 
 const ExpensesList = (props: any) => {
   const route = useRoute()
@@ -34,28 +30,19 @@ const ExpensesList = (props: any) => {
   const [selectedRow, setSelectedRow] = useState({})
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
 
-  const OpenPopup = () => {
-    child.current.childFunction1();
-  };
-
-  const onEditRecord = ()=>{
-    editRecordRef.current.childFunction2();
-    console.log("spreadSheetRow=======",selectedRow)
-    console.log("spreadSheetDetail======",spreadSheetDetail)
-    navigation.navigate("RowdetailForm",{spreadSheetRow:selectedRow,spreadSheet:spreadSheetDetail,isEdit:true,isFrom:isFrom})
-  }
-
-  const openEditRecordPopup = (spreadSheetRow: any)=>{
-    setSelectedRow(spreadSheetRow)
-    editRecordRef.current.childFunction1();
-  }
-
+  // ----------- Initial Rendering ------------
   useEffect(() => {
     console.log("spreadSheetId========", spreadSheetDetail)
     // OpenPopup();
     get_SpreadSheetRowBySpreadSheetID()
   }, []);
 
+  // ----------- Pull to Refresh SpreadSheet Row ----------
+  const onRefresh = () => {
+    get_SpreadSheetRowBySpreadSheetID()
+  }
+
+  // ----------- Get SpreadSheet Row Data -------------
   const get_SpreadSheetRowBySpreadSheetID = () => {
     get_SpreadSheetRowBySpreadSheetId(spreadSheetDetail.id).then((response: any) => {
       console.log("spreadRowResp======", response)
@@ -65,8 +52,32 @@ const ExpensesList = (props: any) => {
     })
   }
 
+  // ------------ Open Subscribtion popUp ------------
+  const OpenPopup = () => {
+    child.current.childFunction1();
+  };
+
+  // ------------ onClick Edit Record popup ------------
+  const onEditRecord = () => {
+    editRecordRef.current.childFunction2();
+    console.log("spreadSheetRow=======", selectedRow)
+    console.log("spreadSheetDetail======", spreadSheetDetail)
+    navigation.navigate("RowdetailForm", { spreadSheetRow: selectedRow, spreadSheet: spreadSheetDetail, isEdit: true, isFrom: isFrom })
+  }
+
+  // ------------- Open Edit Record PopUp ----------------
+  const openEditRecordPopup = (spreadSheetRow: any) => {
+    setSelectedRow(spreadSheetRow)
+    editRecordRef.current.childFunction1();
+  }
+
+  // --------------- Add New SpreadSheet Record ---------------
+  const onClickAddRow = () => {
+    navigation.navigate("RowdetailForm", { spreadSheet: spreadSheetDetail, isFrom: isFrom })
+  }
+
   const RenderItems = ({ item }: any) => (
-    <ListCard items={item} onPressThreeDot={()=>openEditRecordPopup(item)} />
+    <ListCard items={item} onPressThreeDot={() => openEditRecordPopup(item)} />
   );
 
   return (
@@ -83,8 +94,18 @@ const ExpensesList = (props: any) => {
         <SearcBar placeholder={labels.ExpensesList.Searchhere} />
       </View>
       <View style={Style.flatlistview}>
-        <FlatList data={spreadSheetData} renderItem={RenderItems} />
+        <FlatList
+          data={spreadSheetData}
+          renderItem={RenderItems}
+          refreshing={false}
+          onRefresh={onRefresh}
+        />
       </View>
+      <TouchableOpacity style={Style.widgetposition}
+        onPress={() => onClickAddRow()}
+      >
+        <Addwidgeticon />
+      </TouchableOpacity>
       <CommonBottomsheet
         ref={child}
         snapPoints={snapPoints}
@@ -94,11 +115,11 @@ const ExpensesList = (props: any) => {
         ref={editRecordRef}
         snapPoints={snapPoints}
         children={<EditSpreadsheetRecord
-          editRecord={()=>onEditRecord()}
-           spreadSheetRow={selectedRow}
-           editlabel={labels.ExpensesList.Edit_CloudSheet_Record}
-            deletelabel={labels.ExpensesList.Delete_CloudSheet_Record}
-           />}
+          editRecord={() => onEditRecord()}
+          spreadSheetRow={selectedRow}
+          editlabel={labels.ExpensesList.Edit_CloudSheet_Record}
+          deletelabel={labels.ExpensesList.Delete_CloudSheet_Record}
+        />}
       />
     </View>
   );
@@ -113,7 +134,13 @@ const Style = StyleSheet.create({
     marginTop: -25,
   },
   flatlistview: {
+    flex: 1,
     marginTop: 17,
     marginHorizontal: 15,
+  },
+  widgetposition: {
+    position: "absolute",
+    bottom: 90,
+    right: 15,
   },
 });

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-  SafeAreaView,
   Text,
   View,
   TouchableOpacity,
   FlatList,
-  StyleSheet,
   ScrollView,
   Alert
 } from "react-native";
@@ -36,16 +34,18 @@ const CreatSpreadsheet = () => {
   const [columnList, setColumnList] = useState([]);
   const [extraData, setExtraData] = useState(new Date())
 
+  // ----------- useEffect for initial Rendering---------------
   useEffect(() => {
     console.log("templateName=======", route?.params?.template)
     console.log("isEdit=========", isEdit)
     if (isEdit) {
       getExistingColumn()
-    }else{
+    } else {
       AddColoumn()
     }
   }, [])
 
+  // ----------- Get Existing Cloumn List---------------
   const getExistingColumn = () => {
     get_ColumnByTemplateId(templateID).then((response: any) => {
       console.log("responseCol=====", response)
@@ -55,10 +55,10 @@ const CreatSpreadsheet = () => {
     })
   }
 
+  // --------------Create Cloumn functionality-----------------
   const onSubmit = async (data: any) => {
     console.log("ColumnArray=======", data)
     const pairs = Object.entries(data);
-
     const objectsWithPairs = pairs.reduce((result, [key, value], index) => {
       if (index % 2 === 0) {
         // Create a new object with pairs of keys and values
@@ -69,7 +69,6 @@ const CreatSpreadsheet = () => {
       }
       return result;
     }, []);
-
     console.log("updatedColumnArray=======", objectsWithPairs);
 
     const newArray = objectsWithPairs.map(obj => {
@@ -103,12 +102,12 @@ const CreatSpreadsheet = () => {
     })
     if (isEdit) {
       navigation.goBack()
-    }else{
-      navigation.navigate("AddrowClassattendance", { template: template ,isFrom:isFrom});
+    } else {
+      navigation.navigate("AddrowClassattendance", { template: template, isFrom: isFrom });
     }
-    
   };
 
+  // --------------Add Column functionality---------------
   const AddColoumn = () => {
     const newIndex = Data.length;
     let uid = uuid.v1().toString()
@@ -118,6 +117,7 @@ const CreatSpreadsheet = () => {
 
   };
 
+  // --------------Remove Existing Column Alert---------------
   const removeColumnAlert = (item: any, index: any) => {
     Alert.alert(labels.Creatcloudsheetlabels.Delete_Column, labels.Creatcloudsheetlabels.Delete_Warning, [
       {
@@ -129,6 +129,7 @@ const CreatSpreadsheet = () => {
     ]);
   }
 
+  // --------------Remove Existing Column Functionality---------------
   const removeColumn = (item: any, index: any) => {
     console.log("removeCol=========", item, index)
     let arr1 = columnList
@@ -182,21 +183,20 @@ const CreatSpreadsheet = () => {
               </TouchableOpacity>
             </View>
             <View>
-              {!isEdit?
-              <Custombutton
-                onPress={handleSubmit(onSubmit)}
-                Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
-              />:Data.length>0?
-              <Custombutton
-                onPress={handleSubmit(onSubmit)}
-                Register={labels.Creatcloudsheetlabels.Update_Column}
-              />:<Custombutton
-              onPress={handleSubmit(onSubmit)}
-              Register={labels.Creatcloudsheetlabels.Done}
-            />
+              {!isEdit ?
+                <Custombutton
+                  onPress={handleSubmit(onSubmit)}
+                  Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
+                /> : Data.length > 0 ?
+                  <Custombutton
+                    onPress={handleSubmit(onSubmit)}
+                    Register={labels.Creatcloudsheetlabels.Update_Column}
+                  /> : <Custombutton
+                    onPress={handleSubmit(onSubmit)}
+                    Register={labels.Creatcloudsheetlabels.Done}
+                  />
               }
             </View>
-
             <View style={Createspreadstyle.Bottomgap}></View>
           </View>
         </View>

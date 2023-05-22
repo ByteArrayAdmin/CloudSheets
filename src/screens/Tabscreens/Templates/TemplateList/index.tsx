@@ -24,11 +24,19 @@ const TemplateList = () => {
   const [templateId, setTemplateId] = useState(route?.params?.template?.id)
   const [spreadSheetList, setSpreadSheetList] = useState([])
   const [count, setCount] = useState(1)
+
+  // -------------- initial Render-------------
   useEffect(() => {
     console.log("template======", route?.params?.template)
     get_SpreadsheetByTemplateID()
   }, [])
 
+  // --------------- On Refresh SpreadSheet ---------
+  const onRefresh = () => {
+    get_SpreadsheetByTemplateID()
+  }
+
+  // ------------- Get SpreadSheetList------------
   const get_SpreadsheetByTemplateID = () => {
     getCloudsheetByTemplateID(templateId).then((response: any) => {
       console.log("getSpreadByTempResp=========", response)
@@ -38,13 +46,13 @@ const TemplateList = () => {
     })
   }
 
-  const onDoubleTab = (spreadSheetDetail: any)=>{
-    setCount(count+1)
-    console.log("totalCount======",count)
-    if(count == 2){
-      navigation.navigate("ExpensesList",{spreadSheetDetail:spreadSheetDetail,isFrom:"TemplateTab"})
-
-    }else{
+  // -------------- Double Click navigation ---------------
+  const onDoubleTab = (spreadSheetDetail: any) => {
+    setCount(count + 1)
+    console.log("totalCount======", count)
+    if (count == 2) {
+      navigation.navigate("ExpensesList", { spreadSheetDetail: spreadSheetDetail, isFrom: "TemplateTab" })
+    } else {
       setTimeout(() => {
         setCount(1)
       }, 3000);
@@ -53,9 +61,9 @@ const TemplateList = () => {
 
   const ListCard = ({ item, index }: any) => (
     <TouchableOpacity
-    onPress={()=>onDoubleTab(item)}
+      onPress={() => onDoubleTab(item)}
     >
-    <CloudsheetListCard index={index} item={item} />
+      <CloudsheetListCard index={index} item={item} />
     </TouchableOpacity>
   );
 
@@ -66,11 +74,12 @@ const TemplateList = () => {
         heading={labels.Templatelistlabel.Template}
         Folder={<Folder />}
       />
-
       <View style={styles.secondflatlistview}>
         <FlatList
           data={spreadSheetList}
           renderItem={ListCard}
+          refreshing={false}
+          onRefresh={onRefresh}
           ListHeaderComponent={<FlatlistHeader template={template} />}
         />
       </View>

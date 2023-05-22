@@ -41,22 +41,41 @@ const CreateTemplate = () => {
   const bottomTabHeight = useBottomTabBarHeight()
   const [count, setCount] = useState(1)
 
+  useEffect(() => {
+    getUserId()
+  }, [])
+
+  // -----------------Get Curent userId----------------
+  const getUserId = () => {
+    current_UserInfo().then((response: any) => {
+      setUserId(response.attributes.sub)
+      getTemplateList(response.attributes.sub)
+      console.log("currentUser=========", response)
+    }).catch((error) => {
+      console.log("currUserErr======", error)
+    })
+  }
+
+  // ------------ Select Create Template Popup --------
   const toggleBottomNavigationView = () => {
     setIsEditTemplate(false)
     setSelectedTemplate(null)
     child.current.childFunction1();
   };
 
+  // ----------- Open Create Template popup ----------
   const OpenPopup = (item: any) => {
     console.log("selectedTemp========", item)
     setSelectedTemplate(item)
     editTempRef.current.childFunction1()
   }
 
-  useEffect(() => {
-    getUserId()
-  }, [])
+  // -----------------Get Curent user TemplateList pull to Refresh----------------
+  const onRefreshList = () => {
+    getTemplateList(userId)
+  }
 
+  // -----------------Get Curent user TemplateList----------------
   const getTemplateList = (userId: any) => {
     let arr = []
     get_Template_List(userId).then((response: any) => {
@@ -74,20 +93,7 @@ const CreateTemplate = () => {
     })
   }
 
-  const onRefreshList = () => {
-    getTemplateList(userId)
-  }
-
-  const getUserId = () => {
-    current_UserInfo().then((response: any) => {
-      setUserId(response.attributes.sub)
-      getTemplateList(response.attributes.sub)
-      console.log("currentUser=========", response)
-    }).catch((error) => {
-      console.log("currUserErr======", error)
-    })
-  }
-
+  // -----------------Create Template functionality----------------
   const onCreateTemplate = (templateName: String) => {
     let arr1 = templateList
     let newTemp
@@ -115,6 +121,7 @@ const CreateTemplate = () => {
     })
   }
 
+  // -----------------Update Template functionality----------------
   const onUpdateTemplates = (templateName: any, templateId: any, version: any) => {
 
     let arr1 = templateList
@@ -142,6 +149,7 @@ const CreateTemplate = () => {
     })
   }
 
+  // -----------------Delete Template functionality----------------
   const onDeleteTemplate = (selectedTemplate: any) => {
     let arr1 = templateList
     let index
@@ -168,6 +176,7 @@ const CreateTemplate = () => {
     })
   }
 
+  // --------------Open Edit Template popup functionality-------------------
   const onEditTemplate = () => {
     editTempRef.current.childFunction2()
     child.current.childFunction1();
@@ -175,6 +184,7 @@ const CreateTemplate = () => {
   }
   const snapPoints = ["45%"];
 
+  // -------------navigate to detail Screen functionality on Double Tap---------------
   const onDoubleTab = (template: any) => {
     setCount(count + 1)
     console.log("totalCount======", count)
@@ -192,7 +202,6 @@ const CreateTemplate = () => {
     <TouchableOpacity
       //  onPress={() => navigation.navigate("ExpensesList")}
       onPress={() => onDoubleTab(item)}
-
     >
       <Card item={item} onEditTemplate={() => OpenPopup(item)} />
     </TouchableOpacity>

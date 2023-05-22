@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
         width: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        right:10,
-        top:10
+        right: 10,
+        top: 10
     },
     columntext: {
         color: COLOURS.black,
