@@ -2,17 +2,11 @@ import React, {
   useEffect,
   useState,
   useRef,
-  useMemo,
-  useCallback,
 } from "react";
 import {
   Text,
   View,
   TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  ScrollView,
-  Button,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -60,21 +54,21 @@ const Updateattendance = () => {
     }
   };
 
-  useEffect(() => {}, [open]);
+  useEffect(() => { }, [open]);
   return (
-    
-      <View style={Styles.container}>
-        <View>
-          <NewCommonHeader
-            BackButton={<BackButton onPress={() => navigation.goBack()} />}
-            Folder={<Document />}
-            heading={labels.Rowdetailsform.headerlabel}
-            onPress={navigation.canGoBack()}
-            SecondImg={<Deleteicon />}
-            onpress={OpenPopup}
-          />
-        </View>
-        <KeyboardAwareScrollView>
+
+    <View style={Styles.container}>
+      <View>
+        <NewCommonHeader
+          BackButton={<BackButton onPress={() => navigation.goBack()} />}
+          Folder={<Document />}
+          heading={labels.Rowdetailsform.headerlabel}
+          onPress={navigation.canGoBack()}
+          SecondImg={<Deleteicon />}
+          onpress={OpenPopup}
+        />
+      </View>
+      <KeyboardAwareScrollView>
         <View style={Styles.sucontainer}>
           <View style={Styles.formcontainer}>
             <View>
@@ -149,33 +143,30 @@ const Updateattendance = () => {
             </View>
           </View>
         </View>
-
         <View style={Styles.buttonview}>
           <TouchableOpacity onPress={() => setopen1(!open1)}>
             <LightSmallButton buttontext={labels.updateRowdetaiform.Cancel} />
           </TouchableOpacity>
           <View style={Styles.justgap}></View>
-            <SmallButton buttontext={labels.updateRowdetaiform.Update} onPress={() => navigation.navigate("ClousheetTab")} />
-        
+          <SmallButton buttontext={labels.updateRowdetaiform.Update} onPress={() => navigation.navigate("ClousheetTab")} />
         </View>
         <View style={Styles.bottomview}>
 
         </View>
       </KeyboardAwareScrollView>
-        <CommonBottomsheet
-          ref={childRef}
-          snapPoints={snapPoints}
-          children={
-            <DeletePopuop
-              Textone={labels.Deletpopup.Text}
-              Texttwo={labels.Deletpopup.Text2}
-              ButtonOnetext={labels.Deletpopup.Cancel}
-              ButtonTwotext={labels.DeleteAccountpopups.Delete}
-            />
-          }
-        />
-      </View>
-    
+      <CommonBottomsheet
+        ref={childRef}
+        snapPoints={snapPoints}
+        children={
+          <DeletePopuop
+            Textone={labels.Deletpopup.Text}
+            Texttwo={labels.Deletpopup.Text2}
+            ButtonOnetext={labels.Deletpopup.Cancel}
+            ButtonTwotext={labels.DeleteAccountpopups.Delete}
+          />
+        }
+      />
+    </View>
   );
 };
 

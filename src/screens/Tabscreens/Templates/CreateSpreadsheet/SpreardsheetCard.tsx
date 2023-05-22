@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import {
-  SafeAreaView,
   Text,
   View,
-  TouchableOpacity,
-  FlatList,
   StyleSheet,
 } from "react-native";
 import InputField from "../../../../commonComponents/InputField";
@@ -16,7 +13,7 @@ import labels from "../../../../utils/ProjectLabels.json";
 const SpreadsheetCard = (props: any) => {
   const { control, handleSubmit } = useForm();
   const countries = ["Text", "Date", "Yes/No"];
-  const Dropdown = (index: any, data: any) => {};
+  const Dropdown = (index: any, data: any) => { };
   const onSubmit = async (data: any) => {
     console.log(data);
   };
@@ -30,7 +27,6 @@ const SpreadsheetCard = (props: any) => {
       </View>
       <View>
         <InputField
-        
           name={`column_Name${props.index}`}
           control={props.control}
           placeholder={labels.Creatcloudsheetlabels.PLACEHOLDERTEXT}
@@ -96,8 +92,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     paddingLeft: 1,
     fontSize: 12,
-    color:COLOURS.black,
-    opacity:0.3
+    color: COLOURS.black,
+    opacity: 0.3
   },
   inputview: {
     height: 50,
@@ -106,27 +102,24 @@ const styles = StyleSheet.create({
     color: COLOURS.black,
     fontSize: 12,
   },
-  commondropdownview:{
-    marginHorizontal: 18, marginBottom: 15 
+  commondropdownview: {
+    marginHorizontal: 18, marginBottom: 15
   },
-  dropdowmstyle:{
-    marginTop:0,
-    backgroundColor:COLOURS.offwhite,
-    borderRadius:10,
-    height:160
+  dropdowmstyle: {
+    marginTop: 0,
+    backgroundColor: COLOURS.offwhite,
+    borderRadius: 10,
+    height: 160
   },
-  rowStyle:{
-
+  rowStyle: {
     // backgroundColor:COLOURS.GREY,
-     marginHorizontal:5,
-     marginVertical:8,
-     height:40
-
-
+    marginHorizontal: 5,
+    marginVertical: 8,
+    height: 40
   },
-  rowTextStyle:{
+  rowTextStyle: {
     fontWeight: 'bold',
     textAlign: 'left',
-    fontSize:18,paddingLeft:6
-   }
+    fontSize: 18, paddingLeft: 6
+  }
 });

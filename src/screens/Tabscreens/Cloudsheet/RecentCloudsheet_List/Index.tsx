@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useRef, useEffect, useState } from "react";
-import { FlatList, View, TouchableOpacity, Text } from "react-native";
+import { FlatList, View, TouchableOpacity, Text, DeviceEventEmitter } from "react-native";
 import FlatListHeader from "./FlatlistHeader";
 import Cloudsheetcard from "./Cloudsheetcard";
 import { styles } from "./style";
@@ -27,12 +27,14 @@ const ClousheetList = () => {
   const [count, setCount] = useState(1)
   const [isEditTemplate, setIsEditTemplate] = useState(false)
 
-
+  // -------------- Initial Rendering ------------
   useEffect(() => {
     console.log("currentUser=======", global.isLoggedInUser)
+    DeviceEventEmitter.addListener('updateSpreadSheetList', () => get_CurrentUserId())
     get_CurrentUserId()
   }, [])
 
+  // ------------ Get Current userId -------------
   const get_CurrentUserId = () => {
     current_UserInfo().then((response: any) => {
       console.log("currentUserResp======", response.attributes.sub)
@@ -42,10 +44,13 @@ const ClousheetList = () => {
       console.log("userIdErr=======", error)
     })
   }
+
+  // ----------- getCloudSheet Pull to refresh -----------
   const onRefreshList = () => {
     get_CloudsheetBy_UserID(userId)
   }
 
+  // ----------- get CloudSheet List ------------
   const get_CloudsheetBy_UserID = (userID: any) => {
     get_CloudsheetByUserID(userID).then((response: any) => {
       console.log('cloudsheetRespByuserID========', response)
@@ -54,6 +59,8 @@ const ClousheetList = () => {
       console.log("cloudSheetErr=======", error)
     })
   }
+
+  // -------------- OnDouble Click navigation -----------
   const onDoubleTab = (spreadSheetDetail: any) => {
     setCount(count + 1)
     console.log("totalCount======", count)
@@ -67,6 +74,7 @@ const ClousheetList = () => {
     }
   }
 
+  // ----------- Create Template ------------
   const onCreateTemplate = (templateName: String) => {
 
     console.log("templateName===========", templateName)
@@ -90,18 +98,23 @@ const ClousheetList = () => {
     })
   }
 
+  // ------------ Open select Template Type Popup ------------
   const Opensheet = () => {
     ChildRef.current.childFunction1();
   };
 
+  // ----------- Create New Template Popup -----------
   const openNewTemplate = () => {
     ChildRef.current.childFunction2();
     createTemplateRef.current.childFunction1();
   }
-  const onExistingTemplate = () =>{
+
+  // ------------ On Select Existing Template ---------
+  const onExistingTemplate = () => {
     ChildRef.current.childFunction2();
     navigation.navigate("ExistingTemplateList")
   }
+
   const Footer = () => {
     return <View style={{ height: bottomTabHeight }} />;
   };
@@ -164,8 +177,7 @@ const ClousheetList = () => {
           snapPoints={snapPoints}
           children={<CreatecloudsheetPopup
             inNewTemplate={() => openNewTemplate()}
-            inExistingTemplate={()=>onExistingTemplate()}
-            
+            inExistingTemplate={() => onExistingTemplate()}
           />
           }
         />

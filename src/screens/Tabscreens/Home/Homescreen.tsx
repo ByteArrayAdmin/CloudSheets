@@ -1,7 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {
-  forwardRef,
-  useImperativeHandle,
   useRef,
   useState,
   useEffect
@@ -22,17 +20,18 @@ import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import { current_UserInfo } from '../../../API_Manager/index';
 import { useNavigation, CommonActions } from "@react-navigation/native";
 
-
 const Homescreen = (props: any) => {
 
   const childRef = useRef(null);
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
 
+  // --------- Initial Rendering --------
   useEffect(() => {
     currentuser()
   }, [])
 
+  // ---------- Get Current userId ---------
   const currentuser = () => {
     current_UserInfo().then((response: any) => {
       console.log("currUser=====", response)
@@ -46,6 +45,7 @@ const Homescreen = (props: any) => {
     })
   }
 
+  // ------------- Guest user Popup ------------
   const toggleBottomNavigationView = () => {
     //Toggling the visibility state of the bottom sheet
     if (global.isLoggedInUser) {
@@ -55,7 +55,8 @@ const Homescreen = (props: any) => {
     }
   };
 
-  const onClickRegister = ()=>{
+  // ------------ Register guest user flow ---------
+  const onClickRegister = () => {
     setVisible(!visible);
     navigation.dispatch(CommonActions.reset({
       routes: [

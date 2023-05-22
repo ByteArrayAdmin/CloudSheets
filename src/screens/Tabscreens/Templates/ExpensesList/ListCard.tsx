@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  FlatList,
   TouchableOpacity,
   LayoutAnimation
 } from "react-native";
@@ -15,12 +14,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
-import Label from "../../../../utils/ProjectLabels.json";
-import SubCard from "./SubCard";
-import { styles } from "screens/Auth/signup/style";
 
 const ListCard = (props: any) => {
-  console.log("items=======",props?.items)
+  console.log("items=======", props?.items)
   const [open, setopen] = useState(false);
   const [rowData, setRowData] = useState(JSON.parse(props?.items?.items))
   const toggle = () => {
@@ -34,28 +30,28 @@ const ListCard = (props: any) => {
     });
   };
   return (
-      <View style={[style.innercontainer,{borderWidth:1, borderColor:open?COLOURS.lightgrey:COLOURS.cardBorder_lightBlue}]}>
-        <View style={style.subview}>
-          <View>
-            <Text style={style.texthead}>{Object.values(rowData)[0] }</Text>
-          </View>
-          <View style={style.Space}></View>
-          <TouchableOpacity
-            style={style.arrowstyle}
-            onPress={() => toggleButton()}
-          >
-            {open?<Ic_upArrow/> : <Downarrow />}
-          </TouchableOpacity>
-          <TouchableOpacity style={style.threeDotStyle}
-          onPress={props.onPressThreeDot}
-          >
-            <Threedot />
-          </TouchableOpacity>
+    <View style={[style.innercontainer, { borderWidth: 1, borderColor: open ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue }]}>
+      <View style={style.subview}>
+        <View>
+          <Text style={style.texthead}>{Object.values(rowData)[0]}</Text>
         </View>
-        {open ? (
-          <Animated.View style={style.horizontalspacing}>
-            <Animated.View style={style.seprator}></Animated.View>
-            {
+        <View style={style.Space}></View>
+        <TouchableOpacity
+          style={style.arrowstyle}
+          onPress={() => toggleButton()}
+        >
+          {open ? <Ic_upArrow /> : <Downarrow />}
+        </TouchableOpacity>
+        <TouchableOpacity style={style.threeDotStyle}
+          onPress={props.onPressThreeDot}
+        >
+          <Threedot />
+        </TouchableOpacity>
+      </View>
+      {open ? (
+        <Animated.View style={style.horizontalspacing}>
+          <Animated.View style={style.seprator}></Animated.View>
+          {
             Object.keys(rowData).map((key) => {
               return (
                 <Animated.View style={style.detailview}>
@@ -65,10 +61,9 @@ const ListCard = (props: any) => {
                 </Animated.View>
               )
             })}
-          </Animated.View>
-        ) : null}
-      </View>
-    
+        </Animated.View>
+      ) : null}
+    </View>
   );
 };
 
@@ -94,8 +89,8 @@ const style = StyleSheet.create({
   },
   arrowstyle: {
     marginRight: 16,
-    paddingHorizontal:18,
-    paddingVertical:10
+    paddingHorizontal: 18,
+    paddingVertical: 10
   },
   innerhoeizontaline: {
     flex: 1,
@@ -151,14 +146,14 @@ const style = StyleSheet.create({
     fontFamily: FONTS.inter_regular,
     color: COLOURS.black,
   },
-  threeDotStyle:{
-    height:25,
-    width:25,
-    justifyContent:'center',
-    alignItems:'center'
+  threeDotStyle: {
+    height: 25,
+    width: 25,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  seprator:{
-    borderWidth:1,
-    borderColor:COLOURS.lightgrey
+  seprator: {
+    borderWidth: 1,
+    borderColor: COLOURS.lightgrey
   }
 });

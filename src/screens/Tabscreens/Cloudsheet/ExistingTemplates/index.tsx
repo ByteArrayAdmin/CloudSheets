@@ -7,50 +7,52 @@ import { useNavigation } from "@react-navigation/native";
 import Folder from "../../../../assets/Images/folder12.svg";
 import labels from "../../../../utils/ProjectLabels.json";
 import TemplateCard from './TemplateCard';
-import { get_Template_List,current_UserInfo } from '../../../../API_Manager/index';
+import { get_Template_List, current_UserInfo } from '../../../../API_Manager/index';
 
 const ExistingTemplateList = () => {
     const navigation = useNavigation();
     const [templateList, setTemplateList] = useState([]);
     const [userId, setUserId] = useState('')
-    
 
-    useEffect(()=>{
+    // ------------ Initial Rendering -----------
+    useEffect(() => {
         getUserId()
     }, [])
 
+    // --------- Get Current userId ---------
     const getUserId = () => {
         current_UserInfo().then((response: any) => {
-          setUserId(response.attributes.sub)
-          getTemplateList(response.attributes.sub)
-          console.log("currentUser=========", response)
+            setUserId(response.attributes.sub)
+            getTemplateList(response.attributes.sub)
+            console.log("currentUser=========", response)
         }).catch((error) => {
-          console.log("currUserErr======", error)
+            console.log("currUserErr======", error)
         })
-      }
-      const onRefreshList = () => {
+    }
+    // ------------- Pull to refresh GetTemplate List -----------
+    const onRefreshList = () => {
         getTemplateList(userId)
-      }
+    }
 
-      const getTemplateList = (userId: any) => {
-        get_Template_List(userId).then((response: any)=>{
-            console.log("templateResp=======",response)
+    // ----------- Get Template List ----------
+    const getTemplateList = (userId: any) => {
+        get_Template_List(userId).then((response: any) => {
+            console.log("templateResp=======", response)
             setTemplateList(response.data.templatesByUserID.items)
 
-        }).catch((error)=>{
-            console.log("getTempalteErr========",error)
+        }).catch((error) => {
+            console.log("getTempalteErr========", error)
         })
-      }
+    }
 
     const renderItems = ({ item }: any) => (
         <TouchableOpacity
-            onPress={() => navigation.navigate("AddrowClassattendance", { template: item ,isFrom:"CloudSheetTab"})}
-            // onPress={() => onDoubleTab(item)}
+            onPress={() => navigation.navigate("AddrowClassattendance", { template: item, isFrom: "CloudSheetTab" })}
+        // onPress={() => onDoubleTab(item)}
         >
             <TemplateCard item={item} />
         </TouchableOpacity>
     )
-
 
     return (
         <View style={styles.mainView}>

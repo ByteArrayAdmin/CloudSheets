@@ -1,12 +1,9 @@
 import React, { useRef, useState } from "react";
 import {
-  SafeAreaView,
   Text,
   View,
   TouchableOpacity,
-  FlatList,
   StyleSheet,
-  ScrollView,
 } from "react-native";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Logo from "../../../../assets/Images/ColourFolder.svg";
@@ -18,7 +15,6 @@ import Ic_redDoc from '../../../../assets/Images/Ic_redDoc.svg';
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Popup from "../../../Popups/TemplateEditPopup";
 import moment from 'moment';
-
 
 const CloudsheetListCard = (props: any) => {
   const Child = useRef();
@@ -33,7 +29,6 @@ const CloudsheetListCard = (props: any) => {
           <Docicon /> : props.index % 3 ?
             <IC_purpleDoc /> : <Ic_redDoc />
         }
-
       </View>
       <View>
         <Text style={styles.textstyle}>{props?.item?.spreadsheet_name}</Text>

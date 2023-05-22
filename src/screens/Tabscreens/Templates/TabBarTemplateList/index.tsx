@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import {
-  SafeAreaView,
-  Text,
   View,
   TouchableOpacity,
   FlatList,
-  StyleSheet,
-  ScrollView,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -21,7 +17,7 @@ const TabBarTemplateList = () => {
   const DATA = useState([{ id: 1 }, { id: 1 }]);
   const navigation = useNavigation();
 
-  const renderItems = () => <TouchableOpacity onPress={()=>navigation.navigate("ExpensesList")}><Card /></TouchableOpacity>;
+  const renderItems = () => <TouchableOpacity onPress={() => navigation.navigate("ExpensesList")}><Card /></TouchableOpacity>;
   return (
     <>
       <View>
@@ -30,7 +26,6 @@ const TabBarTemplateList = () => {
           heading={labels.TabBarTemplateList.Template}
           Folder={<Folder />}
         />
-
         <View style={styles.Flatlistviewone}>
           <FlatList data={DATA} renderItem={renderItems} />
         </View>

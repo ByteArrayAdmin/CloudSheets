@@ -1,11 +1,8 @@
-import React, { useEffect, useState ,useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Text,
   View,
   TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  ScrollView,
   FlatList
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
@@ -24,7 +21,7 @@ import { Styles } from "./style";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { styles } from "screens/Auth/signup/style";
-import { get_ColumnByTemplateId, create_SpreadSheet_Row ,update_SpreadSheetRow } from '../../../../API_Manager/index';
+import { get_ColumnByTemplateId, create_SpreadSheet_Row, update_SpreadSheetRow } from '../../../../API_Manager/index';
 import uuid from 'react-native-uuid';
 import moment from 'moment';
 import LightSmallButton from '../../../../commonComponents/LightSmallbutton';
@@ -37,7 +34,6 @@ const RowdetailForm = () => {
   const route = useRoute()
   const childRef = useRef()
   const snapPoints = ["100%"];
-
   const [open, setopen] = useState(false);
   const [defaultdate, setdefaultdate] = useState(new Date());
   const [date, setdate] = useState("");
@@ -51,27 +47,26 @@ const RowdetailForm = () => {
   const { reset, control, handleSubmit } = useForm();
   const [modalVisible, setModalVisible] = useState(false)
 
+  // --------------Initial rendering-------------------
   useEffect(() => {
     console.log("spreadDetail======", route?.params?.spreadSheet)
     console.log("spreadEdit======", route?.params?.isEdit)
     console.log("spreadRow======", route?.params?.spreadSheetRow)
-    console.log("isFromScreen=======",route?.params?.isFrom)
+    console.log("isFromScreen=======", route?.params?.isFrom)
 
-    if(route?.params?.isEdit){
+    if (route?.params?.isEdit) {
       setSpreadsheetRowItems(JSON.parse(route?.params?.spreadSheetRow?.items))
     }
-
-
     getColumnByID(route.params.spreadSheet.templatesID)
   }, [])
 
+  // --------------Create Row Data-----------------
   const onSubmitPressed = async (data: any) => {
     const { date } = data;
     console.log("rowData=======", data)
     let uid = uuid.v1().toString()
     let timeStamp = moment().unix().toString()
     let newUniqueId = uid + "-" + timeStamp
-
     let newRow = {
       id: newUniqueId,
       userID: spreadSheet?.userID,
@@ -79,34 +74,28 @@ const RowdetailForm = () => {
       spreadsheetID: spreadSheet?.id,
       items: JSON.stringify(data)
     }
-    console.log("UpdatedRow=======",newRow)
-    
+    console.log("UpdatedRow=======", newRow)
     create_SpreadSheet_Row(newRow).then((response) => {
       console.log("spreadRowResp==========", response)
       reset()
-      navigation.navigate("Attendancelist", { spreadSheet: spreadSheet,isFrom:isFromScreen })
+      navigation.navigate("Attendancelist", { spreadSheet: spreadSheet, isFrom: isFromScreen })
     }).catch((error) => {
       console.log("spreadRowErr========", error)
     })
-
   };
 
-  const onPressUpdate = ()=>{
-    // childRef.current.childFunction1();
-    setModalVisible(true)
-  }
-
-  const cancelModal = ()=>{
+  // -------------After update Navigation-----------------
+  const cancelModal = () => {
     setModalVisible(false)
-    if(isFromScreen =="TemplateTab"){
+    if (isFromScreen == "TemplateTab") {
       navigation.navigate("CreateTemplate")
-    }else{
+    } else {
       navigation.navigate("ClousheetList")
     }
-    
   }
 
-  const onUpdateRows = (data: any)=>{
+  // ----------- Update Row -----------
+  const onUpdateRows = (data: any) => {
     let newRow = {
       id: spreadSheetRowData?.id,
       userID: spreadSheetRowData?.userID,
@@ -115,30 +104,29 @@ const RowdetailForm = () => {
       items: JSON.stringify(data),
       _version: spreadSheetRowData?._version
     }
-
-    update_SpreadSheetRow(newRow).then((response: any)=>{
-      console.log("updatedSpreadsheetRowResp=======",response)
+    update_SpreadSheetRow(newRow).then((response: any) => {
+      console.log("updatedSpreadsheetRowResp=======", response)
       setModalVisible(true)
-    }).catch((error)=>{
-      console.log("updateSpreadSheetRowErr========",error)
+    }).catch((error) => {
+      console.log("updateSpreadSheetRowErr========", error)
     })
-
-    console.log("updateRowData========",newRow)
+    console.log("updateRowData========", newRow)
   }
 
+  // -------- Select Date function ----------
   const toggle = (value: boolean, value2: any) => {
-    console.log("dateValue=======",value,value2)
+    console.log("dateValue=======", value, value2)
     setdate(value2.toDateString());
     if (value == false) {
       setopen(false);
     }
   };
 
+  // -------get Columnlist -----------------
   const getColumnByID = (templateId: String) => {
     get_ColumnByTemplateId(templateId).then((response: any) => {
       console.log("getColResp======", response)
       setColumns(response.data.templateColumnsByTemplatesID.items)
-      
     }).catch((error) => {
       console.log("getColmErr=====", error)
     })
@@ -148,7 +136,7 @@ const RowdetailForm = () => {
 
   const renderItem = ({ item, index }: any) => (
     console.log("itemIndex======", index),
-    <View>
+    <View >
       {item.column_Type == "Text" ?
         <>
           <View style={Styles.viewMargin}>
@@ -156,9 +144,9 @@ const RowdetailForm = () => {
           </View>
           <View style={{ marginBottom: 10 }}>
             <NewInputField
-            defaultValue={isEdit?spreadSheetRowItems[item.column_Name]:''}
+              defaultValue={isEdit ? spreadSheetRowItems[item.column_Name] : ''}
               name={item.column_Name}
-              
+
               control={control}
               placeholder={item.column_Name}
               rules={{
@@ -167,9 +155,7 @@ const RowdetailForm = () => {
               styles={Styles.inputview}
             />
           </View></> : item.column_Type == "Date" ?
-          
           <>
-          
             <View>
               <Text style={Styles.Attendancetext}>
                 {item.column_Name}
@@ -180,10 +166,9 @@ const RowdetailForm = () => {
               onPress={() => setopen(true)}
             >
               <View>
-                
-                   <Text style={Styles.enterdate}>
-                    {date == '' && isEdit ? moment(spreadSheetRowItems[item.column_Name]).format("YYYY-MM-DD") : date !=""?date : labels.Rowdetailsform.PlaceholderEnterDate}
-                  </Text>
+                <Text style={Styles.enterdate}>
+                  {date == '' && isEdit ? moment(spreadSheetRowItems[item.column_Name]).format("YYYY-MM-DD") : date != "" ? date : labels.Rowdetailsform.PlaceholderEnterDate}
+                </Text>
               </View>
               <View style={Styles.calenderview}></View>
               <View style={Styles.calenderlogview}>
@@ -195,8 +180,8 @@ const RowdetailForm = () => {
               name={item.column_Name}
               control={control}
               toggle={toggle}
-              onCancel={()=>setopen(false)}
-              defaultdate={isEdit?  new Date(spreadSheetRowItems[item.column_Name]) : defaultdate}
+              onCancel={() => setopen(false)}
+              defaultdate={isEdit ? new Date(spreadSheetRowItems[item.column_Name]) : defaultdate}
             />
           </> : item.column_Type == "Yes/No" ?
             <>
@@ -207,7 +192,7 @@ const RowdetailForm = () => {
                 <NewInputField
                   name={item.column_Name}
                   control={control}
-                  defaultValue={isEdit?spreadSheetRowItems[item.column_Name]:''}
+                  defaultValue={isEdit ? spreadSheetRowItems[item.column_Name] : ''}
                   placeholder={item.column_Name}
                   rules={{
                     required: labels.Rowdetailsform.valodationmessage,
@@ -219,32 +204,7 @@ const RowdetailForm = () => {
             : null
       }
     </View>
-
   )
-
-  const Footer = () => {
-
-    return (
-      <>
-        <View>
-          <Text style={Styles.presenttextview}>
-            {labels.Rowdetailsform.Samples}
-          </Text>
-        </View>
-        <View style={Styles.viewMargin}>
-          <NewInputField
-            name="sample"
-            control={control}
-            placeholder={labels.Rowdetailsform.placeholderEnterSamples}
-            rules={{
-              required: labels.Rowdetailsform.valodationmessage,
-            }}
-            styles={Styles.inputview}
-          />
-        </View>
-      </>
-    )
-  }
 
   return (
 
@@ -257,42 +217,39 @@ const RowdetailForm = () => {
           onPress={navigation.canGoBack()}
         />
       </View>
-      
       <View style={Styles.sucontainer}>
         <View style={Styles.formcontainer}>
-          <View style={{flex:1}}>
+          <View >
             <FlatList
               showsVerticalScrollIndicator={false}
               data={columns}
               renderItem={renderItem}
-            // ListFooterComponent={Footer}
             />
           </View>
         </View>
       </View>
-
+      <View style={Styles.container}></View>
       <View style={Styles.lastview}>
-        {isEdit?
-        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-          <LightSmallButton 
-          buttontext={labels.Rowdetailsform.Cancel}
-          onPress={() => navigation.goBack()}
-          />
-          <View style={{width:19}}></View>
-          <SmallButton 
-          buttontext={labels.Rowdetailsform.Update}
-          // onPress={()=>navigation.navigate("UpdateCloudsheet")}
-          onPress={handleSubmit(onUpdateRows)}
-          />
-        </View>
-        
-        :
-        <Custombutton
-          onPress={handleSubmit(onSubmitPressed)}
-          Register={labels.Rowdetailsform.Submit}
-        />}
+        {isEdit ?
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <LightSmallButton
+              buttontext={labels.Rowdetailsform.Cancel}
+              onPress={() => navigation.goBack()}
+            />
+            <View style={{ width: 19 }}></View>
+            <SmallButton
+              buttontext={labels.Rowdetailsform.Update}
+              // onPress={()=>navigation.navigate("UpdateCloudsheet")}
+              onPress={handleSubmit(onUpdateRows)}
+            />
+          </View>
+          :
+          <Custombutton
+            onPress={handleSubmit(onSubmitPressed)}
+            Register={labels.Rowdetailsform.Submit}
+          />}
       </View>
-      {modalVisible?<UpdatedCloudSheet visible={modalVisible} onPress={()=>cancelModal()} />:null}
+      {modalVisible ? <UpdatedCloudSheet visible={modalVisible} onPress={() => cancelModal()} /> : null}
     </View>
   );
 };
