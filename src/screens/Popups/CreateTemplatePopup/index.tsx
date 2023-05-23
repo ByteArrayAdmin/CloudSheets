@@ -1,12 +1,7 @@
-import InputField from "../.././../commonComponents/InputField";
 import React, { useRef ,useEffect, useState} from "react";
 import {
   View,
-  SafeAreaView,
   Text,
-  ScrollView,
-  KeyboardAvoidingView,
-  TouchableOpacity,
   StyleSheet,
 } from "react-native";
 import { FONTS, COLOURS } from "../../../utils/Constant";

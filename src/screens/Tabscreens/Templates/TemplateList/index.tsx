@@ -83,9 +83,9 @@ const TemplateList = () => {
           ListHeaderComponent={<FlatlistHeader template={template} />}
         />
       </View>
-      <View style={styles.widgetposition}>
+      <TouchableOpacity style={styles.widgetposition}>
         <Addwidgeticon />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
