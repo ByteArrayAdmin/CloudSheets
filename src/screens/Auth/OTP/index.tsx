@@ -12,6 +12,7 @@ import Button from '../../../commonComponents/Button';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Auth } from 'aws-amplify';
 import { confirm_Signup, resend_OTP } from '../../../API_Manager/index';
+import CommonLoader from '../../../commonComponents/CommonLoader';
 const OtpScreen = () => {
 
     const { control, handleSubmit, watch } = useForm();
@@ -20,15 +21,19 @@ const OtpScreen = () => {
     const [userName, setUserName] = useState(route.params.username)
     const [count, setCount] = useState(0)
     const [disable, setDisable] = useState(false)
+    const [loader, setLoader] = useState(false)
 
     const verificaton = async (data: any) => {
         const { otp } = data
         console.log("OTPData========", data, userName)
+        setLoader(true)
         confirm_Signup(userName, otp).then((response) => {
             console.log("OTPResp=========", response)
+            setLoader(false)
             Alert.alert(labels.OTP_Constants.Confirmed);
             navigation.navigate("Login")
         }).catch((e) => {
+            setLoader(false)
             console.log("OTPErr=======", e)
             Alert.alert(e?.message);
         })
@@ -48,10 +53,13 @@ const OtpScreen = () => {
     const resendOtpFunc = async () => {
         setDisable(true)
         setCount(labels.OTP_Constants.Sixty_Sec)
-        resend_OTP(userName).then((response)=>{
+        setLoader(true)
+        resend_OTP(userName).then((response) => {
+            setLoader(false)
             console.log("resendResp=========", response)
             Alert.alert(labels.OTP_Constants.ResendOTPSuccess)
-        }).catch((err)=>{
+        }).catch((err) => {
+            setLoader(false)
             console.log('error resending code: ', err);
             Alert.alert(err?.message);
         })
@@ -93,6 +101,7 @@ const OtpScreen = () => {
                         }
                     />
                 </KeyboardAwareScrollView>
+                {loader ? <CommonLoader /> : null}
             </SafeAreaView>
         </>
     )

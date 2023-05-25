@@ -1,9 +1,7 @@
 import React from "react";
 import {
   View,
-  SafeAreaView,
   Text,
-  TouchableOpacity,
   StyleSheet,
   Dimensions
 } from "react-native";
@@ -17,8 +15,9 @@ import Delete from "../../../assets/Images/Deleteicon.svg";
 import CommonCard from "../CommonCard";
 import labels from "../../../utils/ProjectLabels.json";
 import { ScrollView } from "react-native-gesture-handler";
+import moment from 'moment';
 
-const TemplateEditPopup = () => {
+const TemplateEditPopup = (props: any) => {
   const { height } = Dimensions.get('window');
 
   return (
@@ -26,7 +25,7 @@ const TemplateEditPopup = () => {
       <View style={styles.creatcloudview}>
         <View>
           <View>
-            <Text style={styles.createcloudtext}>January Attendance</Text>
+            <Text style={styles.createcloudtext}>{props?.selectedCloudSheet?.spreadsheet_name}</Text>
           </View>
         </View>
         <View style={styles.space} />
@@ -35,7 +34,7 @@ const TemplateEditPopup = () => {
         </View>
       </View>
       <View>
-        <Text style={styles.modifytext}>Modify on Jan 11</Text>
+        <Text style={styles.modifytext}>{moment(props?.selectedCloudSheet?.createdAt).format("MMM DD, YYYY | HH:mm a")}</Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.commoncardview}>
@@ -43,6 +42,7 @@ const TemplateEditPopup = () => {
             <CommonCard
               icon={<Edit />}
               heading={labels.EditTemplatePopup.EditCloudSheet}
+              onPress={props.onEditCloudSheet}
             />
           </View>
           <View style={styles.cardspace}>

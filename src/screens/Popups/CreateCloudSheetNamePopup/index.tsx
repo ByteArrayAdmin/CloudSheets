@@ -15,13 +15,15 @@ import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import Logo from "../../../assets/Images/templatemodel.svg";
 
-const CreateTemplatePopup = (props: any) => {
+const CreateCloudSheetNamePopup = (props: any) => {
 
   const child = useRef();
   const navigation = useNavigation();
   const [text, onChangeText] = useState();
-  const [templateId, setTemplateId] = useState('')
-  const [version, setVersion] = useState()
+  const [templateId, setTemplateId] = useState('');
+  const [version, setVersion] = useState();
+  const [spreadSheetId, setSpreadSheetId] = useState('');
+  const [userId, setUserId] = useState('')
 
   const CreatePress = () => {
     child.current.childFunction2();
@@ -32,10 +34,13 @@ const CreateTemplatePopup = (props: any) => {
   };
 
   useEffect(() => {
-    if (props.isEditTemplate) {
-      onChangeText(props.selectedTemplate.template_name)
-      setTemplateId(props.selectedTemplate.id)
-      setVersion(props.selectedTemplate._version)
+    console.log("nameErr========", props?.error)
+    if (props?.isEditCloudSheetName) {
+      onChangeText(props?.selectedCloudSheet?.spreadsheet_name)
+      setTemplateId(props?.selectedCloudSheet?.templatesID)
+      setVersion(props?.selectedCloudSheet?._version)
+      setSpreadSheetId(props?.selectedCloudSheet?.id)
+      setUserId(props?.selectedCloudSheet?.userID)
     }
   }, [])
 
@@ -45,19 +50,19 @@ const CreateTemplatePopup = (props: any) => {
         <View style={Tempatestyle.firstview}>
           <View>
             <Text style={Tempatestyle.newtemplattext}>
-              {props.isEditTemplate ? CreateTemplatescreen.TemBottomsheet.EditTemplate : CreateTemplatescreen.TemBottomsheet.NewTemplate}
+              {props.isEditCloudSheetName ? CreateTemplatescreen.CloudSheetNameConstants.EditCloudSheet : CreateTemplatescreen.CloudSheetNameConstants.NewCloudSheet}
             </Text>
           </View>
           <View>
             <Text style={Tempatestyle.subheadingtext}>
-              {CreateTemplatescreen.TemBottomsheet.PleasenameyourTemplate}
+              {CreateTemplatescreen.CloudSheetNameConstants.PleaseNameYourCloudSheet}
             </Text>
           </View>
         </View>
         <View style={Tempatestyle.secondviewmain}>
           <View>
             <Text style={Tempatestyle.entertemplatetext}>
-              {CreateTemplatescreen.TemBottomsheet.TemplateName}
+              {CreateTemplatescreen.CloudSheetNameConstants.CloudSheetName}
             </Text>
           </View>
         </View>
@@ -72,12 +77,12 @@ const CreateTemplatePopup = (props: any) => {
                 value={text}
                 style={Tempatestyle.textInput}
                 placeholder={
-                  CreateTemplatescreen.TemBottomsheet.EnterTemplateName
+                  CreateTemplatescreen.CloudSheetNameConstants.EnterCloudSheetName
                 }
               />
             </View>
             {props?.error ?
-              <View style={Tempatestyle.errorView}>
+              <View style={{ marginHorizontal: 18, marginTop: 5 }}>
                 <Text style={Tempatestyle.errorStyle}>{props?.error}</Text>
               </View>
               : null}
@@ -86,17 +91,17 @@ const CreateTemplatePopup = (props: any) => {
         <View style={Tempatestyle.buttonview}>
           <View>
             <SmallButton
-              buttontext={CreateTemplatescreen.TemBottomsheet.Cancel}
-              onPress={OnClose}
+              buttontext={CreateTemplatescreen.CloudSheetNameConstants.Cancel}
+              onPress={props.OnClose}
             />
           </View>
 
           <View style={Tempatestyle.space}></View>
           <View>
             <LightSmallButton
-              buttontext={props.isEditTemplate ? CreateTemplatescreen.TemBottomsheet.Update : CreateTemplatescreen.TemBottomsheet.Create}
+              buttontext={props.isEditCloudSheetName ? CreateTemplatescreen.CloudSheetNameConstants.Update : CreateTemplatescreen.CloudSheetNameConstants.Create}
               // onPress={CreatePress}
-              onPress={() => props.isEditTemplate ? props.onUpdateTemplate(text, templateId, version) : props.onCreateTemplate(text)}
+              onPress={() => props.isEditCloudSheetName ? props.onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId) : props.onCreateSpreadSheet(text)}
             />
           </View>
         </View>
@@ -106,13 +111,9 @@ const CreateTemplatePopup = (props: any) => {
   );
 };
 
-export default CreateTemplatePopup;
+export default CreateCloudSheetNamePopup;
 
 const Tempatestyle = StyleSheet.create({
-  errorView:{
-    marginHorizontal: 18,
-    marginTop: 5 
-  },
   errorStyle: {
     fontFamily: FONTS.MANROPE_NORMAL,
     fontSize: 12,

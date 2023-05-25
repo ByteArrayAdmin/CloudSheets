@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import AuthCard from "../../../commonComponents/AuthCard";
 import InputField from "../../../commonComponents/InputField";
-import { SafeAreaView, Text, View, TouchableOpacity } from "react-native";
+import { SafeAreaView, Text, View, TouchableOpacity, Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { emailRegex } from "../../../utils/Constant";
 import Mesageicon from "../../../assets/Images/Message.svg";
@@ -20,15 +20,18 @@ import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { listUsers, getUser } from '../../../graphql/queries';
 import { createUser } from '../../../graphql/mutations';
 import { userLogin } from '../../../API_Manager/index';
-
+import CommonLoader from '../../../commonComponents/CommonLoader';
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
+  const [loader, setLoader] = useState(false)
 
   const onLoginPressed = async (data: any) => {
     // const { youremail, yourpasswaord } = data;
+    setLoader(true)
     userLogin(data).then((response: any) => {
       console.log("signInResp=======", response.attributes)
+      setLoader(false)
       const syncUser = async () => {
         const userData = await API.graphql(graphqlOperation(getUser, { id: response.attributes.sub }))
         console.log("userDataFromTable=========", userData)
@@ -48,6 +51,11 @@ const Login = () => {
       navigation.navigate("Tabnavigator");
     }).catch((e) => {
       console.log("loginErr=======", e)
+      setLoader(false)
+      if(e.code == "NotAuthorizedException"){
+        Alert.alert(e.message)
+      }
+      
     })
   };
   return (
@@ -166,6 +174,7 @@ const Login = () => {
             <View style={loginstyle.BottomGap} />
           </View>
         </KeyboardAwareScrollView>
+        {loader?<CommonLoader/>:null}
       </SafeAreaView>
     </>
   );

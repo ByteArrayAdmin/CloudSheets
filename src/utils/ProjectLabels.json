@@ -103,6 +103,16 @@
     "Create": "Create",
     "Update":"Update"
   },
+  "CloudSheetNameConstants":{
+    "NewCloudSheet":"New CloudSheet",
+    "EditCloudSheet":"Edit CloudSheet",
+    "PleaseNameYourCloudSheet": "Please name your CloudSheet",
+    "CloudSheetName":"CloudSheet Name",
+    "EnterCloudSheetName": "Enter CloudSheet Name",
+    "Cancel":"Cancel",
+    "Create":"Create",
+    "Update":"Update"
+  },
   "Creatcloudsheetlabels": {
     "ClassAttendance": "Class Attendance",
     "ColumnName": "Column Name",
@@ -175,10 +185,12 @@
   "Templatelistlabel": {
     "Template": "Template",
     "Listtxt": "List of Cloudsheets",
-    "ViewAll": "View All"
+    "ViewAll": "View All",
+    "CloudSheetError":"CloudSheet name is required!"
   },
   "TabBarTemplateList": {
-    "Template": "Template"
+    "Template": "Template",
+    "TemplateErr":"Template name is required!"
   },
   "ExpensesList": {
     "JanuaryExpenses": "January Expenses",
