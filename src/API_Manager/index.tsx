@@ -1,6 +1,6 @@
 import { Amplify, Auth, API, graphqlOperation, DataStore } from 'aws-amplify';
 import { listUsers, getUser, templatesByUserID, templateColumnsByTemplatesID, spreadSheetRowsBySpreadsheetID, spreadSheetsByUserID,spreadSheetsByTemplatesID } from '../graphql/queries';
-import { createTemplates, updateTemplates, deleteTemplates, createTemplateColumns, createSpreadSheet, createSpreadSheetRows ,updateSpreadSheetRows} from '../graphql/mutations';
+import { createTemplates, updateTemplates, deleteTemplates, createTemplateColumns, createSpreadSheet, createSpreadSheetRows ,updateSpreadSheetRows, updateSpreadSheet} from '../graphql/mutations';
 import { DeleteTemplatesInput, DeleteTemplatesMutation } from '../API';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { Templates } from '../models/index';
@@ -172,6 +172,17 @@ export const create_SpreadSheet = async (newSpreadSheet: any) => {
         try {
             const createSpreadsheet = await API.graphql(graphqlOperation(createSpreadSheet, { input: newSpreadSheet }))
             resolve(createSpreadsheet);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+export const update_SpreadSheet = async (newSpreadSheet: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const updateSpreadsheet = await API.graphql(graphqlOperation(updateSpreadSheet, { input: newSpreadSheet }))
+            resolve(updateSpreadsheet);
         } catch (e) {
             reject(e);
         }

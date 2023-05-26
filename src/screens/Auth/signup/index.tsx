@@ -25,6 +25,7 @@ import BlueTick from '../../../assets/Images/bluetick.svg';
 import AuthCard from "../../../commonComponents/AuthCard";
 import labels from '../../../utils/ProjectLabels.json';
 import { userSignup, userExist } from '../../../API_Manager/index';
+import CommonLoader from '../../../commonComponents/CommonLoader';
 //Aws configiuration code commented for now
 
 Amplify.configure(awsconfig);
@@ -33,6 +34,7 @@ const Signup = () => {
   const navigation = useNavigation();
   const userName = watch('username');
   const [isUserExist, setIsUserExist] = useState(false);
+  const [loader, setLoader] = useState(false)
   useEffect(() => {
     console.log("username======", userName)
   }, [userName])
@@ -51,9 +53,12 @@ const Signup = () => {
           name: name,
         },
       };
+      setLoader(true)
       userSignup(userSignUp).then((response) => {
+        setLoader(false)
         showAlert(username)
       }).catch((e) => {
+        setLoader(false)
         console.log("SignupErr=======", e)
         Alert.alert(e?.message);
       })
@@ -245,6 +250,7 @@ const Signup = () => {
             <View style={styles.BottomGap} />
           </View>
         </KeyboardAwareScrollView>
+        {loader?<CommonLoader/>:null}
       </SafeAreaView>
     </>
   );

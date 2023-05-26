@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   View,
   StyleSheet,
@@ -27,20 +27,25 @@ import PassLogo from "../../../../assets/Images/PasswordLogo.svg";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import Crown from "../../../../assets/Images/crown.svg";
 import SubcriptionScreenCard from "../SubscriptionPlanScreen/SubscriptionScreenCard";
+import CommonLoader from '../../../../commonComponents/CommonLoader';
 
 import { Auth } from 'aws-amplify';
 const UserSection = () => {
   const navigation = useNavigation();
   const Tabheight = useBottomTabBarHeight();
+  const [loader, setLoader] = useState(false);
 
   async function signOut() {
+    setLoader(true)
     try {
       await Auth.signOut();
+      setLoader(false)
       navigation.dispatch(CommonActions.reset({
         routes: [
           { name: 'Login' },]
       }))
     } catch (error) {
+      setLoader(false)
       console.log('error signing out: ', error);
     }
   }
@@ -164,6 +169,7 @@ const UserSection = () => {
           <UseCard Logo={<MessageLog />} heading={labels.Guestscreen.Help} onPress={() => navigation.navigate("Help_Screen")} />
           <View style={{ height: Tabheight }}></View>
         </ScrollView>
+        {loader?<CommonLoader/>:null}
       </View>
     </>
   );

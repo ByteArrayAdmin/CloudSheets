@@ -36,7 +36,7 @@ const CloudsheetListCard = (props: any) => {
       </View>
       <View style={styles.space}></View>
       <View style={styles.imagestyle}>
-        <TouchableOpacity style={styles.ThreeDotview} onPress={openPopup}>
+        <TouchableOpacity style={styles.ThreeDotview} onPress={props.openEditCloudSheetPopup}>
           <Threedots />
         </TouchableOpacity>
       </View>

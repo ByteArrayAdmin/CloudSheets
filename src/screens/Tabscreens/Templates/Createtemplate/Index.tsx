@@ -28,8 +28,10 @@ import { styles } from "../TabBarTemplateList/style";
 import uuid from 'react-native-uuid';
 import moment from 'moment';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import CommonLoader from '../../../../commonComponents/CommonLoader';
 
 const CreateTemplate = () => {
+  // --------- File States -----------
   const child = useRef();
   const editTempRef = useRef();
   const navigation = useNavigation();
@@ -40,7 +42,8 @@ const CreateTemplate = () => {
   const [extraData, setExtraData] = useState(new Date())
   const bottomTabHeight = useBottomTabBarHeight()
   const [count, setCount] = useState(1)
-
+  const [error, setError] = useState("")
+  const [loader, setLoader] = useState(false)
   useEffect(() => {
     getUserId()
   }, [])
@@ -60,6 +63,7 @@ const CreateTemplate = () => {
   const toggleBottomNavigationView = () => {
     setIsEditTemplate(false)
     setSelectedTemplate(null)
+    setError("")
     child.current.childFunction1();
   };
 
@@ -78,8 +82,10 @@ const CreateTemplate = () => {
   // -----------------Get Curent user TemplateList----------------
   const getTemplateList = (userId: any) => {
     let arr = []
+    setLoader(true)
     get_Template_List(userId).then((response: any) => {
       console.log("getTempResp=======", response)
+      setLoader(false)
       response.data.templatesByUserID.items.forEach(element => {
         if (element._deleted != true) {
           arr.push(element)
@@ -87,10 +93,19 @@ const CreateTemplate = () => {
       });
       // setTemplateList(response.data.templatesByUserID.items)
       setTemplateList(arr)
-
     }).catch((error) => {
       console.log("getTempErr======", error)
+      setLoader(false)
     })
+  }
+
+  // --------- Check Form validation -----------
+  const CheckValidation = (templateName: String) => {
+    if (templateName == "" || templateName == undefined) {
+      setError(labels.TabBarTemplateList.TemplateErr)
+    } else {
+      onCreateTemplate(templateName)
+    }
   }
 
   // -----------------Create Template functionality----------------
@@ -108,15 +123,17 @@ const CreateTemplate = () => {
       userID: userId
     }
     console.log("rowData======", newTemplate)
-
+    setLoader(true)
     create_Template(newTemplate).then((response: any) => {
       console.log("createTempResp=======", response)
+      setLoader(false)
       arr1.push(response.data.createTemplates)
       setTemplateList(arr1)
       child.current.childFunction2();
       navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate, isFrom: "TemplateTab" });
       setExtraData(new Date())
     }).catch((err) => {
+      setLoader(false)
       console.log("createTempErr=======", err)
     })
   }
@@ -141,10 +158,13 @@ const CreateTemplate = () => {
       _version: version
     }
     console.log("updatedRow==========", updateTemplate)
+    setLoader(true)
     update_Template(updateTemplate).then((response: any) => {
+      setLoader(false)
       console.log("updateTemplate========", response)
       navigation.navigate("CreatSpreadsheet", { template: response.data.updateTemplates, isEdit: isEditTemplate });
     }).catch((error) => {
+      setLoader(false)
       console.log("updateTempErr=======", error)
     })
   }
@@ -208,6 +228,7 @@ const CreateTemplate = () => {
   )
 
   return (
+
     <View style={styles.container}>
       {templateList.length > 0 ?
         <>
@@ -299,9 +320,10 @@ const CreateTemplate = () => {
         snapPoints={snapPoints}
         children={
           <CreateTemplatePopup
+            error={error}
             isEditTemplate={isEditTemplate}
             selectedTemplate={selectedTemplate}
-            onCreateTemplate={(templateName: String) => onCreateTemplate(templateName)}
+            onCreateTemplate={(templateName: String) => CheckValidation(templateName)}
             onUpdateTemplate={(templateName: any, templateId: any, version: any) => onUpdateTemplates(templateName, templateId, version)}
           />}
       />
@@ -316,7 +338,9 @@ const CreateTemplate = () => {
           />
         } />
       </View>
+      {loader ? <CommonLoader /> : null}
     </View>
+
   );
 };
 

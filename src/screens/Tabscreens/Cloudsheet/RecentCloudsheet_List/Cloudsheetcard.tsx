@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet , TouchableOpacity} from 'react-native';
 import Threedots from '../../../../assets/Images/threedots.svg';
 import Docicon from '../../../../assets/Images/januaryAttendicon.svg';
 import { COLOURS, FONTS } from '../../../../utils/Constant';
@@ -23,9 +23,11 @@ const Cloudsheetcard = (props: any) => (
         <Text style={Cardstyle.datetext}>{moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm:a")}</Text>
       </View>
       <View style={Cardstyle.threedotview} />
-      <View style={Cardstyle.threedotstyling}>
+      <TouchableOpacity style={Cardstyle.threedotstyling}
+      onPress={props.onClickThreeDot}
+      >
         <Threedots />
-      </View>
+      </TouchableOpacity>
     </View>
     <View style={Cardstyle.Horizontalline}>
       <View style={Cardstyle.emptyview} />
@@ -104,6 +106,12 @@ const Cardstyle = StyleSheet.create({
   },
   foldespace: { paddingRight: 6 },
   threedotstyling: {
-    position: 'absolute', right: 30, top: 26
+    position: 'absolute',
+    right: 30,
+    top: 26,
+    width:30,
+    height:30,
+    justifyContent:'center',
+    alignItems:'center'
   }
 });

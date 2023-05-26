@@ -18,8 +18,10 @@ import { get_SpreadSheetRowBySpreadSheetId } from '../../../../API_Manager/index
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
 import EditSpreadsheetRecord from "../../../../screens/Popups/EditSpreadsheetRecord/index";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
+import CommonLoader from '../../../../commonComponents/CommonLoader';
 
 const ExpensesList = (props: any) => {
+  // --------- File States ---------
   const route = useRoute()
   const navigation = useNavigation();
   const child = useRef();
@@ -29,6 +31,7 @@ const ExpensesList = (props: any) => {
   const [spreadSheetData, setSpreadSheetData] = useState([])
   const [selectedRow, setSelectedRow] = useState({})
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
+  const [loader, setLoader] = useState(false)
 
   // ----------- Initial Rendering ------------
   useEffect(() => {
@@ -44,10 +47,13 @@ const ExpensesList = (props: any) => {
 
   // ----------- Get SpreadSheet Row Data -------------
   const get_SpreadSheetRowBySpreadSheetID = () => {
+    setLoader(true)
     get_SpreadSheetRowBySpreadSheetId(spreadSheetDetail.id).then((response: any) => {
+      setLoader(false)
       console.log("spreadRowResp======", response)
       setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items)
     }).catch((error) => {
+      setLoader(false)
       console.log("spreadRowErr========", error)
     })
   }
@@ -121,6 +127,7 @@ const ExpensesList = (props: any) => {
           deletelabel={labels.ExpensesList.Delete_CloudSheet_Record}
         />}
       />
+      {loader?<CommonLoader/>:null}
     </View>
   );
 };

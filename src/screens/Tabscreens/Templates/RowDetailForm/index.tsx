@@ -1,16 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList
-} from "react-native";
+import {Text,View,TouchableOpacity,FlatList} from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 import Folder from "../../assets/Images/folder12.svg";
 import labels from "../../../../utils/ProjectLabels.json";
 import Document from "../../../../assets/Images/documentdark.svg";
-
 import NewInputField from "../../../../commonComponents/NewInputfield";
 import { useForm } from "react-hook-form";
 import CommonDatepicker from "../../../../commonComponents/CommonDatepicker";
@@ -28,7 +22,7 @@ import LightSmallButton from '../../../../commonComponents/LightSmallbutton';
 import SmallButton from '../../../../commonComponents/SmallButton';
 import CommonBottomsheet from '../../../../commonComponents/CommonBottomsheet';
 import UpdatedCloudSheet from '../../../Popups/UpdatedCloudSheetPopup/index';
-
+import CommonLoader from '../../../../commonComponents/CommonLoader';
 const RowdetailForm = () => {
   const navigation = useNavigation();
   const route = useRoute()
@@ -46,6 +40,8 @@ const RowdetailForm = () => {
   const [updatedFormData, setUpdatedFormData] = useState({})
   const { reset, control, handleSubmit } = useForm();
   const [modalVisible, setModalVisible] = useState(false)
+  const [extraData, setExtraData] = useState(new Date())
+  const [loader, setLoader] = useState(false)
 
   // --------------Initial rendering-------------------
   useEffect(() => {
@@ -54,11 +50,15 @@ const RowdetailForm = () => {
     console.log("spreadRow======", route?.params?.spreadSheetRow)
     console.log("isFromScreen=======", route?.params?.isFrom)
 
-    if (route?.params?.isEdit) {
-      setSpreadsheetRowItems(JSON.parse(route?.params?.spreadSheetRow?.items))
-    }
     getColumnByID(route.params.spreadSheet.templatesID)
   }, [])
+
+  useEffect(()=>{
+    if(isEdit){
+      setSpreadsheetRowItems(JSON.parse(route?.params?.spreadSheetRow?.items))
+      setExtraData(new Date())
+    }
+  }, [isEdit])
 
   // --------------Create Row Data-----------------
   const onSubmitPressed = async (data: any) => {
@@ -75,11 +75,14 @@ const RowdetailForm = () => {
       items: JSON.stringify(data)
     }
     console.log("UpdatedRow=======", newRow)
+    setLoader(true)
     create_SpreadSheet_Row(newRow).then((response) => {
+      setLoader(false)
       console.log("spreadRowResp==========", response)
       reset()
       navigation.navigate("Attendancelist", { spreadSheet: spreadSheet, isFrom: isFromScreen })
     }).catch((error) => {
+      setLoader(false)
       console.log("spreadRowErr========", error)
     })
   };
@@ -104,10 +107,13 @@ const RowdetailForm = () => {
       items: JSON.stringify(data),
       _version: spreadSheetRowData?._version
     }
+    setLoader(true)
     update_SpreadSheetRow(newRow).then((response: any) => {
       console.log("updatedSpreadsheetRowResp=======", response)
+      setLoader(false)
       setModalVisible(true)
     }).catch((error) => {
+      setLoader(false)
       console.log("updateSpreadSheetRowErr========", error)
     })
     console.log("updateRowData========", newRow)
@@ -124,10 +130,13 @@ const RowdetailForm = () => {
 
   // -------get Columnlist -----------------
   const getColumnByID = (templateId: String) => {
+    setLoader(true)
     get_ColumnByTemplateId(templateId).then((response: any) => {
       console.log("getColResp======", response)
+      setLoader(false)
       setColumns(response.data.templateColumnsByTemplatesID.items)
     }).catch((error) => {
+      setLoader(false)
       console.log("getColmErr=====", error)
     })
   }
@@ -224,6 +233,7 @@ const RowdetailForm = () => {
               showsVerticalScrollIndicator={false}
               data={columns}
               renderItem={renderItem}
+              extraData={extraData}
             />
           </View>
         </View>
@@ -250,6 +260,7 @@ const RowdetailForm = () => {
           />}
       </View>
       {modalVisible ? <UpdatedCloudSheet visible={modalVisible} onPress={() => cancelModal()} /> : null}
+      {loader?<CommonLoader/>:null}
     </View>
   );
 };

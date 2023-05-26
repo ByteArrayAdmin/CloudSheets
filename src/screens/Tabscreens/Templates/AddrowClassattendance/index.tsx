@@ -21,6 +21,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { create_SpreadSheet } from '../../../../API_Manager/index';
 import uuid from 'react-native-uuid';
 import moment from 'moment';
+import CommonLoader from '../../../../commonComponents/CommonLoader';
 
 const AddrowClassattendance = () => {
   const navigation = useNavigation();
@@ -29,6 +30,7 @@ const AddrowClassattendance = () => {
   const [error, setError] = useState("")
   const [template, setTemplate] = useState(route.params.template)
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
+  const [loader, setLoader] = useState(false)
 
   useEffect(() => {
     console.log("columns=======", route.params.template)
@@ -55,11 +57,14 @@ const AddrowClassattendance = () => {
       userID: template.userID
     }
     console.log("spreadSheetData=======", newSpreadData)
+    setLoader(true)
     create_SpreadSheet(newSpreadData).then((response) => {
+      setLoader(false)
       console.log("spreadResp=======", response)
       DeviceEventEmitter.emit('updateSpreadSheetList')
       navigation.navigate("RowdetailForm", { spreadSheet: response.data.createSpreadSheet, isFrom: isFrom })
     }).catch((error) => {
+      setLoader(false)
       console.log("spreadErr=====", error)
     })
   }
@@ -123,6 +128,7 @@ const AddrowClassattendance = () => {
         </View>
 
       </SafeAreaView>
+      {loader?<CommonLoader/>:null}
     </>
   );
 };

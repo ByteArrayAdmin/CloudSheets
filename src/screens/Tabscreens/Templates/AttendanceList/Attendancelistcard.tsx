@@ -5,32 +5,43 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  LayoutAnimation
 } from "react-native";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
 import Ic_upArrow from '../../../../assets/Images/Ic_upArrow.svg';
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 
 export const Attendancelistcard = (props: any) => {
 
   const [items, setItems] = useState(JSON.parse(props?.item.items))
   const [isOpen, setIsOpen] = useState(false)
 
-  const toggleSwitch = () => setIsOpen(previousState => !previousState);
+  const toggleSwitch = () => {
+    setIsOpen((prev) => !prev);
+    LayoutAnimation.configureNext({
+      ...LayoutAnimation.Presets.easeInEaseOut,
+      duration: 300,
+    });
+  };
 
   return (
-    <TouchableOpacity style={Styles.container}
-      onPress={toggleSwitch}
-    >
+    <View style={Styles.container}>
       <View style={[Styles.innercontainer, { borderColor: isOpen ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue }]}>
         <View style={Styles.subcontainer}>
           <View>
             <Text style={Styles.nametext}>{Object.values(items)[0]}</Text>
           </View>
           <View style={Styles.emptyview}></View>
-          <View style={Styles.gap}>
+          <TouchableOpacity style={Styles.gap}
+            onPress={toggleSwitch}
+          >
             {isOpen ? <Ic_upArrow /> : <Downarrow />}
-          </View>
+          </TouchableOpacity>
           <View>
             <TouchableOpacity style={Styles.ThreeDotview} onPress={props.openEditRecord}>
               <Threedot />
@@ -38,7 +49,7 @@ export const Attendancelistcard = (props: any) => {
           </View>
         </View>
         {isOpen ?
-          <View style={Styles.bottomgap}>
+          <Animated.View style={Styles.bottomgap}>
             <View style={Styles.horizontallineview}>
               <View style={Styles.innerhoeizontaline} />
             </View>
@@ -52,10 +63,9 @@ export const Attendancelistcard = (props: any) => {
                   </View>
                 )
               })}
-          </View> : null}
+          </Animated.View> : null}
       </View>
-
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -79,7 +89,11 @@ const Styles = StyleSheet.create({
     height: 50,
   },
   gap: {
-    paddingRight: 16,
+    marginRight: 10,
+    width: 65,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   nametext: {
     fontSize: 14,
@@ -106,9 +120,18 @@ const Styles = StyleSheet.create({
     height: 1,
     backgroundColor: COLOURS.lightgrey,
   },
-  detailview: { marginTop: 16, flexDirection: "row", alignItems: "center" },
+  detailview: {
+    marginTop: 16,
+    flexDirection: "row",
+    alignItems: "center"
+  },
   bottomgap: {
     marginBottom: 20,
   },
-  ThreeDotview: { width: 25, height: 25, justifyContent: 'center', alignItems: 'center' }
+  ThreeDotview: {
+    width: 25,
+    height: 25,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });

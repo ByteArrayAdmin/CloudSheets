@@ -21,6 +21,7 @@ import { get_SpreadSheetRowBySpreadSheetId } from '../../../../API_Manager/index
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Edit_Delete_Cloudsheet from "../../../Popups/Edit_Delete_Cloudsheet/index";
 import EditSpreadsheetRecord from '../../../Popups/EditSpreadsheetRecord';
+import CommonLoader from '../../../../commonComponents/CommonLoader';
 const { height } = Dimensions.get("window");
 
 const Attendancelist = () => {
@@ -35,6 +36,7 @@ const Attendancelist = () => {
   const [spreadSheetData, setSpreadSheetData] = useState([])
   const [selectedRow, setSelectedRow] = useState({})
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
+  const [loader, setLoader] = useState(false)
 
   // ---------- Initial Rendering ---------
   useEffect(() => {
@@ -44,10 +46,13 @@ const Attendancelist = () => {
 
   // ------------- Get SpreadSheet List -----------
   const getSpreadsheetBySpreadsheetId = (spreadSheetId: String) => {
+    setLoader(true)
     get_SpreadSheetRowBySpreadSheetId(spreadSheetId).then((response: any) => {
+      setLoader(false)
       console.log("spreadsheetResp========", response)
       setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items)
     }).catch((error) => {
+      setLoader(false)
       console.log("spreadSheetListErr========", error)
     })
   }
@@ -64,6 +69,7 @@ const Attendancelist = () => {
 
     console.log("spreadSheetRow======", selectedRow)
     console.log("spreadSheet======", spreadSheet)
+
     navigation.navigate("RowdetailForm", { spreadSheetRow: selectedRow, spreadSheet: spreadSheet, isEdit: true, isFrom: isFrom })
   }
 
@@ -121,7 +127,9 @@ const Attendancelist = () => {
           editlabel={label.Edit_Delete_Cloud.EditCloudSheetRecord}
           deletelabel={label.Edit_Delete_Cloud.DeleteCloudSheet}
         />}
+        
       />
+      {loader?<CommonLoader/>:null}
     </>
   );
 };

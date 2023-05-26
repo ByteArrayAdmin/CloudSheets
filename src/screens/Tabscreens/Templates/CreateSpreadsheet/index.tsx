@@ -21,6 +21,7 @@ import uuid from 'react-native-uuid';
 import moment from 'moment';
 import { create_Template_Column, get_ColumnByTemplateId } from '../../../../API_Manager/index';
 import ColumnCard from './ColumnCard';
+import CommonLoader from '../../../../commonComponents/CommonLoader';
 
 const CreatSpreadsheet = () => {
   const navigation = useNavigation();
@@ -33,6 +34,7 @@ const CreatSpreadsheet = () => {
   const { control, handleSubmit } = useForm();
   const [columnList, setColumnList] = useState([]);
   const [extraData, setExtraData] = useState(new Date())
+  const [loader, setLoader] = useState(false)
 
   // ----------- useEffect for initial Rendering---------------
   useEffect(() => {
@@ -47,10 +49,13 @@ const CreatSpreadsheet = () => {
 
   // ----------- Get Existing Cloumn List---------------
   const getExistingColumn = () => {
+    setLoader(true)
     get_ColumnByTemplateId(templateID).then((response: any) => {
       console.log("responseCol=====", response)
+      setLoader(false)
       setColumnList(response.data.templateColumnsByTemplatesID.items)
     }).catch((error) => {
+      setLoader(false)
       console.log("getColmErr=======", error)
     })
   }
@@ -94,10 +99,12 @@ const CreatSpreadsheet = () => {
     }
     );
     console.log("updateArrWithID===========", newArray)
-
+    setLoader(true)
     create_Template_Column(newArray).then((response) => {
+      setLoader(false)
       console.log("createColmResponse=========", response)
     }).catch((error) => {
+      setLoader(false)
       console.log("createColmErr======", error)
     })
     if (isEdit) {
@@ -201,6 +208,7 @@ const CreatSpreadsheet = () => {
           </View>
         </View>
       </ScrollView>
+      {loader?<CommonLoader/>:null}
     </>
   );
 };
