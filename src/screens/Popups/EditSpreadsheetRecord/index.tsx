@@ -35,7 +35,7 @@ const EditSpreadsheetRecord = (props: any) => {
       />
       <View style={Style.Cardspace}></View>
       <CommonCard
-        onPress={()=>props.deleteTemplate(props.selectedTemplate)}
+        onPress={props.deleteTemplate}
         icon={<Delete />}
         heading={props.deletelabel}
       />

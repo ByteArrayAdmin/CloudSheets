@@ -72,7 +72,8 @@ const RowdetailForm = () => {
       userID: spreadSheet?.userID,
       templatesID: spreadSheet?.templatesID,
       spreadsheetID: spreadSheet?.id,
-      items: JSON.stringify(data)
+      items: JSON.stringify(data),
+      soft_Deleted: false
     }
     console.log("UpdatedRow=======", newRow)
     setLoader(true)
@@ -105,7 +106,8 @@ const RowdetailForm = () => {
       templatesID: spreadSheetRowData?.templatesID,
       spreadsheetID: spreadSheetRowData?.spreadsheetID,
       items: JSON.stringify(data),
-      _version: spreadSheetRowData?._version
+      _version: spreadSheetRowData?._version,
+      soft_Deleted:spreadSheetRowData.soft_Deleted
     }
     setLoader(true)
     update_SpreadSheetRow(newRow).then((response: any) => {

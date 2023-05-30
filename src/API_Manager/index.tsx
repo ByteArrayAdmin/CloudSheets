@@ -1,6 +1,29 @@
 import { Amplify, Auth, API, graphqlOperation, DataStore } from 'aws-amplify';
-import { listUsers, getUser, templatesByUserID, templateColumnsByTemplatesID, spreadSheetRowsBySpreadsheetID, spreadSheetsByUserID,spreadSheetsByTemplatesID } from '../graphql/queries';
-import { createTemplates, updateTemplates, deleteTemplates, createTemplateColumns, createSpreadSheet, createSpreadSheetRows ,updateSpreadSheetRows, updateSpreadSheet} from '../graphql/mutations';
+import {
+    listUsers,
+    getUser,
+    templatesByUserID,
+    templateColumnsByTemplatesID,
+    spreadSheetRowsBySpreadsheetID,
+    spreadSheetsByUserID,
+    spreadSheetsByTemplatesID,
+    spreadSheetRowsBySpreadSheetID_SoftDelete,
+    templateColumnsByTemplatesID_SoftDelete,
+    spreadSheetsByTemplatesID_SoftDelete,
+    spreadSheetRowsByTemplatesID_SoftDelete
+} from '../graphql/queries';
+import {
+    createTemplates,
+    updateTemplates,
+    deleteTemplates,
+    createTemplateColumns,
+    createSpreadSheet,
+    createSpreadSheetRows,
+    updateSpreadSheetRows,
+    updateSpreadSheet,
+    updateTemplateColumns,
+
+} from '../graphql/mutations';
 import { DeleteTemplatesInput, DeleteTemplatesMutation } from '../API';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { Templates } from '../models/index';
@@ -75,7 +98,6 @@ export const current_UserInfo = async () => {
 
 // ------------------Template Section Api start----------------
 
-
 export const create_Template = async (newTemplate: any) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -89,8 +111,14 @@ export const create_Template = async (newTemplate: any) => {
 
 export const get_Template_List = async (userId: any) => {
     return new Promise(async (resolve, reject) => {
+
         try {
-            const getTemplate = await API.graphql(graphqlOperation(templatesByUserID, { userID: userId }))
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                }
+            };
+            const getTemplate = await API.graphql(graphqlOperation(templatesByUserID, { userID: userId, filter: filter }))
             resolve(getTemplate);
         } catch (e) {
             reject(e);
@@ -109,38 +137,34 @@ export const update_Template = async (newTemplate: any) => {
     })
 }
 
-export const delete_Template = async (newTemplate: any) => {
-    console.log("newTemp=======", newTemplate)
+// export const delete_Template = async (newTemplate: any) => {
+//     console.log("newTemp=======", newTemplate)
+//     const templateDetails: DeleteTemplatesInput = {
+//         id: newTemplate.id,
+//         _version:newTemplate._version
+//     };
 
-    const templateDetails: DeleteTemplatesInput = {
-        id: newTemplate.id,
-        _version:newTemplate._version
-    };
-
-    return new Promise(async (resolve, reject) => {
-        try {
-
-            const deleteTemplate = await API.graphql<GraphQLQuery<DeleteTemplatesMutation>>({ 
-                query: deleteTemplates, 
-                variables: { input: templateDetails }
-              });
-
-            resolve(deleteTemplate);
-        } catch (e) {
-            reject(e);
-        }
-    })
-}
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             const deleteTemplate = await API.graphql<GraphQLQuery<DeleteTemplatesMutation>>({ 
+//                 query: deleteTemplates, 
+//                 variables: { input: templateDetails }
+//               });
+//             resolve(deleteTemplate);
+//         } catch (e) {
+//             reject(e);
+//         }
+//     })
+// }
 
 // ------------------Template Column Section Api start----------------
-
 export const create_Template_Column = async (newTemplateCol: any) => {
 
     return new Promise(async (resolve, reject) => {
         try {
 
             const txnMutation: any = newTemplateCol.map((txn: any, i: any) => {
-                const dumStr = `mutation${i}: createTemplateColumns(input: {id: "${txn.id}", column_Name:"${txn.column_Name}", templatesID:"${txn.templatesID}" column_Type:"${txn.column_Type}"}) { id,column_Name,templatesID,column_Type }`;
+                const dumStr = `mutation${i}: createTemplateColumns(input: {id: "${txn.id}", column_Name:"${txn.column_Name}", templatesID:"${txn.templatesID}", column_Type:"${txn.column_Type}", soft_Deleted:${txn.soft_Deleted}}) { id,column_Name,templatesID,column_Type,soft_Deleted }`;
                 console.log("updateMutation============", dumStr)
                 return dumStr;
             });
@@ -157,7 +181,12 @@ export const create_Template_Column = async (newTemplateCol: any) => {
 export const get_ColumnByTemplateId = async (templateId: any) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const getColumn = await API.graphql(graphqlOperation(templateColumnsByTemplatesID, { templatesID: templateId }))
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                }
+            };
+            const getColumn = await API.graphql(graphqlOperation(templateColumnsByTemplatesID, { templatesID: templateId, filter: filter }))
             resolve(getColumn);
         } catch (e) {
             reject(e);
@@ -165,8 +194,18 @@ export const get_ColumnByTemplateId = async (templateId: any) => {
     })
 }
 
-// ------------------SpreadSheet Section Api start----------------
+export const templateColumn_softDelete = async (updateColumn: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const softDeleteTemplateColumn = await API.graphql(graphqlOperation(updateTemplateColumns, { input: updateColumn }))
+            resolve(softDeleteTemplateColumn);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 
+// ------------------SpreadSheet Section Api start----------------
 export const create_SpreadSheet = async (newSpreadSheet: any) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -192,7 +231,12 @@ export const update_SpreadSheet = async (newSpreadSheet: any) => {
 export const get_CloudsheetByUserID = async (userId: any) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const getCloudsheet = await API.graphql(graphqlOperation(spreadSheetsByUserID, { userID: userId }))
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                }
+            };
+            const getCloudsheet = await API.graphql(graphqlOperation(spreadSheetsByUserID, { userID: userId, filter: filter }))
             resolve(getCloudsheet);
         } catch (e) {
             reject(e);
@@ -200,10 +244,15 @@ export const get_CloudsheetByUserID = async (userId: any) => {
     })
 }
 
-export const getCloudsheetByTemplateID = async(templateId: any)=>{
+export const getCloudsheetByTemplateID = async (templateId: any) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const getCloudsheet = await API.graphql(graphqlOperation(spreadSheetsByTemplatesID, { templatesID: templateId }))
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                }
+            };
+            const getCloudsheet = await API.graphql(graphqlOperation(spreadSheetsByTemplatesID, { templatesID: templateId, filter: filter }))
             resolve(getCloudsheet);
         } catch (e) {
             reject(e);
@@ -211,8 +260,34 @@ export const getCloudsheetByTemplateID = async(templateId: any)=>{
     })
 }
 
-// ------------------SpreadSheet Section Api start----------------
+export const spreadSheet_softDelete = (softDelete_SpreadSheet: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const softDeleteSpreadSheet = await API.graphql(graphqlOperation(updateSpreadSheet, { input: softDelete_SpreadSheet }))
+            resolve(softDeleteSpreadSheet);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+export const softDelete_spreadSheet_and_rows = (spreadSheetRowData: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const txnMutation: any = spreadSheetRowData.map((txn: any, i: any) => {
+                const dumStr = `mutation${i}: updateSpreadSheetRows(input: {id: "${txn.id}", soft_Deleted:${txn.soft_Deleted}, _version:${txn._version}}) { id,soft_Deleted,_version }`;
+                console.log("updateMutation============", dumStr)
+                return dumStr;
+            });
+            const softDelete_spreadSheetRow = await API.graphql(graphqlOperation(`mutation batchMutation {
+                ${txnMutation}}`))
+            resolve(softDelete_spreadSheetRow);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 
+// ------------------SpreadSheetRow Section Api start----------------
 export const create_SpreadSheet_Row = async (newSpreadSheetRow: any) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -227,7 +302,12 @@ export const create_SpreadSheet_Row = async (newSpreadSheetRow: any) => {
 export const get_SpreadSheetRowBySpreadSheetId = async (spreadSheetId: any) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const getSpreadsheet = await API.graphql(graphqlOperation(spreadSheetRowsBySpreadsheetID, { spreadsheetID: spreadSheetId }))
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                }
+            };
+            const getSpreadsheet = await API.graphql(graphqlOperation(spreadSheetRowsBySpreadsheetID, { spreadsheetID: spreadSheetId, filter: filter }))
             resolve(getSpreadsheet);
         } catch (e) {
             reject(e);
@@ -244,4 +324,99 @@ export const update_SpreadSheetRow = async (updateSpreadSheetRow: any) => {
             reject(e);
         }
     })
+}
+
+export const spreadSheetRow_softDelete = (softDelete_SpreadSheetRow: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const softDeleteSpreadSheetRow = await API.graphql(graphqlOperation(updateSpreadSheetRows, { input: softDelete_SpreadSheetRow }))
+            resolve(softDeleteSpreadSheetRow);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+export const getSpreadsheetRow_bySpreadsheetId_forSoftDelete = (spreadSheetId: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                }
+            };
+            const getSpreadsheet = await API.graphql(graphqlOperation(spreadSheetRowsBySpreadSheetID_SoftDelete, { spreadsheetID: spreadSheetId, filter: filter }))
+            resolve(getSpreadsheet);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+// ---------------- Soft Delete Template ----------------
+
+export const soft_delete_template = async (template: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                }
+            };
+            // const getColumn = await API.graphql(graphqlOperation(templateColumnsByTemplatesID_SoftDelete, { templatesID: template.id, filter: filter }))
+            // let columnList = getColumn.data.templateColumnsByTemplatesID.items
+
+            const getSpreadSheet = await API.graphql(graphqlOperation(spreadSheetsByTemplatesID_SoftDelete, { templatesID: template.id, filter: filter }))
+            let spreadSheetList = getSpreadSheet.data.spreadSheetsByTemplatesID.items
+
+            // const getSpreadSheetRow = await API.graphql(graphqlOperation(spreadSheetRowsByTemplatesID_SoftDelete, { templatesID: template.id, filter: filter }))
+            // let spreadSheetRowList = getSpreadSheetRow.data.spreadSheetRowsByTemplatesID.items
+
+            // if (columnList.length > 0) {
+            //     columnList.forEach((element: any) => {
+            //         element.soft_Deleted = true
+            //     });
+            //     console.log("ColmList======", columnList)
+            //     const txnMutation: any = columnList.map((txn: any, i: any) => {
+            //         const updatedCol = `mutation${i}: updateTemplateColumns(input: {id: "${txn.id}", soft_Deleted:${txn.soft_Deleted}, _version:${txn._version}, }) { id,soft_Deleted,_version }`;
+            //         console.log("updateMutation============", updatedCol)
+            //         return updatedCol;
+            //     });
+            //     const updatedColumn = await API.graphql(graphqlOperation(`mutation batchMutation {
+            //         ${txnMutation}}`))
+            // }
+            if (spreadSheetList.length > 0) {
+                spreadSheetList.forEach((element: any) => {
+                    element.soft_Deleted = true
+                });
+                const txnMutation: any = spreadSheetList.map((txn: any, i: any) => {
+                    const updateSpreadsheet = `mutation${i}: updateSpreadSheet(input: {id: "${txn.id}", soft_Deleted:${txn.soft_Deleted}, _version:${txn._version} }) { id,soft_Deleted,_version }`;
+                    console.log("updateMutation============", updateSpreadsheet)
+                    return updateSpreadsheet;
+                });
+                const updatedSpreadSheet = await API.graphql(graphqlOperation(`mutation batchMutation {
+                    ${txnMutation}}`))
+                console.log("spreadSheetList======", spreadSheetList)
+            }
+            // if (spreadSheetRowList.length > 0) {
+            //     spreadSheetRowList.forEach((element: any) => {
+            //         element.soft_Deleted = true
+            //     });
+            //     console.log("spreadSheetRowList======", spreadSheetRowList)
+            //     const txnMutation: any = spreadSheetRowList.map((txn: any, i: any) => {
+            //         const updateSpreadsheetRow = `mutation${i}: updateSpreadSheetRows(input: {id: "${txn.id}", soft_Deleted:${txn.soft_Deleted}, _version:${txn._version} }) { id,soft_Deleted,_version }`;
+            //         console.log("updateMutation============", updateSpreadsheetRow)
+            //         return updateSpreadsheetRow;
+            //     });
+            //     const updatedSpreadSheet = await API.graphql(graphqlOperation(`mutation batchMutation {
+            //         ${txnMutation}}`))
+            // }
+            const updateTemplate = await API.graphql(graphqlOperation(updateTemplates, { input: template }))
+            resolve(updateTemplate);
+            
+        } catch (e) {
+            reject(e);
+        }
+    })
+
 }

@@ -67,6 +67,7 @@ const TemplateEditPopup = (props: any) => {
             <CommonCard
               icon={<Delete />}
               heading={labels.EditTemplatePopup.Delete_CloudSheet}
+              onPress={props.onDeleteCloudSheet}
             />
           </View>
         </View>

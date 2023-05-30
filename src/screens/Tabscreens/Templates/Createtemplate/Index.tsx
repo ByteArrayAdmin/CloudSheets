@@ -4,7 +4,9 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Alert,
+  DeviceEventEmitter
 } from "react-native";
 import BackgroundLayout from "../../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../../assets/Images/smalllogo.svg";
@@ -17,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreateTemplatePopup from "./../../../Popups/CreateTemplatePopup";
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
-import { create_Template, update_Template, current_UserInfo, get_Template_List, delete_Template, get_ColumnByTemplateId } from '../../../../API_Manager/index';
+import { create_Template, update_Template, current_UserInfo, get_Template_List, delete_Template, get_ColumnByTemplateId, Template_Soft_Delete, soft_delete_template } from '../../../../API_Manager/index';
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import Card from "../TabBarTemplateList/Card";
 import labels from "../../../../utils/ProjectLabels.json";
@@ -37,7 +39,7 @@ const CreateTemplate = () => {
   const navigation = useNavigation();
   const [userId, setUserId] = useState('')
   const [templateList, setTemplateList] = useState([])
-  const [selectedTemplate, setSelectedTemplate] = useState(null)
+  const [selectedTemplate, setSelectedTemplate] = useState({})
   const [isEditTemplate, setIsEditTemplate] = useState(false)
   const [extraData, setExtraData] = useState(new Date())
   const bottomTabHeight = useBottomTabBarHeight()
@@ -120,7 +122,8 @@ const CreateTemplate = () => {
     const newTemplate = {
       id: newUniqueId,
       template_name: templateName,
-      userID: userId
+      userID: userId,
+      soft_Deleted: false
     }
     console.log("rowData======", newTemplate)
     setLoader(true)
@@ -139,7 +142,7 @@ const CreateTemplate = () => {
   }
 
   // -----------------Update Template functionality----------------
-  const onUpdateTemplates = (templateName: any, templateId: any, version: any) => {
+  const onUpdateTemplates = (templateName: any, templateId: any, version: any, softDeleted: boolean) => {
 
     let arr1 = templateList
     arr1.forEach(element => {
@@ -155,7 +158,8 @@ const CreateTemplate = () => {
       id: templateId,
       template_name: templateName,
       userID: userId,
-      _version: version
+      _version: version,
+      soft_Deleted: softDeleted
     }
     console.log("updatedRow==========", updateTemplate)
     setLoader(true)
@@ -169,30 +173,47 @@ const CreateTemplate = () => {
     })
   }
 
+  // ----------- Delete Row Alert ------------
+  const deleteAlert = () => {
+    editTempRef.current.childFunction2();
+    Alert.alert(labels.ExpensesList.Delete_Record_Alert, labels.ExpensesList.Delete_Quete, [
+      {
+        text: labels.ExpensesList.Cancel,
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: labels.ExpensesList.OK, onPress: () => onDeleteTemplate() },
+    ]);
+  }
+
   // -----------------Delete Template functionality----------------
-  const onDeleteTemplate = (selectedTemplate: any) => {
-    let arr1 = templateList
-    let index
-    arr1.forEach(element => {
-      if (element.id == selectedTemplate.id) {
-        index = arr1.indexOf(element)
-      }
-    });
-    arr1.splice(index, 1)
-    setTemplateList(arr1)
-    setExtraData(new Date())
+  const onDeleteTemplate = () => {
+
     const deleteTemplate = {
       id: selectedTemplate.id,
       template_name: selectedTemplate.template_name,
       userID: selectedTemplate.userID,
-      _version: 1,
-      _deleted: true
+      _version: selectedTemplate._version,
+      soft_Deleted: true
     }
-    delete_Template(selectedTemplate).then((response) => {
-      console.log("deleteTempResp=======", response)
-      child.current.childFunction2();
+    setLoader(true)
+    soft_delete_template(deleteTemplate).then((response: any) => {
+      console.log("colId=======", response)
+      let arr1 = templateList
+      let index
+      arr1.forEach(element => {
+        if (element.id == selectedTemplate.id) {
+          index = arr1.indexOf(element)
+        }
+      });
+      arr1.splice(index, 1)
+      setTemplateList(arr1)
+      setExtraData(new Date())
+      setLoader(false)
+      DeviceEventEmitter.emit('updateSpreadSheetList')
     }).catch((error) => {
-      console.log("deleteTempErr=======", error)
+      setLoader(false)
+      console.log("getColErr======", error)
     })
   }
 
@@ -324,14 +345,14 @@ const CreateTemplate = () => {
             isEditTemplate={isEditTemplate}
             selectedTemplate={selectedTemplate}
             onCreateTemplate={(templateName: String) => CheckValidation(templateName)}
-            onUpdateTemplate={(templateName: any, templateId: any, version: any) => onUpdateTemplates(templateName, templateId, version)}
+            onUpdateTemplate={(templateName: any, templateId: any, version: any, softDeleted: boolean) => onUpdateTemplates(templateName, templateId, version, softDeleted)}
           />}
       />
       <View>
         <CommonBottomsheet ref={editTempRef} snapPoints={snapPoints} children={
           <EditDeleteCloudsheet
             editTemplate={() => onEditTemplate()}
-            deleteTemplate={(selectedTemplate: any) => onDeleteTemplate(selectedTemplate)}
+            deleteTemplate={() => deleteAlert()}
             selectedTemplate={selectedTemplate}
             editlabel={labels.TemplatePopupExpenses.Edit_Template}
             deletelabel={labels.TemplatePopupExpenses["Delete Template"]}

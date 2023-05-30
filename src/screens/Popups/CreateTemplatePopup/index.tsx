@@ -22,6 +22,7 @@ const CreateTemplatePopup = (props: any) => {
   const [text, onChangeText] = useState();
   const [templateId, setTemplateId] = useState('')
   const [version, setVersion] = useState()
+  const [softDeleted,setSoftDeleted] = useState()
 
   const CreatePress = () => {
     child.current.childFunction2();
@@ -36,6 +37,7 @@ const CreateTemplatePopup = (props: any) => {
       onChangeText(props.selectedTemplate.template_name)
       setTemplateId(props.selectedTemplate.id)
       setVersion(props.selectedTemplate._version)
+      setSoftDeleted(props.selectedTemplate.soft_Deleted)
     }
   }, [])
 
@@ -96,7 +98,7 @@ const CreateTemplatePopup = (props: any) => {
             <LightSmallButton
               buttontext={props.isEditTemplate ? CreateTemplatescreen.TemBottomsheet.Update : CreateTemplatescreen.TemBottomsheet.Create}
               // onPress={CreatePress}
-              onPress={() => props.isEditTemplate ? props.onUpdateTemplate(text, templateId, version) : props.onCreateTemplate(text)}
+              onPress={() => props.isEditTemplate ? props.onUpdateTemplate(text, templateId, version,softDeleted) : props.onCreateTemplate(text)}
             />
           </View>
         </View>
