@@ -54,7 +54,8 @@ const AddrowClassattendance = () => {
       id: newUniqueId,
       spreadsheet_name: text,
       templatesID: template.id,
-      userID: template.userID
+      userID: template.userID,
+      soft_Deleted: false
     }
     console.log("spreadSheetData=======", newSpreadData)
     setLoader(true)

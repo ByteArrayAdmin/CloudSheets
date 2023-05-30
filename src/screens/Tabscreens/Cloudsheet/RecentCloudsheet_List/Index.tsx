@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useRef, useEffect, useState } from "react";
-import { FlatList, View, TouchableOpacity, Text, DeviceEventEmitter } from "react-native";
+import { FlatList, View, TouchableOpacity, Text, DeviceEventEmitter, Alert } from "react-native";
 import FlatListHeader from "./FlatlistHeader";
 import Cloudsheetcard from "./Cloudsheetcard";
 import { styles } from "./style";
@@ -10,7 +10,7 @@ import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreatecloudsheetPopup from "../../../Popups/CreateCloudsheets.tsx";
 import SearcBar from "../../../../commonComponents/Searchbar";
 import Clousheetlistscreen from "../../../../utils/ProjectLabels.json";
-import { get_CloudsheetByUserID, current_UserInfo, create_Template, update_SpreadSheet } from '../../../../API_Manager/index';
+import { get_CloudsheetByUserID, current_UserInfo, create_Template, update_SpreadSheet, spreadSheet_softDelete, getSpreadsheetRow_bySpreadsheetId_forSoftDelete, softDelete_spreadSheet_and_rows } from '../../../../API_Manager/index';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CreateTemplatePopup from '../../../Popups/CreateTemplatePopup';
 import CreateCloudSheetNamePopup from '../../../Popups/CreateCloudSheetNamePopup/index';
@@ -179,6 +179,69 @@ const ClousheetList = () => {
     })
   }
 
+  //--------- Cloudsheet delete Alert ---------
+  const openCloudsheetDeleteAlert = () => {
+    openthreeDotRef.current.childFunction2();
+    Alert.alert(Clousheetlistscreen.cloudsheetlistconstant.Delete_Alert, Clousheetlistscreen.cloudsheetlistconstant.Delete_Quete, [
+      {
+        text: Clousheetlistscreen.cloudsheetlistconstant.Cancel,
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: Clousheetlistscreen.cloudsheetlistconstant.OK, onPress: () => onDeleteCloudsheet() },
+    ]);
+  }
+
+  // ----------- Delete Cloudsheet ----------
+  const onDeleteCloudsheet = () => {
+    let arr1 = cloudSheetList
+    let index
+    arr1.forEach(element => {
+      if (element.id == selectedCloudSheet.id) {
+        index = arr1.indexOf(element)
+      }
+    });
+    arr1.splice(index, 1)
+    setCloudSheetList(arr1)
+    setExtraData(new Date())
+    let updatedCloudsheetData = {
+      id: selectedCloudSheet.id,
+      spreadsheet_name: selectedCloudSheet.spreadsheet_name,
+      templatesID: selectedCloudSheet.templatesID,
+      userID: selectedCloudSheet.userID,
+      soft_Deleted: true,
+      _version: selectedCloudSheet._version,
+    }
+    setLoader(true)
+    spreadSheet_softDelete(updatedCloudsheetData).then((response: any) => {
+      if (response) {
+        getSpreadsheetRow_bySpreadsheetId_forSoftDelete(selectedCloudSheet.id).then((response: any) => {
+          let spreadSheetRows = response.data.spreadSheetRowsBySpreadsheetID.items
+          if (spreadSheetRows.length > 0) {
+            spreadSheetRows.forEach((element: any) => {
+              element.soft_Deleted = true
+            });
+            console.log("getRowResp======", spreadSheetRows)
+            softDelete_spreadSheet_and_rows(spreadSheetRows).then((response: any) => {
+              console.log("spreadRowDelete======", response)
+              setLoader(false)
+            }).catch((error) => {
+              setLoader(false)
+              console.log("sfSpreadSheetRow========", error)
+            })
+
+          }
+          setLoader(false)
+        }).catch((error) => {
+          setLoader(false)
+          console.log("getSpRowErr=======", error)
+        })
+      }
+    }).catch((error) => {
+      console.log("softDelErr=======", error)
+    })
+  }
+
   const Footer = () => {
     return <View style={{ height: bottomTabHeight }} />;
   };
@@ -267,6 +330,7 @@ const ClousheetList = () => {
           children={<Popup
             selectedCloudSheet={selectedCloudSheet}
             onEditCloudSheet={() => openEditCloudSheet()}
+            onDeleteCloudSheet={() => openCloudsheetDeleteAlert()}
           />
           }
         />

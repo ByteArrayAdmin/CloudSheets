@@ -13,6 +13,7 @@ export const createSpreadSheetRows = /* GraphQL */ `
       userID
       templatesID
       spreadsheetID
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -32,6 +33,7 @@ export const updateSpreadSheetRows = /* GraphQL */ `
       userID
       templatesID
       spreadsheetID
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -51,6 +53,7 @@ export const deleteSpreadSheetRows = /* GraphQL */ `
       userID
       templatesID
       spreadsheetID
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -76,6 +79,7 @@ export const createSpreadSheet = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -85,6 +89,7 @@ export const createSpreadSheet = /* GraphQL */ `
         nextToken
         startedAt
       }
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -110,6 +115,7 @@ export const updateSpreadSheet = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -119,6 +125,7 @@ export const updateSpreadSheet = /* GraphQL */ `
         nextToken
         startedAt
       }
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -144,6 +151,7 @@ export const deleteSpreadSheet = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -153,6 +161,7 @@ export const deleteSpreadSheet = /* GraphQL */ `
         nextToken
         startedAt
       }
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -171,6 +180,7 @@ export const createTemplateColumns = /* GraphQL */ `
       column_Name
       column_Type
       templatesID
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -189,6 +199,7 @@ export const updateTemplateColumns = /* GraphQL */ `
       column_Name
       column_Type
       templatesID
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -207,6 +218,7 @@ export const deleteTemplateColumns = /* GraphQL */ `
       column_Name
       column_Type
       templatesID
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -230,6 +242,7 @@ export const createTemplates = /* GraphQL */ `
           column_Name
           column_Type
           templatesID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -245,6 +258,7 @@ export const createTemplates = /* GraphQL */ `
           spreadsheet_name
           templatesID
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -261,6 +275,7 @@ export const createTemplates = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -270,6 +285,7 @@ export const createTemplates = /* GraphQL */ `
         nextToken
         startedAt
       }
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -293,6 +309,7 @@ export const updateTemplates = /* GraphQL */ `
           column_Name
           column_Type
           templatesID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -308,6 +325,7 @@ export const updateTemplates = /* GraphQL */ `
           spreadsheet_name
           templatesID
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -324,6 +342,7 @@ export const updateTemplates = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -333,6 +352,7 @@ export const updateTemplates = /* GraphQL */ `
         nextToken
         startedAt
       }
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -356,6 +376,7 @@ export const deleteTemplates = /* GraphQL */ `
           column_Name
           column_Type
           templatesID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -371,6 +392,7 @@ export const deleteTemplates = /* GraphQL */ `
           spreadsheet_name
           templatesID
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -387,6 +409,7 @@ export const deleteTemplates = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -396,6 +419,7 @@ export const deleteTemplates = /* GraphQL */ `
         nextToken
         startedAt
       }
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -418,6 +442,7 @@ export const createUser = /* GraphQL */ `
           id
           template_name
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -433,6 +458,7 @@ export const createUser = /* GraphQL */ `
           spreadsheet_name
           templatesID
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -449,6 +475,7 @@ export const createUser = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -480,6 +507,7 @@ export const updateUser = /* GraphQL */ `
           id
           template_name
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -495,6 +523,7 @@ export const updateUser = /* GraphQL */ `
           spreadsheet_name
           templatesID
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -511,6 +540,7 @@ export const updateUser = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -542,6 +572,7 @@ export const deleteUser = /* GraphQL */ `
           id
           template_name
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -557,6 +588,7 @@ export const deleteUser = /* GraphQL */ `
           spreadsheet_name
           templatesID
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -573,6 +605,7 @@ export const deleteUser = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version

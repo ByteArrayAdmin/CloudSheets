@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  Alert
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -17,7 +18,7 @@ import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Styles } from "../RowDetailForm/style";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { get_SpreadSheetRowBySpreadSheetId } from '../../../../API_Manager/index';
+import { get_SpreadSheetRowBySpreadSheetId ,spreadSheetRow_softDelete} from '../../../../API_Manager/index';
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Edit_Delete_Cloudsheet from "../../../Popups/Edit_Delete_Cloudsheet/index";
 import EditSpreadsheetRecord from '../../../Popups/EditSpreadsheetRecord';
@@ -37,12 +38,18 @@ const Attendancelist = () => {
   const [selectedRow, setSelectedRow] = useState({})
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
   const [loader, setLoader] = useState(false)
+  const [extraData, setExtraData] = useState(new Date())
 
   // ---------- Initial Rendering ---------
   useEffect(() => {
     console.log("spreadsheet========", route?.params?.spreadSheet)
     getSpreadsheetBySpreadsheetId(route?.params?.spreadSheet?.id)
   }, [])
+
+  // ----------- Pull to Refresh SpreadSheet Row ----------
+  const onRefresh = () => {
+    getSpreadsheetBySpreadsheetId(spreadSheet.id)
+  }
 
   // ------------- Get SpreadSheet List -----------
   const getSpreadsheetBySpreadsheetId = (spreadSheetId: String) => {
@@ -69,8 +76,52 @@ const Attendancelist = () => {
 
     console.log("spreadSheetRow======", selectedRow)
     console.log("spreadSheet======", spreadSheet)
-
     navigation.navigate("RowdetailForm", { spreadSheetRow: selectedRow, spreadSheet: spreadSheet, isEdit: true, isFrom: isFrom })
+  }
+
+  // ----------- Delete Row Alert ------------
+  const deleteAlert = () => {
+    child.current.childFunction2();
+    Alert.alert(label.ExpensesList.Delete_Record_Alert, label.ExpensesList.Delete_Quete, [
+      {
+        text: label.ExpensesList.Cancel,
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: label.ExpensesList.OK, onPress: () => onDeleteRow() },
+    ]);
+  }
+
+  // ------------ Delete Row ------------
+  const onDeleteRow = () => {
+    console.log("selectedRow========", selectedRow)
+    let arr1 = spreadSheetData
+    let index
+    arr1.forEach(element => {
+      if (element.id == selectedRow.id) {
+        index = arr1.indexOf(element)
+      }
+    });
+    arr1.splice(index, 1)
+    setSpreadSheetData(arr1)
+    setExtraData(new Date())
+    const deleteRow = {
+      id: selectedRow.id,
+      items: selectedRow.items,
+      userID: selectedRow.userID,
+      templatesID: selectedRow.templatesID,
+      spreadsheetID: selectedRow.spreadsheetID,
+      soft_Deleted: true,
+      _version: selectedRow._version
+    }
+    setLoader(true)
+    spreadSheetRow_softDelete(deleteRow).then((response: any)=>{
+        console.log("softDeleteRowResp=========",response)
+        setLoader(false)
+    }).catch((error)=>{
+      setLoader(false)
+      console.log("deleteRow=======",error)
+    })
   }
 
   const Footer = () => {
@@ -102,6 +153,9 @@ const Attendancelist = () => {
             data={spreadSheetData}
             renderItem={renderItems}
             ListFooterComponent={<Footer />}
+            extraData={extraData}
+            refreshing={false}
+            onRefresh={onRefresh}
           />
         </View>
         <TouchableOpacity
@@ -123,6 +177,7 @@ const Attendancelist = () => {
         snapPoints={snapPoints}
         children={<EditSpreadsheetRecord
           editRecord={() => onEditRecord()}
+          deleteTemplate={() => deleteAlert()}
           spreadSheetRow={selectedRow}
           editlabel={label.Edit_Delete_Cloud.EditCloudSheetRecord}
           deletelabel={label.Edit_Delete_Cloud.DeleteCloudSheet}

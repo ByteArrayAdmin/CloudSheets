@@ -3,7 +3,8 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  Alert
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import labels from "../../../../utils/ProjectLabels.json";
@@ -14,7 +15,15 @@ import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FlatlistHeader from './FlatlistHeader';
 import { styles } from "./styles";
-import { getCloudsheetByTemplateID, current_UserInfo, create_SpreadSheet, update_SpreadSheet } from '../../../../API_Manager/index';
+import {
+  getCloudsheetByTemplateID,
+  current_UserInfo,
+  create_SpreadSheet,
+  update_SpreadSheet,
+  spreadSheet_softDelete,
+  getSpreadsheetRow_bySpreadsheetId_forSoftDelete,
+  softDelete_spreadSheet_and_rows
+} from '../../../../API_Manager/index';
 import CreateCloudSheetNamePopup from '../../../Popups/CreateCloudSheetNamePopup/index';
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Popup from "../../../Popups/TemplateEditPopup";
@@ -176,6 +185,69 @@ const TemplateList = () => {
     })
   }
 
+  //--------- Cloudsheet delete Alert ---------
+  const openCloudsheetDeleteAlert = () => {
+    editCloudSheetRef.current.childFunction2();
+    Alert.alert(labels.Templatelistlabel.DeleteAlert, labels.Templatelistlabel.Delete_Quete, [
+      {
+        text: labels.Templatelistlabel.Cancel,
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: labels.Templatelistlabel.OK, onPress: () => onDeleteCloudsheet() },
+    ]);
+  }
+
+  // ----------- Delete Cloudsheet ----------
+  const onDeleteCloudsheet = () => {
+    let arr1 = spreadSheetList
+    let index
+    arr1.forEach(element => {
+      if (element.id == selectedCloudSheet.id) {
+        index = arr1.indexOf(element)
+      }
+    });
+    arr1.splice(index, 1)
+    setSpreadSheetList(arr1)
+    setExtraData(new Date())
+    let updatedCloudsheetData = {
+      id: selectedCloudSheet.id,
+      spreadsheet_name: selectedCloudSheet.spreadsheet_name,
+      templatesID: selectedCloudSheet.templatesID,
+      userID: selectedCloudSheet.userID,
+      soft_Deleted: true,
+      _version: selectedCloudSheet._version,
+    }
+    setLoader(true)
+    spreadSheet_softDelete(updatedCloudsheetData).then((response: any) => {
+      if (response) {
+        getSpreadsheetRow_bySpreadsheetId_forSoftDelete(selectedCloudSheet.id).then((response: any) => {
+          let spreadSheetRows = response.data.spreadSheetRowsBySpreadsheetID.items
+          if (spreadSheetRows.length > 0) {
+            spreadSheetRows.forEach((element: any) => {
+              element.soft_Deleted = true
+            });
+            console.log("getRowResp======", spreadSheetRows)
+            softDelete_spreadSheet_and_rows(spreadSheetRows).then((response: any) => {
+              console.log("spreadRowDelete======", response)
+              setLoader(false)
+            }).catch((error) => {
+              setLoader(false)
+              console.log("sfSpreadSheetRow========", error)
+            })
+          }
+          setLoader(false)
+        }).catch((error) => {
+          setLoader(false)
+          console.log("getSpRowErr=======", error)
+        })
+      }
+    }).catch((error) => {
+      setLoader(false)
+      console.log("softDelErr=======", error)
+    })
+  }
+
   const ListCard = ({ item, index }: any) => (
     <TouchableOpacity
       onPress={() => onDoubleTab(item)}
@@ -222,14 +294,14 @@ const TemplateList = () => {
       <CommonBottomsheet
         snapPoints={editCloudSheetSnapPoint}
         ref={editCloudSheetRef}
-
         children={<Popup
           selectedCloudSheet={selectedCloudSheet}
           onEditCloudSheet={() => openEditCloudSheet()}
+          onDeleteCloudSheet={() => openCloudsheetDeleteAlert()}
         />
         }
       />
-      {loader?<CommonLoader/>:null}
+      {loader ? <CommonLoader /> : null}
     </View>
   );
 };

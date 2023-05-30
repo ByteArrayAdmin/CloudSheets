@@ -16,6 +16,7 @@ type EagerSpreadSheetRows = {
   readonly userID: string;
   readonly templatesID: string;
   readonly spreadsheetID: string;
+  readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -30,6 +31,7 @@ type LazySpreadSheetRows = {
   readonly userID: string;
   readonly templatesID: string;
   readonly spreadsheetID: string;
+  readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -50,6 +52,7 @@ type EagerSpreadSheet = {
   readonly templatesID: string;
   readonly userID: string;
   readonly SpreadSheetRows?: (SpreadSheetRows | null)[] | null;
+  readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -64,6 +67,7 @@ type LazySpreadSheet = {
   readonly templatesID: string;
   readonly userID: string;
   readonly SpreadSheetRows: AsyncCollection<SpreadSheetRows>;
+  readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -83,6 +87,7 @@ type EagerTemplateColumns = {
   readonly column_Name?: string | null;
   readonly column_Type?: string | null;
   readonly templatesID: string;
+  readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -96,6 +101,7 @@ type LazyTemplateColumns = {
   readonly column_Name?: string | null;
   readonly column_Type?: string | null;
   readonly templatesID: string;
+  readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -117,6 +123,7 @@ type EagerTemplates = {
   readonly TemplateColumns?: (TemplateColumns | null)[] | null;
   readonly SpreadSheets?: (SpreadSheet | null)[] | null;
   readonly SpreadSheetRows?: (SpreadSheetRows | null)[] | null;
+  readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -132,6 +139,7 @@ type LazyTemplates = {
   readonly TemplateColumns: AsyncCollection<TemplateColumns>;
   readonly SpreadSheets: AsyncCollection<SpreadSheet>;
   readonly SpreadSheetRows: AsyncCollection<SpreadSheetRows>;
+  readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

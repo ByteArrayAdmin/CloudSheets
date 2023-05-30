@@ -4,6 +4,7 @@ type SpreadSheetRows @model @auth(rules: [{allow: public}]) {
   userID: ID! @index(name: "byUser")
   templatesID: ID! @index(name: "byTemplates")
   spreadsheetID: ID! @index(name: "bySpreadSheet")
+  soft_Deleted: Boolean
 }
 
 type SpreadSheet @model @auth(rules: [{allow: public}]) {
@@ -12,6 +13,7 @@ type SpreadSheet @model @auth(rules: [{allow: public}]) {
   templatesID: ID! @index(name: "byTemplates")
   userID: ID! @index(name: "byUser")
   SpreadSheetRows: [SpreadSheetRows] @hasMany(indexName: "bySpreadSheet", fields: ["id"])
+  soft_Deleted: Boolean
 }
 
 type TemplateColumns @model @auth(rules: [{allow: public}]) {
@@ -19,6 +21,7 @@ type TemplateColumns @model @auth(rules: [{allow: public}]) {
   column_Name: String
   column_Type: String
   templatesID: ID! @index(name: "byTemplates")
+  soft_Deleted: Boolean
 }
 
 type Templates @model @auth(rules: [{allow: public}]) {
@@ -28,6 +31,7 @@ type Templates @model @auth(rules: [{allow: public}]) {
   TemplateColumns: [TemplateColumns] @hasMany(indexName: "byTemplates", fields: ["id"])
   SpreadSheets: [SpreadSheet] @hasMany(indexName: "byTemplates", fields: ["id"])
   SpreadSheetRows: [SpreadSheetRows] @hasMany(indexName: "byTemplates", fields: ["id"])
+  soft_Deleted: Boolean
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -37,4 +41,5 @@ type User @model @auth(rules: [{allow: public}]) {
   Templates: [Templates] @hasMany(indexName: "byUser", fields: ["id"])
   SpreadSheets: [SpreadSheet] @hasMany(indexName: "byUser", fields: ["id"])
   SpreadSheetRows: [SpreadSheetRows] @hasMany(indexName: "byUser", fields: ["id"])
-} 
+}
+ 

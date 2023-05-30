@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  Alert
 } from "react-native";
 import NewCommonHeader from ".././../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -14,7 +15,7 @@ import SearcBar from "../../../../commonComponents/Searchbar";
 import ListCard from "./ListCard";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import SubcriptionPlan from "../../../../screens/Popups/SubcriptionPopup";
-import { get_SpreadSheetRowBySpreadSheetId } from '../../../../API_Manager/index';
+import { get_SpreadSheetRowBySpreadSheetId, spreadSheetRow_softDelete } from '../../../../API_Manager/index';
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
 import EditSpreadsheetRecord from "../../../../screens/Popups/EditSpreadsheetRecord/index";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
@@ -32,6 +33,7 @@ const ExpensesList = (props: any) => {
   const [selectedRow, setSelectedRow] = useState({})
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
   const [loader, setLoader] = useState(false)
+  const [extraData, setExtraData] = useState(new Date())
 
   // ----------- Initial Rendering ------------
   useEffect(() => {
@@ -82,6 +84,51 @@ const ExpensesList = (props: any) => {
     navigation.navigate("RowdetailForm", { spreadSheet: spreadSheetDetail, isFrom: isFrom })
   }
 
+  // ----------- Delete Row Alert ------------
+  const deleteAlert = () => {
+    editRecordRef.current.childFunction2();
+    Alert.alert(labels.ExpensesList.Delete_Record_Alert, labels.ExpensesList.Delete_Quete, [
+      {
+        text: labels.ExpensesList.Cancel,
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: labels.ExpensesList.OK, onPress: () => onDeleteRow() },
+    ]);
+  }
+  // ------------ Delete Row ------------
+  const onDeleteRow = () => {
+    console.log("selectedRow========", selectedRow)
+    let obj = selectedRow
+    let arr1 = spreadSheetData
+    let index
+    arr1.forEach(element => {
+      if (element.id == selectedRow.id) {
+        index = arr1.indexOf(element)
+      }
+    });
+    arr1.splice(index, 1)
+    setSpreadSheetData(arr1)
+    setExtraData(new Date())
+    const deleteRow = {
+      id: selectedRow.id,
+      items: selectedRow.items,
+      userID: selectedRow.userID,
+      templatesID: selectedRow.templatesID,
+      spreadsheetID: selectedRow.spreadsheetID,
+      soft_Deleted: true,
+      _version: selectedRow._version
+    }
+    setLoader(true)
+    spreadSheetRow_softDelete(deleteRow).then((response: any)=>{
+        console.log("softDeleteRowResp=========",response)
+        setLoader(false)
+    }).catch((error)=>{
+      setLoader(false)
+      console.log("deleteRow=======",error)
+    })
+  }
+
   const RenderItems = ({ item }: any) => (
     <ListCard items={item} onPressThreeDot={() => openEditRecordPopup(item)} />
   );
@@ -105,6 +152,7 @@ const ExpensesList = (props: any) => {
           renderItem={RenderItems}
           refreshing={false}
           onRefresh={onRefresh}
+          extraData={extraData}
         />
       </View>
       <TouchableOpacity style={Style.widgetposition}
@@ -122,12 +170,13 @@ const ExpensesList = (props: any) => {
         snapPoints={snapPoints}
         children={<EditSpreadsheetRecord
           editRecord={() => onEditRecord()}
+          deleteTemplate={() => deleteAlert()}
           spreadSheetRow={selectedRow}
           editlabel={labels.ExpensesList.Edit_CloudSheet_Record}
           deletelabel={labels.ExpensesList.Delete_CloudSheet_Record}
         />}
       />
-      {loader?<CommonLoader/>:null}
+      {loader ? <CommonLoader /> : null}
     </View>
   );
 };

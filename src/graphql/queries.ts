@@ -10,6 +10,7 @@ export const getSpreadSheetRows = /* GraphQL */ `
       userID
       templatesID
       spreadsheetID
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -31,6 +32,7 @@ export const listSpreadSheetRows = /* GraphQL */ `
         userID
         templatesID
         spreadsheetID
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -61,6 +63,7 @@ export const syncSpreadSheetRows = /* GraphQL */ `
         userID
         templatesID
         spreadsheetID
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -93,6 +96,7 @@ export const spreadSheetRowsByUserID = /* GraphQL */ `
         userID
         templatesID
         spreadsheetID
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -125,11 +129,37 @@ export const spreadSheetRowsByTemplatesID = /* GraphQL */ `
         userID
         templatesID
         spreadsheetID
+        soft_Deleted
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const spreadSheetRowsByTemplatesID_SoftDelete = /* GraphQL */ `
+  query SpreadSheetRowsByTemplatesID(
+    $templatesID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSpreadSheetRowsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    spreadSheetRowsByTemplatesID(
+      templatesID: $templatesID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        soft_Deleted
+        _version
       }
       nextToken
       startedAt
@@ -157,11 +187,38 @@ export const spreadSheetRowsBySpreadsheetID = /* GraphQL */ `
         userID
         templatesID
         spreadsheetID
+        soft_Deleted
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+// --------- get spreadSheet Row data for soft delete ---------
+export const spreadSheetRowsBySpreadSheetID_SoftDelete = /* GraphQL */ `
+  query SpreadSheetRowsBySpreadsheetID(
+    $spreadsheetID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSpreadSheetRowsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    spreadSheetRowsBySpreadsheetID(
+      spreadsheetID: $spreadsheetID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        soft_Deleted
+        _version
       }
       nextToken
       startedAt
@@ -182,6 +239,7 @@ export const getSpreadSheet = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -191,6 +249,7 @@ export const getSpreadSheet = /* GraphQL */ `
         nextToken
         startedAt
       }
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -215,6 +274,7 @@ export const listSpreadSheets = /* GraphQL */ `
           nextToken
           startedAt
         }
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -248,6 +308,7 @@ export const syncSpreadSheets = /* GraphQL */ `
           nextToken
           startedAt
         }
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -283,11 +344,37 @@ export const spreadSheetsByTemplatesID = /* GraphQL */ `
           nextToken
           startedAt
         }
+        soft_Deleted
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const spreadSheetsByTemplatesID_SoftDelete = /* GraphQL */ `
+  query SpreadSheetsByTemplatesID(
+    $templatesID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSpreadSheetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    spreadSheetsByTemplatesID(
+      templatesID: $templatesID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        soft_Deleted
+        _version
       }
       nextToken
       startedAt
@@ -318,6 +405,7 @@ export const spreadSheetsByUserID = /* GraphQL */ `
           nextToken
           startedAt
         }
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -336,6 +424,7 @@ export const getTemplateColumns = /* GraphQL */ `
       column_Name
       column_Type
       templatesID
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -356,6 +445,7 @@ export const listTemplateColumns = /* GraphQL */ `
         column_Name
         column_Type
         templatesID
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -385,6 +475,7 @@ export const syncTemplateColumns = /* GraphQL */ `
         column_Name
         column_Type
         templatesID
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -416,11 +507,37 @@ export const templateColumnsByTemplatesID = /* GraphQL */ `
         column_Name
         column_Type
         templatesID
+        soft_Deleted
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const templateColumnsByTemplatesID_SoftDelete = /* GraphQL */ `
+  query TemplateColumnsByTemplatesID(
+    $templatesID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTemplateColumnsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    templateColumnsByTemplatesID(
+      templatesID: $templatesID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        soft_Deleted
+        _version
       }
       nextToken
       startedAt
@@ -439,6 +556,7 @@ export const getTemplates = /* GraphQL */ `
           column_Name
           column_Type
           templatesID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -454,6 +572,7 @@ export const getTemplates = /* GraphQL */ `
           spreadsheet_name
           templatesID
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -470,6 +589,7 @@ export const getTemplates = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -479,6 +599,7 @@ export const getTemplates = /* GraphQL */ `
         nextToken
         startedAt
       }
+      soft_Deleted
       createdAt
       updatedAt
       _version
@@ -510,6 +631,7 @@ export const listTemplates = /* GraphQL */ `
           nextToken
           startedAt
         }
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -550,6 +672,7 @@ export const syncTemplates = /* GraphQL */ `
           nextToken
           startedAt
         }
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -592,6 +715,7 @@ export const templatesByUserID = /* GraphQL */ `
           nextToken
           startedAt
         }
+        soft_Deleted
         createdAt
         updatedAt
         _version
@@ -614,6 +738,7 @@ export const getUser = /* GraphQL */ `
           id
           template_name
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -629,6 +754,7 @@ export const getUser = /* GraphQL */ `
           spreadsheet_name
           templatesID
           userID
+          soft_Deleted
           createdAt
           updatedAt
           _version
@@ -645,6 +771,7 @@ export const getUser = /* GraphQL */ `
           userID
           templatesID
           spreadsheetID
+          soft_Deleted
           createdAt
           updatedAt
           _version

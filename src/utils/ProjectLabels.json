@@ -79,7 +79,11 @@
     "RECENT_CLOUD_SHEETS": "Recent Cloud Sheets",
     "VIEWALL": "View All",
     "JANUARY_ATTENDANCE": "January Attendance",
-    "MONTHLY_EXPENSES": "Monthly Expenses (3)"
+    "MONTHLY_EXPENSES": "Monthly Expenses (3)",
+    "Delete_Alert":"Delete Record",
+    "Delete_Quete":"Are you sure want to delete this record!",
+    "Cancel":"Cancel",
+    "OK":"OK"
   },
   "Guestbottomsheet": {
     "YOUAREAGUEST": "You are a Guest",
@@ -186,7 +190,11 @@
     "Template": "Template",
     "Listtxt": "List of Cloudsheets",
     "ViewAll": "View All",
-    "CloudSheetError":"CloudSheet name is required!"
+    "CloudSheetError":"CloudSheet name is required!",
+    "DeleteAlert":"Delete Record",
+    "Delete_Quete":"Are you sure want to delete this record!",
+    "Cancel":"Cancel",
+    "OK":"OK"
   },
   "TabBarTemplateList": {
     "Template": "Template",
@@ -200,7 +208,11 @@
     "ExpensesType": "Expenses Type",
     "ExpensesAmount": "Expenses Amount",
     "Edit_CloudSheet_Record":"Edit CloudSheet Record",
-    "Delete_CloudSheet_Record":"Delete CloudSheet Record"
+    "Delete_CloudSheet_Record":"Delete CloudSheet Record",
+    "Delete_Record_Alert":"Delete Record",
+    "Delete_Quete":"Are you sure want to delete this record!",
+    "Cancel":"Cancel",
+    "OK":"OK"
   },
   "Guestscreen": {
     "Profile":"Profile",
