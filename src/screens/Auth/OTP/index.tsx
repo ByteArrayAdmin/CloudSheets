@@ -19,6 +19,7 @@ const OtpScreen = () => {
     const route = useRoute();
     const navigation = useNavigation()
     const [userName, setUserName] = useState(route.params.username)
+    const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
     const [count, setCount] = useState(0)
     const [disable, setDisable] = useState(false)
     const [loader, setLoader] = useState(false)
@@ -27,16 +28,30 @@ const OtpScreen = () => {
         const { otp } = data
         console.log("OTPData========", data, userName)
         setLoader(true)
-        confirm_Signup(userName, otp).then((response) => {
-            console.log("OTPResp=========", response)
-            setLoader(false)
-            Alert.alert(labels.OTP_Constants.Confirmed);
-            navigation.navigate("Login")
-        }).catch((e) => {
-            setLoader(false)
-            console.log("OTPErr=======", e)
-            Alert.alert(e?.message);
-        })
+        if (isFrom == "Profile") {
+            await Auth.verifyCurrentUserAttributeSubmit("email", otp).then((response: any)=>{
+                if(response){
+                    setLoader(false)
+                    Alert.alert(labels.OTP_Constants.Confirmed);
+                    navigation.goBack()
+                }
+            }).catch((error)=>{
+                setLoader(false)
+                console.log("OptErr====",error)
+            })
+        } else {
+            confirm_Signup(userName, otp).then((response) => {
+                console.log("OTPResp=========", response)
+                setLoader(false)
+                Alert.alert(labels.OTP_Constants.Confirmed);
+                    navigation.navigate("Login")
+
+            }).catch((e) => {
+                setLoader(false)
+                console.log("OTPErr=======", e)
+                Alert.alert(e?.message);
+            })
+        }
     }
 
     useEffect(() => {

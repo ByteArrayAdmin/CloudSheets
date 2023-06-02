@@ -22,6 +22,7 @@ import {
     updateSpreadSheetRows,
     updateSpreadSheet,
     updateTemplateColumns,
+    updateUser
 
 } from '../graphql/mutations';
 import { DeleteTemplatesInput, DeleteTemplatesMutation } from '../API';
@@ -90,6 +91,19 @@ export const current_UserInfo = async () => {
         try {
             const currentUserInfo = await Auth.currentUserInfo()
             resolve(currentUserInfo);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+export const updateCurrentAuth = (data: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await Auth.currentAuthenticatedUser();
+            const updateCurrUser = await Auth.updateUserAttributes(user, data)
+            let obj = { status: updateCurrUser, detail: user }
+            resolve(obj);
         } catch (e) {
             reject(e);
         }
@@ -413,10 +427,33 @@ export const soft_delete_template = async (template: any) => {
             // }
             const updateTemplate = await API.graphql(graphqlOperation(updateTemplates, { input: template }))
             resolve(updateTemplate);
-            
+
         } catch (e) {
             reject(e);
         }
     })
 
+}
+
+// ----------- user Table -----------
+export const updateUserDetail = (userData: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const updateCurrUser = await API.graphql(graphqlOperation(updateUser, { input: userData }))
+            resolve(updateCurrUser);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+export const get_user_from_table = (userId: string)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            const getUserTab = await API.graphql(graphqlOperation(getUser, { id: userId }))
+            resolve(getUserTab);
+        } catch (e) {
+            reject(e);
+        }
+    })
 }

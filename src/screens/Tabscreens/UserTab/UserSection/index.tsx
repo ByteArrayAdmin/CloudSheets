@@ -113,7 +113,11 @@ const UserSection = () => {
             <View style={Styles.innerhoeizontaline} />
           </View>
 
-          <UseCard Logo={<PassLogo />} heading={labels.Guestscreen.Password} />
+          <UseCard 
+          Logo={<PassLogo />}
+           heading={labels.Guestscreen.Password}
+           onPress={() => navigation.navigate("ResetPassword")}
+          />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View></>:null}

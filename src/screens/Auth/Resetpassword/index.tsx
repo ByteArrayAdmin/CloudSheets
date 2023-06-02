@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import InputField from "../../../commonComponents/InputField";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
-import { SafeAreaView, Text, View, TouchableOpacity } from "react-native";
+import { SafeAreaView, Text, View, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 import CommonButton from "../../../commonComponents/Button";
@@ -13,13 +13,35 @@ import { resetscreenstyle } from "./style";
 import Lock from "../../../assets/Images/Lock.svg";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Resetpasswordlabel from "../../../utils/ProjectLabels.json";
+import { Auth } from 'aws-amplify';
+import CommonLoader from '../../../commonComponents/CommonLoader';
+
 const ResetPassword = () => {
   const { control, handleSubmit, getValues } = useForm();
   const navigation = useNavigation();
+  const [loader, setLoader] = useState(false)
 
-  const onSubmit = async (data: any) => {
-    const { newpassword, confirmpassword } = data;
-  };
+  // --------- Change Password ---------
+  const onChangePassword = async (data: any) => {
+    const { oldPassword, newPassword } = data;
+    console.log("Data======", data)
+    setLoader(true)
+    Auth.currentAuthenticatedUser()
+      .then((user) => {
+        return Auth.changePassword(user, oldPassword, newPassword);
+      })
+      .then((data) => {
+        setLoader(false)
+        console.log("changePassword=======", data)
+        Alert.alert(data)
+        navigation.goBack()
+      })
+      .catch((err) => {
+        setLoader(false)
+        Alert.alert(err.message)
+        console.log("changePassErr=====", err)
+      });
+  }
   return (
     <>
       <BackgroundLayout />
@@ -27,7 +49,7 @@ const ResetPassword = () => {
         <KeyboardAwareScrollView>
           <View>
             <View style={resetscreenstyle.backbuttonview}>
-              <BackButton />
+              <BackButton onPress={() => navigation.goBack()} />
             </View>
             <View style={resetscreenstyle.resetpasswordview}>
               <View style={resetscreenstyle.logoview}>
@@ -49,10 +71,10 @@ const ResetPassword = () => {
                 subchildren={
                   <>
                     <InputField
-                      name="newpassword"
+                      name="oldPassword"
                       control={control}
                       placeholder={
-                        Resetpasswordlabel.Resetpassword.PLACEHOLDER_NewPassword
+                        Resetpasswordlabel.Resetpassword.PLACEHOLDER_Old_Password
                       }
                       Image={Lock}
                       rules={{
@@ -62,28 +84,23 @@ const ResetPassword = () => {
                       styles={resetscreenstyle.inputview}
                     />
                     <InputField
-                      name="confirmpassword"
+                      name="newPassword"
                       control={control}
                       placeholder={
                         Resetpasswordlabel.Resetpassword
-                          .PLACEHOLDER_Confirm_Password
+                          .PLACEHOLDER_NewPassword
                       }
                       Image={Lock}
-                      // placxeholdertextstyle={styles.placeholdertextstyle}
                       rules={{
                         required:
                           Resetpasswordlabel.Resetpassword
                             .VALIDATION_REQUIRED_CONFIRM,
-                        validate: (value: any) =>
-                          value === getValues().newpassword ||
-                          "Passwords do not match",
                       }}
                       styles={resetscreenstyle.inputview}
                     />
-
                     <CommonButton
-                      onPress={handleSubmit(onSubmit)}
-                      Register={Resetpassword.SAVENEWPASSWORD}
+                      onPress={handleSubmit(onChangePassword)}
+                      Register={Resetpasswordlabel.Resetpassword.SAVENEWPASSWORD}
                     />
                   </>
                 }
@@ -91,6 +108,7 @@ const ResetPassword = () => {
             </View>
           </View>
         </KeyboardAwareScrollView>
+        {loader ? <CommonLoader /> : null}
       </SafeAreaView>
     </>
   );

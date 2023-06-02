@@ -50,7 +50,7 @@
     "ENTTERNEWPASSWAORD": "Please enter new password",
     "SAVENEWPASSWORD": "Save new password",
     "PLACEHOLDER_NewPassword": "New Password",
-    "PLACEHOLDER_Confirm_Password": "Confirm Password",
+    "PLACEHOLDER_Old_Password": "Old Password",
     "VALIDATION_REQUIRED": "Please Enter New Password",
     "VALIDATION_REQUIRED_CONFIRM": "Please Enter Confirm Password"
   },

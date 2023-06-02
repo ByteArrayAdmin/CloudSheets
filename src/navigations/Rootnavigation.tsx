@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Signup from "../screens/Auth/signup";
 import Login from "../screens/Auth/Login";
 import ForgotPassword from "../screens/Auth/Forgotpassword";
-import ResetPassword from "../screens/Auth/Resetpassword";
 import BoardingScreen from "../screens/BoardingScreen/Index";
 import { Tabnavigator } from "./Tabnavigator";
 import CreatSpreadsheet from "../../src/screens/Tabscreens/Templates/CreateSpreadsheet";
@@ -14,7 +13,8 @@ import Updateattendance from "../screens/Tabscreens/Templates/UpdateAttendance";
 import TemplateList from "../screens/Tabscreens/Templates/TemplateList";
 import ExpensesList from "../screens/Tabscreens/Templates/ExpensesList";
 import EditProfile from "../screens/Tabscreens/UserTab/EditProfile";
-import RateUs from "../screens/Tabscreens/UserTab/Rateus"
+import RateUs from "../screens/Tabscreens/UserTab/Rateus";
+import ResetPassword from '../screens/Auth/Resetpassword/index';
 
 import PrivacyScreen from '../screens/Tabscreens/UserTab/UserSection/Privacy_Policy/index';
 import Terms_Conditions_Screen from '../screens/Tabscreens/UserTab/UserSection/Terms_Conditions/index';
@@ -29,10 +29,8 @@ import { Auth } from 'aws-amplify';
 const Stack = createNativeStackNavigator();
 
 const Rootnavigation = () => {
-  
   console.log("globlogin=======",global.session)
   
-
   return (
     <Stack.Navigator initialRouteName={global.session == true?'Tabnavigator':'BoardingScreen'} >
       <Stack.Screen
@@ -72,7 +70,7 @@ const Rootnavigation = () => {
         }}
       />
       <Stack.Screen
-        name="resetpassword"
+        name="ResetPassword"
         component={ResetPassword}
         options={{
           headerShown: false,
