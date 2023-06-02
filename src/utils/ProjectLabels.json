@@ -121,6 +121,7 @@
     "ClassAttendance": "Class Attendance",
     "ColumnName": "Column Name",
     "PLACEHOLDERTEXT": "Enter Column Name",
+    "ColumnTypePlaceholder":"Select column type",
     "ColumnType": "Column Type",
     "AddNewColumn": "Add New Column",
     "CreateSpreadsheet": "Create Spreadsheet",

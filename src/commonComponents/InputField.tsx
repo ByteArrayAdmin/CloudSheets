@@ -5,13 +5,14 @@ import { FONTS, COLOURS } from "../utils/Constant";
 import lables from '../utils/ProjectLabels.json';
 
 const InputField = (props: any) => {
+  console.log("defaultValue========", props.defaultValue)
   return (
     <View>
       <Controller
         control={props.control}
         name={props.name}
         rules={props.rules}
-
+        defaultValue={props.defaultValue}
         render={({
           field: { value, onChange, onBlur },
           fieldState: { error },
@@ -24,8 +25,9 @@ const InputField = (props: any) => {
               <View style={styles.viewWidth}>
                 <TextInput
                   value={value}
+                  pointerEvents={props.pointerEvents}
                   onChangeText={onChange}
-
+                  editable={props.isEditable}
                   onBlur={props.onBlur}
                   placeholder={props.placeholder}
                   style={props.styles}
@@ -51,7 +53,6 @@ const InputField = (props: any) => {
             )}
           </>
 
-
         )}
       />
       <View>
@@ -72,13 +73,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-
   textinputview: {
     width: "75%",
   },
-  imagepadding: { paddingHorizontal: 9 },
-  viewWidth: { width: "75%" },
-  errortextstyle: { color: "red", marginLeft: 20 },
+  imagepadding: {
+    paddingHorizontal: 9
+  },
+  viewWidth: {
+    width: "75%"
+  },
+  errortextstyle: {
+    color: "red",
+    marginLeft: 20
+  },
   placeholdercolour: {
     color: COLOURS.black
   },

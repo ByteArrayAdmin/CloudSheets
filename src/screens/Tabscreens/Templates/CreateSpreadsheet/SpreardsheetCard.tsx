@@ -5,18 +5,13 @@ import {
   StyleSheet,
 } from "react-native";
 import InputField from "../../../../commonComponents/InputField";
-import CommonDropdown from "../../../../commonComponents/CommonDropdown";
 import { useForm } from "react-hook-form";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import labels from "../../../../utils/ProjectLabels.json";
+import DropdownModal from '../../../../commonComponents/DropdownModal';
 
 const SpreadsheetCard = (props: any) => {
   const { control, handleSubmit } = useForm();
-  const countries = ["Text", "Date", "Yes/No"];
-  const Dropdown = (index: any, data: any) => { };
-  const onSubmit = async (data: any) => {
-    console.log(data);
-  };
 
   return (
     <View style={styles.container}>
@@ -27,6 +22,7 @@ const SpreadsheetCard = (props: any) => {
       </View>
       <View>
         <InputField
+          defaultValue={''}
           name={`column_Name${props.index}`}
           control={props.control}
           placeholder={labels.Creatcloudsheetlabels.PLACEHOLDERTEXT}
@@ -41,8 +37,15 @@ const SpreadsheetCard = (props: any) => {
             {labels.Creatcloudsheetlabels.ColumnType}
           </Text>
         </View>
+        <DropdownModal
+          control={props.control}
+          name={`column_Type${props.index}`}
+          rules={{
+            required: labels.Creatcloudsheetlabels.Validationmsg,
+          }}
+        />
 
-        <View>
+        {/* <View>
           <View style={styles.commondropdownview}>
             <CommonDropdown
               countries={countries}
@@ -58,7 +61,7 @@ const SpreadsheetCard = (props: any) => {
               rowTextStyle={styles.rowTextStyle}
             />
           </View>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -85,9 +88,7 @@ const styles = StyleSheet.create({
     color: COLOURS.black,
     opacity: 0.8,
     fontSize: 12,
-    paddingVertical: 15,
   },
-
   dropdown1BtnTxtStyle: {
     textAlign: "left",
     paddingLeft: 1,
@@ -112,7 +113,6 @@ const styles = StyleSheet.create({
     height: 160
   },
   rowStyle: {
-    // backgroundColor:COLOURS.GREY,
     marginHorizontal: 5,
     marginVertical: 8,
     height: 40
@@ -121,5 +121,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'left',
     fontSize: 18, paddingLeft: 6
+  },
+  marginBottom20: {
+    marginBottom: 20
   }
 });

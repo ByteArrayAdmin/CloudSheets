@@ -4,6 +4,7 @@ type SpreadSheetRows @model @auth(rules: [{allow: public}]) {
   userID: ID! @index(name: "byUser")
   templatesID: ID! @index(name: "byTemplates")
   spreadsheetID: ID! @index(name: "bySpreadSheet")
+  SpreadSheet: SpreadSheet @belongsTo(fields: ["spreadsheetID"])
   soft_Deleted: Boolean
 }
 
@@ -14,6 +15,7 @@ type SpreadSheet @model @auth(rules: [{allow: public}]) {
   userID: ID! @index(name: "byUser")
   SpreadSheetRows: [SpreadSheetRows] @hasMany(indexName: "bySpreadSheet", fields: ["id"])
   soft_Deleted: Boolean
+  Templates: Templates @belongsTo(fields: ["templatesID"])
 }
 
 type TemplateColumns @model @auth(rules: [{allow: public}]) {

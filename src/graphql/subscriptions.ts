@@ -12,6 +12,33 @@ export const onCreateSpreadSheetRows = /* GraphQL */ `
       userID
       templatesID
       spreadsheetID
+      SpreadSheet {
+        id
+        spreadsheet_name
+        templatesID
+        userID
+        SpreadSheetRows {
+          nextToken
+          startedAt
+        }
+        soft_Deleted
+        Templates {
+          id
+          template_name
+          userID
+          soft_Deleted
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       soft_Deleted
       createdAt
       updatedAt
@@ -31,6 +58,33 @@ export const onUpdateSpreadSheetRows = /* GraphQL */ `
       userID
       templatesID
       spreadsheetID
+      SpreadSheet {
+        id
+        spreadsheet_name
+        templatesID
+        userID
+        SpreadSheetRows {
+          nextToken
+          startedAt
+        }
+        soft_Deleted
+        Templates {
+          id
+          template_name
+          userID
+          soft_Deleted
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       soft_Deleted
       createdAt
       updatedAt
@@ -50,6 +104,33 @@ export const onDeleteSpreadSheetRows = /* GraphQL */ `
       userID
       templatesID
       spreadsheetID
+      SpreadSheet {
+        id
+        spreadsheet_name
+        templatesID
+        userID
+        SpreadSheetRows {
+          nextToken
+          startedAt
+        }
+        soft_Deleted
+        Templates {
+          id
+          template_name
+          userID
+          soft_Deleted
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       soft_Deleted
       createdAt
       updatedAt
@@ -86,6 +167,29 @@ export const onCreateSpreadSheet = /* GraphQL */ `
         startedAt
       }
       soft_Deleted
+      Templates {
+        id
+        template_name
+        userID
+        TemplateColumns {
+          nextToken
+          startedAt
+        }
+        SpreadSheets {
+          nextToken
+          startedAt
+        }
+        SpreadSheetRows {
+          nextToken
+          startedAt
+        }
+        soft_Deleted
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -121,6 +225,29 @@ export const onUpdateSpreadSheet = /* GraphQL */ `
         startedAt
       }
       soft_Deleted
+      Templates {
+        id
+        template_name
+        userID
+        TemplateColumns {
+          nextToken
+          startedAt
+        }
+        SpreadSheets {
+          nextToken
+          startedAt
+        }
+        SpreadSheetRows {
+          nextToken
+          startedAt
+        }
+        soft_Deleted
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -156,6 +283,29 @@ export const onDeleteSpreadSheet = /* GraphQL */ `
         startedAt
       }
       soft_Deleted
+      Templates {
+        id
+        template_name
+        userID
+        TemplateColumns {
+          nextToken
+          startedAt
+        }
+        SpreadSheets {
+          nextToken
+          startedAt
+        }
+        SpreadSheetRows {
+          nextToken
+          startedAt
+        }
+        soft_Deleted
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version

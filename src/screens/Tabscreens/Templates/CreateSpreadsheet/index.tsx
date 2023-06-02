@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
   View,
@@ -22,10 +22,12 @@ import moment from 'moment';
 import { create_Template_Column, get_ColumnByTemplateId, templateColumn_softDelete } from '../../../../API_Manager/index';
 import ColumnCard from './ColumnCard';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
-
+import CommonBottomsheet from '../../../../commonComponents/CommonBottomsheet';
+import ColumnTypePopup from '../../../Popups/ColumnTypePopup';
 const CreatSpreadsheet = () => {
   const navigation = useNavigation();
   const route = useRoute()
+  const columnTypeRef = useRef()
   const [Data, setData] = useState([]);
   const [template, setTemplate] = useState(route?.params?.template)
   const [templateID, setTemplateID] = useState(route?.params?.template?.id)
@@ -33,8 +35,11 @@ const CreatSpreadsheet = () => {
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
   const { control, handleSubmit } = useForm();
   const [columnList, setColumnList] = useState([]);
-  const [extraData, setExtraData] = useState(new Date())
-  const [loader, setLoader] = useState(false)
+  const [extraData, setExtraData] = useState(new Date());
+  const [extraDataCol, setExtraDataCol] = useState(new Date());
+  const [loader, setLoader] = useState(false);
+  const snapPoints = ['80%']
+  const [columnTypeObj, setColumTypeObj] = useState({})
 
   // ----------- useEffect for initial Rendering---------------
   useEffect(() => {
@@ -125,7 +130,7 @@ const CreatSpreadsheet = () => {
     let uid = uuid.v1().toString()
     let timeStamp = moment().unix().toString()
     let newUniqueId = uid + "-" + timeStamp
-    setData((oldArray) => [...Data, { id: newUniqueId, templatesID: templateID, soft_Deleted: false }]);
+    setData((oldArray) => [...Data, { id: newUniqueId, templatesID: templateID, soft_Deleted: false, value: '' }]);
   };
 
   // --------------Remove Existing Column Alert---------------
@@ -165,70 +170,106 @@ const CreatSpreadsheet = () => {
     })
   }
 
-  const renderItems = ({ index }: any) => (
-    <SpreadsheetCard control={control} index={index} />
+  // ----------- open columnList modal ---------
+  const openColumList = (columnObj: any) => {
+    setColumTypeObj(columnObj)
+    columnTypeRef.current.childFunction1()
+  }
+
+  // -------- onSelect Column type ---------
+  const onSelectColumn = (selectedType: any) => {
+    console.log("selectedColmType=======", selectedType)
+    console.log("colmObj========", columnTypeObj)
+    columnTypeObj
+    let arr1 = Data
+    arr1.forEach(element => {
+      if (element.id == columnTypeObj.id) {
+        element.value = selectedType.name
+      }
+    });
+    console.log("updatedArr========", arr1)
+    setData([...arr1])
+    columnTypeRef.current.childFunction2()
+    setExtraDataCol(new Date())
+  }
+
+  // -------------- Render New Column Added -------------
+  const renderItems = ({ item, index }: any) => (
+    console.log("colItem=====", item),
+    <SpreadsheetCard control={control} item={item} index={index} selectColumnType={() => openColumList(item)} />
   );
 
+  // ------------ Render Existing Columns ------------
   const renderExistingColumn = ({ item, index }: any) => (
     <ColumnCard item={item} onPressRemove={() => removeColumnAlert(item, index)} />
   )
 
   return (
     <>
-      {/* <ScrollView> */}
-      <View>
-        <NewCommonHeader
-          BackButton={<BackButton onPress={() => navigation.goBack()} />}
-          Folder={<Folder />}
-          heading={template?.template_name}
-          onPress={navigation.canGoBack()}
-        />
+      <ScrollView>
         <View>
-          <FlatList
-            style={{ marginTop: 10, marginHorizontal: 15 }}
-            data={columnList} renderItem={renderExistingColumn}
-            extraData={extraData}
-            refreshing={false}
-            onRefresh={onRefresh}
+          <NewCommonHeader
+            BackButton={<BackButton onPress={() => navigation.goBack()} />}
+            Folder={<Folder />}
+            heading={template?.template_name}
+            onPress={navigation.canGoBack()}
           />
-        </View>
-        <View>
-          <FlatList data={Data} renderItem={renderItems} />
-          <View style={Createspreadstyle.buttonview}>
-            <TouchableOpacity
-              onPress={() => AddColoumn()}
-
-              style={Createspreadstyle.addcoloumbutton}
-            >
-              <View>
-                <Addbutton />
-              </View>
-              <View>
-                <Text style={Createspreadstyle.Addcolumnbuttontext}>
-                  {labels.Creatcloudsheetlabels.AddNewColumn}
-                </Text>
-              </View>
-            </TouchableOpacity>
+          <View>
+            <FlatList
+              style={{ marginTop: 10, marginHorizontal: 15 }}
+              data={columnList} renderItem={renderExistingColumn}
+              extraData={extraData}
+              refreshing={false}
+              onRefresh={onRefresh}
+            />
           </View>
           <View>
-            {!isEdit ?
-              <Custombutton
-                onPress={handleSubmit(onSubmit)}
-                Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
-              /> : Data.length > 0 ?
+            <FlatList
+              data={Data}
+              renderItem={renderItems}
+              extraData={extraDataCol}
+            />
+            <View style={Createspreadstyle.buttonview}>
+              <TouchableOpacity
+                onPress={() => AddColoumn()}
+                style={Createspreadstyle.addcoloumbutton}
+              >
+                <View>
+                  <Addbutton />
+                </View>
+                <View>
+                  <Text style={Createspreadstyle.Addcolumnbuttontext}>
+                    {labels.Creatcloudsheetlabels.AddNewColumn}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              {!isEdit ?
                 <Custombutton
                   onPress={handleSubmit(onSubmit)}
-                  Register={labels.Creatcloudsheetlabels.Update_Column}
-                /> : <Custombutton
-                  onPress={handleSubmit(onSubmit)}
-                  Register={labels.Creatcloudsheetlabels.Done}
-                />
-            }
+                  Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
+                /> : Data.length > 0 ?
+                  <Custombutton
+                    onPress={handleSubmit(onSubmit)}
+                    Register={labels.Creatcloudsheetlabels.Update_Column}
+                  /> : <Custombutton
+                    onPress={handleSubmit(onSubmit)}
+                    Register={labels.Creatcloudsheetlabels.Done}
+                  />
+              }
+            </View>
+            <View style={Createspreadstyle.Bottomgap}></View>
           </View>
-          <View style={Createspreadstyle.Bottomgap}></View>
         </View>
-      </View>
-      {/* </ScrollView> */}
+      </ScrollView>
+      <CommonBottomsheet
+        ref={columnTypeRef}
+        snapPoints={snapPoints}
+        children={
+          <ColumnTypePopup onSelectColumn={(selectedType: any) => onSelectColumn(selectedType)} />
+        }
+      />
       {loader ? <CommonLoader /> : null}
     </>
   );

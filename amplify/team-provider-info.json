@@ -25,6 +25,9 @@
           "userPoolName": "CloudSheet_Signup",
           "webClientId": "ok14b08mjlk4gmngcgeatppll"
         }
+      },
+      "api": {
+        "CloudSheetBackendEnv": {}
       }
     }
   }

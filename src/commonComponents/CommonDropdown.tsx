@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import Dropdowsideicon from "../assets/Images/dropdown.svg";
 import { Controller } from "react-hook-form";
-
 import {
-  SafeAreaView,
   Text,
   View,
-  TouchableOpacity,
-  FlatList,
   StyleSheet,
 } from "react-native";
 import { COLOURS } from "../utils/Constant";
@@ -63,7 +59,7 @@ const Styles = StyleSheet.create({
   erroview: {
     marginLeft: -16,
   },
-  Textstyle:{
-    color: "red", marginLeft: 20 
+  Textstyle: {
+    color: "red", marginLeft: 20
   }
 });

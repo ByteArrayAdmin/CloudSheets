@@ -37,7 +37,7 @@ const Cloudsheetcard = (props: any) => (
         <Smallfolder />
       </View>
       <View>
-        <Text style={Cardstyle.Text}>Monthly Expenses (3)</Text>
+        <Text style={Cardstyle.Text}>{props?.item?.Templates?.template_name} {"("+props?.item?.SpreadSheetRows?.items?.length + ")"}</Text>
       </View>
     </View>
   </View>
