@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
 
 
@@ -16,6 +16,7 @@ type EagerSpreadSheetRows = {
   readonly userID: string;
   readonly templatesID: string;
   readonly spreadsheetID: string;
+  readonly SpreadSheet?: SpreadSheet | null;
   readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -31,6 +32,7 @@ type LazySpreadSheetRows = {
   readonly userID: string;
   readonly templatesID: string;
   readonly spreadsheetID: string;
+  readonly SpreadSheet: AsyncItem<SpreadSheet | undefined>;
   readonly soft_Deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -53,6 +55,7 @@ type EagerSpreadSheet = {
   readonly userID: string;
   readonly SpreadSheetRows?: (SpreadSheetRows | null)[] | null;
   readonly soft_Deleted?: boolean | null;
+  readonly Templates?: Templates | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -68,6 +71,7 @@ type LazySpreadSheet = {
   readonly userID: string;
   readonly SpreadSheetRows: AsyncCollection<SpreadSheetRows>;
   readonly soft_Deleted?: boolean | null;
+  readonly Templates: AsyncItem<Templates | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

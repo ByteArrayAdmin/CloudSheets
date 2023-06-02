@@ -93,12 +93,80 @@ export type SpreadSheetRows = {
   userID: string,
   templatesID: string,
   spreadsheetID: string,
+  SpreadSheet?: SpreadSheet | null,
   soft_Deleted?: boolean | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
+};
+
+export type SpreadSheet = {
+  __typename: "SpreadSheet",
+  id: string,
+  spreadsheet_name?: string | null,
+  templatesID: string,
+  userID: string,
+  SpreadSheetRows?: ModelSpreadSheetRowsConnection | null,
+  soft_Deleted?: boolean | null,
+  Templates?: Templates | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type ModelSpreadSheetRowsConnection = {
+  __typename: "ModelSpreadSheetRowsConnection",
+  items:  Array<SpreadSheetRows | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type Templates = {
+  __typename: "Templates",
+  id: string,
+  template_name?: string | null,
+  userID: string,
+  TemplateColumns?: ModelTemplateColumnsConnection | null,
+  SpreadSheets?: ModelSpreadSheetConnection | null,
+  SpreadSheetRows?: ModelSpreadSheetRowsConnection | null,
+  soft_Deleted?: boolean | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type ModelTemplateColumnsConnection = {
+  __typename: "ModelTemplateColumnsConnection",
+  items:  Array<TemplateColumns | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type TemplateColumns = {
+  __typename: "TemplateColumns",
+  id: string,
+  column_Name?: string | null,
+  column_Type?: string | null,
+  templatesID: string,
+  soft_Deleted?: boolean | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type ModelSpreadSheetConnection = {
+  __typename: "ModelSpreadSheetConnection",
+  items:  Array<SpreadSheet | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
 };
 
 export type UpdateSpreadSheetRowsInput = {
@@ -135,28 +203,6 @@ export type ModelSpreadSheetConditionInput = {
   not?: ModelSpreadSheetConditionInput | null,
 };
 
-export type SpreadSheet = {
-  __typename: "SpreadSheet",
-  id: string,
-  spreadsheet_name?: string | null,
-  templatesID: string,
-  userID: string,
-  SpreadSheetRows?: ModelSpreadSheetRowsConnection | null,
-  soft_Deleted?: boolean | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-};
-
-export type ModelSpreadSheetRowsConnection = {
-  __typename: "ModelSpreadSheetRowsConnection",
-  items:  Array<SpreadSheetRows | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
 export type UpdateSpreadSheetInput = {
   id: string,
   spreadsheet_name?: string | null,
@@ -190,20 +236,6 @@ export type ModelTemplateColumnsConditionInput = {
   not?: ModelTemplateColumnsConditionInput | null,
 };
 
-export type TemplateColumns = {
-  __typename: "TemplateColumns",
-  id: string,
-  column_Name?: string | null,
-  column_Type?: string | null,
-  templatesID: string,
-  soft_Deleted?: boolean | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-};
-
 export type UpdateTemplateColumnsInput = {
   id: string,
   column_Name?: string | null,
@@ -233,36 +265,6 @@ export type ModelTemplatesConditionInput = {
   and?: Array< ModelTemplatesConditionInput | null > | null,
   or?: Array< ModelTemplatesConditionInput | null > | null,
   not?: ModelTemplatesConditionInput | null,
-};
-
-export type Templates = {
-  __typename: "Templates",
-  id: string,
-  template_name?: string | null,
-  userID: string,
-  TemplateColumns?: ModelTemplateColumnsConnection | null,
-  SpreadSheets?: ModelSpreadSheetConnection | null,
-  SpreadSheetRows?: ModelSpreadSheetRowsConnection | null,
-  soft_Deleted?: boolean | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-};
-
-export type ModelTemplateColumnsConnection = {
-  __typename: "ModelTemplateColumnsConnection",
-  items:  Array<TemplateColumns | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type ModelSpreadSheetConnection = {
-  __typename: "ModelSpreadSheetConnection",
-  items:  Array<SpreadSheet | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type UpdateTemplatesInput = {
@@ -340,6 +342,36 @@ export type CreateSpreadSheetRowsMutation = {
     userID: string,
     templatesID: string,
     spreadsheetID: string,
+    SpreadSheet?:  {
+      __typename: "SpreadSheet",
+      id: string,
+      spreadsheet_name?: string | null,
+      templatesID: string,
+      userID: string,
+      SpreadSheetRows?:  {
+        __typename: "ModelSpreadSheetRowsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      soft_Deleted?: boolean | null,
+      Templates?:  {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        soft_Deleted?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
     soft_Deleted?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -362,6 +394,36 @@ export type UpdateSpreadSheetRowsMutation = {
     userID: string,
     templatesID: string,
     spreadsheetID: string,
+    SpreadSheet?:  {
+      __typename: "SpreadSheet",
+      id: string,
+      spreadsheet_name?: string | null,
+      templatesID: string,
+      userID: string,
+      SpreadSheetRows?:  {
+        __typename: "ModelSpreadSheetRowsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      soft_Deleted?: boolean | null,
+      Templates?:  {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        soft_Deleted?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
     soft_Deleted?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -384,6 +446,36 @@ export type DeleteSpreadSheetRowsMutation = {
     userID: string,
     templatesID: string,
     spreadsheetID: string,
+    SpreadSheet?:  {
+      __typename: "SpreadSheet",
+      id: string,
+      spreadsheet_name?: string | null,
+      templatesID: string,
+      userID: string,
+      SpreadSheetRows?:  {
+        __typename: "ModelSpreadSheetRowsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      soft_Deleted?: boolean | null,
+      Templates?:  {
+        __typename: "Templates",
+        id: string,
+        template_name?: string | null,
+        userID: string,
+        soft_Deleted?: boolean | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
     soft_Deleted?: boolean | null,
     createdAt: string,
     updatedAt: string,
@@ -425,6 +517,33 @@ export type CreateSpreadSheetMutation = {
       startedAt?: number | null,
     } | null,
     soft_Deleted?: boolean | null,
+    Templates?:  {
+      __typename: "Templates",
+      id: string,
+      template_name?: string | null,
+      userID: string,
+      TemplateColumns?:  {
+        __typename: "ModelTemplateColumnsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      SpreadSheets?:  {
+        __typename: "ModelSpreadSheetConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      SpreadSheetRows?:  {
+        __typename: "ModelSpreadSheetRowsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      soft_Deleted?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -465,6 +584,33 @@ export type UpdateSpreadSheetMutation = {
       startedAt?: number | null,
     } | null,
     soft_Deleted?: boolean | null,
+    Templates?:  {
+      __typename: "Templates",
+      id: string,
+      template_name?: string | null,
+      userID: string,
+      TemplateColumns?:  {
+        __typename: "ModelTemplateColumnsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      SpreadSheets?:  {
+        __typename: "ModelSpreadSheetConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      SpreadSheetRows?:  {
+        __typename: "ModelSpreadSheetRowsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      soft_Deleted?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -505,6 +651,33 @@ export type DeleteSpreadSheetMutation = {
       startedAt?: number | null,
     } | null,
     soft_Deleted?: boolean | null,
+    Templates?:  {
+      __typename: "Templates",
+      id: string,
+      template_name?: string | null,
+      userID: string,
+      TemplateColumns?:  {
+        __typename: "ModelTemplateColumnsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      SpreadSheets?:  {
+        __typename: "ModelSpreadSheetConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      SpreadSheetRows?:  {
+        __typename: "ModelSpreadSheetRowsConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      soft_Deleted?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,

@@ -38,6 +38,21 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "SpreadSheet": {
+                    "name": "SpreadSheet",
+                    "isArray": false,
+                    "type": {
+                        "model": "SpreadSheet"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "spreadsheetID"
+                        ]
+                    }
+                },
                 "soft_Deleted": {
                     "name": "soft_Deleted",
                     "isArray": false,
@@ -157,7 +172,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "spreadsheetID"
+                            "SpreadSheet"
                         ]
                     }
                 },
@@ -167,6 +182,21 @@ export const schema = {
                     "type": "Boolean",
                     "isRequired": false,
                     "attributes": []
+                },
+                "Templates": {
+                    "name": "Templates",
+                    "isArray": false,
+                    "type": {
+                        "model": "Templates"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "templatesID"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -369,7 +399,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "templatesID"
+                            "Templates"
                         ]
                     }
                 },
@@ -565,5 +595,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.0",
-    "version": "b68958a0d52c06891e67e546c9eb5430"
+    "version": "9a0d48d84c82f8c688180d2bf5b13df6"
 };
