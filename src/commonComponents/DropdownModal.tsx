@@ -34,8 +34,8 @@ const DropdownModal = (props: any) => {
                         disableBorderRadius={true}
                         style={{ borderWidth: 0, backgroundColor: COLOURS.offwhite }}
                         modalProps={{ transparent: true }}
-                        iconContainerStyle={{ marginLeft: 30 }}
-                        listItemContainerStyle={{ marginTop: 25 }}
+                        // iconContainerStyle={{ marginLeft: 30 }}
+                        listItemContainerStyle={{ marginTop: 25 ,marginLeft: 30 }}
                         labelStyle={styles.labelStyle}
                     />
                 </View>

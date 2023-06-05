@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {Text,View,TouchableOpacity,FlatList} from "react-native";
+import { Text, View, TouchableOpacity, FlatList } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 import Folder from "../../assets/Images/folder12.svg";
@@ -53,8 +53,8 @@ const RowdetailForm = () => {
     getColumnByID(route.params.spreadSheet.templatesID)
   }, [])
 
-  useEffect(()=>{
-    if(isEdit){
+  useEffect(() => {
+    if (isEdit) {
       setSpreadsheetRowItems(JSON.parse(route?.params?.spreadSheetRow?.items))
       setExtraData(new Date())
     }
@@ -107,7 +107,7 @@ const RowdetailForm = () => {
       spreadsheetID: spreadSheetRowData?.spreadsheetID,
       items: JSON.stringify(data),
       _version: spreadSheetRowData?._version,
-      soft_Deleted:spreadSheetRowData.soft_Deleted
+      soft_Deleted: spreadSheetRowData.soft_Deleted
     }
     setLoader(true)
     update_SpreadSheetRow(newRow).then((response: any) => {
@@ -147,30 +147,32 @@ const RowdetailForm = () => {
 
   const renderItem = ({ item, index }: any) => (
     console.log("itemIndex======", index),
-    <View >
-      {item.column_Type == "Text" ?
-        <>
-          <View style={Styles.viewMargin}>
+    <View>
+      {item.column_Type == "Sentences" || item.column_Type == "Numbers" || item.column_Type == "EmailPhone" ?
+        <View style={Styles.columnView}>
+          <View>
             <Text style={Styles.nametext}>{item.column_Name}</Text>
           </View>
-          <View style={{ marginBottom: 10 }}>
+          <View style={Styles.marginTop_15}>
             <NewInputField
               defaultValue={isEdit ? spreadSheetRowItems[item.column_Name] : ''}
               name={item.column_Name}
-
               control={control}
+              keyboardType={item.column_Type == "Numbers" ? 'number-pad' : 'default'}
               placeholder={item.column_Name}
               rules={{
                 required: labels.Rowdetailsform.valodationmessage,
               }}
               styles={Styles.inputview}
             />
-          </View></> : item.column_Type == "Date" ?
-          <>
+          </View>
+        </View>
+
+        : item.column_Type == "Date" ?
+
+          <View style={Styles.columnView} >
             <View>
-              <Text style={Styles.Attendancetext}>
-                {item.column_Name}
-              </Text>
+              <Text style={Styles.nametext}>{item.column_Name}</Text>
             </View>
             <TouchableOpacity
               style={Styles.datepickerview}
@@ -194,12 +196,13 @@ const RowdetailForm = () => {
               onCancel={() => setopen(false)}
               defaultdate={isEdit ? new Date(spreadSheetRowItems[item.column_Name]) : defaultdate}
             />
-          </> : item.column_Type == "Yes/No" ?
-            <>
+          </View>
+          : item.column_Type == "Yes/No" ?
+            <View style={Styles.columnView}>
               <View >
-                <Text style={Styles.Attendancetext}>{item.column_Name}</Text>
+                <Text style={Styles.nametext}>{item.column_Name}</Text>
               </View>
-              <View>
+              <View style={Styles.marginTop_15}>
                 <NewInputField
                   name={item.column_Name}
                   control={control}
@@ -211,7 +214,7 @@ const RowdetailForm = () => {
                   styles={Styles.inputview}
                 />
               </View>
-            </>
+            </View>
             : null
       }
     </View>
@@ -229,16 +232,12 @@ const RowdetailForm = () => {
         />
       </View>
       <View style={Styles.sucontainer}>
-        <View style={Styles.formcontainer}>
-          <View >
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={columns}
-              renderItem={renderItem}
-              extraData={extraData}
-            />
-          </View>
-        </View>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={columns}
+          renderItem={renderItem}
+          extraData={extraData}
+        />
       </View>
       <View style={Styles.container}></View>
       <View style={Styles.lastview}>
@@ -262,7 +261,7 @@ const RowdetailForm = () => {
           />}
       </View>
       {modalVisible ? <UpdatedCloudSheet visible={modalVisible} onPress={() => cancelModal()} /> : null}
-      {loader?<CommonLoader/>:null}
+      {loader ? <CommonLoader /> : null}
     </View>
   );
 };

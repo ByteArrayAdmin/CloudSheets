@@ -447,11 +447,31 @@ export const updateUserDetail = (userData: any) => {
     })
 }
 
-export const get_user_from_table = (userId: string)=>{
+export const get_user_from_table = (userId: string) => {
     return new Promise(async (resolve, reject) => {
         try {
             const getUserTab = await API.graphql(graphqlOperation(getUser, { id: userId }))
             resolve(getUserTab);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+// ----------- Search SpreadSheet by UserId -----------
+export const search_CloudsheetByUserID = async (userId: string, cloudSheetName: string) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                },
+                spreadsheet_name: {
+                    beginsWith: cloudSheetName,
+                }
+            };
+            const getCloudsheet = await API.graphql(graphqlOperation(spreadSheetsByUserID, { userID: userId, filter: filter }))
+            resolve(getCloudsheet);
         } catch (e) {
             reject(e);
         }

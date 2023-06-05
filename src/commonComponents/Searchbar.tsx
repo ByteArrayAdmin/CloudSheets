@@ -14,8 +14,8 @@ const SearcBar = (props: any) => {
       </View>
       <View style={style.viewwidth}>
         <TextInput
-          // value={value}
-          //onChangeText={onChange}
+          value={props.value}
+          onChangeText={props.onChange}
           //onBlur={onBlur}
           placeholder={props.placeholder}
           style={style.inputView}

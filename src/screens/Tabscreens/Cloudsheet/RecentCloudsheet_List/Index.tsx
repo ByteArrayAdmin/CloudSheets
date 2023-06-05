@@ -10,7 +10,16 @@ import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreatecloudsheetPopup from "../../../Popups/CreateCloudsheets.tsx";
 import SearcBar from "../../../../commonComponents/Searchbar";
 import Clousheetlistscreen from "../../../../utils/ProjectLabels.json";
-import { get_CloudsheetByUserID, current_UserInfo, create_Template, update_SpreadSheet, spreadSheet_softDelete, getSpreadsheetRow_bySpreadsheetId_forSoftDelete, softDelete_spreadSheet_and_rows } from '../../../../API_Manager/index';
+import {
+  get_CloudsheetByUserID,
+  current_UserInfo,
+  create_Template,
+  update_SpreadSheet,
+  spreadSheet_softDelete,
+  getSpreadsheetRow_bySpreadsheetId_forSoftDelete,
+  softDelete_spreadSheet_and_rows,
+  search_CloudsheetByUserID
+} from '../../../../API_Manager/index';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CreateTemplatePopup from '../../../Popups/CreateTemplatePopup';
 import CreateCloudSheetNamePopup from '../../../Popups/CreateCloudSheetNamePopup/index';
@@ -38,6 +47,7 @@ const ClousheetList = () => {
   const [selectedCloudSheet, setSelectedCloudSheet] = useState({})
   const [extraData, setExtraData] = useState(new Date())
   const [loader, setLoader] = useState(false)
+  const [searchCloudsheet, setSearchCloudsheet] = useState('')
 
   // -------------- Initial Rendering ------------
   useEffect(() => {
@@ -60,6 +70,18 @@ const ClousheetList = () => {
   // ----------- getCloudSheet Pull to refresh -----------
   const onRefreshList = () => {
     get_CloudsheetBy_UserID(userId)
+  }
+
+  // ----------- search CloudSheet ----------
+  const searchCloudsheetByUserId = (cloudSheetName: string) => {
+    setCloudSheetList([])
+  setSearchCloudsheet(cloudSheetName)
+    search_CloudsheetByUserID(userId, cloudSheetName).then((response: any) => {
+      console.log("searchResp=======", response)
+      setCloudSheetList(response.data.spreadSheetsByUserID.items)
+    }).catch((error) => {
+      console.log("searchErr========", error)
+    })
   }
 
   // ----------- get CloudSheet List ------------
@@ -261,6 +283,8 @@ const ClousheetList = () => {
       <View style={styles.inputserachview}>
         <SearcBar
           placeholder={Clousheetlistscreen.cloudsheetlistconstant.SEARCH_SHEETS}
+          value={searchCloudsheet}
+          onChange={(text: string)=>searchCloudsheetByUserId(text)}
         />
       </View>
       <View style={styles.recentcloudview}>
