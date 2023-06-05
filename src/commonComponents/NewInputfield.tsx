@@ -8,7 +8,7 @@ const NewInputField = (props: any) => {
   return (
     <View>
       <Controller
-      defaultValue={props.defaultValue}
+        defaultValue={props.defaultValue}
         control={props.control}
         name={props.name}
         rules={props.rules}
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
   viewWidth: { width: "75%" },
   errormsgtext:
     { color: COLOURS.red },
-    flexprop:{
-    flex: 1 
-    },
+  flexprop: {
+    flex: 1
+  },
 
-   scanmargin: { marginRight: 17 },
-   placeholdertext:{
-    color:COLOURS.black,
-    opacity:0.5
-   }
-  
+  scanmargin: { marginRight: 17 },
+  placeholdertext: {
+    color: COLOURS.black,
+    opacity: 0.5
+  }
+
 });
