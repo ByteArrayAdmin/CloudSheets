@@ -13,21 +13,31 @@
     },
     "categories": {
       "auth": {
-        "cloudsheetbackendenve0c89581": {
-          "nativeClientId": "ok14b08mjlk4gmngcgeatppll",
-          "userPoolId": "us-east-1_pAqQcPBMG",
-          "userPoolName": "CloudSheet_Signup",
-          "webClientId": "ok14b08mjlk4gmngcgeatppll"
-        },
         "cloudsheetbackendenve9feab69": {
           "nativeClientId": "ok14b08mjlk4gmngcgeatppll",
           "userPoolId": "us-east-1_pAqQcPBMG",
           "userPoolName": "CloudSheet_Signup",
           "webClientId": "ok14b08mjlk4gmngcgeatppll"
+        },
+        "cloudsheetbackendenv0bf41396": {
+          "userPoolId": "us-east-1_pAqQcPBMG",
+          "userPoolName": "CloudSheet_Signup",
+          "webClientId": "ok14b08mjlk4gmngcgeatppll",
+          "nativeClientId": "6go8e5jrigk7cvo9i29vcsoaon",
+          "identityPoolId": "us-east-1:69dab04b-681a-4e2d-af3f-28a4f1741adf",
+          "identityPoolName": "cloudSheetIdentityPool",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::308754397164:role/Cognito_cloudSheetIdentityPoolAuth_Role",
+          "authRoleName": "Cognito_cloudSheetIdentityPoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::308754397164:role/Cognito_cloudSheetIdentityPoolUnauth_Role",
+          "unauthRoleName": "Cognito_cloudSheetIdentityPoolUnauth_Role"
         }
       },
       "api": {
         "CloudSheetBackendEnv": {}
+      },
+      "analytics": {
+        "cloudsheetEventTracking": {}
       }
     }
   }

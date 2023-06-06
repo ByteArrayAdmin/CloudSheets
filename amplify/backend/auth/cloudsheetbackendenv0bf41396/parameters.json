@@ -1,6 +1,6 @@
 {
-  "authSelections": "userPoolOnly",
-  "resourceName": "cloudsheetbackendenve0c89581",
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "cloudsheetbackendenv0bf41396",
   "serviceType": "imported",
   "region": "us-east-1",
   "aliasAttributes": [

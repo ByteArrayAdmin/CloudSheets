@@ -1,4 +1,10 @@
 {
+  "analytics": {
+    "cloudsheetEventTracking": {
+      "providerPlugin": "awscloudformation",
+      "service": "Pinpoint"
+    }
+  },
   "api": {
     "CloudSheetBackendEnv": {
       "dependsOn": [],
@@ -23,7 +29,7 @@
     }
   },
   "auth": {
-    "cloudsheetbackendenve0c89581": {
+    "cloudsheetbackendenv0bf41396": {
       "customAuth": false,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -32,35 +38,91 @@
     }
   },
   "parameters": {
-    "AMPLIFY_auth_cloudsheetbackendenve0c89581_nativeClientId": {
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_allowUnauthenticatedIdentities": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "cloudsheetbackendenve0c89581"
+          "resourceName": "cloudsheetbackendenv0bf41396"
         }
       ]
     },
-    "AMPLIFY_auth_cloudsheetbackendenve0c89581_userPoolId": {
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_authRoleArn": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "cloudsheetbackendenve0c89581"
+          "resourceName": "cloudsheetbackendenv0bf41396"
         }
       ]
     },
-    "AMPLIFY_auth_cloudsheetbackendenve0c89581_userPoolName": {
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_authRoleName": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "cloudsheetbackendenve0c89581"
+          "resourceName": "cloudsheetbackendenv0bf41396"
         }
       ]
     },
-    "AMPLIFY_auth_cloudsheetbackendenve0c89581_webClientId": {
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_identityPoolId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "cloudsheetbackendenve0c89581"
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_identityPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_unauthRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_unauthRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ]
+    },
+    "AMPLIFY_auth_cloudsheetbackendenv0bf41396_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
         }
       ]
     },

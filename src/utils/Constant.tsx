@@ -84,3 +84,11 @@ export const columnTypeList = [
     icon:() =><Ic_physicalAddress/>
   },
 ]
+
+export const screenName ={
+  CLOUDSHEET_TAB_SCREEN:"cloudSheetTabScreen",
+
+}
+export const eventType = {
+  TRACK_SCREEN: 'track_Screen',
+}
