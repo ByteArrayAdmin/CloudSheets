@@ -13,6 +13,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Auth } from 'aws-amplify';
 import { confirm_Signup, resend_OTP } from '../../../API_Manager/index';
 import CommonLoader from '../../../commonComponents/CommonLoader';
+import {track_Screen,track_Click_Event,track_Success_Event,track_Error_Event} from '../../../eventTracking/index';
+import { eventName,screenName,clickName,successActionName,errorActionName } from '../../../utils/Constant';
 const OtpScreen = () => {
 
     const { control, handleSubmit, watch } = useForm();
@@ -24,7 +26,12 @@ const OtpScreen = () => {
     const [disable, setDisable] = useState(false)
     const [loader, setLoader] = useState(false)
 
+    useEffect(()=>{
+        track_Screen(eventName.TRACK_SCREEN,screenName.OTP_VERIFY_SCREEN)
+    }, [])
+
     const verificaton = async (data: any) => {
+        track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_OTP_VERIFY)
         const { otp } = data
         console.log("OTPData========", data, userName)
         setLoader(true)
@@ -33,10 +40,12 @@ const OtpScreen = () => {
                 if(response){
                     setLoader(false)
                     Alert.alert(labels.OTP_Constants.Confirmed);
+                    track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.CHANGE_PASSWORD_OTP_VERIFY_SUCCESSFULLY)
                     navigation.goBack()
                 }
             }).catch((error)=>{
                 setLoader(false)
+                track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.CHANGE_PASSWORD_OTP_VERIFY_ERROR)
                 console.log("OptErr====",error)
             })
         } else {
@@ -44,10 +53,12 @@ const OtpScreen = () => {
                 console.log("OTPResp=========", response)
                 setLoader(false)
                 Alert.alert(labels.OTP_Constants.Confirmed);
+                track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.SIGNUP_OTP_VERIFY_SUCCESSFULLY)
                     navigation.navigate("Login")
 
             }).catch((e) => {
                 setLoader(false)
+                track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.SIGNUP_OTP_VERIFY_ERROR)
                 console.log("OTPErr=======", e)
                 Alert.alert(e?.message);
             })
@@ -66,15 +77,18 @@ const OtpScreen = () => {
     }, [count])
 
     const resendOtpFunc = async () => {
+        track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_RESEND_OTP)
         setDisable(true)
         setCount(labels.OTP_Constants.Sixty_Sec)
         setLoader(true)
         resend_OTP(userName).then((response) => {
             setLoader(false)
             console.log("resendResp=========", response)
+            track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.RESEND_PASSWORD_SUCCESSFULLY)
             Alert.alert(labels.OTP_Constants.ResendOTPSuccess)
         }).catch((err) => {
             setLoader(false)
+            track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.RESEND_PASSWORD_ERROR)
             console.log('error resending code: ', err);
             Alert.alert(err?.message);
         })

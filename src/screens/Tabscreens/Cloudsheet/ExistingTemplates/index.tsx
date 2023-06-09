@@ -8,7 +8,8 @@ import Folder from "../../../../assets/Images/folder12.svg";
 import labels from "../../../../utils/ProjectLabels.json";
 import TemplateCard from './TemplateCard';
 import { get_Template_List, current_UserInfo } from '../../../../API_Manager/index';
-
+import { track_Screen } from '../../../../eventTracking/index';
+import { screenName, eventName } from '../../../../utils/Constant';
 const ExistingTemplateList = () => {
     const navigation = useNavigation();
     const [templateList, setTemplateList] = useState([]);
@@ -17,6 +18,7 @@ const ExistingTemplateList = () => {
     // ------------ Initial Rendering -----------
     useEffect(() => {
         getUserId()
+        track_Screen(eventName.TRACK_SCREEN, screenName.EXISTING_TEMPLATE_LIST_SCREEN)
     }, [])
 
     // --------- Get Current userId ---------

@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
@@ -8,9 +8,15 @@ import CommonLayout from '../CommonLayout';
 import {COLOURS} from '../../../../../utils/Constant';
 import Ic_faq from '../../../../../assets/Images/Ic_faq.svg';
 import CommonAccordian from './CommonAccordian';
+import { track_Screen } from '../../../../../eventTracking/index';
+import {eventName,screenName} from '../../../../../utils/Constant';
 const Faq_Screen = () => {
     const navigation = useNavigation()
     const [isOpenFirst,setIsOpenFirst] = useState(false)
+
+    useEffect(()=>{
+        track_Screen(eventName.TRACK_SCREEN,screenName.FAQ_SCREEN)
+    }, [])
 
     const toggle =()=> setIsOpenFirst(previewState=>!previewState)
     return (

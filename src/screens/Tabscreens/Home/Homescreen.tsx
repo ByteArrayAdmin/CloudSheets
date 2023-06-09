@@ -19,7 +19,8 @@ import { Tempatestyle } from "../Templates/Createtemplate/Style";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import { current_UserInfo } from '../../../API_Manager/index';
 import { useNavigation, CommonActions } from "@react-navigation/native";
-
+import { track_Screen } from '../../../eventTracking/index';
+import {eventName,screenName} from '../../../utils/Constant';
 const Homescreen = (props: any) => {
 
   const childRef = useRef(null);
@@ -29,6 +30,8 @@ const Homescreen = (props: any) => {
   // --------- Initial Rendering --------
   useEffect(() => {
     currentuser()
+    track_Screen(eventName.TRACK_SCREEN, screenName.HOME_TAB_SCREEN)
+
   }, [])
 
   // ---------- Get Current userId ---------

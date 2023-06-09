@@ -18,7 +18,6 @@ export const Styles = StyleSheet.create({
       marginTop: 18,
       backgroundColor: COLOURS.white,
       borderRadius: 10,
-      borderWidth:1,
       paddingHorizontal: 15,
       paddingBottom:15
     },
@@ -73,7 +72,6 @@ export const Styles = StyleSheet.create({
       borderWidth:1
     },
     columnView:{
-      borderWidth: 1, 
       marginTop: 15 
     }
     

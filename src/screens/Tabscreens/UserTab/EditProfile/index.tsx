@@ -23,6 +23,8 @@ import { current_UserInfo, updateCurrentAuth, updateUserDetail, get_user_from_ta
 import CommonLoader from '../../../../commonComponents/CommonLoader';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import codegenNativeCommands from "react-native/Libraries/Utilities/codegenNativeCommands";
+import { track_Screen,track_Click_Event,track_Success_Event,track_Error_Event } from '../../../../eventTracking/index';
+import {eventName,screenName,clickName,successActionName,errorActionName} from '../../../../utils/Constant';
 
 const EditProfile = () => {
   const navigation = useNavigation();
@@ -37,6 +39,7 @@ const EditProfile = () => {
   // ---------- Initial Rendering ------------
   useEffect(() => {
     getCurrentUser()
+    track_Screen(eventName.TRACK_SCREEN,screenName.PROFILE_SCREEN)
   }, [])
 
   // ---------- Get Current User --------------
@@ -70,6 +73,7 @@ const EditProfile = () => {
 
   // ------------ Update userDetail -----------
   const onEditPressed = async (data: any) => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_UPDATE_PROFILE)
     console.log("formData=======", data)
     let Cog_Obj = {
       name: data.EditName,
@@ -93,13 +97,16 @@ const EditProfile = () => {
           if (data.editemail != userDetail.email) {
             navigation.navigate("OtpScreen", { isFrom: "Profile", username: userName })
           }
+          track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.UPDATE_PROFILE_SUCCESSFULLY)
           setLoader(false)
         }).then((error) => {
+          track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.UPDATE_PROFILE_ERROR)
           setLoader(false)
           console.log("updateUserErr=======", error)
         })
       }
     }).catch((error) => {
+      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.UPDATE_PROFILE_ERROR)
       setLoader(false)
       console.log("updateCurrAuth=======", error)
     })
