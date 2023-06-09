@@ -14,7 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import Logo from "../../../assets/Images/templatemodel.svg";
-
+import { track_Screen ,track_Click_Event} from '../../../eventTracking/index';
+import {eventName,screenName,clickName} from '../../../utils/Constant';
 const CreateTemplatePopup = (props: any) => {
 
   const child = useRef();
@@ -29,6 +30,10 @@ const CreateTemplatePopup = (props: any) => {
     navigation.navigate("CreatSpreadsheet", { templateName: text });
   };
   const OnClose = () => {
+    if (props.isEditTemplate) {
+      track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_UPDATE_TEMPLATE)
+    }
+    track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_CREATE_TEMPLATE)
     child.current.childFunction2();
   };
 
@@ -38,6 +43,9 @@ const CreateTemplatePopup = (props: any) => {
       setTemplateId(props.selectedTemplate.id)
       setVersion(props.selectedTemplate._version)
       setSoftDeleted(props.selectedTemplate.soft_Deleted)
+      track_Screen(eventName.TRACK_SCREEN,screenName.EDIT_TEMPLATE_MODAL)
+    }else{
+      track_Screen(eventName.TRACK_SCREEN,screenName.CREATE_TEMPLATE_MODAL)
     }
   }, [])
 

@@ -477,3 +477,24 @@ export const search_CloudsheetByUserID = async (userId: string, cloudSheetName: 
         }
     })
 }
+
+// -------------- Get Location by lat long -------------
+
+export const get_Location_Address = async (currentLatitude:any,currentLongitude:any) => {
+    console.log("currentPosition==========",currentLatitude,currentLongitude)
+    let newLat = parseInt(currentLatitude)
+    let newLong = parseInt(currentLongitude)
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    // return fetch(`https://api.opencagedata.com/geocode/v1/json?key=${'1f8e7aadef8a4509ab241e33602720b0'}&q=${22.7222948 + 75.8577413}&pretty=1&no_annotations=1`, requestOptions)
+    return fetch(`https://api.opencagedata.com/geocode/v1/json?key=1f8e7aadef8a4509ab241e33602720b0&q=${newLat}+${newLong}&pretty=1&no_annotations=1`,requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            return result
+        }).catch(error => {
+            return error
+        });
+}

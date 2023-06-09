@@ -1,10 +1,8 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {
-  SafeAreaView,
   Text,
   View,
   TouchableOpacity,
-  StyleSheet,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -20,10 +18,16 @@ import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../.././../commonComponents/Button";
 import { ScrollView } from "react-native-gesture-handler";
 import {Styles} from "./style"
-
+import { track_Screen } from '../../../../eventTracking/index';
+import {eventName,screenName} from '../../../../utils/Constant';
 const Rateus = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
+
+  useEffect(()=>{
+    track_Screen(eventName.TRACK_SCREEN,screenName.RATEUS_SCREEN)
+  }, [])
+
   const ratingCompleted = (rating: number) => {
     
   };

@@ -15,14 +15,15 @@ import labels from "../../../../utils/ProjectLabels.json";
 import Folderlogo from "../../../../assets/Images/folder_minus.svg";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Style } from "./style";
-import { FONTS, COLOURS } from "../../../../utils/Constant";
+import { FONTS, COLOURS, successActionName, errorActionName } from "../../../../utils/Constant";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { create_SpreadSheet } from '../../../../API_Manager/index';
 import uuid from 'react-native-uuid';
 import moment from 'moment';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
-
+import { track_Click_Event, track_Error_Event, track_Screen, track_Success_Event } from '../../../../eventTracking/index';
+import {eventName,screenName,clickName} from '../../../../utils/Constant';
 const AddrowClassattendance = () => {
   const navigation = useNavigation();
   const route = useRoute()
@@ -34,6 +35,7 @@ const AddrowClassattendance = () => {
 
   useEffect(() => {
     console.log("columns=======", route.params.template)
+    track_Screen(eventName.TRACK_SCREEN,screenName.CREATE_SPREADSHEET_SCREEN)
   }, [])
 
   // ---------------Check form validation----------------
@@ -47,6 +49,7 @@ const AddrowClassattendance = () => {
 
   // ----------------- Add SpreadSheet name------------
   const onAddRow = () => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CREATE_SPREADSHEET_NAME)
     let uid = uuid.v1().toString()
     let timeStamp = moment().unix().toString()
     let newUniqueId = uid + "-" + timeStamp
@@ -59,12 +62,14 @@ const AddrowClassattendance = () => {
     }
     console.log("spreadSheetData=======", newSpreadData)
     setLoader(true)
-    create_SpreadSheet(newSpreadData).then((response) => {
+    create_SpreadSheet(newSpreadData).then((response: any) => {
       setLoader(false)
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.CREATE_SPREADSHEET_NAME_SUCCESSFULLY)
       console.log("spreadResp=======", response)
       DeviceEventEmitter.emit('updateSpreadSheetList')
       navigation.navigate("RowdetailForm", { spreadSheet: response.data.createSpreadSheet, isFrom: isFrom })
     }).catch((error) => {
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.CREATE_SPREADSHEET_NAME_ERROR)
       setLoader(false)
       console.log("spreadErr=====", error)
     })

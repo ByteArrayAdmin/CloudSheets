@@ -21,16 +21,24 @@ import { listUsers, getUser } from '../../../graphql/queries';
 import { createUser } from '../../../graphql/mutations';
 import { userLogin } from '../../../API_Manager/index';
 import CommonLoader from '../../../commonComponents/CommonLoader';
+import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event,signIn_Event } from '../../../eventTracking/index';
+import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../utils/Constant';
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    track_Screen(eventName.TRACK_SCREEN, screenName.LOGIN_SCREEN)
+  }, [])
 
   const onLoginPressed = async (data: any) => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_LOGIN)
     // const { youremail, yourpasswaord } = data;
     setLoader(true)
     userLogin(data).then((response: any) => {
       console.log("signInResp=======", response.attributes)
+      signIn_Event()
       setLoader(false)
       const syncUser = async () => {
         const userData = await API.graphql(graphqlOperation(getUser, { id: response.attributes.sub }))
@@ -51,11 +59,12 @@ const Login = () => {
       navigation.navigate("Tabnavigator");
     }).catch((e) => {
       console.log("loginErr=======", e)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.SIGN_IN_ERROR)
       setLoader(false)
-      if(e.code == "NotAuthorizedException"){
+      if (e.code == "NotAuthorizedException") {
         Alert.alert(e.message)
       }
-      
+
     })
   };
   return (
@@ -65,7 +74,7 @@ const Login = () => {
 
         <KeyboardAwareScrollView>
           <TouchableOpacity style={loginstyle.skipText}
-            onPress={() => navigation.navigate("Tabnavigator")}
+            onPress={() => {navigation.navigate("Tabnavigator"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_SKIP_LOGIN)}}
           >
             <Text style={loginstyle.skioptextcolor}>{LoginLabels.LoginScreen.SKIP}</Text>
           </TouchableOpacity>
@@ -119,7 +128,7 @@ const Login = () => {
                   />
                   <View style={loginstyle.fogetpasswaordview}>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate("forgetpassword")}
+                      onPress={() => {navigation.navigate("forgetpassword"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_FORGOT_PASSWORD)}}
                     >
                       <Text style={loginstyle.fogettext}>
                         {LoginLabels.LoginScreen.FORGET_PASSWARD}
@@ -164,7 +173,7 @@ const Login = () => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => navigation.navigate("Signupscreen")}
+                onPress={() => {navigation.navigate("Signupscreen"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_SIGN_UP)}}
               >
                 <Text style={loginstyle.sigintext}>
                   {LoginLabels.LoginScreen.SIGNUP}
@@ -174,7 +183,7 @@ const Login = () => {
             <View style={loginstyle.BottomGap} />
           </View>
         </KeyboardAwareScrollView>
-        {loader?<CommonLoader/>:null}
+        {loader ? <CommonLoader /> : null}
       </SafeAreaView>
     </>
   );

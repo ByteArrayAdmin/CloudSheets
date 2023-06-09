@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView, Text, View, TouchableOpacity, Alert,Platform ,PermissionsAndroid} from 'react-native';
 import { styles } from './style';
 import InputField from '../../../commonComponents/InputField';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -24,8 +24,11 @@ import RedCorss from '../../../assets/Images/redcross.svg';
 import BlueTick from '../../../assets/Images/bluetick.svg';
 import AuthCard from "../../../commonComponents/AuthCard";
 import labels from '../../../utils/ProjectLabels.json';
-import { userSignup, userExist } from '../../../API_Manager/index';
+import { userSignup, userExist,get_Location_Address } from '../../../API_Manager/index';
 import CommonLoader from '../../../commonComponents/CommonLoader';
+import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event,signIn_Event, signUp_Event } from '../../../eventTracking/index';
+import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../utils/Constant';
+import Geolocation from '@react-native-community/geolocation';
 //Aws configiuration code commented for now
 
 Amplify.configure(awsconfig);
@@ -35,11 +38,94 @@ const Signup = () => {
   const userName = watch('username');
   const [isUserExist, setIsUserExist] = useState(false);
   const [loader, setLoader] = useState(false)
+  const [currentLongitude,setCurrentLongitude] = useState('...');
+  const [currentLatitude,setCurrentLatitude] = useState('...');
+  const [locationStatus,setLocationStatus] = useState('');
+  const [location, setLocation] = useState('')
+
   useEffect(() => {
     console.log("username======", userName)
+    track_Screen(eventName.TRACK_SCREEN,screenName.SIGNUP_SCREEN)
   }, [userName])
 
+  useEffect(()=>{
+    requestLocationPermission()
+  }, [])
+  // ----------- Location permission -----------
+  const requestLocationPermission = async () => {
+    Geolocation.setRNConfiguration( {
+      skipPermissionRequests: false,
+      authorizationLevel: 'whenInUse',
+      
+    })
+    if (Platform.OS === 'ios') {
+      getOneTimeLocation();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission is granted
+          getOneTimeLocation();
+        } else {
+          setLocationStatus('Permission Denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  };
+  
+  // ----------- End ----------
+
+  // --------- Get one Time Location ---------
+  const getOneTimeLocation = () => {
+    setLocationStatus('Getting Location ...');
+    
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+        setLocationStatus('You are Here');
+          console.log("preciseLocation=========",position)
+        //getting the Longitude from the location json
+        const currentLongitude = 
+          JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude = 
+          JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+        get_Location_Address(currentLatitude,currentLongitude).then((response: any)=>{
+          console.log("responseLoc=======",response)
+          setLocation(response.results.components.country)
+      }).catch((error)=>{
+        console.log("locationError======",error)
+      })
+        
+        //Setting Longitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      (error) => {
+        console.log("locationErrorMsg========",error)
+        setLocationStatus(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 20000,
+        maximumAge: 1000,
+        
+      },
+    );
+    
+  };
+  // --------- End ---------
+
+  
   const onRegisterPressed = async (data: any) => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_REGISTER)
     if (isUserExist) {
 
     } else {
@@ -56,8 +142,10 @@ const Signup = () => {
       setLoader(true)
       userSignup(userSignUp).then((response) => {
         setLoader(false)
+        signUp_Event(email,location)
         showAlert(username)
       }).catch((e) => {
+        track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.SIGN_UP_ERROR)
         setLoader(false)
         console.log("SignupErr=======", e)
         Alert.alert(e?.message);
@@ -99,7 +187,7 @@ const Signup = () => {
       <SafeAreaView style={styles.safeareastyle}>
         <KeyboardAwareScrollView>
           <TouchableOpacity style={styles.skipText}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => {navigation.navigate("Login"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_SKIP_SIGNUP)}}
           >
             <Text style={styles.skioptextcolor}>
               {signupLabel.signupcontant.SKIP}
@@ -240,7 +328,7 @@ const Signup = () => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => {navigation.navigate("Login"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_ALREADY_A_MEMBER_NAVIGATE_TO_LOGIN)}}
               >
                 <Text style={styles.sigintext}>
                   {signupLabel.signupcontant["Sign in"]}

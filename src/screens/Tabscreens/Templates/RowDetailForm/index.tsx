@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { Text, View, TouchableOpacity, FlatList } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
-import Folder from "../../assets/Images/folder12.svg";
 import labels from "../../../../utils/ProjectLabels.json";
 import Document from "../../../../assets/Images/documentdark.svg";
 import NewInputField from "../../../../commonComponents/NewInputfield";
@@ -10,7 +9,6 @@ import { useForm } from "react-hook-form";
 import CommonDatepicker from "../../../../commonComponents/CommonDatepicker";
 import Calenderlogo from "../../../../assets/Images/calendar.svg";
 import Custombutton from "../../../../commonComponents/Button";
-import Scanimage from "../../../../assets/Images/Scan.svg";
 import { Styles } from "./style";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -23,6 +21,8 @@ import SmallButton from '../../../../commonComponents/SmallButton';
 import CommonBottomsheet from '../../../../commonComponents/CommonBottomsheet';
 import UpdatedCloudSheet from '../../../Popups/UpdatedCloudSheetPopup/index';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
+import { track_Screen, track_Click_Event,track_Success_Event,track_Error_Event } from '../../../../eventTracking/index';
+import {eventName,screenName,clickName,errorActionName,successActionName} from '../../../../utils/Constant';
 const RowdetailForm = () => {
   const navigation = useNavigation();
   const route = useRoute()
@@ -55,13 +55,17 @@ const RowdetailForm = () => {
 
   useEffect(() => {
     if (isEdit) {
+      track_Screen(eventName.TRACK_SCREEN,screenName.ADD_SPREADSHEET_ROW_SCREEN)
       setSpreadsheetRowItems(JSON.parse(route?.params?.spreadSheetRow?.items))
       setExtraData(new Date())
+    }else{
+      track_Screen(eventName.TRACK_SCREEN,screenName.EDIT_SPREADSHEET_ROW_SCREEN)
     }
   }, [isEdit])
 
   // --------------Create Row Data-----------------
   const onSubmitPressed = async (data: any) => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_ADD_SPREADSHEET_ROW)
     const { date } = data;
     console.log("rowData=======", data)
     let uid = uuid.v1().toString()
@@ -78,11 +82,13 @@ const RowdetailForm = () => {
     console.log("UpdatedRow=======", newRow)
     setLoader(true)
     create_SpreadSheet_Row(newRow).then((response) => {
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.CREATE_SPREADSHEET_ROW_SUCCESSFULLY)
       setLoader(false)
       console.log("spreadRowResp==========", response)
       reset()
       navigation.navigate("Attendancelist", { spreadSheet: spreadSheet, isFrom: isFromScreen })
     }).catch((error) => {
+      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.CREATE_SPREADSHEET_ROW_ERROR)
       setLoader(false)
       console.log("spreadRowErr========", error)
     })
@@ -100,6 +106,7 @@ const RowdetailForm = () => {
 
   // ----------- Update Row -----------
   const onUpdateRows = (data: any) => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_UPDATE_SPREADSHEET_ROW)
     let newRow = {
       id: spreadSheetRowData?.id,
       userID: spreadSheetRowData?.userID,
@@ -113,8 +120,10 @@ const RowdetailForm = () => {
     update_SpreadSheetRow(newRow).then((response: any) => {
       console.log("updatedSpreadsheetRowResp=======", response)
       setLoader(false)
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.UPDATE_SPREADSHEET_ROW_SUCCESSFULLY)
       setModalVisible(true)
     }).catch((error) => {
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.UPDATE_SPREADSHEET_ROW_ERROR)
       setLoader(false)
       console.log("updateSpreadSheetRowErr========", error)
     })

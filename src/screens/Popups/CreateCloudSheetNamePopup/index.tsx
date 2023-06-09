@@ -14,7 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import Logo from "../../../assets/Images/templatemodel.svg";
-
+import { track_Screen } from '../../../eventTracking/index';
+import { screenName, eventName } from '../../../utils/Constant';
 const CreateCloudSheetNamePopup = (props: any) => {
 
   const child = useRef();
@@ -23,7 +24,8 @@ const CreateCloudSheetNamePopup = (props: any) => {
   const [templateId, setTemplateId] = useState('');
   const [version, setVersion] = useState();
   const [spreadSheetId, setSpreadSheetId] = useState('');
-  const [userId, setUserId] = useState('')
+  const [userId, setUserId] = useState('');
+  const [softDeleted, setSoftDeleted] = useState(false)
 
   const CreatePress = () => {
     child.current.childFunction2();
@@ -41,6 +43,10 @@ const CreateCloudSheetNamePopup = (props: any) => {
       setVersion(props?.selectedCloudSheet?._version)
       setSpreadSheetId(props?.selectedCloudSheet?.id)
       setUserId(props?.selectedCloudSheet?.userID)
+      setSoftDeleted(props?.selectedCloudSheet?.soft_Deleted)
+      track_Screen(eventName.TRACK_SCREEN, screenName.EDIT_SPREADSHEET_MODAL)
+    }else{
+      track_Screen(eventName.TRACK_SCREEN, screenName.CREATE_SPREADSHEET_MODAL)
     }
   }, [])
 
@@ -101,7 +107,7 @@ const CreateCloudSheetNamePopup = (props: any) => {
             <LightSmallButton
               buttontext={props.isEditCloudSheetName ? CreateTemplatescreen.CloudSheetNameConstants.Update : CreateTemplatescreen.CloudSheetNameConstants.Create}
               // onPress={CreatePress}
-              onPress={() => props.isEditCloudSheetName ? props.onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId) : props.onCreateSpreadSheet(text)}
+              onPress={() => props.isEditCloudSheetName ? props.onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId,softDeleted) : props.onCreateSpreadSheet(text)}
             />
           </View>
         </View>

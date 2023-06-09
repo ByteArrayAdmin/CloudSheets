@@ -1,9 +1,7 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
-  StyleSheet,
   Text,
-  FlatList,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -28,30 +26,40 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import Crown from "../../../../assets/Images/crown.svg";
 import SubcriptionScreenCard from "../SubscriptionPlanScreen/SubscriptionScreenCard";
 import CommonLoader from '../../../../commonComponents/CommonLoader';
-
+import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event, signOut_Event } from '../../../../eventTracking/index';
+import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../../utils/Constant';
 import { Auth } from 'aws-amplify';
 const UserSection = () => {
   const navigation = useNavigation();
   const Tabheight = useBottomTabBarHeight();
   const [loader, setLoader] = useState(false);
 
+  useEffect(() => {
+    track_Screen(eventName.TRACK_SCREEN, screenName.USER_TAB_SCREEN)
+  }, [])
+
+  // ------------ Signout Function ------------
   async function signOut() {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_SIGN_OUT)
     setLoader(true)
     try {
       await Auth.signOut();
       setLoader(false)
+      signOut_Event()
       navigation.dispatch(CommonActions.reset({
         routes: [
           { name: 'Login' },]
       }))
     } catch (error) {
       setLoader(false)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.SIGN_OUT_ERROR)
       console.log('error signing out: ', error);
     }
   }
 
-  const onClickRegister = ()=>{
-    
+  // ----------- Navigate to Register ----------
+  const onClickRegister = () => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_REGISTER)
     navigation.dispatch(CommonActions.reset({
       routes: [
         { name: 'Signupscreen' },]
@@ -102,29 +110,38 @@ const UserSection = () => {
           <Text style={Styles.Accounttext}>{labels.Guestscreen.Account}</Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-        {global.isLoggedInUser ?
-          <>
-          <UseCard
-            Logo={<Profile />}
-            heading={labels.Guestscreen.Profile}
-            onPress={() => navigation.navigate("EditProfile")}
-          />
-          <View style={Styles.horizontallineview}>
-            <View style={Styles.innerhoeizontaline} />
-          </View>
+          {global.isLoggedInUser ?
+            <>
+              <UseCard
+                Logo={<Profile />}
+                heading={labels.Guestscreen.Profile}
+                onPress={() => {
+                  navigation.navigate("EditProfile"),
+                    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_PROFILE_TAB)
+                }}
+              />
+              <View style={Styles.horizontallineview}>
+                <View style={Styles.innerhoeizontaline} />
+              </View>
 
-          <UseCard 
-          Logo={<PassLogo />}
-           heading={labels.Guestscreen.Password}
-           onPress={() => navigation.navigate("ResetPassword")}
-          />
-          <View style={Styles.horizontallineview}>
-            <View style={Styles.innerhoeizontaline} />
-          </View></>:null}
+              <UseCard
+                Logo={<PassLogo />}
+                heading={labels.Guestscreen.Password}
+                onPress={() => {
+                  navigation.navigate("ResetPassword"),
+                    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_CHANGE_PASSWORD_TAB)
+                }}
+              />
+              <View style={Styles.horizontallineview}>
+                <View style={Styles.innerhoeizontaline} />
+              </View></> : null}
           <UseCard
             Logo={<Ratelogo />}
             heading={labels.Guestscreen.RateUs}
-            onPress={() => navigation.navigate("RateUs")}
+            onPress={() => {
+              navigation.navigate("RateUs"),
+                track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_RATE_US_TAB)
+            }}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -133,7 +150,10 @@ const UserSection = () => {
           <UseCard
             Logo={<Privacylogo />}
             heading={labels.Guestscreen.PrivacyPolicy}
-            onPress={() => navigation.navigate("PrivacyScreen")}
+            onPress={() => {
+              navigation.navigate("PrivacyScreen"),
+                track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_PRIVACY_POLICY_TAB)
+            }}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -141,7 +161,10 @@ const UserSection = () => {
           <UseCard
             Logo={<CusSupportlogo />}
             heading={labels.Guestscreen.CustomerSupport}
-            onPress={() => navigation.navigate("Customer_Support_Screen")}
+            onPress={() => {
+              navigation.navigate("Customer_Support_Screen"),
+                track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_CUSTOMER_SUPPORT_TAB)
+            }}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -149,7 +172,10 @@ const UserSection = () => {
           <UseCard
             Logo={<TermLogo />}
             heading={labels.Guestscreen.TermsandConditions}
-            onPress={() => navigation.navigate("Terms_Conditions_Screen")}
+            onPress={() => {
+              navigation.navigate("Terms_Conditions_Screen"),
+                track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_TERMS_AND_CONDITIONS_TAB)
+            }}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -157,7 +183,10 @@ const UserSection = () => {
           <UseCard
             Logo={<Helplogo />}
             heading={labels.Guestscreen.FAQ}
-            onPress={() => navigation.navigate("Faq_Screen")}
+            onPress={() => {
+              navigation.navigate("Faq_Screen"),
+                track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_FAQ_TAB)
+            }}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
@@ -170,10 +199,14 @@ const UserSection = () => {
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />
           </View>
-          <UseCard Logo={<MessageLog />} heading={labels.Guestscreen.Help} onPress={() => navigation.navigate("Help_Screen")} />
+          <UseCard Logo={<MessageLog />} heading={labels.Guestscreen.Help} onPress={() => {
+            navigation.navigate("Help_Screen"),
+              track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_HELP_TAB)
+          }}
+          />
           <View style={{ height: Tabheight }}></View>
         </ScrollView>
-        {loader?<CommonLoader/>:null}
+        {loader ? <CommonLoader /> : null}
       </View>
     </>
   );

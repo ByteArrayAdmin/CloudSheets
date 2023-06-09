@@ -27,6 +27,8 @@ import Popup from "../../../Popups/TemplateEditPopup";
 import uuid from 'react-native-uuid';
 import moment from 'moment';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
+import { track_Screen } from '../../../../eventTracking/index';
+import { screenName, eventName } from '../../../../utils/Constant';
 
 const ClousheetList = () => {
   // --------- File States ----------
@@ -54,6 +56,7 @@ const ClousheetList = () => {
     console.log("currentUser=======", global.isLoggedInUser)
     DeviceEventEmitter.addListener('updateSpreadSheetList', () => get_CurrentUserId())
     get_CurrentUserId()
+    track_Screen(eventName.TRACK_SCREEN, screenName.CLOUDSHEET_TAB_SCREEN)
   }, [])
 
   // ------------ Get Current userId -------------
@@ -75,7 +78,7 @@ const ClousheetList = () => {
   // ----------- search CloudSheet ----------
   const searchCloudsheetByUserId = (cloudSheetName: string) => {
     setCloudSheetList([])
-  setSearchCloudsheet(cloudSheetName)
+    setSearchCloudsheet(cloudSheetName)
     search_CloudsheetByUserID(userId, cloudSheetName).then((response: any) => {
       console.log("searchResp=======", response)
       setCloudSheetList(response.data.spreadSheetsByUserID.items)
@@ -284,7 +287,7 @@ const ClousheetList = () => {
         <SearcBar
           placeholder={Clousheetlistscreen.cloudsheetlistconstant.SEARCH_SHEETS}
           value={searchCloudsheet}
-          onChange={(text: string)=>searchCloudsheetByUserId(text)}
+          onChange={(text: string) => searchCloudsheetByUserId(text)}
         />
       </View>
       <View style={styles.recentcloudview}>

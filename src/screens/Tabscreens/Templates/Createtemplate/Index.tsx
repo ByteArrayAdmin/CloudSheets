@@ -31,7 +31,8 @@ import uuid from 'react-native-uuid';
 import moment from 'moment';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
-
+import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event } from '../../../../eventTracking/index';
+import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../../utils/Constant';
 const CreateTemplate = () => {
   // --------- File States -----------
   const child = useRef();
@@ -48,6 +49,7 @@ const CreateTemplate = () => {
   const [loader, setLoader] = useState(false)
   useEffect(() => {
     getUserId()
+    track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN)
   }, [])
 
   // -----------------Get Curent userId----------------
@@ -66,6 +68,7 @@ const CreateTemplate = () => {
     setIsEditTemplate(false)
     setSelectedTemplate(null)
     setError("")
+    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_CREATE_TEMPLATE_MODAL)
     child.current.childFunction1();
   };
 
@@ -106,6 +109,7 @@ const CreateTemplate = () => {
     if (templateName == "" || templateName == undefined) {
       setError(labels.TabBarTemplateList.TemplateErr)
     } else {
+      track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_CREATE_TEMPLATE)
       onCreateTemplate(templateName)
     }
   }
@@ -133,17 +137,19 @@ const CreateTemplate = () => {
       arr1.push(response.data.createTemplates)
       setTemplateList(arr1)
       child.current.childFunction2();
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.CREATE_TEMPLATE_SUCCESSFULLY)
       navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate, isFrom: "TemplateTab" });
       setExtraData(new Date())
     }).catch((err) => {
       setLoader(false)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.CREATE_TEMPLATE_ERROR)
       console.log("createTempErr=======", err)
     })
   }
 
   // -----------------Update Template functionality----------------
   const onUpdateTemplates = (templateName: any, templateId: any, version: any, softDeleted: boolean) => {
-
+    track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_UPDATE_TEMPLATE)
     let arr1 = templateList
     arr1.forEach(element => {
       if (element.id == templateId) {
@@ -166,20 +172,23 @@ const CreateTemplate = () => {
     update_Template(updateTemplate).then((response: any) => {
       setLoader(false)
       console.log("updateTemplate========", response)
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.UPDATE_TEMPLATE_SUCCESSFULLY)
       navigation.navigate("CreatSpreadsheet", { template: response.data.updateTemplates, isEdit: isEditTemplate });
     }).catch((error) => {
       setLoader(false)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.UPDATE_TEMPLATE_ERROR)
       console.log("updateTempErr=======", error)
     })
   }
 
   // ----------- Delete Row Alert ------------
   const deleteAlert = () => {
+    track_Screen(eventName.TRACK_SCREEN, screenName.DELETE_TEMPLATE_ALERT)
     editTempRef.current.childFunction2();
     Alert.alert(labels.ExpensesList.Delete_Record_Alert, labels.ExpensesList.Delete_Quete, [
       {
         text: labels.ExpensesList.Cancel,
-        onPress: () => console.log('Cancel Pressed'),
+        onPress: () => { console.log('Cancel Pressed'), track_Click_Event(eventName.TRACK_CLICK, clickName.CANCEL_DELETE_TEMPLATE_ALERT) },
         style: 'cancel',
       },
       { text: labels.ExpensesList.OK, onPress: () => onDeleteTemplate() },
@@ -188,7 +197,7 @@ const CreateTemplate = () => {
 
   // -----------------Delete Template functionality----------------
   const onDeleteTemplate = () => {
-
+    track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_DELETE_TEMPLATE_ALERT)
     const deleteTemplate = {
       id: selectedTemplate.id,
       template_name: selectedTemplate.template_name,
@@ -211,9 +220,11 @@ const CreateTemplate = () => {
       setExtraData(new Date())
       setLoader(false)
       DeviceEventEmitter.emit('updateSpreadSheetList')
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.DELETE_TEMPLATE_SUCCESSULLY)
     }).catch((error) => {
       setLoader(false)
       console.log("getColErr======", error)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.DELETE_TEMPLATE_ERROR)
     })
   }
 
@@ -221,6 +232,7 @@ const CreateTemplate = () => {
   const onEditTemplate = () => {
     editTempRef.current.childFunction2()
     child.current.childFunction1();
+    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_EDIT_TEMPLATE)
     setIsEditTemplate(true)
   }
   const snapPoints = ["45%"];
@@ -241,7 +253,6 @@ const CreateTemplate = () => {
 
   const renderItems = ({ item }: any) => (
     <TouchableOpacity
-      //  onPress={() => navigation.navigate("ExpensesList")}
       onPress={() => onDoubleTab(item)}
     >
       <Card item={item} onEditTemplate={() => OpenPopup(item)} />
