@@ -20,7 +20,7 @@ import {
   softDelete_spreadSheet_and_rows,
   search_CloudsheetByUserID
 } from '../../../../API_Manager/index';
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute,CommonActions } from "@react-navigation/native";
 import CreateTemplatePopup from '../../../Popups/CreateTemplatePopup';
 import CreateCloudSheetNamePopup from '../../../Popups/CreateCloudSheetNamePopup/index';
 import Popup from "../../../Popups/TemplateEditPopup";
@@ -29,6 +29,7 @@ import moment from 'moment';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
 import { track_Screen } from '../../../../eventTracking/index';
 import { screenName, eventName } from '../../../../utils/Constant';
+import RegisterGuestUserPopup from '../../../Popups/RegisterGuestUserPopup';
 
 const ClousheetList = () => {
   // --------- File States ----------
@@ -50,6 +51,7 @@ const ClousheetList = () => {
   const [extraData, setExtraData] = useState(new Date())
   const [loader, setLoader] = useState(false)
   const [searchCloudsheet, setSearchCloudsheet] = useState('')
+  const [registerModalVisible, setRegisterModalVisible] = useState(false)
 
   // -------------- Initial Rendering ------------
   useEffect(() => {
@@ -70,6 +72,14 @@ const ClousheetList = () => {
     })
   }
 
+  // ------------ Register guest user flow ---------
+  const onClickRegister = () => {
+    setRegisterModalVisible(!registerModalVisible);
+    navigation.dispatch(CommonActions.reset({
+      routes: [
+        { name: 'Signupscreen' },]
+    }))
+  }
   // ----------- getCloudSheet Pull to refresh -----------
   const onRefreshList = () => {
     get_CloudsheetBy_UserID(userId)
@@ -113,6 +123,15 @@ const ClousheetList = () => {
     }
   }
 
+  // --------- Check Form validation -----------
+  const CheckValidation = (templateName: String) => {
+    if (templateName == "" || templateName == undefined) {
+      setError(Clousheetlistscreen.cloudsheetlistconstant.error)
+    } else {
+      onCreateTemplate(templateName)
+    }
+  }
+
   // ----------- Create Template ------------
   const onCreateTemplate = (templateName: String) => {
     console.log("templateName===========", templateName)
@@ -123,7 +142,8 @@ const ClousheetList = () => {
     const newTemplate = {
       id: newUniqueId,
       template_name: templateName,
-      userID: userId
+      userID: userId,
+      soft_Deleted: false
     }
     console.log("rowData======", newTemplate)
     setLoader(true)
@@ -140,8 +160,18 @@ const ClousheetList = () => {
 
   // ------------ Open select Template Type Popup ------------
   const Opensheet = () => {
-    ChildRef.current.childFunction1();
+    if (global.isLoggedInUser) {
+      ChildRef.current.childFunction1();
+    } else {
+      setRegisterModalVisible(!registerModalVisible);
+    }
+    
   };
+// ----------- Create New Template Popup -----------
+  const cancelCreateTemplate = ()=>{
+    setError('')
+    createTemplateRef.current.childFunction2();
+  }
 
   // ----------- Create New Template Popup -----------
   const openNewTemplate = () => {
@@ -176,7 +206,7 @@ const ClousheetList = () => {
   }
 
   // ----------- Update CloudSheet -------------
-  const onUpdateCloudSheet = (text: String, templateId: String, version: any, spreadSheetId: String, userId: String) => {
+  const onUpdateCloudSheet = (text: String, templateId: String, version: any, spreadSheetId: String, userId: String,softDeleted: boolean) => {
     let arr1 = cloudSheetList
     arr1.forEach(element => {
       if (element.id == spreadSheetId) {
@@ -192,7 +222,8 @@ const ClousheetList = () => {
       spreadsheet_name: text,
       templatesID: templateId,
       userID: userId,
-      _version: version
+      _version: version,
+      soft_Deleted: softDeleted
     }
     setLoader(true)
     update_SpreadSheet(newSpreadData).then((response) => {
@@ -321,9 +352,11 @@ const ClousheetList = () => {
           snapPoints={snapPoints}
           children={
             <CreateTemplatePopup
+            error={error}
+            OnCloseCreateTemplate={()=>cancelCreateTemplate()}
               isEditTemplate={isEditTemplate}
               selectedTemplate={null}
-              onCreateTemplate={(templateName: String) => onCreateTemplate(templateName)}
+              onCreateTemplate={(templateName: String) => CheckValidation(templateName)}
               onUpdateTemplate={(templateName: any, templateId: any, version: any) => { }}
             />}
         />
@@ -345,7 +378,7 @@ const ClousheetList = () => {
             error={error}
             selectedCloudSheet={selectedCloudSheet}
             isEditCloudSheetName={isEditCloudSheetName}
-            onUpdateCloudSheet={(text: String, templateId: String, version: any, spreadSheetId: String, userId: String) => onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId)}
+            onUpdateCloudSheet={(text: String, templateId: String, version: any, spreadSheetId: String, userId: String,softDeleted: boolean) => onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId,softDeleted)}
           // onCreateSpreadSheet={(SpreadSheetname: String) => spreadSheetValidation(SpreadSheetname)}
           />
           }
@@ -353,7 +386,6 @@ const ClousheetList = () => {
         <CommonBottomsheet
           snapPoints={editCloudSheetSnapPoint}
           ref={openthreeDotRef}
-
           children={<Popup
             selectedCloudSheet={selectedCloudSheet}
             onEditCloudSheet={() => openEditCloudSheet()}
@@ -362,6 +394,8 @@ const ClousheetList = () => {
           }
         />
       </View>
+      <RegisterGuestUserPopup visible={registerModalVisible} onClickRegister={() => onClickRegister()} toggleRegisterModal={() => setRegisterModalVisible(false)} />
+
       {loader ? <CommonLoader /> : null}
     </>
   );

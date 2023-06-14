@@ -85,6 +85,10 @@ export const columnTypeList = [
   },
 ]
 
+export const yesNoArray = [
+  "Yes","No"
+]
+
 export const screenName ={
   CLOUDSHEET_TAB_SCREEN:"cloudSheetTabScreen",
   HOME_TAB_SCREEN: "homeTabScreen",

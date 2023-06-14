@@ -4,7 +4,7 @@ import React, {
   useState,
   useEffect
 } from "react";
-import { View, SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { View, SafeAreaView, Text, TouchableOpacity, DeviceEventEmitter } from "react-native";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../assets/Images/smalllogo.svg";
 import { welcomscreenstyle } from "./style";
@@ -14,18 +14,21 @@ import welocmehomelabel from "../../../utils/ProjectLabels.json";
 import GuestModel from "../../../Bottomsheet/BottomsheetLayout";
 import { BottomSheet } from "react-native-btr";
 import Exclaimationlogo from "../../../assets/Images/exclaimationlogo.svg";
-import modelLabels from "../../../utils/ProjectLabels.json";
-import { Tempatestyle } from "../Templates/Createtemplate/Style";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
-import { current_UserInfo } from '../../../API_Manager/index';
+import { current_UserInfo, create_Template } from '../../../API_Manager/index';
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import { track_Screen } from '../../../eventTracking/index';
-import {eventName,screenName} from '../../../utils/Constant';
+import { eventName, screenName } from '../../../utils/Constant';
+import RegisterGuestUserPopup from '../../Popups/RegisterGuestUserPopup';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Homescreen = (props: any) => {
 
   const childRef = useRef(null);
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
+  const [registerModalVisible, setRegisterModalVisible] = useState(false);
+  const [isGolbal, setIsGlobal] = useState(false)
 
   // --------- Initial Rendering --------
   useEffect(() => {
@@ -35,11 +38,12 @@ const Homescreen = (props: any) => {
   }, [])
 
   // ---------- Get Current userId ---------
-  const currentuser = () => {
+  const currentuser = async () => {
     current_UserInfo().then((response: any) => {
       console.log("currUser=====", response)
       if (response) {
         global.isLoggedInUser = true
+        syncDate(response.attributes.sub)
       } else {
         global.isLoggedInUser = false
       }
@@ -48,19 +52,43 @@ const Homescreen = (props: any) => {
     })
   }
 
+  // ---------- sync guestUser Template to logInUser ---------
+  const syncDate = async (userId: string) => {
+    await AsyncStorage.getItem(welocmehomelabel.TabBarTemplateList.guestUserTemplateList).then((response: any) => {
+      if (response != null) {
+        let dataParse = JSON.parse(response)
+        const newTemplate = {
+          id: dataParse[0].id,
+          template_name: dataParse[0].template_name,
+          userID: userId,
+          soft_Deleted: false
+        }
+        create_Template(newTemplate).then(async (response) => {
+          console.log('syncDataResp========', response)
+          await AsyncStorage.removeItem(welocmehomelabel.TabBarTemplateList.guestUserTemplateList)
+        }).catch((error) => {
+          console.log("syncDataError======", error)
+        })
+      }
+    })
+  }
+
   // ------------- Guest user Popup ------------
-  const toggleBottomNavigationView = () => {
+  const onCreateCloudsheet = () => {
     //Toggling the visibility state of the bottom sheet
     if (global.isLoggedInUser) {
-
+      global.IsFromHome = true
+      DeviceEventEmitter.emit('openCreateTemplate')
+      navigation.navigate('TemplatesTab')
+      
     } else {
-      setVisible(!visible);
+      setRegisterModalVisible(!registerModalVisible);
     }
   };
 
   // ------------ Register guest user flow ---------
   const onClickRegister = () => {
-    setVisible(!visible);
+    setRegisterModalVisible(!registerModalVisible);
     navigation.dispatch(CommonActions.reset({
       routes: [
         { name: 'Signupscreen' },]
@@ -70,7 +98,6 @@ const Homescreen = (props: any) => {
   return (
     <>
       <BackgroundLayout />
-
       <SafeAreaView style={{ flex: 1 }}>
         <View style={welcomscreenstyle.container}>
           <View style={welcomscreenstyle.logoview}>
@@ -110,42 +137,14 @@ const Homescreen = (props: any) => {
                   </View>
                   <Custombutton
                     Register={welocmehomelabel.HomeWelcomeScreen.buttontext}
-                    onPress={() => toggleBottomNavigationView()}
+                    onPress={() => onCreateCloudsheet()}
                   />
-
-                  <BottomSheet
-                    style={Tempatestyle.Bottomsheetview}
-                    visible={visible}
-                    onBackButtonPress={toggleBottomNavigationView}
-                    onBackdropPress={toggleBottomNavigationView}
-                  >
-                    <View style={welcomscreenstyle.bottomNavigationView}>
-                      <View style={welcomscreenstyle.subconatiner}>
-                        <View style={{ marginTop: 30 }}>
-                          <Exclaimationlogo />
-                        </View>
-                        <View>
-                          <Text style={welcomscreenstyle.Textguest}>
-                            {modelLabels.Guestbottomsheet.YOUAREAGUEST}
-                          </Text>
-                        </View>
-                        <View>
-                          <Text style={welcomscreenstyle.regitercontinuetext}>
-                            {modelLabels.Guestbottomsheet.REGISTERTOCONTINUE}
-                          </Text>
-                        </View>
-                      </View>
-                      <Custombutton
-                        Register={modelLabels.Guestbottomsheet.Registernow}
-                        onPress={() => onClickRegister()}
-                      />
-                    </View>
-                  </BottomSheet>
                 </>
               }
             />
           </View>
         </View>
+        <RegisterGuestUserPopup visible={registerModalVisible} onClickRegister={() => onClickRegister()} toggleRegisterModal={() => setRegisterModalVisible(false)} />
         <CommonBottomsheet ref={childRef} />
       </SafeAreaView>
     </>

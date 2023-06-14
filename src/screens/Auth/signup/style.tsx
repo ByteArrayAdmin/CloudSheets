@@ -131,4 +131,27 @@ export const styles = StyleSheet.create({
     marginTop: 60,
     justifyContent: "center",
   },
+  dropdown1BtnTxtStyle: {
+    textAlign: "left",
+    paddingLeft: 1,
+    fontSize: 12,
+    color: COLOURS.black,
+    opacity: 0.3
+  },
+  dropdowmstyle: {
+    marginTop: 0,
+    backgroundColor: COLOURS.offwhite,
+    borderRadius: 10,
+    height: 160
+  },
+  rowStyle: {
+    marginHorizontal: 5,
+    marginVertical: 8,
+    height: 40
+  },
+  rowTextStyle: {
+    fontWeight: 'bold',
+    textAlign: 'left',
+    fontSize: 18, paddingLeft: 6
+  },
 });
