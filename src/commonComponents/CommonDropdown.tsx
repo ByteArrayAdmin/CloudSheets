@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import Dropdowsideicon from "../assets/Images/dropdown.svg";
 import { Controller } from "react-hook-form";
@@ -9,22 +9,29 @@ import {
 } from "react-native";
 import { COLOURS } from "../utils/Constant";
 const Dropdown = (props: any) => {
+
+  useEffect(()=>{
+    console.log("DefaultValue=========",props.defaultValue)
+  }, [])
+  
   return (
     <>
       <Controller
         control={props.control}
         name={props.name}
         rules={props.rules}
+        
         render={({
-          field: { value, onChange, onBlur },
+          field ,
           fieldState: { error },
         }) => (
+          console.log('onChnage=======',onChange),
           <>
             <SelectDropdown
               data={props.countries}
-              value={value}
-              onSelect={onChange}
-              onBlur={onBlur}
+              value={field.value}
+              onSelect={field.onChange}
+              onBlur={field.onBlur}
               buttonStyle={Styles.buttonstyle}
               renderDropdownIcon={(isOpened) => {
                 return isOpened ? <Dropdowsideicon /> : <Dropdowsideicon />;

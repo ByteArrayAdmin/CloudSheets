@@ -44,6 +44,7 @@ const Attendancelist = () => {
   // ---------- Initial Rendering ---------
   useEffect(() => {
     console.log("spreadsheet========", route?.params?.spreadSheet)
+    console.log("isFrom===========",route?.params?.isFrom)
     getSpreadsheetBySpreadsheetId(route?.params?.spreadSheet?.id)
     track_Screen(eventName.TRACK_SCREEN,screenName.SPREADSHEET_ROW_LIST_SCREEN)
   }, [])
@@ -69,6 +70,7 @@ const Attendancelist = () => {
   // --------- Open Edit Record Popup --------
   const openEditRecordPopup = (spreadSheetRow: any) => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_SPREADSHEET_ROW_ACTION_MODAL)
+    console.log("SeletcedRow=======",spreadSheetRow)
     setSelectedRow(spreadSheetRow)
     child.current.childFunction1();
   }
@@ -78,9 +80,9 @@ const Attendancelist = () => {
     track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_EDIT_SPREADSHEET_ROW)
     child.current.childFunction2();
 
-    console.log("spreadSheetRow======", selectedRow)
-    console.log("spreadSheet======", spreadSheet)
-    navigation.navigate("RowdetailForm", { spreadSheetRow: selectedRow, spreadSheet: spreadSheet, isEdit: true, isFrom: isFrom })
+    console.log("spreadSheetRow======", selectedRow);
+    console.log("spreadSheet======", spreadSheet);
+    navigation.navigate("RowdetailForm", { spreadSheetRow:selectedRow, spreadSheet:spreadSheet, isEdit:true, isFrom:isFrom })
   }
 
   // ----------- Delete Row Alert ------------

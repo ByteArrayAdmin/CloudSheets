@@ -15,7 +15,7 @@ import Custombutton from "../../../../commonComponents/Button";
 import CreateTemplatescreen from "../../../../utils/ProjectLabels.json";
 import Templatelogo from "../../../../assets/Images/Templatelogo.svg";
 import { Tempatestyle } from "./Style";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, CommonActions, useRoute } from "@react-navigation/native";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreateTemplatePopup from "./../../../Popups/CreateTemplatePopup";
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
@@ -33,11 +33,14 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
 import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event } from '../../../../eventTracking/index';
 import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../../utils/Constant';
+import RegisterGuestUserPopup from '../../../Popups/RegisterGuestUserPopup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const CreateTemplate = () => {
   // --------- File States -----------
   const child = useRef();
   const editTempRef = useRef();
   const navigation = useNavigation();
+  const route = useRoute();
   const [userId, setUserId] = useState('')
   const [templateList, setTemplateList] = useState([])
   const [selectedTemplate, setSelectedTemplate] = useState({})
@@ -47,10 +50,73 @@ const CreateTemplate = () => {
   const [count, setCount] = useState(1)
   const [error, setError] = useState("")
   const [loader, setLoader] = useState(false)
+  const [registerModalVisible, setRegisterModalVisible] = useState(false)
+  const [isGlobal, setIsGlobal] = useState(false)
   useEffect(() => {
+    DeviceEventEmitter.addListener('openCreateTemplate', () => openCreateTemplatePopup())
+    if (global.isLoggedInUser) {
     getUserId()
     track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN)
+    }else{
+      getGuestUserTemplates()
+    }
+    
+    console.log('isFrom========',route.params?.isFrom)
   }, [])
+
+  useEffect(()=>{
+    console.log("isGlobal=======",global.IsFromHome)
+    if(global.IsFromHome == true){
+      
+      child.current.childFunction1();
+      setIsGlobal(true)
+      global.IsFromHome = false
+    }else{
+      setIsGlobal(false)
+    }
+
+    return () => {
+      // This function will be executed when the component unmounts
+      console.log('Component unmounted');
+      global.IsFromHome = false
+      setIsGlobal(false)
+    };
+    
+  }, [global.IsFromHome,isGlobal])
+
+  const openCreateTemplatePopup = ()=>{
+    child.current.childFunction1();
+  }
+
+  // --------- Get Guest user Template List --------
+  const getGuestUserTemplates = async()=>{
+    
+    await AsyncStorage.getItem(labels.TabBarTemplateList.guestUserTemplateList).then((response: any)=>{
+      console.log("guestTemp==========",response)
+      if(response != null){
+        let parseTemplate = JSON.parse(response)
+      setTemplateList(parseTemplate)
+      }
+    })
+  }
+
+  //  --------- update Guest Template ------------
+
+  const updateGuestTemplate = async(templateName: string)=>{
+    let arr1 = []
+    const newTemplate = {
+      id: selectedTemplate.id,
+      template_name: templateName,
+      userID: userId,
+      soft_Deleted: false
+    }
+    arr1.push(newTemplate)
+    await AsyncStorage.setItem(labels.TabBarTemplateList.guestUserTemplateList,JSON.stringify(arr1))
+     
+     setTemplateList(arr1)
+     setExtraData(new Date())
+     child.current.childFunction2();
+  }
 
   // -----------------Get Curent userId----------------
   const getUserId = () => {
@@ -62,15 +128,38 @@ const CreateTemplate = () => {
       console.log("currUserErr======", error)
     })
   }
+  // ------------ Register guest user flow ---------
+  const onClickRegister = () => {
+    setRegisterModalVisible(!registerModalVisible);
+    navigation.dispatch(CommonActions.reset({
+      routes: [
+        { name: 'Signupscreen' },]
+    }))
+  }
 
   // ------------ Select Create Template Popup --------
   const toggleBottomNavigationView = () => {
     setIsEditTemplate(false)
     setSelectedTemplate(null)
     setError("")
-    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_CREATE_TEMPLATE_MODAL)
-    child.current.childFunction1();
+    track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_CREATE_TEMPLATE_MODAL)
+    if (global.isLoggedInUser) {
+      child.current.childFunction1();
+    } else {
+      if (templateList.length > 0) {
+        setRegisterModalVisible(true)
+      } else {
+        child.current.childFunction1();
+      }
+    }
+
   };
+
+  // ----------- Create New Template Popup -----------
+  const cancelCreateTemplate = ()=>{
+    setError('')
+    child.current.childFunction2();
+  }
 
   // ----------- Open Create Template popup ----------
   const OpenPopup = (item: any) => {
@@ -115,7 +204,7 @@ const CreateTemplate = () => {
   }
 
   // -----------------Create Template functionality----------------
-  const onCreateTemplate = (templateName: String) => {
+  const onCreateTemplate = async (templateName: String) => {
     let arr1 = templateList
     let newTemp
     console.log("templateName===========", templateName)
@@ -130,21 +219,31 @@ const CreateTemplate = () => {
       soft_Deleted: false
     }
     console.log("rowData======", newTemplate)
-    setLoader(true)
-    create_Template(newTemplate).then((response: any) => {
-      console.log("createTempResp=======", response)
-      setLoader(false)
-      arr1.push(response.data.createTemplates)
-      setTemplateList(arr1)
-      child.current.childFunction2();
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.CREATE_TEMPLATE_SUCCESSFULLY)
-      navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate, isFrom: "TemplateTab" });
+    if (global.isLoggedInUser) {
+      setLoader(true)
+      create_Template(newTemplate).then((response: any) => {
+        console.log("createTempResp=======", response)
+        setLoader(false)
+        arr1.push(response.data.createTemplates)
+        setTemplateList(arr1)
+        child.current.childFunction2();
+        track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.CREATE_TEMPLATE_SUCCESSFULLY)
+        navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate, isFrom: "TemplateTab" });
+        setExtraData(new Date())
+      }).catch((err) => {
+        setLoader(false)
+        track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.CREATE_TEMPLATE_ERROR)
+        console.log("createTempErr=======", err)
+      })
+    } else {
+      let guestArr = []
+      guestArr.push(newTemplate)
+      await AsyncStorage.setItem(labels.TabBarTemplateList.guestUserTemplateList,JSON.stringify(guestArr))
+      setTemplateList(guestArr)
       setExtraData(new Date())
-    }).catch((err) => {
-      setLoader(false)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.CREATE_TEMPLATE_ERROR)
-      console.log("createTempErr=======", err)
-    })
+      child.current.childFunction2();
+    }
+
   }
 
   // -----------------Update Template functionality----------------
@@ -191,8 +290,15 @@ const CreateTemplate = () => {
         onPress: () => { console.log('Cancel Pressed'), track_Click_Event(eventName.TRACK_CLICK, clickName.CANCEL_DELETE_TEMPLATE_ALERT) },
         style: 'cancel',
       },
-      { text: labels.ExpensesList.OK, onPress: () => onDeleteTemplate() },
+      { text: labels.ExpensesList.OK, onPress: () =>global.isLoggedInUser? onDeleteTemplate():deleteGuestTemplate() },
     ]);
+  }
+
+  // ------------- Delete guestTemplate -----------
+  const deleteGuestTemplate = async() =>{
+    await AsyncStorage.removeItem(labels.TabBarTemplateList.guestUserTemplateList)
+    setTemplateList([])
+    setExtraData(new Date())
   }
 
   // -----------------Delete Template functionality----------------
@@ -205,6 +311,7 @@ const CreateTemplate = () => {
       _version: selectedTemplate._version,
       soft_Deleted: true
     }
+    console.log("deleteTemplate=======", deleteTemplate)
     setLoader(true)
     soft_delete_template(deleteTemplate).then((response: any) => {
       console.log("colId=======", response)
@@ -353,10 +460,11 @@ const CreateTemplate = () => {
         children={
           <CreateTemplatePopup
             error={error}
+            OnCloseCreateTemplate={()=>cancelCreateTemplate()}
             isEditTemplate={isEditTemplate}
             selectedTemplate={selectedTemplate}
             onCreateTemplate={(templateName: String) => CheckValidation(templateName)}
-            onUpdateTemplate={(templateName: any, templateId: any, version: any, softDeleted: boolean) => onUpdateTemplates(templateName, templateId, version, softDeleted)}
+            onUpdateTemplate={(templateName: any, templateId: any, version: any, softDeleted: boolean) =>global.isLoggedInUser? onUpdateTemplates(templateName, templateId, version, softDeleted): updateGuestTemplate(templateName)}
           />}
       />
       <View>
@@ -370,6 +478,7 @@ const CreateTemplate = () => {
           />
         } />
       </View>
+      <RegisterGuestUserPopup visible={registerModalVisible} onClickRegister={() => onClickRegister()} toggleRegisterModal={() => setRegisterModalVisible(false)} />
       {loader ? <CommonLoader /> : null}
     </View>
 

@@ -43,9 +43,9 @@ const UserSection = () => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_SIGN_OUT)
     setLoader(true)
     try {
+      signOut_Event()
       await Auth.signOut();
       setLoader(false)
-      signOut_Event()
       navigation.dispatch(CommonActions.reset({
         routes: [
           { name: 'Login' },]

@@ -25,10 +25,6 @@ const CreateTemplatePopup = (props: any) => {
   const [version, setVersion] = useState()
   const [softDeleted,setSoftDeleted] = useState()
 
-  const CreatePress = () => {
-    child.current.childFunction2();
-    navigation.navigate("CreatSpreadsheet", { templateName: text });
-  };
   const OnClose = () => {
     if (props.isEditTemplate) {
       track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_UPDATE_TEMPLATE)
@@ -97,7 +93,7 @@ const CreateTemplatePopup = (props: any) => {
           <View>
             <SmallButton
               buttontext={CreateTemplatescreen.TemBottomsheet.Cancel}
-              onPress={OnClose}
+              onPress={props.OnCloseCreateTemplate}
             />
           </View>
 
