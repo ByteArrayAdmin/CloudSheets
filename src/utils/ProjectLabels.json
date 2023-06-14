@@ -338,5 +338,24 @@
     "TextSecond":"permanently deleted along with the data?",
     "Delete":"Delete",
     "Cancel":"Cancel"
-  }
+  },
+
+  "PasswordInstruction":{
+    "creatingaPasswordPolicy":"Creating a password policy",
+    "A": "A",
+    "passwordMinimumLenght":"Password minimum length",
+    "descriptionPoints":"of at least six characters and at most 99 characters. This is the shortest password you want your users to be able to set. Amazon Cognito passwords can be up to 256 characters in length.",
+    "secondDiscription":"Your users must create a password that",
+    "containsAtleastOne": "Contains atleast one",
+    "nextParaSecondLine":"of the following types of character.",
+    "number":"Number",
+    "specialCharacter":"Special character",
+    "speacialCharacterPara":"from the following set. A non-leading, non-trailing space character is also treated as a special character.",
+    "characters":"^ $ * . [ ] { } ( ) ? ! @ # % & / \", > < ' : ; | _ ~ ` = + -",
+    "upperCase":"Uppercase",
+    "basicLatin":"Basic Latin",
+    "letter":"letter",
+    "loweCase":"Lowercase"
+    
+}
 }
