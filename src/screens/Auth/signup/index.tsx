@@ -31,6 +31,7 @@ import { eventName, screenName, clickName, successActionName, errorActionName } 
 import Geolocation from '@react-native-community/geolocation';
 import CommonBottomsheet from '../../../commonComponents/CommonBottomsheet';
 import PasswordInstruction from '../../Popups/PasswordInstruction/index';
+import Instucticon from '../../../assets/Images/instruction.svg';
 //Aws configiuration code commented for now
 Amplify.configure(awsconfig);
 
@@ -184,22 +185,6 @@ const Signup = () => {
 
   const isUserNameAlreadyExist = async() => {
     setIsUserExist(false);
-<<<<<<< HEAD
-    const temp_code = '000000';
-    console.log("userName=======", userName)
-    
-    userExist(userName, temp_code).then((response) => {
-      console.log("checkIsExist========", response)
-    }).catch((err) => {
-      console.log("error=======",err)
-      if (
-        err.code === 'CodeMismatchException' ||
-        err.code === 'AliasExistsException'
-      ) {
-        setIsUserExist(true);
-      }
-    })
-=======
     const temp_code = "000000";
     console.log("userName=======", userName);
     userExist(userName, temp_code)
@@ -248,7 +233,6 @@ const Signup = () => {
 
   const Opensheet = () => {
     ChildRef.current.childFunction1();
->>>>>>> 16df5344c9206f257044a3e24a481b71aab51e7f
   };
 
   return (
