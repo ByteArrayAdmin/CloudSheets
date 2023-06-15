@@ -35,7 +35,11 @@ const InputField = (props: any) => {
                   value={value}
                   pointerEvents={props.pointerEvents}
                   onChangeText={(text) => {
-                    onChange(text);
+                    onChange(text),
+                    props.customPassword?
+                      props.onChangeCustom(text):null
+                    
+                    
                   }}
                   onChange={props.onChangePassword}
                   editable={props.isEditable}

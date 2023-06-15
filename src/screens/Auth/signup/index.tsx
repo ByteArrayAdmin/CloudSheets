@@ -1,5 +1,4 @@
 /* eslint-disable react-native/no-inline-styles */
-
 import React, { useEffect, useState, useRef } from "react";
 import {
   SafeAreaView,
@@ -35,10 +34,9 @@ import CommonLoader from "../../../commonComponents/CommonLoader";
 import Instucticon from "../../../assets/Images/instruction.svg";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import PasswordInstruction from "../../Popups/PasswordInstruction/index";
-
 //Aws configiuration code commented for now
-
 Amplify.configure(awsconfig);
+
 const Signup = () => {
   const {
     control,
@@ -119,21 +117,23 @@ const Signup = () => {
       });
   };
 
-  const validatePassword = () => {
-    if (!Password) {
+  const validatePassword = (passwordOnChange: string) => {
+    console.log('updatePass======', passwordOnChange)
+    const passwordRegex = /^.{6,}$/;
+    const passwordPatternRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/
+    if (!passwordOnChange) {
       setError("password", {
         type: "required",
         message: "Password is required",
       });
       setPasswordPolicy(true);
-    } else if (Password.length < 6) {
-      console.log("Passworc ")
+    } else if (!passwordRegex.test(passwordOnChange)) {
       setError("password", {
         type: "minLength",
-        message: "Password must be at least 6 characters long",
+        message: "Password must be at least 6 characters long.",
       });
       setPasswordPolicy(true);
-    } else if (!/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/.test(Password)) {
+    } else if (!passwordPatternRegex.test(passwordOnChange)) {
       setError("password", {
         type: "pattern",
         message:
@@ -144,7 +144,9 @@ const Signup = () => {
       setError("password", null); // Clear the error if validation passes
       setPasswordPolicy(false);
     }
+
   };
+
   const Opensheet = () => {
     ChildRef.current.childFunction1();
   };
@@ -258,17 +260,16 @@ const Signup = () => {
                           "Password must contain at least one number, one special character, and one uppercase letter.",
                       },
                     }}
+                    customPassword={true}
                     secureTextEntry={true}
                     styles={styles.inputview}
                     instructionIcon={Instucticon}
                     Opensheet={Opensheet}
                     passswordpolicy={passswordpolicy}
-                    onChangePassword={() => validatePassword()}
+                    onChangeCustom={(text: string) => validatePassword(text)}
                   />
                   <CommonButton
                     onPress={handleSubmit(onRegisterPressed)}
-                    // onPress={() => showAlert("shivam.infowind@gmail.com")}
-
                     Register={signupLabel.signupcontant.REGISTER}
                   />
                 </>
