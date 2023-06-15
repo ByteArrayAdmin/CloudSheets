@@ -100,7 +100,7 @@ const Signup = () => {
         setCurrentLongitude(currentLongitude);
         get_Location_Address(currentLatitude,currentLongitude).then((response: any)=>{
           console.log("responseLoc=======",response)
-          setLocation(response.results.components.country)
+          setLocation(response.results[0].components.country)
       }).catch((error)=>{
         console.log("locationError======",error)
       })
@@ -165,13 +165,15 @@ const Signup = () => {
       ],
     );
 
-  const isUserNameAlreadyExist = () => {
+  const isUserNameAlreadyExist = async() => {
     setIsUserExist(false);
     const temp_code = '000000';
     console.log("userName=======", userName)
+    
     userExist(userName, temp_code).then((response) => {
       console.log("checkIsExist========", response)
     }).catch((err) => {
+      console.log("error=======",err)
       if (
         err.code === 'CodeMismatchException' ||
         err.code === 'AliasExistsException'
