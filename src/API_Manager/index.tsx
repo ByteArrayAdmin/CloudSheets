@@ -359,7 +359,7 @@ export const getSpreadsheetRow_bySpreadsheetId_forSoftDelete = (spreadSheetId: a
                     eq: false
                 }
             };
-            const getSpreadsheet = await API.graphql(graphqlOperation(spreadSheetRowsBySpreadSheetID_SoftDelete, { spreadsheetID: spreadSheetId, filter: filter }))
+            const getSpreadsheet = await API.graphql(graphqlOperation(spreadSheetRowsBySpreadsheetID, { spreadsheetID: spreadSheetId, filter: filter }))
             resolve(getSpreadsheet);
         } catch (e) {
             reject(e);
@@ -377,11 +377,16 @@ export const soft_delete_template = async (template: any) => {
                     eq: false
                 }
             };
+            console.log("templatedDeleted1===========", template)
             // const getColumn = await API.graphql(graphqlOperation(templateColumnsByTemplatesID_SoftDelete, { templatesID: template.id, filter: filter }))
             // let columnList = getColumn.data.templateColumnsByTemplatesID.items
 
-            const getSpreadSheet = await API.graphql(graphqlOperation(spreadSheetsByTemplatesID_SoftDelete, { templatesID: template.id, filter: filter }))
+            const getSpreadSheet = await API.graphql(graphqlOperation(spreadSheetsByTemplatesID, { templatesID: template.id, filter: filter }))
+
+
             let spreadSheetList = getSpreadSheet.data.spreadSheetsByTemplatesID.items
+
+            console.log("spreadsheetList========", spreadSheetList)
 
             // const getSpreadSheetRow = await API.graphql(graphqlOperation(spreadSheetRowsByTemplatesID_SoftDelete, { templatesID: template.id, filter: filter }))
             // let spreadSheetRowList = getSpreadSheetRow.data.spreadSheetRowsByTemplatesID.items
@@ -476,4 +481,25 @@ export const search_CloudsheetByUserID = async (userId: string, cloudSheetName: 
             reject(e);
         }
     })
+}
+
+// -------------- Get Location by lat long -------------
+
+export const get_Location_Address = async (currentLatitude: any, currentLongitude: any) => {
+    console.log("currentPosition==========", currentLatitude, currentLongitude)
+    let newLat = parseInt(currentLatitude)
+    let newLong = parseInt(currentLongitude)
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    // return fetch(`https://api.opencagedata.com/geocode/v1/json?key=${'1f8e7aadef8a4509ab241e33602720b0'}&q=${22.7222948 + 75.8577413}&pretty=1&no_annotations=1`, requestOptions)
+    return fetch(`https://api.opencagedata.com/geocode/v1/json?key=1f8e7aadef8a4509ab241e33602720b0&q=${newLat}+${newLong}&pretty=1&no_annotations=1`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            return result
+        }).catch(error => {
+            return error
+        });
 }

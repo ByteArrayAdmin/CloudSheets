@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {
   View,
   ScrollView,
@@ -16,8 +16,15 @@ import Ic_customer from "../../../../../assets/Images/Ic_customer.svg";
 import Ic_messenger from "../../../../../assets/Images/Ic_messenger.svg";
 import Ic_sendMail from "../../../../../assets/Images/Ic_sendMail.svg";
 import Ic_rightArrow from "../../../../../assets/Images/Ic_rightArrow.svg";
+import { track_Screen } from '../../../../../eventTracking/index';
+import {eventName,screenName} from '../../../../../utils/Constant';
 const Customer_Support_Screen = () => {
   const navigation = useNavigation();
+
+  useEffect(()=>{
+    track_Screen(eventName.TRACK_SCREEN,screenName.CUSTOMER_SUPPORT_SCREEN)
+  }, [])
+
   return (
     <>
       <View style={styles.backgroundcolor}>

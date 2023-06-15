@@ -30,6 +30,8 @@ import Popup from "../../../Popups/TemplateEditPopup";
 import uuid from 'react-native-uuid';
 import moment from 'moment';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
+import { track_Click_Event, track_Error_Event, track_Screen, track_Success_Event } from '../../../../eventTracking/index';
+import {clickName, errorActionName, eventName,screenName, successActionName} from '../../../../utils/Constant';
 const TemplateList = () => {
   // ----------- File States -----------
   const navigation = useNavigation();
@@ -53,6 +55,7 @@ const TemplateList = () => {
     console.log("template======", route?.params?.template)
     get_SpreadsheetByTemplateID()
     getUserId()
+    track_Screen(eventName.TRACK_SCREEN,screenName.SPREADSHEET_LISTSCREEN)
   }, [])
 
   // -----------------Get Curent userId----------------
@@ -97,11 +100,17 @@ const TemplateList = () => {
 
   const openCreateCloudSheetModal = () => {
     setIsEditCloudSheetName(false)
+    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_CREATE_SPREADSHEET_MODAL)
     child.current.childFunction1();
   }
 
   // -------- Close SpreadSheet Modal --------
   const OnClose = () => {
+    if(isEditCloudSheetName){
+      track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_UPDATE_SPREADSHEET_MODAL)
+    }else{
+      track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_CREATE_SPREADSHEET_MODAL)
+    }
     child.current.childFunction2();
     setError("")
   }
@@ -118,6 +127,7 @@ const TemplateList = () => {
 
   // --------- Create Spreadsheet ----------
   const onCreateSpreadSheet = (spreadSheetName: String) => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_CREATE_SPREADSHEET)
     let uid = uuid.v1().toString()
     let timeStamp = moment().unix().toString()
     let newUniqueId = uid + "-" + timeStamp
@@ -125,7 +135,8 @@ const TemplateList = () => {
       id: newUniqueId,
       spreadsheet_name: spreadSheetName,
       templatesID: templateId,
-      userID: userId
+      userID: userId,
+      soft_Deleted: false
     }
     console.log("spreadSheetData=======", newSpreadData)
     let arr1 = spreadSheetList
@@ -135,9 +146,11 @@ const TemplateList = () => {
       setLoader(false)
       arr1.push(response.data.createSpreadSheet)
       setExtraData(new Date())
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.CREATE_SPREADSHEET_SUCCESSFULLY)
       DeviceEventEmitter.emit('updateSpreadSheetList')
     }).catch((error) => {
       setLoader(false)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.CREATE_SPREADSHEET_ERROR)
       console.log("spreadErr=====", error)
     })
     child.current.childFunction2();
@@ -145,19 +158,22 @@ const TemplateList = () => {
 
   // ----------- Open Edit CloudSheet Popup ----------
   const openEditCloudSheetPopup = (selectedCloudSheet: any) => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_SPREADSHEET_ACTION_MODAL)
     console.log("selectedCloudSheet=======", selectedCloudSheet)
     setSelectedCloudSheet(selectedCloudSheet)
     editCloudSheetRef.current.childFunction1();
   }
   // ----------- On Select Edit CloudSheet -----------
   const openEditCloudSheet = () => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_EDIT_SPREADSHEET_MODAL)
     setIsEditCloudSheetName(true)
     editCloudSheetRef.current.childFunction2();
     child.current.childFunction1();
   }
 
   // ----------- Update CloudSheet -------------
-  const onUpdateCloudSheet = (text: String, templateId: String, version: any, spreadSheetId: String, userId: String) => {
+  const onUpdateCloudSheet = (text: String, templateId: String, version: any, spreadSheetId: String, userId: String, softDeleted:boolean) => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_UPDATE_SPREADSHEET)
     let arr1 = spreadSheetList
     arr1.forEach(element => {
       if (element.id == spreadSheetId) {
@@ -173,25 +189,30 @@ const TemplateList = () => {
       spreadsheet_name: text,
       templatesID: templateId,
       userID: userId,
-      _version: version
+      _version: version,
+      soft_Deleted: softDeleted
     }
     setLoader(true)
     update_SpreadSheet(newSpreadData).then((response) => {
       setLoader(false)
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.UPDATE_SPREADSHEET_SUCCESSFULLY)
       console.log("updateResp=======", response)
     }).catch((error) => {
       setLoader(false)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.UPDATE_SPREADSHEET_ERROR)
       console.log("updateCloudSheetErr========", error)
     })
   }
 
   //--------- Cloudsheet delete Alert ---------
   const openCloudsheetDeleteAlert = () => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_DELETE_SPREADSHEET)
+    track_Screen(eventName.TRACK_SCREEN,screenName.DELETE_SPREADSHEET_ALERT)
     editCloudSheetRef.current.childFunction2();
     Alert.alert(labels.Templatelistlabel.DeleteAlert, labels.Templatelistlabel.Delete_Quete, [
       {
         text: labels.Templatelistlabel.Cancel,
-        onPress: () => console.log('Cancel Pressed'),
+        onPress: () => {console.log('Cancel Pressed'),track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_DELETE_SPREADSHEET)},
         style: 'cancel',
       },
       { text: labels.Templatelistlabel.OK, onPress: () => onDeleteCloudsheet() },
@@ -200,6 +221,7 @@ const TemplateList = () => {
 
   // ----------- Delete Cloudsheet ----------
   const onDeleteCloudsheet = () => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_DELETE_SPREADSHEET)
     let arr1 = spreadSheetList
     let index
     arr1.forEach(element => {
@@ -223,6 +245,7 @@ const TemplateList = () => {
       if (response) {
         getSpreadsheetRow_bySpreadsheetId_forSoftDelete(selectedCloudSheet.id).then((response: any) => {
           let spreadSheetRows = response.data.spreadSheetRowsBySpreadsheetID.items
+          track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.DELETE_SPREADSHEET_SUCCESSFULLY)
           if (spreadSheetRows.length > 0) {
             spreadSheetRows.forEach((element: any) => {
               element.soft_Deleted = true
@@ -243,6 +266,7 @@ const TemplateList = () => {
         })
       }
     }).catch((error) => {
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.DELETE_SPREADSHEET_ERROR)
       setLoader(false)
       console.log("softDelErr=======", error)
     })
@@ -286,7 +310,7 @@ const TemplateList = () => {
           error={error}
           selectedCloudSheet={selectedCloudSheet}
           isEditCloudSheetName={isEditCloudSheetName}
-          onUpdateCloudSheet={(text: String, templateId: String, version: any, spreadSheetId: String, userId: String) => onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId)}
+          onUpdateCloudSheet={(text: String, templateId: String, version: any, spreadSheetId: String, userId: String,softDeleted: boolean) => onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId,softDeleted)}
           onCreateSpreadSheet={(SpreadSheetname: String) => spreadSheetValidation(SpreadSheetname)}
         />
         }

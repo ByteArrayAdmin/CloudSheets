@@ -24,6 +24,8 @@ import ColumnCard from './ColumnCard';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
 import CommonBottomsheet from '../../../../commonComponents/CommonBottomsheet';
 import ColumnTypePopup from '../../../Popups/ColumnTypePopup';
+import { track_Screen ,track_Click_Event,track_Success_Event,track_Error_Event} from '../../../../eventTracking/index';
+import {eventName,screenName,clickName,successActionName,errorActionName} from '../../../../utils/Constant';
 const CreatSpreadsheet = () => {
   const navigation = useNavigation();
   const route = useRoute()
@@ -45,10 +47,13 @@ const CreatSpreadsheet = () => {
   useEffect(() => {
     console.log("templateName=======", route?.params?.template)
     console.log("isEdit=========", isEdit)
+    
     if (isEdit) {
       getExistingColumn()
+      track_Screen(eventName.TRACK_SCREEN,screenName.EDIT_COLUMN_SCREEN)
     } else {
       AddColoumn()
+      track_Screen(eventName.TRACK_SCREEN,screenName.ADD_COLUMN_SCREEN)
     }
   }, [])
 
@@ -111,9 +116,11 @@ const CreatSpreadsheet = () => {
     console.log("updateArrWithID===========", newArray)
     setLoader(true)
     create_Template_Column(newArray).then((response) => {
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.COLUMN_CREATE_SUCCESSFULLY)
       setLoader(false)
       console.log("createColmResponse=========", response)
     }).catch((error) => {
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.CREATE_COLUMN_ERROR)
       setLoader(false)
       console.log("createColmErr======", error)
     })
@@ -126,6 +133,7 @@ const CreatSpreadsheet = () => {
 
   // --------------Add Column functionality---------------
   const AddColoumn = () => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_ADD_COLUMN)
     const newIndex = Data.length;
     let uid = uuid.v1().toString()
     let timeStamp = moment().unix().toString()
@@ -135,10 +143,12 @@ const CreatSpreadsheet = () => {
 
   // --------------Remove Existing Column Alert---------------
   const removeColumnAlert = (item: any, index: any) => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_REMOVE_COLUMN_ALERT)
+    
     Alert.alert(labels.Creatcloudsheetlabels.Delete_Column, labels.Creatcloudsheetlabels.Delete_Warning, [
       {
         text: labels.Creatcloudsheetlabels.Cancel,
-        onPress: () => console.log('Cancel Pressed'),
+        onPress: () => {console.log('Cancel Pressed'),track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_CANCEL_REMOVE_COLUMN)},
         style: 'cancel',
       },
       { text: labels.Creatcloudsheetlabels.OK, onPress: () => removeColumn(item, index) },
@@ -147,6 +157,7 @@ const CreatSpreadsheet = () => {
 
   // --------------Remove Existing Column Functionality---------------
   const removeColumn = (item: any, index: any) => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_DELETE_REMOVE_COLUMN)
     console.log("removeCol=========", item, index)
     let arr1 = columnList
     arr1.splice(index, 1)
@@ -163,9 +174,11 @@ const CreatSpreadsheet = () => {
     setLoader(true)
     templateColumn_softDelete(updatedColm).then((response: any) => {
       console.log("removeColmResp=========", response)
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.DELETE_COLUMN_SUCCESSFULLY)
       setLoader(false)
     }).catch((error) => {
       setLoader(false)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.DELETE_COLUMN_ERROR)
       console.log("removeColmErr=======", error)
     })
   }

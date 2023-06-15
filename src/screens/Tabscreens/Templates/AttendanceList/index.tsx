@@ -14,15 +14,16 @@ import Document from "../../../../assets/Images/documentdark.svg";
 import label from "../../../../utils/ProjectLabels.json";
 import Searchbar from "../../../../commonComponents/Searchbar";
 import Attendancelistcard from "./Attendancelistcard";
-import { COLOURS, FONTS } from "../../../../utils/Constant";
+import { clickName, COLOURS, errorActionName, FONTS, successActionName } from "../../../../utils/Constant";
 import Fatlogo from "../../../../assets/Images/fatrows.svg";
 import { Styles } from "../RowDetailForm/style";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { get_SpreadSheetRowBySpreadSheetId ,spreadSheetRow_softDelete} from '../../../../API_Manager/index';
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
-import Edit_Delete_Cloudsheet from "../../../Popups/Edit_Delete_Cloudsheet/index";
 import EditSpreadsheetRecord from '../../../Popups/EditSpreadsheetRecord';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
+import { track_Click_Event, track_Error_Event, track_Screen, track_Success_Event } from '../../../../eventTracking/index';
+import {eventName,screenName} from '../../../../utils/Constant';
 const { height } = Dimensions.get("window");
 
 const Attendancelist = () => {
@@ -43,7 +44,9 @@ const Attendancelist = () => {
   // ---------- Initial Rendering ---------
   useEffect(() => {
     console.log("spreadsheet========", route?.params?.spreadSheet)
+    console.log("isFrom===========",route?.params?.isFrom)
     getSpreadsheetBySpreadsheetId(route?.params?.spreadSheet?.id)
+    track_Screen(eventName.TRACK_SCREEN,screenName.SPREADSHEET_ROW_LIST_SCREEN)
   }, [])
 
   // ----------- Pull to Refresh SpreadSheet Row ----------
@@ -66,26 +69,31 @@ const Attendancelist = () => {
 
   // --------- Open Edit Record Popup --------
   const openEditRecordPopup = (spreadSheetRow: any) => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_SPREADSHEET_ROW_ACTION_MODAL)
+    console.log("SeletcedRow=======",spreadSheetRow)
     setSelectedRow(spreadSheetRow)
     child.current.childFunction1();
   }
 
   // --------- onClick Edit Record --------
   const onEditRecord = () => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_EDIT_SPREADSHEET_ROW)
     child.current.childFunction2();
 
-    console.log("spreadSheetRow======", selectedRow)
-    console.log("spreadSheet======", spreadSheet)
-    navigation.navigate("RowdetailForm", { spreadSheetRow: selectedRow, spreadSheet: spreadSheet, isEdit: true, isFrom: isFrom })
+    console.log("spreadSheetRow======", selectedRow);
+    console.log("spreadSheet======", spreadSheet);
+    navigation.navigate("RowdetailForm", { spreadSheetRow:selectedRow, spreadSheet:spreadSheet, isEdit:true, isFrom:isFrom })
   }
 
   // ----------- Delete Row Alert ------------
   const deleteAlert = () => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_DELETE_SPREADSHEET_ROW)
+    track_Screen(eventName.TRACK_SCREEN,screenName.DELETE_SPREADSHEET_ROW_ALERT)
     child.current.childFunction2();
     Alert.alert(label.ExpensesList.Delete_Record_Alert, label.ExpensesList.Delete_Quete, [
       {
         text: label.ExpensesList.Cancel,
-        onPress: () => console.log('Cancel Pressed'),
+        onPress: () => {console.log('Cancel Pressed'),track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_CANCEL_DELETE_SPREADSHEET_ROW)},
         style: 'cancel',
       },
       { text: label.ExpensesList.OK, onPress: () => onDeleteRow() },
@@ -94,6 +102,7 @@ const Attendancelist = () => {
 
   // ------------ Delete Row ------------
   const onDeleteRow = () => {
+    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_DELETE_SPREADSHEET_ROW)
     console.log("selectedRow========", selectedRow)
     let arr1 = spreadSheetData
     let index
@@ -117,8 +126,10 @@ const Attendancelist = () => {
     setLoader(true)
     spreadSheetRow_softDelete(deleteRow).then((response: any)=>{
         console.log("softDeleteRowResp=========",response)
+        track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.DELETE_SPREADSHEET_ROW_SUCCESSFULLY)
         setLoader(false)
     }).catch((error)=>{
+      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.DELETE_SPREADSHEET_ROW_ERROR)
       setLoader(false)
       console.log("deleteRow=======",error)
     })

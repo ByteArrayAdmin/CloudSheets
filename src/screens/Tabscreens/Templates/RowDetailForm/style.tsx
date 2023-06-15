@@ -1,12 +1,7 @@
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import {
-    Text,
-    View,
-    TouchableOpacity,
     StyleSheet,
-    TextInput,
   } from "react-native";
-
 
 export const Styles = StyleSheet.create({
     container: {
@@ -18,7 +13,6 @@ export const Styles = StyleSheet.create({
       marginTop: 18,
       backgroundColor: COLOURS.white,
       borderRadius: 10,
-      borderWidth:1,
       paddingHorizontal: 15,
       paddingBottom:15
     },
@@ -73,8 +67,47 @@ export const Styles = StyleSheet.create({
       borderWidth:1
     },
     columnView:{
-      borderWidth: 1, 
       marginTop: 15 
-    }
-    
+    },
+    dropdown1BtnTxtStyle: {
+      textAlign: "left",
+      paddingLeft: 1,
+      fontSize: 12,
+      color: COLOURS.black,
+      opacity: 0.3
+    },
+    dropdowmstyle: {
+      marginTop: 0,
+      backgroundColor: COLOURS.offwhite,
+      borderRadius: 10,
+      height: 160
+    },
+    rowStyle: {
+      marginHorizontal: 5,
+      marginVertical: 8,
+      height: 40
+    },
+    rowTextStyle: {
+      fontWeight: 'bold',
+      textAlign: 'left',
+      fontSize: 18, paddingLeft: 6
+    },
+    buttonstyle: {
+      width: "100%",
+      borderRadius: 8,
+      backgroundColor: COLOURS.offwhite,
+    },
+    dropDownBtnTextStyle:{
+      textAlign: "left",
+    paddingLeft: 1,
+    fontSize: 12,
+    color: COLOURS.black,
+    opacity: 0.3
+    },
+    Textstyle: {
+      color: "red", marginLeft: 20
+    },
+    erroview: {
+      marginLeft: -16,
+    },
   });
