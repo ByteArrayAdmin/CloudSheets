@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import { SafeAreaView, Text, View, TouchableOpacity, Alert,Platform ,PermissionsAndroid} from 'react-native';
 import { styles } from './style';
 import InputField from '../../../commonComponents/InputField';
@@ -20,8 +20,8 @@ import { useNavigation } from "@react-navigation/native";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import signupLabel from "../../../utils/ProjectLabels.json";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
-import RedCorss from '../../../assets/Images/redcross.svg';
-import BlueTick from '../../../assets/Images/bluetick.svg';
+import RedCorss from "../../../assets/Images/redcross.svg";
+import BlueTick from "../../../assets/Images/bluetick.svg";
 import AuthCard from "../../../commonComponents/AuthCard";
 import labels from '../../../utils/ProjectLabels.json';
 import { userSignup, userExist,get_Location_Address } from '../../../API_Manager/index';
@@ -29,14 +29,31 @@ import CommonLoader from '../../../commonComponents/CommonLoader';
 import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event,signIn_Event, signUp_Event } from '../../../eventTracking/index';
 import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../utils/Constant';
 import Geolocation from '@react-native-community/geolocation';
+import CommonBottomsheet from '../../../commonComponents/CommonBottomsheet';
+import PasswordInstruction from '../../Popups/PasswordInstruction/index';
 //Aws configiuration code commented for now
-
 Amplify.configure(awsconfig);
+
 const Signup = () => {
-  const { control, handleSubmit, watch } = useForm();
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { isValid, errors },
+  } = useForm();
   const navigation = useNavigation();
-  const userName = watch('username');
+  const userName = watch("username");
+  const Password = watch("password");
   const [isUserExist, setIsUserExist] = useState(false);
+  const [passswordpolicy, setPasswordPolicy] = useState(false);
+  const ChildRef = useRef();
+  const snapPoints = ["60%"];
+  useEffect(() => {
+    console.log("username======", userName);
+    console.log("password====>", Password);
+    // justCheckPAsswordValidation()
+  }, [userName]);
   const [loader, setLoader] = useState(false)
   const [currentLongitude,setCurrentLongitude] = useState('...');
   const [currentLatitude,setCurrentLatitude] = useState('...');
@@ -127,7 +144,6 @@ const Signup = () => {
   const onRegisterPressed = async (data: any) => {
     track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_REGISTER)
     if (isUserExist) {
-
     } else {
       const { name, username, email, mobilenumber, password } = data;
       const userSignUp = {
@@ -159,26 +175,63 @@ const Signup = () => {
       labels.signupcontant.confirmEmailText,
       [
         {
-          text: 'Ok',
-          onPress: () => navigation.navigate("OtpScreen", { username: username }),
+          text: "Ok",
+          onPress: () =>
+            navigation.navigate("OtpScreen", { username: username }),
         },
-      ],
+      ]
     );
 
   const isUserNameAlreadyExist = () => {
     setIsUserExist(false);
-    const temp_code = '000000';
-    console.log("userName=======", userName)
-    userExist(userName, temp_code).then((response) => {
-      console.log("checkIsExist========", response)
-    }).catch((err) => {
-      if (
-        err.code === 'CodeMismatchException' ||
-        err.code === 'AliasExistsException'
-      ) {
-        setIsUserExist(true);
-      }
-    })
+    const temp_code = "000000";
+    console.log("userName=======", userName);
+    userExist(userName, temp_code)
+      .then((response) => {
+        console.log("checkIsExist========", response);
+      })
+      .catch((err) => {
+        if (
+          err.code === "CodeMismatchException" ||
+          err.code === "AliasExistsException"
+        ) {
+          setIsUserExist(true);
+        }
+      });
+  };
+
+  const validatePassword = (passwordOnChange: string) => {
+    console.log('updatePass======', passwordOnChange)
+    const passwordRegex = /^.{6,}$/;
+    const passwordPatternRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/
+    if (!passwordOnChange) {
+      setError("password", {
+        type: "required",
+        message: "Password is required",
+      });
+      setPasswordPolicy(true);
+    } else if (!passwordRegex.test(passwordOnChange)) {
+      setError("password", {
+        type: "minLength",
+        message: "Password must be at least 6 characters long.",
+      });
+      setPasswordPolicy(true);
+    } else if (!passwordPatternRegex.test(passwordOnChange)) {
+      setError("password", {
+        type: "pattern",
+        message:
+          "Password must contain at least one number, one special character, and one uppercase letter",
+      });
+      setPasswordPolicy(true);
+    } else {
+      setError("password", null); // Clear the error if validation passes
+      setPasswordPolicy(false);
+    }
+
+  };
+
+  const Opensheet = () => {
+    ChildRef.current.childFunction1();
   };
 
   return (
@@ -229,7 +282,9 @@ const Signup = () => {
                     value={userName}
                     isUserExist={isUserExist}
                     onBlur={isUserNameAlreadyExist}
-                    onChangeUser={(text: string) => console.log("onChangeText=========", text)}
+                    onChangeUser={(text: string) =>
+                      console.log("onChangeText=========", text)
+                    }
                     placeholder={signupLabel.signupcontant.PLACEHOLDER_USERNAME}
                     Image={Progfileicon}
                     ic_red={RedCorss}
@@ -277,14 +332,26 @@ const Signup = () => {
                     rules={{
                       required:
                         signupLabel.signupcontant.PASSWARD_VALIDATION_MSG,
+                      minLength: {
+                        value: 6, // Replace with your desired minimum length
+                        message: "Username must be at least 6 characters long.",
+                      },
+                      pattern: {
+                        value: /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/, // Regular expression pattern for at least one number, one special character, and one uppercase letter
+                        message:
+                          "Password must contain at least one number, one special character, and one uppercase letter.",
+                      },
                     }}
+                    customPassword={true}
                     secureTextEntry={true}
                     styles={styles.inputview}
+                    instructionIcon={Instucticon}
+                    Opensheet={Opensheet}
+                    passswordpolicy={passswordpolicy}
+                    onChangeCustom={(text: string) => validatePassword(text)}
                   />
                   <CommonButton
                     onPress={handleSubmit(onRegisterPressed)}
-                    // onPress={() => showAlert("shivam.infowind@gmail.com")}
-
                     Register={signupLabel.signupcontant.REGISTER}
                   />
                 </>
@@ -319,9 +386,7 @@ const Signup = () => {
               </View>
             </View> */}
 
-            <View
-              style={styles.BottomSpace}
-            >
+            <View style={styles.BottomSpace}>
               <View>
                 <Text style={styles.alreadyamember}>
                   {signupLabel.signupcontant.Bottomtext}
@@ -338,7 +403,12 @@ const Signup = () => {
             <View style={styles.BottomGap} />
           </View>
         </KeyboardAwareScrollView>
-        {loader?<CommonLoader/>:null}
+        {loader ? <CommonLoader /> : null}
+        <CommonBottomsheet
+          ref={ChildRef}
+          snapPoints={snapPoints}
+          children={<PasswordInstruction />}
+        />
       </SafeAreaView>
     </>
   );

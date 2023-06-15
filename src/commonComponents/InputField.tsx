@@ -1,11 +1,19 @@
 import React from "react";
-import { View, Image, TextInput, StyleSheet, Text } from "react-native";
+import {
+  View,
+  Image,
+  TextInput,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { Controller } from "react-hook-form";
 import { FONTS, COLOURS } from "../utils/Constant";
-import lables from '../utils/ProjectLabels.json';
+import lables from "../utils/ProjectLabels.json";
 
 const InputField = (props: any) => {
-  console.log("defaultValue========", props.defaultValue)
+  console.log("defaultValue========", props.defaultValue);
   return (
     <View>
       <Controller
@@ -26,7 +34,14 @@ const InputField = (props: any) => {
                 <TextInput
                   value={value}
                   pointerEvents={props.pointerEvents}
-                  onChangeText={onChange}
+                  onChangeText={(text) => {
+                    onChange(text),
+                    props.customPassword?
+                      props.onChangeCustom(text):null
+                    
+                    
+                  }}
+                  onChange={props.onChangePassword}
                   editable={props.isEditable}
                   onBlur={props.onBlur}
                   placeholder={props.placeholder}
@@ -43,21 +58,29 @@ const InputField = (props: any) => {
                 {props.value &&
                   (props.isUserExist ? <props.ic_red /> : <props.ic_blue />)}
               </View>
+              {props.passswordpolicy ? (
+                <TouchableOpacity onPress={props.Opensheet}>
+                  {props.instructionIcon && <props.instructionIcon />}
+                </TouchableOpacity>
+              ) : (
+                ""
+              )}
               {/* <View></View>
               <View></View> */}
             </View>
             {error && (
-              <Text style={styles.errortextstyle}>
-                {error.message || "Error"}
-              </Text>
+              <Text style={styles.errortextstyle}>{error.message}</Text>
             )}
           </>
-
         )}
       />
       <View>
         {props.value &&
-          (props.isUserExist ? <Text style={styles.errortextstyle}>{lables.signupcontant.userExist}</Text> : null)}
+          (props.isUserExist ? (
+            <Text style={styles.errortextstyle}>
+              {lables.signupcontant.userExist}
+            </Text>
+          ) : null)}
       </View>
     </View>
   );
@@ -77,16 +100,16 @@ const styles = StyleSheet.create({
     width: "75%",
   },
   imagepadding: {
-    paddingHorizontal: 9
+    paddingHorizontal: 9,
   },
   viewWidth: {
-    width: "75%"
+    width: "75%",
   },
   errortextstyle: {
     color: "red",
-    marginLeft: 20
+    marginLeft: 20,
   },
   placeholdercolour: {
-    color: COLOURS.black
+    color: COLOURS.black,
   },
 });
