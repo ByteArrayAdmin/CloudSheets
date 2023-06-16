@@ -152,6 +152,7 @@ const ClousheetList = () => {
       console.log("createTempResp=======", response)
       createTemplateRef.current.childFunction2();
       navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate, isFrom: "CloudSheetTab" });
+      DeviceEventEmitter.emit("refreshTemplateList")
     }).catch((err) => {
       setLoader(false)
       console.log("createTempErr=======", err)
@@ -175,6 +176,7 @@ const ClousheetList = () => {
 
   // ----------- Create New Template Popup -----------
   const openNewTemplate = () => {
+    setError('')
     ChildRef.current.childFunction2();
     createTemplateRef.current.childFunction1();
   }

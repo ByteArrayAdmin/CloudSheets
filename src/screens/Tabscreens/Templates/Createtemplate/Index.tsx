@@ -35,6 +35,7 @@ import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event
 import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../../utils/Constant';
 import RegisterGuestUserPopup from '../../../Popups/RegisterGuestUserPopup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const CreateTemplate = () => {
   // --------- File States -----------
   const child = useRef();
@@ -54,24 +55,23 @@ const CreateTemplate = () => {
   const [isGlobal, setIsGlobal] = useState(false)
   useEffect(() => {
     DeviceEventEmitter.addListener('openCreateTemplate', () => openCreateTemplatePopup())
+    DeviceEventEmitter.addListener('refreshTemplateList', () => getUserId())
     if (global.isLoggedInUser) {
-    getUserId()
-    track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN)
-    }else{
+      getUserId()
+      track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN)
+    } else {
       getGuestUserTemplates()
     }
-    
-    console.log('isFrom========',route.params?.isFrom)
+    console.log('isFrom========', route.params?.isFrom)
   }, [])
 
-  useEffect(()=>{
-    console.log("isGlobal=======",global.IsFromHome)
-    if(global.IsFromHome == true){
-      
+  useEffect(() => {
+    console.log("isGlobal=======", global.IsFromHome)
+    if (global.IsFromHome == true) {
       child.current.childFunction1();
       setIsGlobal(true)
       global.IsFromHome = false
-    }else{
+    } else {
       setIsGlobal(false)
     }
 
@@ -81,28 +81,27 @@ const CreateTemplate = () => {
       global.IsFromHome = false
       setIsGlobal(false)
     };
-    
-  }, [global.IsFromHome,isGlobal])
 
-  const openCreateTemplatePopup = ()=>{
+  }, [global.IsFromHome, isGlobal])
+
+  const openCreateTemplatePopup = () => {
     child.current.childFunction1();
   }
 
   // --------- Get Guest user Template List --------
-  const getGuestUserTemplates = async()=>{
-    
-    await AsyncStorage.getItem(labels.TabBarTemplateList.guestUserTemplateList).then((response: any)=>{
-      console.log("guestTemp==========",response)
-      if(response != null){
+  const getGuestUserTemplates = async () => {
+    await AsyncStorage.getItem(labels.TabBarTemplateList.guestUserTemplateList).then((response: any) => {
+      console.log("guestTemp==========", response)
+      if (response != null) {
         let parseTemplate = JSON.parse(response)
-      setTemplateList(parseTemplate)
+        setTemplateList(parseTemplate)
       }
     })
   }
 
   //  --------- update Guest Template ------------
 
-  const updateGuestTemplate = async(templateName: string)=>{
+  const updateGuestTemplate = async (templateName: string) => {
     let arr1 = []
     const newTemplate = {
       id: selectedTemplate.id,
@@ -111,11 +110,11 @@ const CreateTemplate = () => {
       soft_Deleted: false
     }
     arr1.push(newTemplate)
-    await AsyncStorage.setItem(labels.TabBarTemplateList.guestUserTemplateList,JSON.stringify(arr1))
-     
-     setTemplateList(arr1)
-     setExtraData(new Date())
-     child.current.childFunction2();
+    await AsyncStorage.setItem(labels.TabBarTemplateList.guestUserTemplateList, JSON.stringify(arr1))
+
+    setTemplateList(arr1)
+    setExtraData(new Date())
+    child.current.childFunction2();
   }
 
   // -----------------Get Curent userId----------------
@@ -156,7 +155,7 @@ const CreateTemplate = () => {
   };
 
   // ----------- Create New Template Popup -----------
-  const cancelCreateTemplate = ()=>{
+  const cancelCreateTemplate = () => {
     setError('')
     child.current.childFunction2();
   }
@@ -180,13 +179,8 @@ const CreateTemplate = () => {
     get_Template_List(userId).then((response: any) => {
       console.log("getTempResp=======", response)
       setLoader(false)
-      response.data.templatesByUserID.items.forEach(element => {
-        if (element._deleted != true) {
-          arr.push(element)
-        }
-      });
-      // setTemplateList(response.data.templatesByUserID.items)
-      setTemplateList(arr)
+      setTemplateList(response.data.templatesByUserID.items)
+
     }).catch((error) => {
       console.log("getTempErr======", error)
       setLoader(false)
@@ -238,12 +232,11 @@ const CreateTemplate = () => {
     } else {
       let guestArr = []
       guestArr.push(newTemplate)
-      await AsyncStorage.setItem(labels.TabBarTemplateList.guestUserTemplateList,JSON.stringify(guestArr))
+      await AsyncStorage.setItem(labels.TabBarTemplateList.guestUserTemplateList, JSON.stringify(guestArr))
       setTemplateList(guestArr)
       setExtraData(new Date())
       child.current.childFunction2();
     }
-
   }
 
   // -----------------Update Template functionality----------------
@@ -290,12 +283,12 @@ const CreateTemplate = () => {
         onPress: () => { console.log('Cancel Pressed'), track_Click_Event(eventName.TRACK_CLICK, clickName.CANCEL_DELETE_TEMPLATE_ALERT) },
         style: 'cancel',
       },
-      { text: labels.ExpensesList.OK, onPress: () =>global.isLoggedInUser? onDeleteTemplate():deleteGuestTemplate() },
+      { text: labels.ExpensesList.OK, onPress: () => global.isLoggedInUser ? onDeleteTemplate() : deleteGuestTemplate() },
     ]);
   }
 
   // ------------- Delete guestTemplate -----------
-  const deleteGuestTemplate = async() =>{
+  const deleteGuestTemplate = async () => {
     await AsyncStorage.removeItem(labels.TabBarTemplateList.guestUserTemplateList)
     setTemplateList([])
     setExtraData(new Date())
@@ -460,11 +453,11 @@ const CreateTemplate = () => {
         children={
           <CreateTemplatePopup
             error={error}
-            OnCloseCreateTemplate={()=>cancelCreateTemplate()}
+            OnCloseCreateTemplate={() => cancelCreateTemplate()}
             isEditTemplate={isEditTemplate}
             selectedTemplate={selectedTemplate}
             onCreateTemplate={(templateName: String) => CheckValidation(templateName)}
-            onUpdateTemplate={(templateName: any, templateId: any, version: any, softDeleted: boolean) =>global.isLoggedInUser? onUpdateTemplates(templateName, templateId, version, softDeleted): updateGuestTemplate(templateName)}
+            onUpdateTemplate={(templateName: any, templateId: any, version: any, softDeleted: boolean) => global.isLoggedInUser ? onUpdateTemplates(templateName, templateId, version, softDeleted) : updateGuestTemplate(templateName)}
           />}
       />
       <View>
