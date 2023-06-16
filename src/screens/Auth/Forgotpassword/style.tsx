@@ -23,6 +23,7 @@ flex:1
     fontSize: 14,
     color: COLOURS.white,
     opacity: 0.8,
+    textAlign:'center',
   },
   backtologinview: {
     justifyContent: 'center',

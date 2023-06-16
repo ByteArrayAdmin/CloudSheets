@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   registerdText: {
-    color: COLOURS.darkblue,
+    color: COLOURS.white,
     opacity: 0.8,
     paddingTop: 10,
     fontSize: 14,

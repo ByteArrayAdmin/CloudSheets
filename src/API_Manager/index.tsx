@@ -1,4 +1,4 @@
-import { Amplify, Auth, API, graphqlOperation, DataStore } from 'aws-amplify';
+import {  Auth, API, graphqlOperation } from 'aws-amplify';
 import {
     listUsers,
     getUser,
@@ -502,4 +502,28 @@ export const get_Location_Address = async (currentLatitude: any, currentLongitud
         }).catch(error => {
             return error
         });
+}
+
+// -------------- Forget Password --------------
+export const forgetPassword_sendEmail  = async(email: string)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            const sendEmail = await Auth.forgotPassword(email)
+            resolve(sendEmail);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+// ------------ forget password submit ----------
+export const forgetPassword_submit  = async(username: string,code:any,newPassword:any)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            const submitPassword = await Auth.forgotPasswordSubmit(username, code, newPassword)
+            resolve(submitPassword);
+        } catch (e) {
+            reject(e);
+        }
+    })
 }
