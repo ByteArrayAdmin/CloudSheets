@@ -38,7 +38,8 @@ export const COLOURS = {
  verydarkgrey: "#171717",
  darkblue:"#16213E",
  shadow_colour:"#000",
- cardBorder_lightBlue:"rgba(0, 97, 255, 0.5)"
+ cardBorder_lightBlue:"rgba(0, 97, 255, 0.5)",
+ inActiveTabColor: "#7C8BA6"
 };
 
 export const columnTypeList = [

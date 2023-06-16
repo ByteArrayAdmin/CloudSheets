@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet,ScrollView } from "react-native";
 import Label from "../../../utils/ProjectLabels.json";
 import { FONTS, COLOURS } from "../../../utils/Constant";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const PasswordInstruction = () => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View>
         <Text style={styles.passwordPolicyText}>
           {Label.PasswordInstruction.creatingaPasswordPolicy}
@@ -97,7 +97,7 @@ const PasswordInstruction = () => {
           {Label.PasswordInstruction.letter}
         </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
