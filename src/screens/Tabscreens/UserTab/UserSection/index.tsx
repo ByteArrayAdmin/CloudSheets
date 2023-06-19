@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Alert
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -37,6 +38,19 @@ const UserSection = () => {
   useEffect(() => {
     track_Screen(eventName.TRACK_SCREEN, screenName.USER_TAB_SCREEN)
   }, [])
+
+  // ----------- SignOut Alert -----------
+
+  const signOut_Alert = ()=>{
+    Alert.alert(labels.SubscriptionScreen.SIGNOUT_ALERT, labels.SubscriptionScreen.SIGNOUT_QUOTE, [
+      {
+        text: labels.SubscriptionScreen.CANCEL,
+        onPress: () => {console.log('Cancel Pressed')},
+        style: 'cancel',
+      },
+      { text: labels.SubscriptionScreen.OK, onPress: () => signOut() },
+    ]);
+  }
 
   // ------------ Signout Function ------------
   async function signOut() {
@@ -194,7 +208,7 @@ const UserSection = () => {
           <UseCard
             Logo={<Helplogo />}
             heading={labels.Guestscreen.Signout}
-            onPress={signOut}
+            onPress={()=>signOut_Alert()}
           />
           <View style={Styles.horizontallineview}>
             <View style={Styles.innerhoeizontaline} />

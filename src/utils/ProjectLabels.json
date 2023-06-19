@@ -267,7 +267,11 @@
     "Description_Required": "Description is required",
     "submit": "submit",
     "How_App_Work": "How app works?",
-    "FaqContent": "Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget."
+    "FaqContent": "Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget.",
+    "SIGNOUT_ALERT": "Signout",
+    "SIGNOUT_QUOTE":"Are you sure want to signout?",
+    "CANCEL":"Cancel",
+    "OK":"OK"
   },
   "EditProfile": {
     "Edit_Profile": "Edit Profile",
