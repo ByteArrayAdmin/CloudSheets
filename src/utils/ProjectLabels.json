@@ -12,7 +12,7 @@
     "EMAIL_VALIDATION": "This Field is Required",
     "INVALID_EMAIL": "This Field is Required",
     "PASSWAORD": "This Field is Required",
-    "SKIP":"Skip"
+    "SKIP": "Skip"
   },
   "signupcontant": {
     "SKIP": "skip",
@@ -34,16 +34,22 @@
     "OR": "OR",
     "Bottomtext": "Already a member?",
     "Sign in": "Sign In",
-    "userExist":"User already exist!",
-    "confirmEmailText":"A verification link is send on your email please confirm and login."
+    "userExist": "User already exist!",
+    "confirmEmailText": "A verification link is send on your email please confirm and login."
   },
   "Forgotpassword": {
     "FORGOTPASSWORD": "Forgot Password",
-    "FOGETPASSWORDSUBHEADING": "Enter your email address to retrieve your password",
+    "FOGETPASSWORDSUBHEADING": "Enter your email address to retrieve \n your password",
     "SUBMIT": "Submit",
     "BACKTOLOGIN": "Back to Login",
     "PLACEHOLDERTEXT": "your Email",
-    "EMAILREQUIRED": "This Field is Required"
+    "EMAILREQUIRED": "This Field is Required",
+    "OTP_REQUIRED": "OTP is required",
+    "ENTER_CODE": "Enter Code",
+    "ENTER_NEW_PASSWORD": "Enter New Password",
+    "CONFIRM_NEW_PASSWORD": "Confirm New Password",
+    "NEW_PASSWORD_REQUIRED": "New password is required",
+    "OTP_SEND_QUOTE": "OTP is send on your email please confirm and create new password."
   },
   "Resetpassword": {
     "RESETPASSWORD": "Reset Password?",
@@ -66,8 +72,8 @@
     "SHEETS": "Sheets",
     "WELCOMETO": "Welcome to",
     "Clodesheetcardtext": "CloudSheets",
-    "Cardtext": "Create your own customize sheet", 
-    "Cardtexttwo":"by tapping the button below.",
+    "Cardtext": "Create your own customize sheet",
+    "Cardtexttwo": "by tapping the button below.",
     "buttontext": "Create Cloud Sheet",
     "cartext": "At convallis tristique egestas tellus velit. Morbi nec pretium vel.At convallis tristique."
   },
@@ -80,10 +86,10 @@
     "VIEWALL": "View All",
     "JANUARY_ATTENDANCE": "January Attendance",
     "MONTHLY_EXPENSES": "Monthly Expenses (3)",
-    "Delete_Alert":"Delete Record",
-    "Delete_Quete":"Are you sure want to delete this record!",
-    "Cancel":"Cancel",
-    "OK":"OK",
+    "Delete_Alert": "Delete Record",
+    "Delete_Quete": "Are you sure want to delete this record!",
+    "Cancel": "Cancel",
+    "OK": "OK",
     "error": "This field is required!"
   },
   "Guestbottomsheet": {
@@ -100,40 +106,39 @@
   },
   "TemBottomsheet": {
     "NewTemplate": "New Template",
-    "EditTemplate":"Edit Template",
+    "EditTemplate": "Edit Template",
     "PleasenameyourTemplate": "Please name your Template",
     "TemplateName": "Template Name",
     "EnterTemplateName": "Enter Template Name",
     "Cancel": "Cancel",
     "Create": "Create",
-    "Update":"Update"
+    "Update": "Update"
   },
-  "CloudSheetNameConstants":{
-    "NewCloudSheet":"New CloudSheet",
-    "EditCloudSheet":"Edit CloudSheet",
+  "CloudSheetNameConstants": {
+    "NewCloudSheet": "New CloudSheet",
+    "EditCloudSheet": "Edit CloudSheet",
     "PleaseNameYourCloudSheet": "Please name your CloudSheet",
-    "CloudSheetName":"CloudSheet Name",
+    "CloudSheetName": "CloudSheet Name",
     "EnterCloudSheetName": "Enter CloudSheet Name",
-    "Cancel":"Cancel",
-    "Create":"Create",
-    "Update":"Update"
+    "Cancel": "Cancel",
+    "Create": "Create",
+    "Update": "Update"
   },
   "Creatcloudsheetlabels": {
     "ClassAttendance": "Class Attendance",
     "ColumnName": "Column Name",
     "PLACEHOLDERTEXT": "Enter Column Name",
-    "ColumnTypePlaceholder":"Select column type",
+    "ColumnTypePlaceholder": "Select column type",
     "ColumnType": "Column Type",
     "AddNewColumn": "Add New Column",
     "CreateSpreadsheet": "Create Spreadsheet",
     "Validationmsg": "This field is Required",
-    "Delete_Column":"Delete Column",
-    "Delete_Warning":"Are you sure want to delete this existing column?",
-    "Cancel":"Cancel",
-    "OK":"OK",
-    "Done":"Done",
-    "Update_Column":"Update Column"
-
+    "Delete_Column": "Delete Column",
+    "Delete_Warning": "Are you sure want to delete this existing column?",
+    "Cancel": "Cancel",
+    "OK": "OK",
+    "Done": "Done",
+    "Update_Column": "Update Column"
   },
   "AddrowClassattendance": {
     "ClassAttendance": "Class Attendance",
@@ -152,8 +157,8 @@
     "placeholderEnterSamples": "Enter Samples",
     "Submit": "Submit",
     "valodationmessage": "This Field is Required",
-    "Cancel":"Cancel",
-    "Update":"Update"
+    "Cancel": "Cancel",
+    "Update": "Update"
   },
   "Attendancelistlabels": {
     "JanuaryAttendance": "January  Attendance",
@@ -187,21 +192,20 @@
     "Ok": "Ok",
     "successfully_updated": "successfully updated"
   },
-
   "Templatelistlabel": {
     "Template": "Template",
     "Listtxt": "List of Cloudsheets",
     "ViewAll": "View All",
-    "CloudSheetError":"CloudSheet name is required!",
-    "DeleteAlert":"Delete Record",
-    "Delete_Quete":"Are you sure want to delete this record!",
-    "Cancel":"Cancel",
-    "OK":"OK"
+    "CloudSheetError": "CloudSheet name is required!",
+    "DeleteAlert": "Delete Record",
+    "Delete_Quete": "Are you sure want to delete this record!",
+    "Cancel": "Cancel",
+    "OK": "OK"
   },
   "TabBarTemplateList": {
     "Template": "Template",
-    "TemplateErr":"Template name is required!",
-    "guestUserTemplateList":"templateList"
+    "TemplateErr": "Template name is required!",
+    "guestUserTemplateList": "templateList"
   },
   "ExpensesList": {
     "JanuaryExpenses": "January Expenses",
@@ -210,15 +214,15 @@
     "ExpensesDate": "Expenses Date",
     "ExpensesType": "Expenses Type",
     "ExpensesAmount": "Expenses Amount",
-    "Edit_CloudSheet_Record":"Edit CloudSheet Record",
-    "Delete_CloudSheet_Record":"Delete CloudSheet Record",
-    "Delete_Record_Alert":"Delete Record",
-    "Delete_Quete":"Are you sure want to delete this record!",
-    "Cancel":"Cancel",
-    "OK":"OK"
+    "Edit_CloudSheet_Record": "Edit CloudSheet Record",
+    "Delete_CloudSheet_Record": "Delete CloudSheet Record",
+    "Delete_Record_Alert": "Delete Record",
+    "Delete_Quete": "Are you sure want to delete this record!",
+    "Cancel": "Cancel",
+    "OK": "OK"
   },
   "Guestscreen": {
-    "Profile":"Profile",
+    "Profile": "Profile",
     "MyAccount": "My Account",
     "Registertext": "Please Register to continue",
     "Account": "Account",
@@ -229,7 +233,7 @@
     "FAQ": "FAQ",
     "Help": "Help",
     "Password": "Password",
-    "Signout":"Signout"
+    "Signout": "Signout"
   },
   "SubscriptionScreen": {
     "MyAccount": "My Account",
@@ -292,16 +296,16 @@
     "SubCardetxt": "please rate us",
     "SendFeedback": "Send Feedback",
     "plceholdertext": "Enter review here..",
-    "RateNow":"Rate Now"
+    "RateNow": "Rate Now"
   },
-  "OTP_Constants":{
-    "EnterOtp":"Please enter OTP",
-    "OTP_Validation":"OTP is required",
-    "VerifyOTP":"Verify OTP",
-    "ResendOTP":"Resend OTP",
-    "ResendOTPSuccess":"code resent successfully",
-    "Confirmed":"Confirmed",
-    "Sixty_Sec":60
+  "OTP_Constants": {
+    "EnterOtp": "Please enter OTP",
+    "OTP_Validation": "OTP is required",
+    "VerifyOTP": "Verify OTP",
+    "ResendOTP": "Resend OTP",
+    "ResendOTPSuccess": "code resent successfully",
+    "Confirmed": "Confirmed",
+    "Sixty_Sec": 60
   },
   "CreateClousheetPopup": {
     "CreateCloudsheet": "Create Cloudsheet",
@@ -336,32 +340,30 @@
     "infotext": "You have completed free plan. Buy",
     "infotextsecond": "for more than 10 rows.",
     "SubscriptionPlan": "Subscription Plan",
-    "SubscribeNow":"Subscribe Now"
+    "SubscribeNow": "Subscribe Now"
   },
-  "DeleteAccountpopups":{
-    "Areyousure":"Are you sure?",
-    "TextFirst":"Do you want to delete the account will be ",
-    "TextSecond":"permanently deleted along with the data?",
-    "Delete":"Delete",
-    "Cancel":"Cancel"
+  "DeleteAccountpopups": {
+    "Areyousure": "Are you sure?",
+    "TextFirst": "Do you want to delete the account will be ",
+    "TextSecond": "permanently deleted along with the data?",
+    "Delete": "Delete",
+    "Cancel": "Cancel"
   },
-
-  "PasswordInstruction":{
-    "creatingaPasswordPolicy":"Creating a password policy",
+  "PasswordInstruction": {
+    "creatingaPasswordPolicy": "Creating a password policy",
     "A": "A",
-    "passwordMinimumLenght":"Password minimum length",
-    "descriptionPoints":"of at least six characters and at most 99 characters. This is the shortest password you want your users to be able to set. Amazon Cognito passwords can be up to 256 characters in length.",
-    "secondDiscription":"Your users must create a password that",
+    "passwordMinimumLenght": "Password minimum length",
+    "descriptionPoints": "of at least six characters and at most 99 characters. This is the shortest password you want your users to be able to set. Amazon Cognito passwords can be up to 256 characters in length.",
+    "secondDiscription": "Your users must create a password that",
     "containsAtleastOne": "Contains atleast one",
-    "nextParaSecondLine":"of the following types of character.",
-    "number":"Number",
-    "specialCharacter":"Special character",
-    "speacialCharacterPara":"from the following set. A non-leading, non-trailing space character is also treated as a special character.",
-    "characters":"^ $ * . [ ] { } ( ) ? ! @ # % & / \", > < ' : ; | _ ~ ` = + -",
-    "upperCase":"Uppercase",
-    "basicLatin":"Basic Latin",
-    "letter":"letter",
-    "loweCase":"Lowercase"
-    
-}
+    "nextParaSecondLine": "of the following types of character.",
+    "number": "Number",
+    "specialCharacter": "Special character",
+    "speacialCharacterPara": "from the following set. A non-leading, non-trailing space character is also treated as a special character.",
+    "characters": "^ $ * . [ ] { } ( ) ? ! @ # % & / \", > < ' : ; | _ ~ ` = + -",
+    "upperCase": "Uppercase",
+    "basicLatin": "Basic Latin",
+    "letter": "letter",
+    "loweCase": "Lowercase"
+  }
 }
