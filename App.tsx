@@ -8,6 +8,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {current_UserInfo} from './src/API_Manager/index';
 import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './src/aws-exports';
+import {navigationRef} from './src/navigations/navigationReference';
 Amplify.configure(awsconfig);
 
 function App(): JSX.Element {
@@ -35,7 +36,7 @@ function App(): JSX.Element {
   return (
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer>
+        <NavigationContainer independent={true} ref={navigationRef}>
           <BottomSheetModalProvider>
             {isLogIn?<Rootnavigation />:null}
           </BottomSheetModalProvider>
