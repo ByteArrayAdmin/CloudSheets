@@ -65,20 +65,12 @@ const RowdetailForm = (props: any) => {
   const [columns, setColumns] = useState([]);
   const [updatedFormData, setUpdatedFormData] = useState({});
   const { reset, control, handleSubmit, setValue, register } = useForm();
-<<<<<<< HEAD
-  const [modalVisible, setModalVisible] = useState(false);
-  const [extraData, setExtraData] = useState(new Date());
-  const [loader, setLoader] = useState(false);
-  const Dropdown = (index: any, data: any) => {};
-  const getYesNo = ["Yes", "No"];
-=======
   const [modalVisible, setModalVisible] = useState(false)
   const [extraData, setExtraData] = useState(new Date())
   const [loader, setLoader] = useState(false)
   const [mount, setMount] = useState(true)
   const Dropdown = (index: any, data: any) => { };
   const getYesNo = ["Yes", "No"]
->>>>>>> main
 
   // --------------Initial rendering-------------------
   useEffect(() => {
@@ -87,10 +79,6 @@ const RowdetailForm = (props: any) => {
     console.log("spreadRow======", route.params?.spreadSheetRow);
     console.log("isFromScreen=======", route.params?.isFrom);
 
-<<<<<<< HEAD
-    getColumnByID(route?.params?.spreadSheet?.templatesID);
-  }, []);
-=======
     getColumnByID(route?.params?.spreadSheet?.templatesID)
 
     return ()=>{
@@ -98,7 +86,6 @@ const RowdetailForm = (props: any) => {
       setIsEdit(false)
     }
   },[isEdit,mount])
->>>>>>> main
 
   useEffect(() => {
     if (isEdit) {
@@ -113,19 +100,10 @@ const RowdetailForm = (props: any) => {
       );
       setExtraData(new Date());
     } else {
-<<<<<<< HEAD
-      track_Screen(
-        eventName.TRACK_SCREEN,
-        screenName.EDIT_SPREADSHEET_ROW_SCREEN
-      );
-    }
-  }, [isEdit]);
-=======
       track_Screen(eventName.TRACK_SCREEN, screenName.EDIT_SPREADSHEET_ROW_SCREEN)
      
     }
   }, [isEdit,mount])
->>>>>>> main
 
   // --------------Create Row Data-----------------
   const onSubmitPressed = async (data: any) => {
@@ -222,20 +200,9 @@ const RowdetailForm = (props: any) => {
   };
 
   // -------- Select Date function ----------
-<<<<<<< HEAD
   const toggle = (value: boolean, value2: any) => {
     console.log("dateValue=======", value, value2);
     setdate(value2);
-=======
-  const toggle = (value: boolean, value2: any,column:any) => {
-    console.log("dateValue=======", value, value2,column)
-    let formDate = moment(value2).format("MMM DD, YYYY")
-    
-    const formattedDate = value2.toISOString().split('T')[0];
-    console.log("newDate=======",value2.toDateString())
-    // setdate(formDate)
-     setdate(value2.toDateString());
->>>>>>> main
     if (value == false) {
       setopen(false);
     }
