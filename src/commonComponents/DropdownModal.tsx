@@ -5,7 +5,7 @@ import { Controller } from "react-hook-form";
 import { columnTypeList, COLOURS, FONTS } from '../utils/Constant';
 const DropdownModal = (props: any) => {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState(props.columnLength ==0 && props.index ==0?"Sentences" : null);
     const [items, setItems] = useState(columnTypeList);
 
     return (
@@ -14,7 +14,8 @@ const DropdownModal = (props: any) => {
             name={props.name}
             rules={props.rules}
             render={({
-                field
+                field,
+                fieldState: { error },
             }) => (
                 <View style={{ paddingHorizontal: 20, marginVertical: 15 }}>
                     <DropDownPicker
@@ -27,18 +28,24 @@ const DropdownModal = (props: any) => {
                         setValue={setValue}
                         setItems={setItems}
                         listMode={'MODAL'}
+                        disabled={props.columnLength ==0 && props.index ==0? true:false}
                         modalTitle={"Column type"}
                         modalTitleStyle={styles.modalTitleStyle}
                         modalContentContainerStyle={styles.modalContentContainerStyle}
                         modalAnimationType="slide"
                         disableBorderRadius={true}
                         style={{ borderWidth: 0, backgroundColor: COLOURS.offwhite }}
-                        modalProps={{ transparent: true }}
+                        modalProps={{ transparent: true}}
                         // iconContainerStyle={{ marginLeft: 30 }}
                         listItemContainerStyle={{ marginTop: 25 ,marginLeft: 30 }}
                         labelStyle={styles.labelStyle}
+                        theme={'LIGHT'}
                     />
+                    {error && (
+                    <Text style={styles.errortextstyle}>{error.message}</Text>
+                  )}
                 </View>
+                
             )}
         />
     )
@@ -55,6 +62,7 @@ const styles = StyleSheet.create({
     modalContentContainerStyle: {
         backgroundColor: COLOURS.white,
         top: "25%",
+        // marginTop:"25%",
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20
     },
@@ -64,5 +72,9 @@ const styles = StyleSheet.create({
         fontFamily: FONTS.inter_semibold,
         fontSize: 18,
         color: COLOURS.black
-    }
+    },
+    errortextstyle: {
+        color: "red",
+        marginLeft: 20,
+      },
 })

@@ -329,6 +329,22 @@ export const get_SpreadSheetRowBySpreadSheetId = async (spreadSheetId: any) => {
     })
 }
 
+export const spreadSheetRow_Count = (spreadSheetId: any)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            const filter = {
+                soft_Deleted: {
+                    eq: false
+                }
+            };
+            const getSpreadsheet = await API.graphql(graphqlOperation(spreadSheetRowsBySpreadsheetID, { spreadsheetID: spreadSheetId, filter: filter }))
+            resolve(getSpreadsheet);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 export const update_SpreadSheetRow = async (updateSpreadSheetRow: any) => {
     return new Promise(async (resolve, reject) => {
         try {

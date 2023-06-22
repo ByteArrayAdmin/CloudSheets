@@ -43,6 +43,7 @@ const RowdetailForm = (props: any) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [extraData, setExtraData] = useState(new Date())
   const [loader, setLoader] = useState(false)
+  const [mount, setMount] = useState(true)
   const Dropdown = (index: any, data: any) => { };
   const getYesNo = ["Yes", "No"]
 
@@ -54,7 +55,12 @@ const RowdetailForm = (props: any) => {
     console.log("isFromScreen=======", route.params?.isFrom)
 
     getColumnByID(route?.params?.spreadSheet?.templatesID)
-  }, [])
+
+    return ()=>{
+      setMount(false)
+      setIsEdit(false)
+    }
+  },[isEdit,mount])
 
   useEffect(() => {
     if (isEdit) {
@@ -64,8 +70,9 @@ const RowdetailForm = (props: any) => {
       setExtraData(new Date())
     } else {
       track_Screen(eventName.TRACK_SCREEN, screenName.EDIT_SPREADSHEET_ROW_SCREEN)
+     
     }
-  }, [isEdit])
+  }, [isEdit,mount])
 
   // --------------Create Row Data-----------------
   const onSubmitPressed = async (data: any) => {
@@ -136,9 +143,14 @@ const RowdetailForm = (props: any) => {
   }
 
   // -------- Select Date function ----------
-  const toggle = (value: boolean, value2: any) => {
-    console.log("dateValue=======", value, value2)
-    setdate(value2.toDateString());
+  const toggle = (value: boolean, value2: any,column:any) => {
+    console.log("dateValue=======", value, value2,column)
+    let formDate = moment(value2).format("MMM DD, YYYY")
+    
+    const formattedDate = value2.toISOString().split('T')[0];
+    console.log("newDate=======",value2.toDateString())
+    // setdate(formDate)
+     setdate(value2.toDateString());
     if (value == false) {
       setopen(false);
     }

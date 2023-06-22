@@ -14,6 +14,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
+import moment from 'moment';
 
 const ListCard = (props: any) => {
   console.log("items=======", props?.items)
@@ -29,6 +30,13 @@ const ListCard = (props: any) => {
       duration: 300,
     });
   };
+
+  const isDate = (value) => {
+    const newDate = new Date(value);
+    // return !isNaN(newDate.getTime());
+    return !isNaN(newDate.getTime()) && Object.prototype.toString.call(newDate) === '[object Date]'
+  };
+
   return (
     <View style={[style.innercontainer, { borderWidth: 1, borderColor: open ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue }]}>
       <View style={style.subview}>
@@ -57,7 +65,7 @@ const ListCard = (props: any) => {
                 <Animated.View style={style.detailview}>
                   <Animated.Text style={style.labelheading}>{key}</Animated.Text>
                   <Animated.View style={style.emptyview}></Animated.View>
-                  <Animated.Text style={style.detailnametext}>{(rowData)[key]}</Animated.Text>
+                  <Animated.Text style={style.detailnametext}>{isDate((rowData)[key]) ? moment((rowData)[key]).format("MMM DD, YYYY") : (rowData)[key]}</Animated.Text>
                 </Animated.View>
               )
             })}
