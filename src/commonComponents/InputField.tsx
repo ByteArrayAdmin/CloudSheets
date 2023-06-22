@@ -52,6 +52,8 @@ const InputField = (props: any) => {
                   placeholderTextColor={styles.placeholdercolour}
                   keyboardType={props.keyboardType}
                   multiline={props.multiline}
+                  onSubmitEditing={props.onSubmitEditing}
+            
                 />
               </View>
               <View>

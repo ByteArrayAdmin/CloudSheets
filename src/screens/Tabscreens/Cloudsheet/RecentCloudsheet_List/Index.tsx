@@ -345,6 +345,7 @@ const ClousheetList = () => {
           extraData={extraData}
           //keyExtractor={item => item._id}
           ListFooterComponent={<Footer />}
+          showsVerticalScrollIndicator={false}
         />
         <TouchableOpacity onPress={Opensheet} style={styles.widgetstyle}>
           <Addwidget />

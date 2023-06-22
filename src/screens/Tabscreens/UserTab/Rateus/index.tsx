@@ -34,7 +34,7 @@ const Rateus = () => {
   const onSubmit = async (data: any) => {
   };
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={Styles.container}>
         <NewCommonHeader
           BackButton={<BackButton onPress={() => navigation.goBack()} />}

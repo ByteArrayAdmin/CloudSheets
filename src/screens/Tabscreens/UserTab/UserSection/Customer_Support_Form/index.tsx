@@ -34,7 +34,7 @@ const Customer_Support_Form = () => {
           Folder={<Ic_customer />}
           SecondImg={<Ic_messenger />}
         />
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* <View style={styles.maincontainer}> */}
           <AuthCard
             subchildren={

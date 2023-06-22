@@ -118,7 +118,7 @@ const ForgotPassword = () => {
     <>
       <BackgroundLayout />
       <SafeAreaView style={Forgotscreenstyle.safeareaview}>
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
           <View style={Forgotscreenstyle.backbuttonview}>
             <BackButton onPress={() => navigation.goBack()} />
           </View>
@@ -178,6 +178,7 @@ const ForgotPassword = () => {
                             required: Forgotlabel.Forgotpassword.OTP_REQUIRED,
                           }}
                           styles={Forgotscreenstyle.inputview}
+                          keyboardType={'numeric'}
                         />
                       </View>
                       <View>

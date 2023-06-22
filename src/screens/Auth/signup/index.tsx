@@ -1,19 +1,27 @@
 /* eslint-disable react-native/no-inline-styles */
 
-import React, { useEffect, useState, useRef} from 'react';
-import { SafeAreaView, Text, View, TouchableOpacity, Alert,Platform ,PermissionsAndroid} from 'react-native';
-import { styles } from './style';
-import InputField from '../../../commonComponents/InputField';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { emailRegex } from '../../../utils/Constant';
-import { Amplify, Auth } from 'aws-amplify';
-import awsconfig from '../../../aws-exports';
-import Progfileicon from '../../../assets/Images/profile.svg';
-import Mesageicon from '../../../assets/Images/Message.svg';
-import VectorIcom from '../../../assets/Images/Vector.svg';
-import Lock from '../../../assets/Images/Lock.svg';
-import { useForm } from 'react-hook-form';
-import CommonButton from '../../../commonComponents/Button';
+import React, { useEffect, useState, useRef } from "react";
+import {
+  SafeAreaView,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  Platform,
+  PermissionsAndroid,
+} from "react-native";
+import { styles } from "./style";
+import InputField from "../../../commonComponents/InputField";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { emailRegex } from "../../../utils/Constant";
+import { Amplify, Auth } from "aws-amplify";
+import awsconfig from "../../../aws-exports";
+import Progfileicon from "../../../assets/Images/profile.svg";
+import Mesageicon from "../../../assets/Images/Message.svg";
+import VectorIcom from "../../../assets/Images/Vector.svg";
+import Lock from "../../../assets/Images/Lock.svg";
+import { useForm } from "react-hook-form";
+import CommonButton from "../../../commonComponents/Button";
 // import Googleicon from '../../assets/Images/Googlricon.svg';
 // import Appleicon from '../../assets/Images/Apple.svg';
 import { useNavigation } from "@react-navigation/native";
@@ -23,15 +31,32 @@ import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
 import RedCorss from "../../../assets/Images/redcross.svg";
 import BlueTick from "../../../assets/Images/bluetick.svg";
 import AuthCard from "../../../commonComponents/AuthCard";
-import labels from '../../../utils/ProjectLabels.json';
-import { userSignup, userExist,get_Location_Address } from '../../../API_Manager/index';
-import CommonLoader from '../../../commonComponents/CommonLoader';
-import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event,signIn_Event, signUp_Event } from '../../../eventTracking/index';
-import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../utils/Constant';
-import Geolocation from '@react-native-community/geolocation';
-import CommonBottomsheet from '../../../commonComponents/CommonBottomsheet';
-import PasswordInstruction from '../../Popups/PasswordInstruction/index';
-import Instucticon from '../../../assets/Images/instruction.svg';
+import labels from "../../../utils/ProjectLabels.json";
+import {
+  userSignup,
+  userExist,
+  get_Location_Address,
+} from "../../../API_Manager/index";
+import CommonLoader from "../../../commonComponents/CommonLoader";
+import {
+  track_Screen,
+  track_Click_Event,
+  track_Success_Event,
+  track_Error_Event,
+  signIn_Event,
+  signUp_Event,
+} from "../../../eventTracking/index";
+import {
+  eventName,
+  screenName,
+  clickName,
+  successActionName,
+  errorActionName,
+} from "../../../utils/Constant";
+import Geolocation from "@react-native-community/geolocation";
+import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
+import PasswordInstruction from "../../Popups/PasswordInstruction/index";
+import Instucticon from "../../../assets/Images/instruction.svg";
 //Aws configiuration code commented for now
 Amplify.configure(awsconfig);
 
@@ -55,95 +80,102 @@ const Signup = () => {
     console.log("password====>", Password);
     // justCheckPAsswordValidation()
   }, [userName]);
-  const [loader, setLoader] = useState(false)
-  const [currentLongitude,setCurrentLongitude] = useState('...');
-  const [currentLatitude,setCurrentLatitude] = useState('...');
-  const [locationStatus,setLocationStatus] = useState('');
-  const [location, setLocation] = useState('')
+  const [loader, setLoader] = useState(false);
+  const [currentLongitude, setCurrentLongitude] = useState("...");
+  const [currentLatitude, setCurrentLatitude] = useState("...");
+  const [locationStatus, setLocationStatus] = useState("");
+  const [location, setLocation] = useState("");
 
   useEffect(() => {
-    console.log("username======", userName)
-    track_Screen(eventName.TRACK_SCREEN,screenName.SIGNUP_SCREEN)
-  }, [userName])
+    console.log("username======", userName);
+    track_Screen(eventName.TRACK_SCREEN, screenName.SIGNUP_SCREEN);
+  }, [userName]);
 
-  useEffect(()=>{
-    requestLocationPermission()
-  }, [])
+  useEffect(() => {
+    requestLocationPermission();
+  }, []);
   // ----------- Location permission -----------
   const requestLocationPermission = async () => {
-    Geolocation.setRNConfiguration( {
+    Geolocation.setRNConfiguration({
       skipPermissionRequests: false,
-      authorizationLevel: 'whenInUse',
-      
-    })
-    if (Platform.OS === 'ios') {
+      authorizationLevel: "whenInUse",
+    });
+    if (Platform.OS === "ios") {
       getOneTimeLocation();
     } else {
       try {
         const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //To Check, If Permission is granted
           getOneTimeLocation();
         } else {
-          setLocationStatus('Permission Denied');
+          setLocationStatus("Permission Denied");
         }
       } catch (err) {
         console.warn(err);
       }
     }
   };
-  
+
   // ----------- End ----------
 
   // --------- Get one Time Location ---------
   const getOneTimeLocation = () => {
-    setLocationStatus('Getting Location ...');
-    
+    setLocationStatus("Getting Location ...");
+
     Geolocation.getCurrentPosition(
       //Will give you the current location
       (position) => {
-        setLocationStatus('You are Here');
-          console.log("preciseLocation=========",position)
+        setLocationStatus("You are Here");
+        console.log("preciseLocation=========", position);
         //getting the Longitude from the location json
-        const currentLongitude = 
-          JSON.stringify(position.coords.longitude);
+        const currentLongitude = JSON.stringify(position.coords.longitude);
 
         //getting the Latitude from the location json
-        const currentLatitude = 
-          JSON.stringify(position.coords.latitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
 
         //Setting Longitude state
         setCurrentLongitude(currentLongitude);
-        get_Location_Address(currentLatitude,currentLongitude).then((response: any)=>{
-          console.log("responseLoc=======",response)
-          setLocation(response.results[0].components.country)
-      }).catch((error)=>{
-        console.log("locationError======",error)
-      })
-        
+        get_Location_Address(currentLatitude, currentLongitude)
+          .then((response: any) => {
+            console.log("responseLoc=======", response);
+            setLocation(response.results[0].components.country);
+          })
+          .catch((error) => {
+            console.log("locationError======", error);
+          });
+
         //Setting Longitude state
         setCurrentLatitude(currentLatitude);
       },
       (error) => {
-        console.log("locationErrorMsg========",error)
+        console.log("locationErrorMsg========", error);
         setLocationStatus(error.message);
       },
       {
         enableHighAccuracy: false,
         timeout: 20000,
         maximumAge: 1000,
-        
-      },
+      }
     );
-    
   };
   // --------- End ---------
 
-  
+  const isNotBlankSpace = (value: any) => {
+    if (value.includes(" ")) {
+      return true;
+    }
+  };
   const onRegisterPressed = async (data: any) => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_REGISTER)
+    if (isNotBlankSpace(data.username)) {
+      setError("username", {
+        message: "This field cannot contain only whitespace",
+      });
+      return;
+    }
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_REGISTER);
     if (isUserExist) {
     } else {
       const { name, username, email, mobilenumber, password } = data;
@@ -156,17 +188,22 @@ const Signup = () => {
           name: name,
         },
       };
-      setLoader(true)
-      userSignup(userSignUp).then((response) => {
-        setLoader(false)
-        signUp_Event(email,location)
-        showAlert(username)
-      }).catch((e) => {
-        track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.SIGN_UP_ERROR)
-        setLoader(false)
-        console.log("SignupErr=======", e)
-        Alert.alert(e?.message);
-      })
+      setLoader(true);
+      userSignup(userSignUp)
+        .then((response) => {
+          setLoader(false);
+          signUp_Event(email, location);
+          showAlert(username);
+        })
+        .catch((e) => {
+          track_Error_Event(
+            eventName.TRACK_ERROR_ACTION,
+            errorActionName.SIGN_UP_ERROR
+          );
+          setLoader(false);
+          console.log("SignupErr=======", e);
+          Alert.alert(e?.message);
+        });
     }
   };
 
@@ -183,7 +220,7 @@ const Signup = () => {
       ]
     );
 
-  const isUserNameAlreadyExist = async() => {
+  const isUserNameAlreadyExist = async () => {
     setIsUserExist(false);
     const temp_code = "000000";
     console.log("userName=======", userName);
@@ -202,9 +239,9 @@ const Signup = () => {
   };
 
   const validatePassword = (passwordOnChange: string) => {
-    console.log('updatePass======', passwordOnChange)
+    console.log("updatePass======", passwordOnChange);
     const passwordRegex = /^.{6,}$/;
-    const passwordPatternRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/
+    const passwordPatternRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/;
     if (!passwordOnChange) {
       setError("password", {
         type: "required",
@@ -228,7 +265,6 @@ const Signup = () => {
       setError("password", null); // Clear the error if validation passes
       setPasswordPolicy(false);
     }
-
   };
 
   const Opensheet = () => {
@@ -239,9 +275,16 @@ const Signup = () => {
     <>
       <BackgroundLayout />
       <SafeAreaView style={styles.safeareastyle}>
-        <KeyboardAwareScrollView>
-          <TouchableOpacity style={styles.skipText}
-            onPress={() => {navigation.navigate("Login"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_SKIP_SIGNUP)}}
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='always'>
+          <TouchableOpacity
+            style={styles.skipText}
+            onPress={() => {
+              navigation.navigate("Login"),
+                track_Click_Event(
+                  eventName.TRACK_CLICK,
+                  clickName.CLICK_ON_SKIP_SIGNUP
+                );
+            }}
           >
             <Text style={styles.skioptextcolor}>
               {signupLabel.signupcontant.SKIP}
@@ -295,6 +338,7 @@ const Signup = () => {
                         signupLabel.signupcontant.USERNAME_VALIDATION_MSG,
                     }}
                     styles={styles.inputview}
+                    validate={isNotBlankSpace}
                   />
                   <InputField
                     name="email"
@@ -321,6 +365,10 @@ const Signup = () => {
                     rules={{
                       required:
                         signupLabel.signupcontant.MOBILENO_VALIDATION_MSG,
+                        pattern: {
+                          value: /^(\+)?\d{10}$/,
+                          message: 'Invalid mobile number',
+                        }
                     }}
                     keyboardType={"phone-pad"}
                     styles={styles.inputview}
@@ -394,7 +442,13 @@ const Signup = () => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => {navigation.navigate("Login"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_ALREADY_A_MEMBER_NAVIGATE_TO_LOGIN)}}
+                onPress={() => {
+                  navigation.navigate("Login"),
+                    track_Click_Event(
+                      eventName.TRACK_CLICK,
+                      clickName.CLICK_ON_ALREADY_A_MEMBER_NAVIGATE_TO_LOGIN
+                    );
+                }}
               >
                 <Text style={styles.sigintext}>
                   {signupLabel.signupcontant["Sign in"]}

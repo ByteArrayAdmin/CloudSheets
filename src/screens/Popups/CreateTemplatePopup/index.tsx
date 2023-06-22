@@ -91,17 +91,20 @@ const CreateTemplatePopup = (props: any) => {
         </View>
         <View style={Tempatestyle.buttonview}>
           <View>
-            <SmallButton
-              buttontext={CreateTemplatescreen.TemBottomsheet.Cancel}
+            
+            <LightSmallButton
+               buttontext={CreateTemplatescreen.TemBottomsheet.Cancel}
+              // onPress={CreatePress}
               onPress={props.OnCloseCreateTemplate}
             />
           </View>
 
           <View style={Tempatestyle.space}></View>
           <View>
-            <LightSmallButton
-              buttontext={props.isEditTemplate ? CreateTemplatescreen.TemBottomsheet.Update : CreateTemplatescreen.TemBottomsheet.Create}
-              // onPress={CreatePress}
+            <SmallButton
+             
+             buttontext={props.isEditTemplate ? CreateTemplatescreen.TemBottomsheet.Update : CreateTemplatescreen.TemBottomsheet.Create}
+              
               onPress={() => props.isEditTemplate ? props.onUpdateTemplate(text, templateId, version,softDeleted) : props.onCreateTemplate(text)}
             />
           </View>

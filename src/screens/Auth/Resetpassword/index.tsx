@@ -91,6 +91,8 @@ const ResetPassword = () => {
                           Resetpasswordlabel.Resetpassword.VALIDATION_REQUIRED,
                       }}
                       styles={resetscreenstyle.inputview}
+                      secureTextEntry={true}
+                      
                     />
                     <InputField
                       name="newPassword"
@@ -106,6 +108,7 @@ const ResetPassword = () => {
                             .VALIDATION_REQUIRED_CONFIRM,
                       }}
                       styles={resetscreenstyle.inputview}
+                      secureTextEntry={true}
                     />
                     <CommonButton
                       onPress={handleSubmit(onChangePassword)}

@@ -104,7 +104,7 @@ const OtpScreen = () => {
                         <Text style={styles.CreateAccounttext}>{labels.OTP_Constants.EnterOtp}</Text>
                     </View>
                 </View>
-                <KeyboardAwareScrollView>
+                <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
                     <AuthCard
                         subchildren={
                             <>
@@ -118,6 +118,9 @@ const OtpScreen = () => {
                                     }}
                                     placxeholdertextstyle={styles.placeholdertextstyle}
                                     styles={styles.inputview}
+                                    keyboardType={"numeric"}
+                                    
+            
                                 />
                                 <TouchableOpacity disabled={disable} style={styles.resendBtnView}
                                     onPress={() => !disable ? resendOtpFunc() : {}}

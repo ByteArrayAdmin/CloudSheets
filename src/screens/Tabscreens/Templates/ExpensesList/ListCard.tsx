@@ -40,7 +40,7 @@ const ListCard = (props: any) => {
   return (
     <View style={[style.innercontainer, { borderWidth: 1, borderColor: open ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue }]}>
       <View style={style.subview}>
-        <View>
+        <View style={{height:40,justifyContent:'center'}}>
           <Text style={style.texthead}>{Object.values(rowData)[0]}</Text>
         </View>
         <View style={style.Space}></View>

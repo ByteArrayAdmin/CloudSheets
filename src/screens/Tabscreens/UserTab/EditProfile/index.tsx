@@ -99,6 +99,7 @@ const EditProfile = () => {
           }
           track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.UPDATE_PROFILE_SUCCESSFULLY)
           setLoader(false)
+          navigation.goBack()
         }).then((error) => {
           track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.UPDATE_PROFILE_ERROR)
           setLoader(false)
