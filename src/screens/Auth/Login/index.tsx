@@ -2,7 +2,15 @@
 import React, { useEffect, useState } from "react";
 import AuthCard from "../../../commonComponents/AuthCard";
 import InputField from "../../../commonComponents/InputField";
-import { SafeAreaView, Text, View, TouchableOpacity, Alert } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { emailRegex } from "../../../utils/Constant";
 import Mesageicon from "../../../assets/Images/Message.svg";
@@ -16,67 +24,103 @@ import Appleicon from "../../assets/Images/Apple.svg";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import LoginLabels from "../../../utils/ProjectLabels.json";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
-import { Auth, API, graphqlOperation } from 'aws-amplify';
-import { listUsers, getUser } from '../../../graphql/queries';
-import { createUser } from '../../../graphql/mutations';
-import { userLogin } from '../../../API_Manager/index';
-import CommonLoader from '../../../commonComponents/CommonLoader';
-import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event,signIn_Event } from '../../../eventTracking/index';
-import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../utils/Constant';
+import { Auth, API, graphqlOperation } from "aws-amplify";
+import { listUsers, getUser } from "../../../graphql/queries";
+import { createUser } from "../../../graphql/mutations";
+import { userLogin } from "../../../API_Manager/index";
+import CommonLoader from "../../../commonComponents/CommonLoader";
+import {
+  track_Screen,
+  track_Click_Event,
+  track_Success_Event,
+  track_Error_Event,
+  signIn_Event,
+} from "../../../eventTracking/index";
+import {
+  eventName,
+  screenName,
+  clickName,
+  successActionName,
+  errorActionName,
+} from "../../../utils/Constant";
+
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    track_Screen(eventName.TRACK_SCREEN, screenName.LOGIN_SCREEN)
-  }, [])
+    track_Screen(eventName.TRACK_SCREEN, screenName.LOGIN_SCREEN);
+  }, []);
 
   const onLoginPressed = async (data: any) => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_LOGIN)
+    Keyboard.dismiss()
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_LOGIN);
     // const { youremail, yourpasswaord } = data;
-    setLoader(true)
-    userLogin(data).then((response: any) => {
-      console.log("signInResp=======", response.attributes)
-      signIn_Event()
-      setLoader(false)
-      const syncUser = async () => {
-        const userData = await API.graphql(graphqlOperation(getUser, { id: response.attributes.sub }))
-        console.log("userDataFromTable=========", userData)
-        if (userData.data.getUser) {
-          console.log("user already exist in db")
-          return
-        }
+    setLoader(true);
+    userLogin(data)
+      .then((response: any) => {
+        console.log("signInResp=======", response.attributes);
+        signIn_Event();
+        setLoader(false);
+        const syncUser = async () => {
+          const userData = await API.graphql(
+            graphqlOperation(getUser, { id: response.attributes.sub })
+          );
+          console.log("userDataFromTable=========", userData);
+          if (userData.data.getUser) {
+            console.log("user already exist in db");
+            return;
+          }
 
-        const newUser = {
-          id: response.attributes.sub,
-          name: response.attributes.name,
-          email: response.attributes.email
+          const newUser = {
+            id: response.attributes.sub,
+            name: response.attributes.name,
+            email: response.attributes.email,
+          };
+          const newUserResponse = await API.graphql(
+            graphqlOperation(createUser, { input: newUser })
+          );
+        };
+        syncUser();
+        navigation.navigate("Tabnavigator");
+      })
+      .catch((e) => {
+        console.log("loginErr=======", e);
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.SIGN_IN_ERROR
+        );
+        setLoader(false);
+        if (e.code == "NotAuthorizedException") {
+          Alert.alert(e.message);
         }
-        const newUserResponse = await API.graphql(graphqlOperation(createUser, { input: newUser }))
-      }
-      syncUser()
-      navigation.navigate("Tabnavigator");
-    }).catch((e) => {
-      console.log("loginErr=======", e)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.SIGN_IN_ERROR)
-      setLoader(false)
-      if (e.code == "NotAuthorizedException") {
-        Alert.alert(e.message)
-      }
-
-    })
+      });
   };
+  const HideKeyboard = ({ children }) => (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {children}
+    </TouchableWithoutFeedback>
+  );
+
   return (
     <>
       <BackgroundLayout />
-      <SafeAreaView>
-
-        <KeyboardAwareScrollView>
-          <TouchableOpacity style={loginstyle.skipText}
-            onPress={() => {navigation.navigate("Tabnavigator"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_SKIP_LOGIN)}}
+      <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='always'>
+          <TouchableOpacity
+            style={loginstyle.skipText}
+            onPress={() => {
+              navigation.navigate("Tabnavigator"),
+                track_Click_Event(
+                  eventName.TRACK_CLICK,
+                  clickName.CLICK_ON_SKIP_LOGIN
+                );
+            }}
           >
-            <Text style={loginstyle.skioptextcolor}>{LoginLabels.LoginScreen.SKIP}</Text>
+            <Text style={loginstyle.skioptextcolor}>
+              {LoginLabels.LoginScreen.SKIP}
+            </Text>
           </TouchableOpacity>
           <View style={loginstyle.createAccountview}>
             <View>
@@ -121,14 +165,22 @@ const Login = () => {
                     }}
                     secureTextEntry={true}
                     styles={loginstyle.inputview}
+                    onSubmitEditing={handleSubmit(onLoginPressed)}
                   />
                   <CommonButton
                     onPress={handleSubmit(onLoginPressed)}
                     Register={LoginLabels.LoginScreen.LOGIN}
                   />
+
                   <View style={loginstyle.fogetpasswaordview}>
                     <TouchableOpacity
-                      onPress={() => {navigation.navigate("forgetpassword"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_FORGOT_PASSWORD)}}
+                      onPress={() => {
+                        navigation.navigate("forgetpassword"),
+                          track_Click_Event(
+                            eventName.TRACK_CLICK,
+                            clickName.CLICK_ON_FORGOT_PASSWORD
+                          );
+                      }}
                     >
                       <Text style={loginstyle.fogettext}>
                         {LoginLabels.LoginScreen.FORGET_PASSWARD}
@@ -173,7 +225,13 @@ const Login = () => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => {navigation.navigate("Signupscreen"),track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_SIGN_UP)}}
+                onPress={() => {
+                  navigation.navigate("Signupscreen"),
+                    track_Click_Event(
+                      eventName.TRACK_CLICK,
+                      clickName.CLICK_ON_SIGN_UP
+                    );
+                }}
               >
                 <Text style={loginstyle.sigintext}>
                   {LoginLabels.LoginScreen.SIGNUP}

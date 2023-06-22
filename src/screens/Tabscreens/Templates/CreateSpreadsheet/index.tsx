@@ -26,6 +26,7 @@ import CommonBottomsheet from '../../../../commonComponents/CommonBottomsheet';
 import ColumnTypePopup from '../../../Popups/ColumnTypePopup';
 import { track_Screen ,track_Click_Event,track_Success_Event,track_Error_Event} from '../../../../eventTracking/index';
 import {eventName,screenName,clickName,successActionName,errorActionName} from '../../../../utils/Constant';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const CreatSpreadsheet = () => {
   const navigation = useNavigation();
   const route = useRoute()
@@ -219,7 +220,7 @@ const CreatSpreadsheet = () => {
 
   return (
     <>
-      <ScrollView>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View>
           <NewCommonHeader
             BackButton={<BackButton onPress={() => navigation.goBack()} />}
@@ -275,7 +276,7 @@ const CreatSpreadsheet = () => {
             <View style={Createspreadstyle.Bottomgap}></View>
           </View>
         </View>
-      </ScrollView>
+        </KeyboardAwareScrollView>
       <CommonBottomsheet
         ref={columnTypeRef}
         snapPoints={snapPoints}

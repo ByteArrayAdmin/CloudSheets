@@ -37,7 +37,7 @@ const SubcriptionScreen = () => {
         heading={labels.Guestscreen.MyAccount}
         Folder={<UseLogo />}
       />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={Styles.container}>
           <View style={Styles.SubcriptionplanView}>
             <View>

@@ -64,6 +64,7 @@ const SpreadsheetCard = (props: any) => {
         </View> */}
       </View>
     </View>
+  
   );
 };
 

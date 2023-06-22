@@ -34,7 +34,7 @@ const Customer_Support_Screen = () => {
           Folder={<Ic_customer />}
           SecondImg={<Ic_messenger />}
         />
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <CommonLayout
             Heading={labels.SubscriptionScreen.Support}
             Content={labels.SubscriptionScreen.Support_Content}

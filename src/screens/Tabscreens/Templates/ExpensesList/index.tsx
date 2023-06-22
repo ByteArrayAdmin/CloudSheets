@@ -163,6 +163,7 @@ const ExpensesList = (props: any) => {
           refreshing={false}
           onRefresh={onRefresh}
           extraData={extraData}
+          showsVerticalScrollIndicator={false}
         />
       </View>
       <TouchableOpacity style={Style.widgetposition}

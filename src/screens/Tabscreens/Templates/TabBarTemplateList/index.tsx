@@ -27,7 +27,7 @@ const TabBarTemplateList = () => {
           Folder={<Folder />}
         />
         <View style={styles.Flatlistviewone}>
-          <FlatList data={DATA} renderItem={renderItems} />
+          <FlatList data={DATA} renderItem={renderItems} showsVerticalScrollIndicator={false} />
         </View>
       </View>
       <View style={styles.widgetposition}>

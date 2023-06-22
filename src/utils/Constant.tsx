@@ -8,7 +8,8 @@ import Ic_physicalAddress  from '../assets/Images/ic_physicalAddress.svg';
 import Ic_barcode  from '../assets/Images/ic_barcode.svg';
 import Ic_yesNo from '../assets/Images/ic_yesNo.svg';
 
-export const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+export const emailRegex = /^\w+([\.-]?\w+)*@(\w+([\.-]?\w+)*\.(\w{2,3}|tech))$/
+
 
 export const FONTS = {
   MANROPE_NORMAL: "Manrope-Regular",
