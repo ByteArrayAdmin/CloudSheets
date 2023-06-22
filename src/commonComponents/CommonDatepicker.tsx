@@ -24,9 +24,10 @@ const CommonDatepicker = (props: any) => {
             mode={'date'}
             open={props.open}
             date={value}
+            
             onConfirm={(date) => {
               onChange(date);
-              props.toggle(false, date);
+              props.toggle(false, date,props.name);
             }}
             onCancel={props.onCancel}
           />

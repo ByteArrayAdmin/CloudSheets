@@ -24,8 +24,8 @@ import ColumnCard from './ColumnCard';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
 import CommonBottomsheet from '../../../../commonComponents/CommonBottomsheet';
 import ColumnTypePopup from '../../../Popups/ColumnTypePopup';
-import { track_Screen ,track_Click_Event,track_Success_Event,track_Error_Event} from '../../../../eventTracking/index';
-import {eventName,screenName,clickName,successActionName,errorActionName} from '../../../../utils/Constant';
+import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event } from '../../../../eventTracking/index';
+import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../../utils/Constant';
 const CreatSpreadsheet = () => {
   const navigation = useNavigation();
   const route = useRoute()
@@ -35,7 +35,7 @@ const CreatSpreadsheet = () => {
   const [templateID, setTemplateID] = useState(route?.params?.template?.id)
   const [isEdit, setIsEdit] = useState(route?.params?.isEdit)
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, setValue, setError } = useForm();
   const [columnList, setColumnList] = useState([]);
   const [extraData, setExtraData] = useState(new Date());
   const [extraDataCol, setExtraDataCol] = useState(new Date());
@@ -43,17 +43,19 @@ const CreatSpreadsheet = () => {
   const snapPoints = ['80%']
   const [columnTypeObj, setColumTypeObj] = useState({})
 
+
+
   // ----------- useEffect for initial Rendering---------------
   useEffect(() => {
     console.log("templateName=======", route?.params?.template)
     console.log("isEdit=========", isEdit)
-    
+    getExistingColumn()
     if (isEdit) {
-      getExistingColumn()
-      track_Screen(eventName.TRACK_SCREEN,screenName.EDIT_COLUMN_SCREEN)
+
+      track_Screen(eventName.TRACK_SCREEN, screenName.EDIT_COLUMN_SCREEN)
     } else {
-      AddColoumn()
-      track_Screen(eventName.TRACK_SCREEN,screenName.ADD_COLUMN_SCREEN)
+      AddColoumn("Name", "Sentences")
+      track_Screen(eventName.TRACK_SCREEN, screenName.ADD_COLUMN_SCREEN)
     }
   }, [])
 
@@ -68,6 +70,10 @@ const CreatSpreadsheet = () => {
       console.log("responseCol=====", response)
       setLoader(false)
       setColumnList(response.data.templateColumnsByTemplatesID.items)
+      let columnList = response.data.templateColumnsByTemplatesID.items
+      if (columnList.length == 0) {
+        AddColoumn("Name", "Sentences")
+      }
     }).catch((error) => {
       setLoader(false)
       console.log("getColmErr=======", error)
@@ -116,11 +122,11 @@ const CreatSpreadsheet = () => {
     console.log("updateArrWithID===========", newArray)
     setLoader(true)
     create_Template_Column(newArray).then((response) => {
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.COLUMN_CREATE_SUCCESSFULLY)
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.COLUMN_CREATE_SUCCESSFULLY)
       setLoader(false)
       console.log("createColmResponse=========", response)
     }).catch((error) => {
-      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.CREATE_COLUMN_ERROR)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.CREATE_COLUMN_ERROR)
       setLoader(false)
       console.log("createColmErr======", error)
     })
@@ -132,23 +138,33 @@ const CreatSpreadsheet = () => {
   };
 
   // --------------Add Column functionality---------------
-  const AddColoumn = () => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_ADD_COLUMN)
+  const AddColoumn = (col_name: string, col_Type: string) => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_ADD_COLUMN)
     const newIndex = Data.length;
     let uid = uuid.v1().toString()
     let timeStamp = moment().unix().toString()
     let newUniqueId = uid + "-" + timeStamp
+    // if (!isEdit && newIndex == 0) {
+    if (columnList.length == 0 && Data.length ==0) {
+      setValue("column_Name0", col_name)
+      setValue("column_Type0", col_Type)
+    }
+
     setData((oldArray) => [...Data, { id: newUniqueId, templatesID: templateID, soft_Deleted: false, value: '' }]);
+    // setData((oldArray) => [
+    //   { id: newUniqueId, templatesID: templateID, soft_Deleted: false, value: '' },
+    //   ...oldArray,
+    // ])
   };
 
   // --------------Remove Existing Column Alert---------------
   const removeColumnAlert = (item: any, index: any) => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_REMOVE_COLUMN_ALERT)
-    
+    track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_REMOVE_COLUMN_ALERT)
+
     Alert.alert(labels.Creatcloudsheetlabels.Delete_Column, labels.Creatcloudsheetlabels.Delete_Warning, [
       {
         text: labels.Creatcloudsheetlabels.Cancel,
-        onPress: () => {console.log('Cancel Pressed'),track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_CANCEL_REMOVE_COLUMN)},
+        onPress: () => { console.log('Cancel Pressed'), track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_CANCEL_REMOVE_COLUMN) },
         style: 'cancel',
       },
       { text: labels.Creatcloudsheetlabels.OK, onPress: () => removeColumn(item, index) },
@@ -157,7 +173,7 @@ const CreatSpreadsheet = () => {
 
   // --------------Remove Existing Column Functionality---------------
   const removeColumn = (item: any, index: any) => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_DELETE_REMOVE_COLUMN)
+    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_DELETE_REMOVE_COLUMN)
     console.log("removeCol=========", item, index)
     let arr1 = columnList
     arr1.splice(index, 1)
@@ -174,11 +190,11 @@ const CreatSpreadsheet = () => {
     setLoader(true)
     templateColumn_softDelete(updatedColm).then((response: any) => {
       console.log("removeColmResp=========", response)
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.DELETE_COLUMN_SUCCESSFULLY)
+      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.DELETE_COLUMN_SUCCESSFULLY)
       setLoader(false)
     }).catch((error) => {
       setLoader(false)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.DELETE_COLUMN_ERROR)
+      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.DELETE_COLUMN_ERROR)
       console.log("removeColmErr=======", error)
     })
   }
@@ -206,10 +222,58 @@ const CreatSpreadsheet = () => {
     setExtraDataCol(new Date())
   }
 
+  // ------- checkValidate -------
+  const onValidation = (text: string, colname: any) => {
+    console.log("onchangeVal========", text, colname)
+
+    //   if(isEdit && text =="Name"){
+    //       console.log("isOnChangeEdit======",text)
+    //       setError(colname,{
+    //         type:'required',
+    //         message:"Name is already added"
+    //       })
+    // }
+    //   else if(!isEdit && Data.length>=1){
+    //     if(text == 'Name'){
+    //       console.log("isOnChange======",text)
+    //       setError(colname,{
+    //         type:'required',
+    //         message:"Name is already added"
+    //       })
+    //     }
+    //   }else{
+    //     setError(colname,null)
+    //   }
+
+    if (isEdit) {
+      if (text == "Name" && columnList.length>0) {
+        setError(colname, {
+          type: 'required',
+          message: "Name is already added"
+        })
+      } else {
+        setError(colname, null)
+      }
+    } else if (!isEdit && Data.length >= 1) {
+      if (text == "Name") {
+        setError(colname, {
+          type: 'required',
+          message: "Name is already added"
+        })
+      } else {
+        setError(colname, null)
+      }
+    }
+
+
+
+
+  }
+
   // -------------- Render New Column Added -------------
   const renderItems = ({ item, index }: any) => (
     console.log("colItem=====", item),
-    <SpreadsheetCard control={control} item={item} index={index} selectColumnType={() => openColumList(item)} />
+    <SpreadsheetCard control={control} setError={setError} onChangeCustom={(text: string, colName: string) => onValidation(text, colName)} item={item} columnLength={columnList.length} index={index} isEdit={isEdit} selectColumnType={() => openColumList(item)} />
   );
 
   // ------------ Render Existing Columns ------------
@@ -244,7 +308,7 @@ const CreatSpreadsheet = () => {
             />
             <View style={Createspreadstyle.buttonview}>
               <TouchableOpacity
-                onPress={() => AddColoumn()}
+                onPress={() => AddColoumn("", "")}
                 style={Createspreadstyle.addcoloumbutton}
               >
                 <View>

@@ -7,11 +7,13 @@ import labels from "../../../../utils/ProjectLabels.json";
 const ColumnCard = (props: any) => {
     return (
         <View style={styles.mainContainer}>
+            {props?.item?.column_Name == "Name"?null:
             <TouchableOpacity style={styles.crossIconView}
                 onPress={props.onPressRemove}
             >
                 <RedCorss />
             </TouchableOpacity>
+}
             <View>
                 <Text style={styles.columntext}>{labels.Creatcloudsheetlabels.ColumnName}</Text>
             </View>

@@ -3,6 +3,8 @@ import {
   Text,
   View,
   StyleSheet,
+  Alert,
+  Touchable,
 } from "react-native";
 import InputField from "../../../../commonComponents/InputField";
 import { useForm } from "react-hook-form";
@@ -11,7 +13,7 @@ import labels from "../../../../utils/ProjectLabels.json";
 import DropdownModal from '../../../../commonComponents/DropdownModal';
 
 const SpreadsheetCard = (props: any) => {
-  const { control, handleSubmit } = useForm();
+  const { setError ,handleSubmit} = useForm();
 
   return (
     <View style={styles.container}>
@@ -25,25 +27,40 @@ const SpreadsheetCard = (props: any) => {
           defaultValue={''}
           name={`column_Name${props.index}`}
           control={props.control}
+          customPassword={true}
+          onChangeCustom={(colname:string)=>props.onChangeCustom(colname,`column_Name${props.index}`)}
+          isEditable={props.columnLength ==0 && props.index == 0 ? false : true}
+          isEdit={props.isEdit}
+          index={props.index}
           placeholder={labels.Creatcloudsheetlabels.PLACEHOLDERTEXT}
           Image={false}
           rules={{
             required: labels.Creatcloudsheetlabels.Validationmsg,
-          }}
+          }
+          }
           styles={styles.inputview}
         />
+        <View>
+          <Text></Text>
+        </View>
         <View>
           <Text style={styles.coloumtypetext}>
             {labels.Creatcloudsheetlabels.ColumnType}
           </Text>
         </View>
         <DropdownModal
+          isEdit={props.isEdit}
+          index={props.index}
+          columnLength={props.columnLength}
           control={props.control}
           name={`column_Type${props.index}`}
           rules={{
             required: labels.Creatcloudsheetlabels.Validationmsg,
+
           }}
         />
+
+        
 
         {/* <View>
           <View style={styles.commondropdownview}>

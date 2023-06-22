@@ -471,6 +471,7 @@ export const spreadSheetsByUserID = /* GraphQL */ `
         SpreadSheetRows {
           items {
             id
+            soft_Deleted
           }
           nextToken
           startedAt
