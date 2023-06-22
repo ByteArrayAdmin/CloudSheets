@@ -21,8 +21,18 @@ import PasswordInstruction from '../../Popups/PasswordInstruction/index';
 import Loader from '../../../commonComponents/CommonLoader';
 
 const ForgotPassword = () => {
-  const { control, handleSubmit, setError, } = useForm();
-  const useForm1 = useForm()
+  const useForm1 = useForm();
+  const useFormSendEmail = useForm();
+  const {
+    handleSubmit,
+    control
+  } = useForm({
+  });
+  const {
+    handleSubmit: handleSubmit2,
+    control: control2
+  } = useForm({
+  });
   const navigation = useNavigation();
   const ChildRef = useRef();
   const [isSubmitted, setIssubmitted] = useState(false);
@@ -56,7 +66,7 @@ const ForgotPassword = () => {
       });
       setPasswordPolicy(true);
     } else {
-      useForm1.setError("password", null); // Clear the error if validation passes
+      useForm1.setError("newPassword", null); // Clear the error if validation passes
       setPasswordPolicy(false);
     }
 
@@ -65,55 +75,39 @@ const ForgotPassword = () => {
   // ------------ send OTP to email ------------
   const onSubmit = async (data: any) => {
     console.log("EmailData======", data)
-    if (!isSubmitted) {
-      const email = data.email
-      setLoader(true)
-      
-      forgetPassword_sendEmail(email).then((response: any) => {
-        console.log('sendEmail=======',response)
-        setEmail(email)
-        Alert.alert(Forgotlabel.Forgotpassword.OTP_SEND_QUOTE)
-        setLoader(false)
-        setIssubmitted(true)
-      }).catch((error) => {
-        setLoader(false)
-        Alert.alert(error.message)
-        console.log("sendMailError=======", error)
-      })
-    } else {
-      const code = data.code
-      const newPassword = data.newPassword
-      setLoader(true)
-      forgetPassword_submit(email, code, newPassword).then((response: any) => {
-        console.log("submitPassResp=====", response)
-        setLoader(false)
-        Alert.alert(response.message)
-        navigation.goBack()
-      }).catch((error) => {
-        setLoader(false)
-        console.log("submitPasswordErr=======", error)
-      })
-    }
+    const email = data.email
+    setLoader(true)
+    forgetPassword_sendEmail(email).then((response: any) => {
+      console.log('sendEmail=======', response)
+      setEmail(email)
+      Alert.alert(Forgotlabel.Forgotpassword.OTP_SEND_QUOTE)
+      setLoader(false)
+      setIssubmitted(true)
+    }).catch((error) => {
+      setLoader(false)
+      Alert.alert(error.message)
+      console.log("sendMailError=======", error)
+    })
 
   };
   // ----------- Update Password Submit -----------
 
-  const onUpdatePassword = async(data: any)=>{
+  const onUpdatePassword = async (data: any) => {
     console.log("EmailData======", data)
     const code = data.code
-      const newPassword = data.newPassword
-      setLoader(true)
-      forgetPassword_submit(email, code, newPassword).then((response: any) => {
-        console.log("submitPassResp=====", response)
-        setLoader(false)
-        Alert.alert(response)
-        navigation.goBack()
-      }).catch((error) => {
-        setLoader(false)
-        console.log("submitPasswordErr=======", error)
-      })
+    const newPassword = data.newPassword
+    setLoader(true)
+    forgetPassword_submit(email, code, newPassword).then((response: any) => {
+      console.log("submitPassResp=====", response)
+      setLoader(false)
+      Alert.alert(response)
+      navigation.goBack()
+    }).catch((error) => {
+      setLoader(false)
+      Alert.alert(error.message)
+      console.log("submitPasswordErr=======", error)
+    })
   }
-
 
   // ------------ open Privacy policy -----------
   const Opensheet = () => {
@@ -128,7 +122,6 @@ const ForgotPassword = () => {
           <View style={Forgotscreenstyle.backbuttonview}>
             <BackButton onPress={() => navigation.goBack()} />
           </View>
-
           <View style={Forgotscreenstyle.forgetpassswordview}>
             <View style={Forgotscreenstyle.forgotview}>
               <Mediumlogo />
@@ -162,7 +155,6 @@ const ForgotPassword = () => {
                       }}
                       styles={Forgotscreenstyle.inputview}
                     />
-
                     <CommonButton
                       onPress={handleSubmit(onSubmit)}
                       Register={Forgotlabel.Forgotpassword.SUBMIT}
@@ -179,7 +171,7 @@ const ForgotPassword = () => {
                       <View>
                         <InputField
                           name="code"
-                          control={useForm1.control}
+                          control={control2}
                           placeholder={Forgotlabel.Forgotpassword.ENTER_CODE}
                           Image={Lock}
                           rules={{
@@ -192,7 +184,7 @@ const ForgotPassword = () => {
                       <View>
                         <InputField
                           name="newPassword"
-                          control={useForm1.control}
+                          control={control2}
                           placeholder={Forgotlabel.Forgotpassword.ENTER_NEW_PASSWORD}
                           Image={Lock}
                           rules={{
@@ -217,9 +209,7 @@ const ForgotPassword = () => {
                         />
                       </View>
                       <CommonButton
-                      // onPress={handleSubmit(onSubmit)}
-                      onPress={useForm1.handleSubmit(onUpdatePassword)}
-                  // onPress={()=>Alert.alert("called")}
+                        onPress={handleSubmit2(onUpdatePassword)}
                         Register={Forgotlabel.Forgotpassword.CONFIRM_NEW_PASSWORD}
                       />
                     </View>

@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  BackHandler
 } from "react-native";
 import BackgroundLayout from "../../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../../assets/Images/smalllogo.svg";
@@ -35,10 +36,11 @@ import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event
 import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../../utils/Constant';
 import RegisterGuestUserPopup from '../../../Popups/RegisterGuestUserPopup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { navigationRef } from '../../../../navigations/navigationReference';
 
 const CreateTemplate = () => {
   // --------- File States -----------
-  const child = useRef();
+  const child = useRef(null);
   const editTempRef = useRef();
   const navigation = useNavigation();
   const route = useRoute();
@@ -53,7 +55,9 @@ const CreateTemplate = () => {
   const [loader, setLoader] = useState(false)
   const [registerModalVisible, setRegisterModalVisible] = useState(false)
   const [isGlobal, setIsGlobal] = useState(false)
+  const [isRefNull, setIsRefNull] = useState(false)
   useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onBackPress);
     DeviceEventEmitter.addListener('openCreateTemplate', () => openCreateTemplatePopup())
     DeviceEventEmitter.addListener('refreshTemplateList', () => getUserId())
     if (global.isLoggedInUser) {
@@ -62,8 +66,29 @@ const CreateTemplate = () => {
     } else {
       getGuestUserTemplates()
     }
+    return () => {
+      // Run this code when the component unmounts or the dependencies change
+      setIsRefNull(false)
+      console.log('Component unmounted');
+      BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+
+    };
     console.log('isFrom========', route.params?.isFrom)
   }, [])
+
+  const onBackPress = () => {
+    console.log("currentRouteName=====", navigationRef.current.getCurrentRoute().name)
+    if (navigationRef.current.getCurrentRoute().name === 'CreateTemplate') {
+      if (isRefNull == true) {
+        child.current.childFunction2();
+        editTempRef.current.childFunction2();
+        setIsRefNull(false)
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 
   useEffect(() => {
     console.log("isGlobal=======", global.IsFromHome)
@@ -73,6 +98,7 @@ const CreateTemplate = () => {
       global.IsFromHome = false
     } else {
       setIsGlobal(false)
+
     }
 
     return () => {
@@ -85,6 +111,7 @@ const CreateTemplate = () => {
   }, [global.IsFromHome, isGlobal])
 
   const openCreateTemplatePopup = () => {
+
     child.current.childFunction1();
   }
 
@@ -138,6 +165,7 @@ const CreateTemplate = () => {
 
   // ------------ Select Create Template Popup --------
   const toggleBottomNavigationView = () => {
+    setIsRefNull(true)
     setIsEditTemplate(false)
     setSelectedTemplate(null)
     setError("")

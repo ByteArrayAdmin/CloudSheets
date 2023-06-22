@@ -82,7 +82,7 @@ const Attendancelist = () => {
 
     console.log("spreadSheetRow======", selectedRow);
     console.log("spreadSheet======", spreadSheet);
-    navigation.navigate("RowdetailForm", { spreadSheetRow:selectedRow, spreadSheet:spreadSheet, isEdit:true, isFrom:isFrom })
+    navigation.push("RowdetailForm", { spreadSheetRow:selectedRow, spreadSheet:spreadSheet, isEdit:true, isFrom:isFrom })
   }
 
   // ----------- Delete Row Alert ------------
