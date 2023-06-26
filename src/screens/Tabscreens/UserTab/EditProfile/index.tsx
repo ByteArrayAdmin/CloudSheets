@@ -10,7 +10,7 @@ import { FONTS, COLOURS, emailRegex } from "../../../../utils/Constant";
 import EditProfileLogo from "../../../../assets/Images/profile-edit.svg";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import labels from "../../../../utils/ProjectLabels.json";
 import DeleteLogo from "../../../../assets/Images/delete.svg";
 import InputField from "../../../../commonComponents/InputField";
@@ -19,7 +19,7 @@ import CommonButton from "../../../../commonComponents/Button";
 import { Styles } from "./style";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import DeletePopup from "../../../../screens/Popups/DeletePopup";
-import { current_UserInfo, updateCurrentAuth, updateUserDetail, get_user_from_table } from '../../../../API_Manager/index';
+import { current_UserInfo, updateCurrentAuth, updateUserDetail, get_user_from_table, delete_Account } from '../../../../API_Manager/index';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import codegenNativeCommands from "react-native/Libraries/Utilities/codegenNativeCommands";
@@ -113,6 +113,32 @@ const EditProfile = () => {
     })
   };
 
+  // ------------- Delete Account -----------
+  const delete_userAccount = ()=>{
+    child.current.childFunction2();
+     setLoader(true)
+    delete_Account(userDetail.sub).then(async(response)=>{
+      console.log("deleteResp======",response)
+      try {
+        const result = await Auth.deleteUser();
+        console.log("deletedUserr========",result);
+        setLoader(false)
+        Alert.alert(result)
+        navigation.dispatch(CommonActions.reset({
+          routes: [
+            { name: 'Signupscreen' },]
+        }))
+      } catch (error) {
+        console.log('Error deleting user', error);
+        setLoader(false)
+      }
+      setLoader(false)
+    }).catch((error)=>{
+      setLoader(false)
+      console.log('deleteErr========',error)
+    })
+  }
+
   const openDeletePopup = () => {
     child.current.childFunction1();
   };
@@ -196,6 +222,8 @@ const EditProfile = () => {
           snapPoints={snapPoints}
           children={
             <DeletePopup
+            onCancel={()=>child.current.childFunction2()}
+            onDelete={()=>delete_userAccount()}
               Textone={labels.DeleteAccountpopups.TextFirst}
               Texttwo={labels.DeleteAccountpopups.TextSecond}
               ButtonOnetext={labels.DeleteAccountpopups.Cancel}

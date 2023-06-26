@@ -4,11 +4,16 @@
     "apiName": "CloudSheetBackendEnv",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "keyDescription": "api key description",
-      "expirationTime": 30
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authcloudsheetbackendenv0bf41396"
     },
     "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 7,
+        "apiKeyExpirationDate": "2023-07-03T07:38:17.986Z",
+        "keyDescription": ""
+      },
       {
         "mode": "AWS_IAM"
       }

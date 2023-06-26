@@ -36,6 +36,7 @@ const CreatSpreadsheet = () => {
   const [templateID, setTemplateID] = useState(route?.params?.template?.id)
   const [isEdit, setIsEdit] = useState(route?.params?.isEdit)
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
+  const [userId, setUserId] = useState(route?.params?.template?.userID)
   const { control, handleSubmit, setValue, setError } = useForm();
   const [columnList, setColumnList] = useState([]);
   const [extraData, setExtraData] = useState(new Date());
@@ -43,8 +44,6 @@ const CreatSpreadsheet = () => {
   const [loader, setLoader] = useState(false);
   const snapPoints = ['80%']
   const [columnTypeObj, setColumTypeObj] = useState({})
-
-
 
   // ----------- useEffect for initial Rendering---------------
   useEffect(() => {
@@ -75,6 +74,7 @@ const CreatSpreadsheet = () => {
       if (columnList.length == 0) {
         AddColoumn("Name", "Sentences")
       }
+      setExtraData(new Date())
     }).catch((error) => {
       setLoader(false)
       console.log("getColmErr=======", error)
@@ -116,7 +116,8 @@ const CreatSpreadsheet = () => {
       console.log("arrayIndex======", index)
       el.id = Data[index].id;
       el.templatesID = Data[index].templatesID;
-      el.soft_Deleted = Data[index].soft_Deleted
+      el.soft_Deleted = Data[index].soft_Deleted;
+      el.userID = Data[index].userID
       return el
     }
     );
@@ -151,11 +152,7 @@ const CreatSpreadsheet = () => {
       setValue("column_Type0", col_Type)
     }
 
-    setData((oldArray) => [...Data, { id: newUniqueId, templatesID: templateID, soft_Deleted: false, value: '' }]);
-    // setData((oldArray) => [
-    //   { id: newUniqueId, templatesID: templateID, soft_Deleted: false, value: '' },
-    //   ...oldArray,
-    // ])
+    setData((oldArray) => [...Data, { id: newUniqueId, templatesID: templateID, soft_Deleted: false, value: '', userID:userId }]);
   };
 
   // --------------Remove Existing Column Alert---------------
@@ -227,25 +224,6 @@ const CreatSpreadsheet = () => {
   const onValidation = (text: string, colname: any) => {
     console.log("onchangeVal========", text, colname)
 
-    //   if(isEdit && text =="Name"){
-    //       console.log("isOnChangeEdit======",text)
-    //       setError(colname,{
-    //         type:'required',
-    //         message:"Name is already added"
-    //       })
-    // }
-    //   else if(!isEdit && Data.length>=1){
-    //     if(text == 'Name'){
-    //       console.log("isOnChange======",text)
-    //       setError(colname,{
-    //         type:'required',
-    //         message:"Name is already added"
-    //       })
-    //     }
-    //   }else{
-    //     setError(colname,null)
-    //   }
-
     if (isEdit) {
       if (text == "Name" && columnList.length>0) {
         setError(colname, {
@@ -265,9 +243,6 @@ const CreatSpreadsheet = () => {
         setError(colname, null)
       }
     }
-
-
-
 
   }
 

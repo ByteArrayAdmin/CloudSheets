@@ -15,7 +15,7 @@ import SearcBar from "../../../../commonComponents/Searchbar";
 import ListCard from "./ListCard";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import SubcriptionPlan from "../../../../screens/Popups/SubcriptionPopup";
-import { get_SpreadSheetRowBySpreadSheetId, spreadSheetRow_softDelete } from '../../../../API_Manager/index';
+import { get_SpreadSheetRowBySpreadSheetId, spreadSheetRow_softDelete ,search_Spreadsheet_Row} from '../../../../API_Manager/index';
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
 import EditSpreadsheetRecord from "../../../../screens/Popups/EditSpreadsheetRecord/index";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
@@ -32,6 +32,7 @@ const ExpensesList = (props: any) => {
   const snapPoints = ["35%"];
   const [spreadSheetDetail, setSpreadSheetDetail] = useState(route?.params?.spreadSheetDetail)
   const [spreadSheetData, setSpreadSheetData] = useState([])
+  const searchRef = useRef(null);
   const [selectedRow, setSelectedRow] = useState({})
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
   const [loader, setLoader] = useState(false)
@@ -57,6 +58,7 @@ const ExpensesList = (props: any) => {
       setLoader(false)
       console.log("spreadRowResp======", response)
       setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items)
+      searchRef.current = response.data.spreadSheetRowsBySpreadsheetID.items
     }).catch((error) => {
       setLoader(false)
       console.log("spreadRowErr========", error)
@@ -140,6 +142,29 @@ const ExpensesList = (props: any) => {
     })
   }
 
+  // ------------ Search shpreadSheetRow -----------
+
+  const search_Row = (text:string)=>{
+    // let row = JSON.parse(JSON.stringify(searchRef.current))
+    let row = searchRef.current
+    let searchedArr = []
+    row.filter(item =>{
+      let parseEle = JSON.parse(item.items);
+      console.log("filterDataAbove========",parseEle)
+      if(parseEle.Name?.includes(text)){
+        console.log("filterDataIf========",item)
+        searchedArr.push(item)
+        return item
+      }else{
+        console.log("filterDataElse========",parseEle)
+        return null
+      }
+    })
+    setSpreadSheetData(searchedArr)
+    setExtraData(new Date())
+    console.log("searchData=====",row)
+  }
+
   const RenderItems = ({ item }: any) => (
     <ListCard items={item} onPressThreeDot={() => openEditRecordPopup(item)} />
   );
@@ -155,7 +180,7 @@ const ExpensesList = (props: any) => {
         />
       </View>
       <View style={Style.searchbarstyle}>
-        <SearcBar placeholder={labels.ExpensesList.Searchhere} />
+        <SearcBar placeholder={labels.ExpensesList.Searchhere} onChange={(text:string)=>search_Row(text)} />
       </View>
       <View style={Style.flatlistview}>
         <FlatList

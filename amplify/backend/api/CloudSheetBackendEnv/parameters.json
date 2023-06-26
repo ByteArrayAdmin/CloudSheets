@@ -1,5 +1,12 @@
 {
   "AppSyncApiName": "CloudSheetBackendEnv",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authcloudsheetbackendenv0bf41396",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2023-06-26T07:38:20.319Z"
 }

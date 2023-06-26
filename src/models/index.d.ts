@@ -92,6 +92,7 @@ type EagerTemplateColumns = {
   readonly column_Type?: string | null;
   readonly templatesID: string;
   readonly soft_Deleted?: boolean | null;
+  readonly userID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -106,6 +107,7 @@ type LazyTemplateColumns = {
   readonly column_Type?: string | null;
   readonly templatesID: string;
   readonly soft_Deleted?: boolean | null;
+  readonly userID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -165,6 +167,7 @@ type EagerUser = {
   readonly Templates?: (Templates | null)[] | null;
   readonly SpreadSheets?: (SpreadSheet | null)[] | null;
   readonly SpreadSheetRows?: (SpreadSheetRows | null)[] | null;
+  readonly TemplateColumns?: (TemplateColumns | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -180,6 +183,7 @@ type LazyUser = {
   readonly Templates: AsyncCollection<Templates>;
   readonly SpreadSheets: AsyncCollection<SpreadSheet>;
   readonly SpreadSheetRows: AsyncCollection<SpreadSheetRows>;
+  readonly TemplateColumns: AsyncCollection<TemplateColumns>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

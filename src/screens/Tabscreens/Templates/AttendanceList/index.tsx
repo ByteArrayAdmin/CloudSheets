@@ -31,6 +31,7 @@ const Attendancelist = () => {
   const navigation = useNavigation();
   const route = useRoute()
   const child = useRef()
+  const searchRef = useRef(null);
   const snapPoints = ["35%", "50%"];
   const [Data, setdata] = useState([{ id: 1 }]);
   const [spreadSheet, setSpreadSheet] = useState(route?.params?.spreadSheet)
@@ -135,6 +136,29 @@ const Attendancelist = () => {
     })
   }
 
+  // ------------ Search shpreadSheetRow -----------
+
+  const search_Row = (text:string)=>{
+    // let row = JSON.parse(JSON.stringify(searchRef.current))
+    let row = searchRef.current
+    let searchedArr = []
+    row.filter(item =>{
+      let parseEle = JSON.parse(item.items);
+      console.log("filterDataAbove========",parseEle)
+      if(parseEle.Name?.includes(text)){
+        console.log("filterDataIf========",item)
+        searchedArr.push(item)
+        return item
+      }else{
+        console.log("filterDataElse========",parseEle)
+        return null
+      }
+    })
+    setSpreadSheetData(searchedArr)
+    setExtraData(new Date())
+    console.log("searchData=====",row)
+  }
+
   const Footer = () => {
     return <View style={Style.footer} />;
   };
@@ -156,7 +180,7 @@ const Attendancelist = () => {
             styling={120}
           />
           <View style={Style.searchbarview}>
-            <Searchbar placeholder={"Search here"} />
+            <Searchbar placeholder={"Search here"} onChange={(text:string)=>search_Row(text)} />
           </View>
         </View>
         <View style={Style.flatlistview}>

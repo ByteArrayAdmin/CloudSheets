@@ -22,9 +22,9 @@ const DeletePopup = (props:any) => {
         </View>
       </View>
       <View style={Style.Buttonview}>
-        <Create buttontext={props.ButtonOnetext}/>
+        <Create buttontext={props.ButtonOnetext} onPress={props.onCancel} />
         <View style={Style.space}></View>
-        <Delete buttontext={props.ButtonTwotext}/>
+        <Delete buttontext={props.ButtonTwotext} onPress={props.onDelete} />
 
       </View>
     </View>

@@ -30,12 +30,14 @@ export const getSpreadSheetRows = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       soft_Deleted
       createdAt
@@ -43,6 +45,7 @@ export const getSpreadSheetRows = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
@@ -70,6 +73,7 @@ export const listSpreadSheetRows = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         soft_Deleted
         createdAt
@@ -77,6 +81,7 @@ export const listSpreadSheetRows = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -113,6 +118,7 @@ export const syncSpreadSheetRows = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         soft_Deleted
         createdAt
@@ -120,6 +126,7 @@ export const syncSpreadSheetRows = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -158,6 +165,7 @@ export const spreadSheetRowsByUserID = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         soft_Deleted
         createdAt
@@ -165,6 +173,7 @@ export const spreadSheetRowsByUserID = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -203,6 +212,7 @@ export const spreadSheetRowsByTemplatesID = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         soft_Deleted
         createdAt
@@ -210,6 +220,7 @@ export const spreadSheetRowsByTemplatesID = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -248,6 +259,7 @@ export const spreadSheetRowsBySpreadsheetID = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         soft_Deleted
         createdAt
@@ -255,6 +267,7 @@ export const spreadSheetRowsBySpreadsheetID = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -281,6 +294,7 @@ export const getSpreadSheet = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -308,12 +322,14 @@ export const getSpreadSheet = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
@@ -344,12 +360,14 @@ export const listSpreadSheets = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -389,12 +407,14 @@ export const syncSpreadSheets = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -436,12 +456,14 @@ export const spreadSheetsByTemplatesID = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -469,10 +491,6 @@ export const spreadSheetsByUserID = /* GraphQL */ `
         templatesID
         userID
         SpreadSheetRows {
-          items {
-            id
-            soft_Deleted
-          }
           nextToken
           startedAt
         }
@@ -480,12 +498,21 @@ export const spreadSheetsByUserID = /* GraphQL */ `
         Templates {
           id
           template_name
+          userID
+          soft_Deleted
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -500,11 +527,13 @@ export const getTemplateColumns = /* GraphQL */ `
       column_Type
       templatesID
       soft_Deleted
+      userID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
@@ -521,11 +550,13 @@ export const listTemplateColumns = /* GraphQL */ `
         column_Type
         templatesID
         soft_Deleted
+        userID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -551,11 +582,13 @@ export const syncTemplateColumns = /* GraphQL */ `
         column_Type
         templatesID
         soft_Deleted
+        userID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -583,11 +616,47 @@ export const templateColumnsByTemplatesID = /* GraphQL */ `
         column_Type
         templatesID
         soft_Deleted
+        userID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const templateColumnsByUserID = /* GraphQL */ `
+  query TemplateColumnsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTemplateColumnsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    templateColumnsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        column_Name
+        column_Type
+        templatesID
+        soft_Deleted
+        userID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -607,11 +676,13 @@ export const getTemplates = /* GraphQL */ `
           column_Type
           templatesID
           soft_Deleted
+          userID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -628,6 +699,7 @@ export const getTemplates = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -645,6 +717,7 @@ export const getTemplates = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -655,6 +728,7 @@ export const getTemplates = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
@@ -687,6 +761,7 @@ export const listTemplates = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -728,6 +803,7 @@ export const syncTemplates = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -771,6 +847,7 @@ export const templatesByUserID = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -794,6 +871,7 @@ export const getUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -810,6 +888,7 @@ export const getUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -827,6 +906,25 @@ export const getUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      TemplateColumns {
+        items {
+          id
+          column_Name
+          column_Type
+          templatesID
+          soft_Deleted
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -836,6 +934,7 @@ export const getUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
@@ -862,11 +961,16 @@ export const listUsers = /* GraphQL */ `
           nextToken
           startedAt
         }
+        TemplateColumns {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -902,11 +1006,16 @@ export const syncUsers = /* GraphQL */ `
           nextToken
           startedAt
         }
+        TemplateColumns {
+          nextToken
+          startedAt
+        }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt

@@ -5,8 +5,9 @@
 export const onCreateSpreadSheetRows = /* GraphQL */ `
   subscription OnCreateSpreadSheetRows(
     $filter: ModelSubscriptionSpreadSheetRowsFilterInput
+    $owner: String
   ) {
-    onCreateSpreadSheetRows(filter: $filter) {
+    onCreateSpreadSheetRows(filter: $filter, owner: $owner) {
       id
       items
       userID
@@ -32,12 +33,14 @@ export const onCreateSpreadSheetRows = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       soft_Deleted
       createdAt
@@ -45,14 +48,16 @@ export const onCreateSpreadSheetRows = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onUpdateSpreadSheetRows = /* GraphQL */ `
   subscription OnUpdateSpreadSheetRows(
     $filter: ModelSubscriptionSpreadSheetRowsFilterInput
+    $owner: String
   ) {
-    onUpdateSpreadSheetRows(filter: $filter) {
+    onUpdateSpreadSheetRows(filter: $filter, owner: $owner) {
       id
       items
       userID
@@ -78,12 +83,14 @@ export const onUpdateSpreadSheetRows = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       soft_Deleted
       createdAt
@@ -91,14 +98,16 @@ export const onUpdateSpreadSheetRows = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onDeleteSpreadSheetRows = /* GraphQL */ `
   subscription OnDeleteSpreadSheetRows(
     $filter: ModelSubscriptionSpreadSheetRowsFilterInput
+    $owner: String
   ) {
-    onDeleteSpreadSheetRows(filter: $filter) {
+    onDeleteSpreadSheetRows(filter: $filter, owner: $owner) {
       id
       items
       userID
@@ -124,12 +133,14 @@ export const onDeleteSpreadSheetRows = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       soft_Deleted
       createdAt
@@ -137,14 +148,16 @@ export const onDeleteSpreadSheetRows = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onCreateSpreadSheet = /* GraphQL */ `
   subscription OnCreateSpreadSheet(
     $filter: ModelSubscriptionSpreadSheetFilterInput
+    $owner: String
   ) {
-    onCreateSpreadSheet(filter: $filter) {
+    onCreateSpreadSheet(filter: $filter, owner: $owner) {
       id
       spreadsheet_name
       templatesID
@@ -162,6 +175,7 @@ export const onCreateSpreadSheet = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -189,20 +203,23 @@ export const onCreateSpreadSheet = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onUpdateSpreadSheet = /* GraphQL */ `
   subscription OnUpdateSpreadSheet(
     $filter: ModelSubscriptionSpreadSheetFilterInput
+    $owner: String
   ) {
-    onUpdateSpreadSheet(filter: $filter) {
+    onUpdateSpreadSheet(filter: $filter, owner: $owner) {
       id
       spreadsheet_name
       templatesID
@@ -220,6 +237,7 @@ export const onUpdateSpreadSheet = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -247,20 +265,23 @@ export const onUpdateSpreadSheet = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onDeleteSpreadSheet = /* GraphQL */ `
   subscription OnDeleteSpreadSheet(
     $filter: ModelSubscriptionSpreadSheetFilterInput
+    $owner: String
   ) {
-    onDeleteSpreadSheet(filter: $filter) {
+    onDeleteSpreadSheet(filter: $filter, owner: $owner) {
       id
       spreadsheet_name
       templatesID
@@ -278,6 +299,7 @@ export const onDeleteSpreadSheet = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -305,74 +327,86 @@ export const onDeleteSpreadSheet = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onCreateTemplateColumns = /* GraphQL */ `
   subscription OnCreateTemplateColumns(
     $filter: ModelSubscriptionTemplateColumnsFilterInput
+    $owner: String
   ) {
-    onCreateTemplateColumns(filter: $filter) {
+    onCreateTemplateColumns(filter: $filter, owner: $owner) {
       id
       column_Name
       column_Type
       templatesID
       soft_Deleted
+      userID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onUpdateTemplateColumns = /* GraphQL */ `
   subscription OnUpdateTemplateColumns(
     $filter: ModelSubscriptionTemplateColumnsFilterInput
+    $owner: String
   ) {
-    onUpdateTemplateColumns(filter: $filter) {
+    onUpdateTemplateColumns(filter: $filter, owner: $owner) {
       id
       column_Name
       column_Type
       templatesID
       soft_Deleted
+      userID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onDeleteTemplateColumns = /* GraphQL */ `
   subscription OnDeleteTemplateColumns(
     $filter: ModelSubscriptionTemplateColumnsFilterInput
+    $owner: String
   ) {
-    onDeleteTemplateColumns(filter: $filter) {
+    onDeleteTemplateColumns(filter: $filter, owner: $owner) {
       id
       column_Name
       column_Type
       templatesID
       soft_Deleted
+      userID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onCreateTemplates = /* GraphQL */ `
   subscription OnCreateTemplates(
     $filter: ModelSubscriptionTemplatesFilterInput
+    $owner: String
   ) {
-    onCreateTemplates(filter: $filter) {
+    onCreateTemplates(filter: $filter, owner: $owner) {
       id
       template_name
       userID
@@ -383,11 +417,13 @@ export const onCreateTemplates = /* GraphQL */ `
           column_Type
           templatesID
           soft_Deleted
+          userID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -404,6 +440,7 @@ export const onCreateTemplates = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -421,6 +458,7 @@ export const onCreateTemplates = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -431,14 +469,16 @@ export const onCreateTemplates = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onUpdateTemplates = /* GraphQL */ `
   subscription OnUpdateTemplates(
     $filter: ModelSubscriptionTemplatesFilterInput
+    $owner: String
   ) {
-    onUpdateTemplates(filter: $filter) {
+    onUpdateTemplates(filter: $filter, owner: $owner) {
       id
       template_name
       userID
@@ -449,11 +489,13 @@ export const onUpdateTemplates = /* GraphQL */ `
           column_Type
           templatesID
           soft_Deleted
+          userID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -470,6 +512,7 @@ export const onUpdateTemplates = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -487,6 +530,7 @@ export const onUpdateTemplates = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -497,14 +541,16 @@ export const onUpdateTemplates = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onDeleteTemplates = /* GraphQL */ `
   subscription OnDeleteTemplates(
     $filter: ModelSubscriptionTemplatesFilterInput
+    $owner: String
   ) {
-    onDeleteTemplates(filter: $filter) {
+    onDeleteTemplates(filter: $filter, owner: $owner) {
       id
       template_name
       userID
@@ -515,11 +561,13 @@ export const onDeleteTemplates = /* GraphQL */ `
           column_Type
           templatesID
           soft_Deleted
+          userID
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -536,6 +584,7 @@ export const onDeleteTemplates = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -553,6 +602,7 @@ export const onDeleteTemplates = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -563,12 +613,16 @@ export const onDeleteTemplates = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
-    onCreateUser(filter: $filter) {
+  subscription OnCreateUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $owner: String
+  ) {
+    onCreateUser(filter: $filter, owner: $owner) {
       id
       name
       email
@@ -583,6 +637,7 @@ export const onCreateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -599,6 +654,7 @@ export const onCreateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -616,6 +672,25 @@ export const onCreateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      TemplateColumns {
+        items {
+          id
+          column_Name
+          column_Type
+          templatesID
+          soft_Deleted
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -625,12 +700,16 @@ export const onCreateUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
-    onUpdateUser(filter: $filter) {
+  subscription OnUpdateUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $owner: String
+  ) {
+    onUpdateUser(filter: $filter, owner: $owner) {
       id
       name
       email
@@ -645,6 +724,7 @@ export const onUpdateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -661,6 +741,7 @@ export const onUpdateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -678,6 +759,25 @@ export const onUpdateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      TemplateColumns {
+        items {
+          id
+          column_Name
+          column_Type
+          templatesID
+          soft_Deleted
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -687,12 +787,16 @@ export const onUpdateUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
-    onDeleteUser(filter: $filter) {
+  subscription OnDeleteUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $owner: String
+  ) {
+    onDeleteUser(filter: $filter, owner: $owner) {
       id
       name
       email
@@ -707,6 +811,7 @@ export const onDeleteUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -723,6 +828,7 @@ export const onDeleteUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -740,6 +846,25 @@ export const onDeleteUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
+        }
+        nextToken
+        startedAt
+      }
+      TemplateColumns {
+        items {
+          id
+          column_Name
+          column_Type
+          templatesID
+          soft_Deleted
+          userID
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
         }
         nextToken
         startedAt
@@ -749,6 +874,7 @@ export const onDeleteUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
