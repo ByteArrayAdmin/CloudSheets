@@ -70,6 +70,7 @@ const CommonBottomsheet = forwardRef((props: any, ref: any) => {
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         enableDismissOnClose={true}
+        onDismiss={props.onBackdropPress}
       >
         {props.children ? <View>{props.children}</View>:null}
       </BottomSheetModal>

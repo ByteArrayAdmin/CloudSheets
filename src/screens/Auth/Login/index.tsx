@@ -60,7 +60,7 @@ const Login = () => {
     setLoader(true);
     userLogin(data)
       .then((response: any) => {
-        console.log("signInResp=======", response.attributes);
+        console.log("signInResp=======", response);
         signIn_Event();
         setLoader(false);
         const syncUser = async () => {

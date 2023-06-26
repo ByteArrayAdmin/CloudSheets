@@ -34,7 +34,7 @@ export const Attendancelistcard = (props: any) => {
       <View style={[Styles.innercontainer, { borderColor: isOpen ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue }]}>
         <View style={Styles.subcontainer}>
           <View>
-            <Text style={Styles.nametext}>{Object.values(items)[0]}</Text>
+            <Text style={Styles.nametext}>{items.Name}</Text>
           </View>
           <View style={Styles.emptyview}></View>
           <TouchableOpacity style={Styles.gap}

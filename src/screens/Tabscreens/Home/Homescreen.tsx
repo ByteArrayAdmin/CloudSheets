@@ -78,8 +78,12 @@ const Homescreen = (props: any) => {
     //Toggling the visibility state of the bottom sheet
     if (global.isLoggedInUser) {
       global.IsFromHome = true
-      DeviceEventEmitter.emit('openCreateTemplate')
+      
       navigation.navigate('TemplatesTab')
+      // setTimeout(() => {
+      //   DeviceEventEmitter.emit('openCreateTemplate')
+      // }, 1000);
+        
       
     } else {
       setRegisterModalVisible(!registerModalVisible);

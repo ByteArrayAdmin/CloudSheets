@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useRef, useEffect, useState } from "react";
-import { FlatList, View, TouchableOpacity, Text, DeviceEventEmitter, Alert } from "react-native";
+import { FlatList, View, TouchableOpacity, Text, DeviceEventEmitter, Alert,BackHandler } from "react-native";
 import FlatListHeader from "./FlatlistHeader";
 import Cloudsheetcard from "./Cloudsheetcard";
 import { styles } from "./style";
@@ -52,6 +52,7 @@ const ClousheetList = () => {
   const [loader, setLoader] = useState(false)
   const [searchCloudsheet, setSearchCloudsheet] = useState('')
   const [registerModalVisible, setRegisterModalVisible] = useState(false)
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
 
   // -------------- Initial Rendering ------------
   useEffect(() => {
@@ -61,6 +62,27 @@ const ClousheetList = () => {
     track_Screen(eventName.TRACK_SCREEN, screenName.CLOUDSHEET_TAB_SCREEN)
   }, [])
 
+  // ------------ backHandler ---------
+  useEffect(() => {
+    const backAction = () => {
+      if(isSheetOpen){
+        console.log("sheetIsOpen==========")
+        ChildRef.current.childFunction2();
+        createTemplateRef.current.childFunction2();
+        openthreeDotRef.current.childFunction2();
+        openCloudSheetEditRef.current.childFunction2();
+
+        // backHandler.remove(); 
+        setIsSheetOpen(false)
+        return true
+      }else{
+        console.log("sheetIsClosed==========")
+        return false;
+      }
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove(); // Clean up the event listener
+  }, [isSheetOpen]); 
   // ------------ Get Current userId -------------
   const get_CurrentUserId = () => {
     current_UserInfo().then((response: any) => {
@@ -151,6 +173,7 @@ const ClousheetList = () => {
       setLoader(false)
       console.log("createTempResp=======", response)
       createTemplateRef.current.childFunction2();
+      setIsSheetOpen(false)
       navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate, isFrom: "CloudSheetTab" });
       DeviceEventEmitter.emit("refreshTemplateList")
     }).catch((err) => {
@@ -162,6 +185,7 @@ const ClousheetList = () => {
   // ------------ Open select Template Type Popup ------------
   const Opensheet = () => {
     if (global.isLoggedInUser) {
+      setIsSheetOpen(true)
       ChildRef.current.childFunction1();
     } else {
       setRegisterModalVisible(!registerModalVisible);
@@ -171,18 +195,21 @@ const ClousheetList = () => {
 // ----------- Create New Template Popup -----------
   const cancelCreateTemplate = ()=>{
     setError('')
+    setIsSheetOpen(false)
     createTemplateRef.current.childFunction2();
   }
 
   // ----------- Create New Template Popup -----------
   const openNewTemplate = () => {
     setError('')
+    setIsSheetOpen(true)
     ChildRef.current.childFunction2();
     createTemplateRef.current.childFunction1();
   }
 
   // ------------ On Select Existing Template ---------
   const onExistingTemplate = () => {
+    setIsSheetOpen(false)
     ChildRef.current.childFunction2();
     navigation.navigate("ExistingTemplateList")
   }
@@ -191,12 +218,14 @@ const ClousheetList = () => {
   const openEditCloudSheetPopup = (selectedCloudSheet: any) => {
     console.log("selectedCloudSheet=======", selectedCloudSheet)
     setSelectedCloudSheet(selectedCloudSheet)
+    setIsSheetOpen(true)
     openthreeDotRef.current.childFunction1();
   }
 
   // -------- onEdit CloudSheet ---------
   const openEditCloudSheet = () => {
     setIsEditCloudSheetName(true)
+    setIsSheetOpen(true)
     openthreeDotRef.current.childFunction2();
     openCloudSheetEditRef.current.childFunction1();
   }
@@ -204,11 +233,13 @@ const ClousheetList = () => {
   // ------- Close Edit CloudSheet Modal ---------
   const OnCloseEditCloudSheetModal = () => {
     setIsEditCloudSheetName(false)
+    setIsSheetOpen(false)
     openCloudSheetEditRef.current.childFunction2();
   }
 
   // ----------- Update CloudSheet -------------
   const onUpdateCloudSheet = (text: String, templateId: String, version: any, spreadSheetId: String, userId: String,softDeleted: boolean) => {
+    setIsSheetOpen(false)
     let arr1 = cloudSheetList
     arr1.forEach(element => {
       if (element.id == spreadSheetId) {

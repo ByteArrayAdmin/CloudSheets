@@ -40,7 +40,7 @@ import { navigationRef } from '../../../../navigations/navigationReference';
 
 const CreateTemplate = () => {
   // --------- File States -----------
-  const child = useRef(null);
+  const child = useRef();
   const editTempRef = useRef();
   const navigation = useNavigation();
   const route = useRoute();
@@ -56,9 +56,11 @@ const CreateTemplate = () => {
   const [registerModalVisible, setRegisterModalVisible] = useState(false)
   const [isGlobal, setIsGlobal] = useState(false)
   const [isRefNull, setIsRefNull] = useState(false)
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', onBackPress);
-    DeviceEventEmitter.addListener('openCreateTemplate', () => openCreateTemplatePopup())
+    // BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    // DeviceEventEmitter.addListener('openCreateTemplate', () => openCreateTemplatePopup())
+    
     DeviceEventEmitter.addListener('refreshTemplateList', () => getUserId())
     if (global.isLoggedInUser) {
       getUserId()
@@ -70,7 +72,7 @@ const CreateTemplate = () => {
       // Run this code when the component unmounts or the dependencies change
       setIsRefNull(false)
       console.log('Component unmounted');
-      BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      // BackHandler.removeEventListener('hardwareBackPress', onBackPress);
 
     };
     console.log('isFrom========', route.params?.isFrom)
@@ -91,9 +93,28 @@ const CreateTemplate = () => {
   }
 
   useEffect(() => {
+    const backAction = () => {
+      if(isSheetOpen){
+        console.log("sheetIsOpen==========")
+        child.current.childFunction2();
+        editTempRef.current.childFunction2();
+        // backHandler.remove(); 
+        setIsSheetOpen(false)
+        return true
+      }else{
+        console.log("sheetIsClosed==========")
+        return false;
+      }
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove(); // Clean up the event listener
+  }, [isSheetOpen]); 
+
+  useEffect(() => {
     console.log("isGlobal=======", global.IsFromHome)
     if (global.IsFromHome == true) {
-      child.current.childFunction1();
+       child.current.childFunction1();
+       navigation.addListener('focus', () => openCreateTemplatePopup());
       setIsGlobal(true)
       global.IsFromHome = false
     } else {
@@ -107,12 +128,12 @@ const CreateTemplate = () => {
       global.IsFromHome = false
       setIsGlobal(false)
     };
-
+    
   }, [global.IsFromHome, isGlobal])
 
   const openCreateTemplatePopup = () => {
-
-    child.current.childFunction1();
+    setIsSheetOpen(true)
+      child.current.childFunction1();
   }
 
   // --------- Get Guest user Template List --------
@@ -171,12 +192,14 @@ const CreateTemplate = () => {
     setError("")
     track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_CREATE_TEMPLATE_MODAL)
     if (global.isLoggedInUser) {
+      setIsSheetOpen(true)
       child.current.childFunction1();
     } else {
       if (templateList.length > 0) {
         setRegisterModalVisible(true)
       } else {
         child.current.childFunction1();
+        setIsSheetOpen(true)
       }
     }
 
@@ -186,12 +209,15 @@ const CreateTemplate = () => {
   const cancelCreateTemplate = () => {
     setError('')
     child.current.childFunction2();
+    setIsSheetOpen(false)
   }
 
   // ----------- Open Create Template popup ----------
   const OpenPopup = (item: any) => {
     console.log("selectedTemp========", item)
+    
     setSelectedTemplate(item)
+    setIsSheetOpen(true)
     editTempRef.current.childFunction1()
   }
 
@@ -358,10 +384,14 @@ const CreateTemplate = () => {
 
   // --------------Open Edit Template popup functionality-------------------
   const onEditTemplate = () => {
+    setIsSheetOpen(true)
+    console.log("sheetStatusOnEdit=======",isSheetOpen)
     editTempRef.current.childFunction2()
     child.current.childFunction1();
+    
     track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_EDIT_TEMPLATE)
     setIsEditTemplate(true)
+    
   }
   const snapPoints = ["45%"];
 
@@ -478,6 +508,7 @@ const CreateTemplate = () => {
       <CommonBottomsheet
         ref={child}
         snapPoints={snapPoints}
+        onBackdropPress={()=>setIsSheetOpen(false)}
         children={
           <CreateTemplatePopup
             error={error}
@@ -489,7 +520,11 @@ const CreateTemplate = () => {
           />}
       />
       <View>
-        <CommonBottomsheet ref={editTempRef} snapPoints={snapPoints} children={
+        <CommonBottomsheet 
+        ref={editTempRef} 
+        snapPoints={snapPoints} 
+        onBackdropPress={()=>setIsSheetOpen(false)}
+        children={
           <EditDeleteCloudsheet
             editTemplate={() => onEditTemplate()}
             deleteTemplate={() => deleteAlert()}

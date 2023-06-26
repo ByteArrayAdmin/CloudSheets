@@ -15,7 +15,7 @@ export const Styles = StyleSheet.create({
       borderRadius: 10,
       paddingHorizontal: 15,
       paddingBottom:15,
-      borderWidth:1
+      //borderWidth:1
     },
     inputview: {
       height: 50,

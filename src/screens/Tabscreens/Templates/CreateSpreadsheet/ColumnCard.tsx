@@ -5,6 +5,7 @@ import RedCorss from '../../../../assets/Images/redcross.svg';
 import labels from "../../../../utils/ProjectLabels.json";
 
 const ColumnCard = (props: any) => {
+    console.log("columnCardData=======",props?.item)
     return (
         <View style={styles.mainContainer}>
             {props?.item?.column_Name == "Name"?null:
