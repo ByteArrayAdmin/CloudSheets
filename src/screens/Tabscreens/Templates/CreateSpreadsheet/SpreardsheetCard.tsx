@@ -11,11 +11,13 @@ import { useForm } from "react-hook-form";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import labels from "../../../../utils/ProjectLabels.json";
 import DropdownModal from '../../../../commonComponents/DropdownModal';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SpreadsheetCard = (props: any) => {
   const { setError ,handleSubmit} = useForm();
 
   return (
+    <KeyboardAwareScrollView>
     <View style={styles.container}>
       <View>
         <Text style={styles.columntext}>
@@ -81,6 +83,7 @@ const SpreadsheetCard = (props: any) => {
         </View> */}
       </View>
     </View>
+    </KeyboardAwareScrollView>
   
   );
 };

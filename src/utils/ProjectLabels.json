@@ -116,7 +116,7 @@
   },
   "CloudSheetNameConstants": {
     "NewCloudSheet": "New CloudSheet",
-    "EditCloudSheet": "Edit CloudSheet",
+    "EditCloudSheet": "Edit CloudSheet Name",
     "PleaseNameYourCloudSheet": "Please name your CloudSheet",
     "CloudSheetName": "CloudSheet Name",
     "EnterCloudSheetName": "Enter CloudSheet Name",
@@ -138,7 +138,7 @@
     "Cancel": "Cancel",
     "OK": "OK",
     "Done": "Done",
-    "Update_Column": "Update Column"
+    "Update_Column": "Update Template"
   },
   "AddrowClassattendance": {
     "ClassAttendance": "Class Attendance",

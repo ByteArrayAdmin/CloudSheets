@@ -157,10 +157,10 @@ const Tempatestyle = StyleSheet.create({
   },
   buttonview: {
     flexDirection: "row",
-    marginHorizontal: 90,
+    marginHorizontal: 110,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 40,
   },
   Bottominput: {
     marginTop: 15,

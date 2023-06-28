@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
-  Alert
+  Alert,
+  BackHandler
 } from "react-native";
 import NewCommonHeader from ".././../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -15,112 +16,186 @@ import SearcBar from "../../../../commonComponents/Searchbar";
 import ListCard from "./ListCard";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import SubcriptionPlan from "../../../../screens/Popups/SubcriptionPopup";
-import { get_SpreadSheetRowBySpreadSheetId, spreadSheetRow_softDelete ,search_Spreadsheet_Row} from '../../../../API_Manager/index';
+import {
+  get_SpreadSheetRowBySpreadSheetId,
+  spreadSheetRow_softDelete,
+  search_Spreadsheet_Row,
+} from "../../../../API_Manager/index";
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
 import EditSpreadsheetRecord from "../../../../screens/Popups/EditSpreadsheetRecord/index";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
-import CommonLoader from '../../../../commonComponents/CommonLoader';
-import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event } from '../../../../eventTracking/index';
-import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../../utils/Constant';
+import CommonLoader from "../../../../commonComponents/CommonLoader";
+import {
+  track_Screen,
+  track_Click_Event,
+  track_Success_Event,
+  track_Error_Event,
+} from "../../../../eventTracking/index";
+import {
+  eventName,
+  screenName,
+  clickName,
+  successActionName,
+  errorActionName,
+} from "../../../../utils/Constant";
 
 const ExpensesList = (props: any) => {
   // --------- File States ---------
-  const route = useRoute()
+  const route = useRoute();
   const navigation = useNavigation();
   const child = useRef();
   const editRecordRef = useRef();
   const snapPoints = ["35%"];
-  const [spreadSheetDetail, setSpreadSheetDetail] = useState(route?.params?.spreadSheetDetail)
-  const [spreadSheetData, setSpreadSheetData] = useState([])
+  const [spreadSheetDetail, setSpreadSheetDetail] = useState(
+    route?.params?.spreadSheetDetail
+  );
+  const [spreadSheetData, setSpreadSheetData] = useState([]);
   const searchRef = useRef(null);
-  const [selectedRow, setSelectedRow] = useState({})
-  const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
-  const [loader, setLoader] = useState(false)
-  const [extraData, setExtraData] = useState(new Date())
+  const [selectedRow, setSelectedRow] = useState({});
+  const [isFrom, setIsFrom] = useState(route?.params?.isFrom);
+  const [loader, setLoader] = useState(false);
+  const [extraData, setExtraData] = useState(new Date());
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
 
   // ----------- Initial Rendering ------------
   useEffect(() => {
-    console.log("spreadSheetId========", spreadSheetDetail)
+    console.log("spreadSheetId========", spreadSheetDetail);
     // OpenPopup();
-    get_SpreadSheetRowBySpreadSheetID()
-    track_Screen(eventName.TRACK_SCREEN, screenName.SPREADSHEET_ROWLIST_SCREEN)
+    get_SpreadSheetRowBySpreadSheetID();
+    track_Screen(eventName.TRACK_SCREEN, screenName.SPREADSHEET_ROWLIST_SCREEN);
   }, []);
 
   // ----------- Pull to Refresh SpreadSheet Row ----------
   const onRefresh = () => {
-    get_SpreadSheetRowBySpreadSheetID()
-  }
+    get_SpreadSheetRowBySpreadSheetID();
+  };
 
   // ----------- Get SpreadSheet Row Data -------------
   const get_SpreadSheetRowBySpreadSheetID = () => {
-    setLoader(true)
-    get_SpreadSheetRowBySpreadSheetId(spreadSheetDetail.id).then((response: any) => {
-      setLoader(false)
-      console.log("spreadRowResp======", response)
-      setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items)
-      searchRef.current = response.data.spreadSheetRowsBySpreadsheetID.items
-    }).catch((error) => {
-      setLoader(false)
-      console.log("spreadRowErr========", error)
-    })
-  }
+    setLoader(true);
+    get_SpreadSheetRowBySpreadSheetId(spreadSheetDetail.id)
+      .then((response: any) => {
+        setLoader(false);
+        console.log("spreadRowResp======", response);
+        setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items);
+        searchRef.current = response.data.spreadSheetRowsBySpreadsheetID.items;
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log("spreadRowErr========", error);
+      });
+  };
 
   // ------------ Open Subscribtion popUp ------------
   const OpenPopup = () => {
     child.current.childFunction1();
   };
+  useEffect(() => {
+    const backAction = () => {
+      if(isSheetOpen){
+        console.log("sheetIsOpen==========")
+        
+        editRecordRef.current.childFunction2();
+        // backHandler.remove(); 
+        setIsSheetOpen(false)
+        return true
+      }else{
+        console.log("sheetIsClosed==========")
+        return false;
+      }
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove(); // Clean up the event listener
+  }, [isSheetOpen]); 
 
   // ------------ onClick Edit Record popup ------------
   const onEditRecord = () => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_EDIT_SPREADSHEET_ROW)
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.SELECT_EDIT_SPREADSHEET_ROW
+    );
     editRecordRef.current.childFunction2();
-    console.log("spreadSheetRow=======", selectedRow)
-    console.log("spreadSheetDetail======", spreadSheetDetail)
-    navigation.navigate("RowdetailForm", { spreadSheetRow: selectedRow, spreadSheet: spreadSheetDetail, isEdit: true, isFrom: isFrom })
-  }
+    console.log("spreadSheetRow=======", selectedRow);
+    console.log("spreadSheetDetail======", spreadSheetDetail);
+    navigation.navigate("RowdetailForm", {
+      spreadSheetRow: selectedRow,
+      spreadSheet: spreadSheetDetail,
+      isEdit: true,
+      isFrom: isFrom,
+    });
+  };
 
   // ------------- Open Edit Record PopUp ----------------
   const openEditRecordPopup = (spreadSheetRow: any) => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_SPREADSHEET_ROW_ACTION_MODAL)
-    setSelectedRow(spreadSheetRow)
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.OPEN_SPREADSHEET_ROW_ACTION_MODAL
+    );
+    setSelectedRow(spreadSheetRow);
     editRecordRef.current.childFunction1();
-  }
+    setIsSheetOpen(true)
+  };
 
   // --------------- Add New SpreadSheet Record ---------------
   const onClickAddRow = () => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_ADD_SPREADSHEET_ROW)
-    navigation.navigate("RowdetailForm", { spreadSheet: spreadSheetDetail, isFrom: isFrom })
-  }
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.SELECT_ADD_SPREADSHEET_ROW
+    );
+    navigation.navigate("RowdetailForm", {
+      spreadSheet: spreadSheetDetail,
+      isFrom: isFrom,
+    });
+  };
 
   // ----------- Delete Row Alert ------------
   const deleteAlert = () => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_DELETE_SPREADSHEET_ROW)
-    track_Screen(eventName.TRACK_SCREEN, screenName.DELETE_SPREADSHEET_ROW_ALERT)
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.SELECT_DELETE_SPREADSHEET_ROW
+    );
+    track_Screen(
+      eventName.TRACK_SCREEN,
+      screenName.DELETE_SPREADSHEET_ROW_ALERT
+    );
     editRecordRef.current.childFunction2();
-    Alert.alert(labels.ExpensesList.Delete_Record_Alert, labels.ExpensesList.Delete_Quete, [
-      {
-        text: labels.ExpensesList.Cancel,
-        onPress: () => { console.log('Cancel Pressed'), track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_CANCEL_DELETE_SPREADSHEET_ROW) },
-        style: 'cancel',
-      },
-      { text: labels.ExpensesList.OK, onPress: () => onDeleteRow() },
-    ]);
-  }
+    Alert.alert(
+      labels.ExpensesList.Delete_Record_Alert,
+      labels.ExpensesList.Delete_Quete,
+      [
+        {
+          text: labels.ExpensesList.Cancel,
+          onPress: () => {
+            console.log("Cancel Pressed"),
+              track_Click_Event(
+                eventName.TRACK_CLICK,
+                clickName.SELECT_CANCEL_DELETE_SPREADSHEET_ROW
+              );
+          },
+          style: "cancel",
+        },
+        { text: labels.ExpensesList.OK, onPress: () => onDeleteRow() },
+      ]
+    );
+  };
   // ------------ Delete Row ------------
   const onDeleteRow = () => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_DELETE_SPREADSHEET_ROW)
-    console.log("selectedRow========", selectedRow)
-    let obj = selectedRow
-    let arr1 = spreadSheetData
-    let index
-    arr1.forEach(element => {
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.SELECT_DELETE_SPREADSHEET_ROW
+    );
+    console.log("selectedRow========", selectedRow);
+    let obj = selectedRow;
+    let arr1 = spreadSheetData;
+    let index;
+    arr1.forEach((element) => {
       if (element.id == selectedRow.id) {
-        index = arr1.indexOf(element)
+        index = arr1.indexOf(element);
       }
     });
-    arr1.splice(index, 1)
-    setSpreadSheetData(arr1)
-    setExtraData(new Date())
+    arr1.splice(index, 1);
+    setSpreadSheetData(arr1);
+    setExtraData(new Date());
     const deleteRow = {
       id: selectedRow.id,
       items: selectedRow.items,
@@ -128,42 +203,50 @@ const ExpensesList = (props: any) => {
       templatesID: selectedRow.templatesID,
       spreadsheetID: selectedRow.spreadsheetID,
       soft_Deleted: true,
-      _version: selectedRow._version
-    }
-    setLoader(true)
-    spreadSheetRow_softDelete(deleteRow).then((response: any) => {
-      console.log("softDeleteRowResp=========", response)
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.DELETE_SPREADSHEET_ROW_SUCCESSFULLY)
-      setLoader(false)
-    }).catch((error) => {
-      setLoader(false)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.DELETE_SPREADSHEET_ROW_ERROR)
-      console.log("deleteRow=======", error)
-    })
-  }
+      _version: selectedRow._version,
+    };
+    setLoader(true);
+    spreadSheetRow_softDelete(deleteRow)
+      .then((response: any) => {
+        console.log("softDeleteRowResp=========", response);
+        track_Success_Event(
+          eventName.TRACK_SUCCESS_ACTION,
+          successActionName.DELETE_SPREADSHEET_ROW_SUCCESSFULLY
+        );
+        setLoader(false);
+      })
+      .catch((error) => {
+        setLoader(false);
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.DELETE_SPREADSHEET_ROW_ERROR
+        );
+        console.log("deleteRow=======", error);
+      });
+  };
 
   // ------------ Search shpreadSheetRow -----------
 
-  const search_Row = (text:string)=>{
+  const search_Row = (text: string) => {
     // let row = JSON.parse(JSON.stringify(searchRef.current))
-    let row = searchRef.current
-    let searchedArr = []
-    row.filter(item =>{
+    let row = searchRef.current;
+    let searchedArr = [];
+    row.filter((item) => {
       let parseEle = JSON.parse(item.items);
-      console.log("filterDataAbove========",parseEle)
-      if(parseEle.Name?.includes(text)){
-        console.log("filterDataIf========",item)
-        searchedArr.push(item)
-        return item
-      }else{
-        console.log("filterDataElse========",parseEle)
-        return null
+      console.log("filterDataAbove========", parseEle);
+      if (parseEle.Name?.includes(text)) {
+        console.log("filterDataIf========", item);
+        searchedArr.push(item);
+        return item;
+      } else {
+        console.log("filterDataElse========", parseEle);
+        return null;
       }
-    })
-    setSpreadSheetData(searchedArr)
-    setExtraData(new Date())
-    console.log("searchData=====",row)
-  }
+    });
+    setSpreadSheetData(searchedArr);
+    setExtraData(new Date());
+    console.log("searchData=====", row);
+  };
 
   const RenderItems = ({ item }: any) => (
     <ListCard items={item} onPressThreeDot={() => openEditRecordPopup(item)} />
@@ -180,7 +263,10 @@ const ExpensesList = (props: any) => {
         />
       </View>
       <View style={Style.searchbarstyle}>
-        <SearcBar placeholder={labels.ExpensesList.Searchhere} onChange={(text:string)=>search_Row(text)} />
+        <SearcBar
+          placeholder={labels.ExpensesList.Searchhere}
+          onChange={(text: string) => search_Row(text)}
+        />
       </View>
       <View style={Style.flatlistview}>
         <FlatList
@@ -192,7 +278,8 @@ const ExpensesList = (props: any) => {
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <TouchableOpacity style={Style.widgetposition}
+      <TouchableOpacity
+        style={Style.widgetposition}
         onPress={() => onClickAddRow()}
       >
         <Addwidgeticon />
@@ -205,13 +292,15 @@ const ExpensesList = (props: any) => {
       <CommonBottomsheet
         ref={editRecordRef}
         snapPoints={snapPoints}
-        children={<EditSpreadsheetRecord
-          editRecord={() => onEditRecord()}
-          deleteTemplate={() => deleteAlert()}
-          spreadSheetRow={selectedRow}
-          editlabel={labels.ExpensesList.Edit_CloudSheet_Record}
-          deletelabel={labels.ExpensesList.Delete_CloudSheet_Record}
-        />}
+        children={
+          <EditSpreadsheetRecord
+            editRecord={() => onEditRecord()}
+            deleteTemplate={() => deleteAlert()}
+            spreadSheetRow={selectedRow}
+            editlabel={labels.ExpensesList.Edit_CloudSheet_Record}
+            deletelabel={labels.ExpensesList.Delete_CloudSheet_Record}
+          />
+        }
       />
       {loader ? <CommonLoader /> : null}
     </View>

@@ -74,6 +74,8 @@ const ClousheetList = () => {
 
         // backHandler.remove(); 
         setIsSheetOpen(false)
+
+        
         return true
       }else{
         console.log("sheetIsClosed==========")
