@@ -55,6 +55,20 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
+    },
+    "checkUserNameExist": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "checkUserNameExistFunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     }
   },
   "auth": {
@@ -68,6 +82,20 @@
   },
   "function": {
     "checkEmailExistFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "checkUserNameExistFunction": {
       "build": true,
       "dependsOn": [
         {
@@ -216,6 +244,22 @@
         {
           "category": "function",
           "resourceName": "checkEmailExistFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkUserNameExistFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkUserNameExistFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkUserNameExistFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkUserNameExistFunction"
         }
       ]
     }

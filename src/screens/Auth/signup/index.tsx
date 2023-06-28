@@ -84,7 +84,6 @@ const Signup = () => {
     const apiName = 'checkEmailExist';
     const path = '/user';
     const myInit = {
-      
        queryStringParameters: {
          email: email // OPTIONAL
        }
@@ -103,9 +102,31 @@ const Signup = () => {
        }).catch((error)=>{
           console.log("isExistError======",error)
        })
-    
   }
   // ------------------------------------------------------
+
+  // --------------- isUserName exist ------------
+  const isUserNameExist = async()=>{
+    setIsUserExist(false);
+    const apiName = 'checkUserNameExist';
+    const path = '/user';
+    const myInit = {
+      queryStringParameters: {
+        username: userName // OPTIONAL
+      }
+    };
+    await API.get(apiName, path, myInit).then((response)=>{
+      console.log("userNameResp========",response)
+      if(response.length>0){
+        setIsUserExist(true)
+      }else{
+        setIsUserExist(false)
+      }
+   }).catch((error)=>{
+      console.log("isExistError======",error)
+   })
+  }
+  // ---------------------------------------------
   useEffect(() => {
     
     console.log("username======", userName);
@@ -125,6 +146,7 @@ const Signup = () => {
 
   useEffect(() => {
     requestLocationPermission();
+    isUserNameExist()
   }, []);
   // ----------- Location permission -----------
   const requestLocationPermission = async () => {
@@ -362,7 +384,8 @@ const Signup = () => {
                     control={control}
                     value={userName}
                     isUserExist={isUserExist}
-                    onBlur={isUserNameAlreadyExist}
+                    // onBlur={isUserNameAlreadyExist}
+                    onBlur={isUserNameExist}
                     onChangeUser={(text: string) =>
                       console.log("onChangeText=========", text)
                     }
