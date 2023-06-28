@@ -6,6 +6,8 @@ import {
   FlatList,
   Keyboard,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -46,6 +48,7 @@ import {
 import SelectDropdown from "react-native-select-dropdown";
 import Dropdowsideicon from "../../../../assets/Images/dropdown.svg";
 import { Controller } from "react-hook-form";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const RowdetailForm = (props: any) => {
   const navigation = useNavigation();
@@ -388,6 +391,8 @@ const RowdetailForm = (props: any) => {
 
   return (
     <TouchableWithoutFeedback onPress={handleScreenTouch} >
+      <KeyboardAvoidingView behavior={Platform.OS=='ios'?'padding':'height'} keyboardVerticalOffset={-300} enabled={true}>
+        
       <View style={Styles.container}>
         <View>
           <NewCommonHeader
@@ -441,6 +446,7 @@ const RowdetailForm = (props: any) => {
         ) : null}
         {loader ? <CommonLoader /> : null}
       </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };

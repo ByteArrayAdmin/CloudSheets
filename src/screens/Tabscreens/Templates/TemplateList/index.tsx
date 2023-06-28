@@ -4,7 +4,8 @@ import {
   FlatList,
   TouchableOpacity,
   DeviceEventEmitter,
-  Alert
+  Alert,
+  BackHandler
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import labels from "../../../../utils/ProjectLabels.json";
@@ -50,6 +51,7 @@ const TemplateList = () => {
   const [extraData, setExtraData] = useState(new Date())
   const [selectedCloudSheet, setSelectedCloudSheet] = useState({})
   const [loader, setLoader] = useState(false)
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
   // -------------- initial Render-------------
   useEffect(() => {
     console.log("template======", route?.params?.template)
@@ -102,6 +104,7 @@ const TemplateList = () => {
     setIsEditCloudSheetName(false)
     track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_CREATE_SPREADSHEET_MODAL)
     child.current.childFunction1();
+    setIsSheetOpen(true)
   }
 
   // -------- Close SpreadSheet Modal --------
@@ -162,6 +165,8 @@ const TemplateList = () => {
     console.log("selectedCloudSheet=======", selectedCloudSheet)
     setSelectedCloudSheet(selectedCloudSheet)
     editCloudSheetRef.current.childFunction1();
+    setIsSheetOpen(true)
+
   }
   // ----------- On Select Edit CloudSheet -----------
   const openEditCloudSheet = () => {
@@ -169,6 +174,7 @@ const TemplateList = () => {
     setIsEditCloudSheetName(true)
     editCloudSheetRef.current.childFunction2();
     child.current.childFunction1();
+    
   }
 
   // ----------- Update CloudSheet -------------
@@ -279,6 +285,25 @@ const TemplateList = () => {
       <CloudsheetListCard index={index} item={item} openEditCloudSheetPopup={() => openEditCloudSheetPopup(item)} />
     </TouchableOpacity>
   );
+  useEffect(() => {
+    const backAction = () => {
+      if(isSheetOpen){
+        console.log("sheetIsOpen==========")
+        child.current.childFunction2();
+        editCloudSheetRef.current.childFunction2();
+        // backHandler.remove(); 
+        setIsSheetOpen(false)
+
+        
+        return true
+      }else{
+        console.log("sheetIsClosed==========")
+        return false;
+      }
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => backHandler.remove(); // Clean up the event listener
+  }, [isSheetOpen]); 
 
   return (
     <View style={styles.container}>

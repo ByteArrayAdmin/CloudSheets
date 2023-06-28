@@ -23,7 +23,7 @@ const EditDeleteCloudsheet = (props: any) => {
       </View>
 
       <View>
-        <Text style={Style.datetetxt}>{moment(props?.selectedTemplate?.createdAt).format("MMM DD, YYYY | h:mm a")}</Text>
+        <Text style={Style.datetetxt}>{moment(props?.selectedTemplate?.createdAt,["HH:mm"]).format("MMM DD, YYYY | hh:mm a")}</Text>
       </View>
       <View style={Style.newspace}></View>
       <CommonCard

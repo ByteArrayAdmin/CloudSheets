@@ -7,7 +7,7 @@ import {
   FlatList,
   Alert,
   DeviceEventEmitter,
-  BackHandler
+  BackHandler,
 } from "react-native";
 import BackgroundLayout from "../../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../../assets/Images/smalllogo.svg";
@@ -16,11 +16,24 @@ import Custombutton from "../../../../commonComponents/Button";
 import CreateTemplatescreen from "../../../../utils/ProjectLabels.json";
 import Templatelogo from "../../../../assets/Images/Templatelogo.svg";
 import { Tempatestyle } from "./Style";
-import { useNavigation, CommonActions, useRoute } from "@react-navigation/native";
+import {
+  useNavigation,
+  CommonActions,
+  useRoute,
+} from "@react-navigation/native";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreateTemplatePopup from "./../../../Popups/CreateTemplatePopup";
 import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
-import { create_Template, update_Template, current_UserInfo, get_Template_List, delete_Template, get_ColumnByTemplateId, Template_Soft_Delete, soft_delete_template } from '../../../../API_Manager/index';
+import {
+  create_Template,
+  update_Template,
+  current_UserInfo,
+  get_Template_List,
+  delete_Template,
+  get_ColumnByTemplateId,
+  Template_Soft_Delete,
+  soft_delete_template,
+} from "../../../../API_Manager/index";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import Card from "../TabBarTemplateList/Card";
 import labels from "../../../../utils/ProjectLabels.json";
@@ -28,15 +41,26 @@ import BackButton from "../../../../commonComponents/Backbutton";
 import Folder from "../../../../assets/Images/folder12.svg";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
 import { styles } from "../TabBarTemplateList/style";
-import uuid from 'react-native-uuid';
-import moment from 'moment';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import CommonLoader from '../../../../commonComponents/CommonLoader';
-import { track_Screen, track_Click_Event, track_Success_Event, track_Error_Event } from '../../../../eventTracking/index';
-import { eventName, screenName, clickName, successActionName, errorActionName } from '../../../../utils/Constant';
-import RegisterGuestUserPopup from '../../../Popups/RegisterGuestUserPopup';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { navigationRef } from '../../../../navigations/navigationReference';
+import uuid from "react-native-uuid";
+import moment from "moment";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import CommonLoader from "../../../../commonComponents/CommonLoader";
+import {
+  track_Screen,
+  track_Click_Event,
+  track_Success_Event,
+  track_Error_Event,
+} from "../../../../eventTracking/index";
+import {
+  eventName,
+  screenName,
+  clickName,
+  successActionName,
+  errorActionName,
+} from "../../../../utils/Constant";
+import RegisterGuestUserPopup from "../../../Popups/RegisterGuestUserPopup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { navigationRef } from "../../../../navigations/navigationReference";
 
 const CreateTemplate = () => {
   // --------- File States -----------
@@ -44,383 +68,451 @@ const CreateTemplate = () => {
   const editTempRef = useRef();
   const navigation = useNavigation();
   const route = useRoute();
-  const [userId, setUserId] = useState('')
-  const [templateList, setTemplateList] = useState([])
-  const [selectedTemplate, setSelectedTemplate] = useState({})
-  const [isEditTemplate, setIsEditTemplate] = useState(false)
-  const [extraData, setExtraData] = useState(new Date())
-  const bottomTabHeight = useBottomTabBarHeight()
-  const [count, setCount] = useState(1)
-  const [error, setError] = useState("")
-  const [loader, setLoader] = useState(false)
-  const [registerModalVisible, setRegisterModalVisible] = useState(false)
-  const [isGlobal, setIsGlobal] = useState(false)
-  const [isRefNull, setIsRefNull] = useState(false)
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [userId, setUserId] = useState("");
+  const [templateList, setTemplateList] = useState([]);
+  const [selectedTemplate, setSelectedTemplate] = useState({});
+  const [isEditTemplate, setIsEditTemplate] = useState(false);
+  const [extraData, setExtraData] = useState(new Date());
+  const bottomTabHeight = useBottomTabBarHeight();
+  const [count, setCount] = useState(1);
+  const [error, setError] = useState("");
+  const [loader, setLoader] = useState(false);
+  const [registerModalVisible, setRegisterModalVisible] = useState(false);
+  const [isGlobal, setIsGlobal] = useState(false);
+  const [isRefNull, setIsRefNull] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   useEffect(() => {
     // BackHandler.addEventListener('hardwareBackPress', onBackPress);
     // DeviceEventEmitter.addListener('openCreateTemplate', () => openCreateTemplatePopup())
-    
-    DeviceEventEmitter.addListener('refreshTemplateList', () => getUserId())
+
+    DeviceEventEmitter.addListener("refreshTemplateList", () => getUserId());
     if (global.isLoggedInUser) {
-      getUserId()
-      track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN)
+      getUserId();
+      track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN);
     } else {
-      getGuestUserTemplates()
+      getGuestUserTemplates();
     }
     return () => {
       // Run this code when the component unmounts or the dependencies change
-      setIsRefNull(false)
-      console.log('Component unmounted');
+      setIsRefNull(false);
+      console.log("Component unmounted");
       // BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-
     };
-    console.log('isFrom========', route.params?.isFrom)
-  }, [])
+    console.log("isFrom========", route.params?.isFrom);
+  }, []);
 
   const onBackPress = () => {
-    console.log("currentRouteName=====", navigationRef.current.getCurrentRoute().name)
-    if (navigationRef.current.getCurrentRoute().name === 'CreateTemplate') {
+    console.log(
+      "currentRouteName=====",
+      navigationRef.current.getCurrentRoute().name
+    );
+    if (navigationRef.current.getCurrentRoute().name === "CreateTemplate") {
       if (isRefNull == true) {
         child.current.childFunction2();
         editTempRef.current.childFunction2();
-        setIsRefNull(false)
-        return true
+        setIsRefNull(false);
+        return true;
       } else {
-        return false
+        return false;
       }
     }
-  }
+  };
 
   useEffect(() => {
     const backAction = () => {
-      if(isSheetOpen){
-        console.log("sheetIsOpen==========")
+      if (isSheetOpen) {
+        console.log("sheetIsOpen==========");
         child.current.childFunction2();
         editTempRef.current.childFunction2();
-        // backHandler.remove(); 
-        setIsSheetOpen(false)
-        return true
-      }else{
-        console.log("sheetIsClosed==========")
+        // backHandler.remove();
+        setIsSheetOpen(false);
+        return true;
+      } else {
+        console.log("sheetIsClosed==========");
         return false;
       }
     };
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
     return () => backHandler.remove(); // Clean up the event listener
-  }, [isSheetOpen]); 
+  }, [isSheetOpen]);
 
   useEffect(() => {
-    console.log("isGlobal=======", global.IsFromHome)
+    console.log("isGlobal=======", global.IsFromHome);
     if (global.IsFromHome == true) {
-       child.current.childFunction1();
-       navigation.addListener('focus', () => openCreateTemplatePopup());
-      setIsGlobal(true)
-      global.IsFromHome = false
+      child.current.childFunction1();
+      navigation.addListener("focus", () => openCreateTemplatePopup());
+      setIsGlobal(true);
+      global.IsFromHome = false;
     } else {
-      setIsGlobal(false)
-
+      setIsGlobal(false);
     }
 
     return () => {
       // This function will be executed when the component unmounts
-      console.log('Component unmounted');
-      global.IsFromHome = false
-      setIsGlobal(false)
+      console.log("Component unmounted");
+      global.IsFromHome = false;
+      setIsGlobal(false);
     };
-    
-  }, [global.IsFromHome, isGlobal])
+  }, [global.IsFromHome, isGlobal]);
 
   const openCreateTemplatePopup = () => {
-    setIsSheetOpen(true)
-      child.current.childFunction1();
-  }
+    setIsSheetOpen(true);
+    child.current.childFunction1();
+  };
 
   // --------- Get Guest user Template List --------
   const getGuestUserTemplates = async () => {
-    await AsyncStorage.getItem(labels.TabBarTemplateList.guestUserTemplateList).then((response: any) => {
-      console.log("guestTemp==========", response)
+    await AsyncStorage.getItem(
+      labels.TabBarTemplateList.guestUserTemplateList
+    ).then((response: any) => {
+      console.log("guestTemp==========", response);
       if (response != null) {
-        let parseTemplate = JSON.parse(response)
-        setTemplateList(parseTemplate)
+        let parseTemplate = JSON.parse(response);
+        setTemplateList(parseTemplate);
       }
-    })
-  }
+    });
+  };
 
   //  --------- update Guest Template ------------
 
   const updateGuestTemplate = async (templateName: string) => {
-    let arr1 = []
+    let arr1 = [];
     const newTemplate = {
       id: selectedTemplate.id,
       template_name: templateName,
       userID: userId,
-      soft_Deleted: false
-    }
-    arr1.push(newTemplate)
-    await AsyncStorage.setItem(labels.TabBarTemplateList.guestUserTemplateList, JSON.stringify(arr1))
+      soft_Deleted: false,
+    };
+    arr1.push(newTemplate);
+    await AsyncStorage.setItem(
+      labels.TabBarTemplateList.guestUserTemplateList,
+      JSON.stringify(arr1)
+    );
 
-    setTemplateList(arr1)
-    setExtraData(new Date())
+    setTemplateList(arr1);
+    setExtraData(new Date());
     child.current.childFunction2();
-  }
+  };
 
   // -----------------Get Curent userId----------------
   const getUserId = () => {
-    current_UserInfo().then((response: any) => {
-      setUserId(response.attributes.sub)
-      getTemplateList(response.attributes.sub)
-      console.log("currentUser=========", response)
-    }).catch((error) => {
-      console.log("currUserErr======", error)
-    })
-  }
+    current_UserInfo()
+      .then((response: any) => {
+        setUserId(response.attributes.sub);
+        getTemplateList(response.attributes.sub);
+        console.log("currentUser=========", response);
+      })
+      .catch((error) => {
+        console.log("currUserErr======", error);
+      });
+  };
   // ------------ Register guest user flow ---------
   const onClickRegister = () => {
     setRegisterModalVisible(!registerModalVisible);
-    navigation.dispatch(CommonActions.reset({
-      routes: [
-        { name: 'Signupscreen' },]
-    }))
-  }
+    navigation.dispatch(
+      CommonActions.reset({
+        routes: [{ name: "Signupscreen" }],
+      })
+    );
+  };
 
   // ------------ Select Create Template Popup --------
   const toggleBottomNavigationView = () => {
-    setIsRefNull(true)
-    setIsEditTemplate(false)
-    setSelectedTemplate(null)
-    setError("")
-    track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_CREATE_TEMPLATE_MODAL)
+    setIsRefNull(true);
+    setIsEditTemplate(false);
+    setSelectedTemplate(null);
+    setError("");
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.OPEN_CREATE_TEMPLATE_MODAL
+    );
     if (global.isLoggedInUser) {
-      setIsSheetOpen(true)
+      setIsSheetOpen(true);
       child.current.childFunction1();
     } else {
       if (templateList.length > 0) {
-        setRegisterModalVisible(true)
+        setRegisterModalVisible(true);
       } else {
         child.current.childFunction1();
-        setIsSheetOpen(true)
+        setIsSheetOpen(true);
       }
     }
-
   };
 
   // ----------- Create New Template Popup -----------
   const cancelCreateTemplate = () => {
-    setError('')
+    setError("");
     child.current.childFunction2();
-    setIsSheetOpen(false)
-  }
+    setIsSheetOpen(false);
+  };
 
   // ----------- Open Create Template popup ----------
   const OpenPopup = (item: any) => {
-    console.log("selectedTemp========", item)
-    
-    setSelectedTemplate(item)
-    setIsSheetOpen(true)
-    editTempRef.current.childFunction1()
-  }
+    console.log("selectedTemp========", item);
+
+    setSelectedTemplate(item);
+    setIsSheetOpen(true);
+    editTempRef.current.childFunction1();
+    setIsSheetOpen(true);
+  };
 
   // -----------------Get Curent user TemplateList pull to Refresh----------------
   const onRefreshList = () => {
-    getTemplateList(userId)
-  }
+    getTemplateList(userId);
+  };
 
   // -----------------Get Curent user TemplateList----------------
   const getTemplateList = (userId: any) => {
-    let arr = []
-    setLoader(true)
-    get_Template_List(userId).then((response: any) => {
-      console.log("getTempResp=======", response)
-      setLoader(false)
-      setTemplateList(response.data.templatesByUserID.items)
-
-    }).catch((error) => {
-      console.log("getTempErr======", error)
-      setLoader(false)
-    })
-  }
+    let arr = [];
+    setLoader(true);
+    get_Template_List(userId)
+      .then((response: any) => {
+        console.log("getTempResp=======", response);
+        setLoader(false);
+        setTemplateList(response.data.templatesByUserID.items);
+      })
+      .catch((error) => {
+        console.log("getTempErr======", error);
+        setLoader(false);
+      });
+  };
 
   // --------- Check Form validation -----------
   const CheckValidation = (templateName: String) => {
     if (templateName == "" || templateName == undefined) {
-      setError(labels.TabBarTemplateList.TemplateErr)
+      setError(labels.TabBarTemplateList.TemplateErr);
     } else {
-      track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_CREATE_TEMPLATE)
-      onCreateTemplate(templateName)
+      track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_CREATE_TEMPLATE);
+      onCreateTemplate(templateName);
     }
-  }
+  };
 
   // -----------------Create Template functionality----------------
   const onCreateTemplate = async (templateName: String) => {
-    let arr1 = templateList
-    let newTemp
-    console.log("templateName===========", templateName)
-    let uid = uuid.v1().toString()
-    let timeStamp = moment().unix().toString()
-    let newUniqueId = uid + "-" + timeStamp
-    console.log("UniqueId========", newUniqueId)
+    let arr1 = templateList;
+    let newTemp;
+    console.log("templateName===========", templateName);
+    let uid = uuid.v1().toString();
+    let timeStamp = moment().unix().toString();
+    let newUniqueId = uid + "-" + timeStamp;
+    console.log("UniqueId========", newUniqueId);
     const newTemplate = {
       id: newUniqueId,
       template_name: templateName,
       userID: userId,
-      soft_Deleted: false
-    }
-    console.log("rowData======", newTemplate)
+      soft_Deleted: false,
+    };
+    console.log("rowData======", newTemplate);
     if (global.isLoggedInUser) {
-      setLoader(true)
-      create_Template(newTemplate).then((response: any) => {
-        console.log("createTempResp=======", response)
-        setLoader(false)
-        arr1.push(response.data.createTemplates)
-        setTemplateList(arr1)
-        child.current.childFunction2();
-        track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.CREATE_TEMPLATE_SUCCESSFULLY)
-        navigation.navigate("CreatSpreadsheet", { template: response.data.createTemplates, isEdit: isEditTemplate, isFrom: "TemplateTab" });
-        setExtraData(new Date())
-      }).catch((err) => {
-        setLoader(false)
-        track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.CREATE_TEMPLATE_ERROR)
-        console.log("createTempErr=======", err)
-      })
+      setLoader(true);
+      create_Template(newTemplate)
+        .then((response: any) => {
+          console.log("createTempResp=======", response);
+          setLoader(false);
+          arr1.push(response.data.createTemplates);
+          setTemplateList(arr1);
+          child.current.childFunction2();
+          track_Success_Event(
+            eventName.TRACK_SUCCESS_ACTION,
+            successActionName.CREATE_TEMPLATE_SUCCESSFULLY
+          );
+          navigation.navigate("CreatSpreadsheet", {
+            template: response.data.createTemplates,
+            isEdit: isEditTemplate,
+            isFrom: "TemplateTab",
+          });
+          setExtraData(new Date());
+        })
+        .catch((err) => {
+          setLoader(false);
+          track_Error_Event(
+            eventName.TRACK_ERROR_ACTION,
+            errorActionName.CREATE_TEMPLATE_ERROR
+          );
+          console.log("createTempErr=======", err);
+        });
     } else {
-      let guestArr = []
-      guestArr.push(newTemplate)
-      await AsyncStorage.setItem(labels.TabBarTemplateList.guestUserTemplateList, JSON.stringify(guestArr))
-      setTemplateList(guestArr)
-      setExtraData(new Date())
+      let guestArr = [];
+      guestArr.push(newTemplate);
+      await AsyncStorage.setItem(
+        labels.TabBarTemplateList.guestUserTemplateList,
+        JSON.stringify(guestArr)
+      );
+      setTemplateList(guestArr);
+      setExtraData(new Date());
       child.current.childFunction2();
     }
-  }
+  };
 
   // -----------------Update Template functionality----------------
-  const onUpdateTemplates = (templateName: any, templateId: any, version: any, softDeleted: boolean) => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_UPDATE_TEMPLATE)
-    let arr1 = templateList
-    arr1.forEach(element => {
+  const onUpdateTemplates = (
+    templateName: any,
+    templateId: any,
+    version: any,
+    softDeleted: boolean
+  ) => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_UPDATE_TEMPLATE);
+    let arr1 = templateList;
+    arr1.forEach((element) => {
       if (element.id == templateId) {
-        element.template_name = templateName
+        element.template_name = templateName;
       }
     });
-    setTemplateList(arr1)
-    setExtraData(new Date())
-    setIsEditTemplate(false)
+    setTemplateList(arr1);
+    setExtraData(new Date());
+    setIsEditTemplate(false);
     child.current.childFunction2();
     const updateTemplate = {
       id: templateId,
       template_name: templateName,
       userID: userId,
       _version: version,
-      soft_Deleted: softDeleted
-    }
-    console.log("updatedRow==========", updateTemplate)
-    setLoader(true)
-    update_Template(updateTemplate).then((response: any) => {
-      setLoader(false)
-      console.log("updateTemplate========", response)
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.UPDATE_TEMPLATE_SUCCESSFULLY)
-      navigation.navigate("CreatSpreadsheet", { template: response.data.updateTemplates, isEdit: isEditTemplate });
-    }).catch((error) => {
-      setLoader(false)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.UPDATE_TEMPLATE_ERROR)
-      console.log("updateTempErr=======", error)
-    })
-  }
+      soft_Deleted: softDeleted,
+    };
+    console.log("updatedRow==========", updateTemplate);
+    setLoader(true);
+    update_Template(updateTemplate)
+      .then((response: any) => {
+        setLoader(false);
+        console.log("updateTemplate========", response);
+        track_Success_Event(
+          eventName.TRACK_SUCCESS_ACTION,
+          successActionName.UPDATE_TEMPLATE_SUCCESSFULLY
+        );
+        navigation.navigate("CreatSpreadsheet", {
+          template: response.data.updateTemplates,
+          isEdit: isEditTemplate,
+        });
+      })
+      .catch((error) => {
+        setLoader(false);
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.UPDATE_TEMPLATE_ERROR
+        );
+        console.log("updateTempErr=======", error);
+      });
+  };
 
   // ----------- Delete Row Alert ------------
   const deleteAlert = () => {
-    track_Screen(eventName.TRACK_SCREEN, screenName.DELETE_TEMPLATE_ALERT)
+    track_Screen(eventName.TRACK_SCREEN, screenName.DELETE_TEMPLATE_ALERT);
     editTempRef.current.childFunction2();
-    Alert.alert(labels.ExpensesList.Delete_Record_Alert, labels.ExpensesList.Delete_Quete, [
-      {
-        text: labels.ExpensesList.Cancel,
-        onPress: () => { console.log('Cancel Pressed'), track_Click_Event(eventName.TRACK_CLICK, clickName.CANCEL_DELETE_TEMPLATE_ALERT) },
-        style: 'cancel',
-      },
-      { text: labels.ExpensesList.OK, onPress: () => global.isLoggedInUser ? onDeleteTemplate() : deleteGuestTemplate() },
-    ]);
-  }
+    Alert.alert(
+      labels.ExpensesList.Delete_Record_Alert,
+      labels.ExpensesList.Delete_Quete,
+      [
+        {
+          text: labels.ExpensesList.Cancel,
+          onPress: () => {
+            console.log("Cancel Pressed"),
+              track_Click_Event(
+                eventName.TRACK_CLICK,
+                clickName.CANCEL_DELETE_TEMPLATE_ALERT
+              );
+          },
+          style: "cancel",
+        },
+        {
+          text: labels.ExpensesList.OK,
+          onPress: () =>
+            global.isLoggedInUser ? onDeleteTemplate() : deleteGuestTemplate(),
+        },
+      ]
+    );
+  };
 
   // ------------- Delete guestTemplate -----------
   const deleteGuestTemplate = async () => {
-    await AsyncStorage.removeItem(labels.TabBarTemplateList.guestUserTemplateList)
-    setTemplateList([])
-    setExtraData(new Date())
-  }
+    await AsyncStorage.removeItem(
+      labels.TabBarTemplateList.guestUserTemplateList
+    );
+    setTemplateList([]);
+    setExtraData(new Date());
+  };
 
   // -----------------Delete Template functionality----------------
   const onDeleteTemplate = () => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_DELETE_TEMPLATE_ALERT)
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.AGREE_DELETE_TEMPLATE_ALERT
+    );
     const deleteTemplate = {
       id: selectedTemplate.id,
       template_name: selectedTemplate.template_name,
       userID: selectedTemplate.userID,
       _version: selectedTemplate._version,
-      soft_Deleted: true
-    }
-    console.log("deleteTemplate=======", deleteTemplate)
-    setLoader(true)
-    soft_delete_template(deleteTemplate).then((response: any) => {
-      console.log("colId=======", response)
-      let arr1 = templateList
-      let index
-      arr1.forEach(element => {
-        if (element.id == selectedTemplate.id) {
-          index = arr1.indexOf(element)
-        }
+      soft_Deleted: true,
+    };
+    console.log("deleteTemplate=======", deleteTemplate);
+    setLoader(true);
+    soft_delete_template(deleteTemplate)
+      .then((response: any) => {
+        console.log("colId=======", response);
+        let arr1 = templateList;
+        let index;
+        arr1.forEach((element) => {
+          if (element.id == selectedTemplate.id) {
+            index = arr1.indexOf(element);
+          }
+        });
+        arr1.splice(index, 1);
+        setTemplateList(arr1);
+        setExtraData(new Date());
+        setLoader(false);
+        DeviceEventEmitter.emit("updateSpreadSheetList");
+        track_Success_Event(
+          eventName.TRACK_SUCCESS_ACTION,
+          successActionName.DELETE_TEMPLATE_SUCCESSULLY
+        );
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log("getColErr======", error);
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.DELETE_TEMPLATE_ERROR
+        );
       });
-      arr1.splice(index, 1)
-      setTemplateList(arr1)
-      setExtraData(new Date())
-      setLoader(false)
-      DeviceEventEmitter.emit('updateSpreadSheetList')
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.DELETE_TEMPLATE_SUCCESSULLY)
-    }).catch((error) => {
-      setLoader(false)
-      console.log("getColErr======", error)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.DELETE_TEMPLATE_ERROR)
-    })
-  }
+  };
 
   // --------------Open Edit Template popup functionality-------------------
   const onEditTemplate = () => {
-    setIsSheetOpen(true)
-    console.log("sheetStatusOnEdit=======",isSheetOpen)
-    editTempRef.current.childFunction2()
+    setIsSheetOpen(true);
+    console.log("sheetStatusOnEdit=======", isSheetOpen);
+    editTempRef.current.childFunction2();
     child.current.childFunction1();
-    
-    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_EDIT_TEMPLATE)
-    setIsEditTemplate(true)
-    
-  }
+
+    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_EDIT_TEMPLATE);
+    setIsEditTemplate(true);
+  };
   const snapPoints = ["45%"];
 
   // -------------navigate to detail Screen functionality on Double Tap---------------
   const onDoubleTab = (template: any) => {
-    setCount(count + 1)
-    console.log("totalCount======", count)
+    setCount(count + 1);
+    console.log("totalCount======", count);
     if (count == 2) {
-      navigation.navigate("TemplateList", { template: template })
-
+      navigation.navigate("TemplateList", { template: template });
     } else {
       setTimeout(() => {
-        setCount(1)
+        setCount(1);
       }, 3000);
     }
-  }
+  };
 
   const renderItems = ({ item }: any) => (
-    <TouchableOpacity
-      onPress={() => onDoubleTab(item)}
-    >
+    <TouchableOpacity onPress={() => onDoubleTab(item)}>
       <Card item={item} onEditTemplate={() => OpenPopup(item)} />
     </TouchableOpacity>
-  )
+  );
 
   return (
-
     <View style={styles.container}>
-      {templateList.length > 0 ?
+      {templateList.length > 0 ? (
         <>
           <View style={[styles.container, { marginBottom: bottomTabHeight }]}>
             <NewCommonHeader
@@ -438,13 +530,14 @@ const CreateTemplate = () => {
               />
             </View>
           </View>
-          <TouchableOpacity style={styles.widgetposition}
+          <TouchableOpacity
+            style={styles.widgetposition}
             onPress={() => toggleBottomNavigationView()}
           >
             <Addwidgeticon />
           </TouchableOpacity>
         </>
-        :
+      ) : (
         <>
           <BackgroundLayout />
           <SafeAreaView style={Tempatestyle.safeareaview}>
@@ -477,7 +570,10 @@ const CreateTemplate = () => {
                           <View style={Tempatestyle.cartdtetxt}>
                             <View>
                               <Text style={Tempatestyle.cardtextstyle}>
-                                {CreateTemplatescreen.CreateTemplatescreen.CARDTEXT}
+                                {
+                                  CreateTemplatescreen.CreateTemplatescreen
+                                    .CARDTEXT
+                                }
                               </Text>
                             </View>
                             <View style={Tempatestyle.cardtetxt2}>
@@ -492,7 +588,8 @@ const CreateTemplate = () => {
                         </View>
                         <Custombutton
                           Register={
-                            CreateTemplatescreen.CreateTemplatescreen.CreateTemplate
+                            CreateTemplatescreen.CreateTemplatescreen
+                              .CreateTemplate
                           }
                           onPress={() => toggleBottomNavigationView()}
                         />
@@ -503,41 +600,62 @@ const CreateTemplate = () => {
               </View>
             </View>
           </SafeAreaView>
-        </>}
+        </>
+      )}
 
       <CommonBottomsheet
         ref={child}
         snapPoints={snapPoints}
-        onBackdropPress={()=>setIsSheetOpen(false)}
         children={
           <CreateTemplatePopup
             error={error}
             OnCloseCreateTemplate={() => cancelCreateTemplate()}
             isEditTemplate={isEditTemplate}
             selectedTemplate={selectedTemplate}
-            onCreateTemplate={(templateName: String) => CheckValidation(templateName)}
-            onUpdateTemplate={(templateName: any, templateId: any, version: any, softDeleted: boolean) => global.isLoggedInUser ? onUpdateTemplates(templateName, templateId, version, softDeleted) : updateGuestTemplate(templateName)}
-          />}
+            onCreateTemplate={(templateName: String) =>
+              CheckValidation(templateName)
+            }
+            onUpdateTemplate={(
+              templateName: any,
+              templateId: any,
+              version: any,
+              softDeleted: boolean
+            ) =>
+              global.isLoggedInUser
+                ? onUpdateTemplates(
+                    templateName,
+                    templateId,
+                    version,
+                    softDeleted
+                  )
+                : updateGuestTemplate(templateName)
+            }
+          />
+        }
       />
       <View>
-        <CommonBottomsheet 
-        ref={editTempRef} 
-        snapPoints={snapPoints} 
-        onBackdropPress={()=>setIsSheetOpen(false)}
-        children={
-          <EditDeleteCloudsheet
-            editTemplate={() => onEditTemplate()}
-            deleteTemplate={() => deleteAlert()}
-            selectedTemplate={selectedTemplate}
-            editlabel={labels.TemplatePopupExpenses.Edit_Template}
-            deletelabel={labels.TemplatePopupExpenses["Delete Template"]}
-          />
-        } />
+        <CommonBottomsheet
+          ref={editTempRef}
+          snapPoints={snapPoints}
+         
+          children={
+            <EditDeleteCloudsheet
+              editTemplate={() => onEditTemplate()}
+              deleteTemplate={() => deleteAlert()}
+              selectedTemplate={selectedTemplate}
+              editlabel={labels.TemplatePopupExpenses.Edit_Template}
+              deletelabel={labels.TemplatePopupExpenses["Delete Template"]}
+            />
+          }
+        />
       </View>
-      <RegisterGuestUserPopup visible={registerModalVisible} onClickRegister={() => onClickRegister()} toggleRegisterModal={() => setRegisterModalVisible(false)} />
+      <RegisterGuestUserPopup
+        visible={registerModalVisible}
+        onClickRegister={() => onClickRegister()}
+        toggleRegisterModal={() => setRegisterModalVisible(false)}
+      />
       {loader ? <CommonLoader /> : null}
     </View>
-
   );
 };
 

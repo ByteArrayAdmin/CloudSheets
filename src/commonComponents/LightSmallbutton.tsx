@@ -21,7 +21,7 @@ export default LightSmallButton;
 
 const Style = StyleSheet.create({
   Button: {
-    height: 48,
+    height: 50,
     justifyContent: "center",
     paddingHorizontal: 55,
     paddingVertical: 15,

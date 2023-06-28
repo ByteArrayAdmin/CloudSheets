@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
-  Alert
+  Alert,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -44,6 +44,7 @@ const CreatSpreadsheet = () => {
   const [loader, setLoader] = useState(false);
   const snapPoints = ['80%']
   const [columnTypeObj, setColumTypeObj] = useState({})
+  const scrollRef = useRef(null)
 
   // ----------- useEffect for initial Rendering---------------
   useEffect(() => {
@@ -138,11 +139,13 @@ const CreatSpreadsheet = () => {
       navigation.navigate("AddrowClassattendance", { template: template, isFrom: isFrom });
     }
   };
+  
+  
 
   // --------------Add Column functionality---------------
   const AddColoumn = (col_name: string, col_Type: string) => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_ADD_COLUMN)
-    const newIndex = Data.length;
+    
     let uid = uuid.v1().toString()
     let timeStamp = moment().unix().toString()
     let newUniqueId = uid + "-" + timeStamp
@@ -153,8 +156,13 @@ const CreatSpreadsheet = () => {
     }
 
     setData((oldArray) => [...Data, { id: newUniqueId, templatesID: templateID, soft_Deleted: false, value: '', userID:userId }]);
+    const newIndex = Data.length;
+    // Alert.alert("myindex", newIndex)
+    console.log("my index@@@@@@@@@======>",newIndex)
+    
   };
-
+//==============ScrollToIndexFunctonality===============
+  
   // --------------Remove Existing Column Alert---------------
   const removeColumnAlert = (item: any, index: any) => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_REMOVE_COLUMN_ALERT)
@@ -249,6 +257,7 @@ const CreatSpreadsheet = () => {
   // -------------- Render New Column Added -------------
   const renderItems = ({ item, index }: any) => (
     console.log("colItem=====", item),
+    
     <SpreadsheetCard control={control} setError={setError} onChangeCustom={(text: string, colName: string) => onValidation(text, colName)} item={item} columnLength={columnList.length} index={index} isEdit={isEdit} selectColumnType={() => openColumList(item)} />
   );
 
@@ -259,8 +268,15 @@ const CreatSpreadsheet = () => {
 
   return (
     <>
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-        <View>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}
+      ref={scrollRef}
+      onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: true })}
+      extraScrollHeight={100} enableOnAndroid={true} 
+   keyboardShouldPersistTaps='handled'
+
+      
+      >
+        <ScrollView>
           <NewCommonHeader
             BackButton={<BackButton onPress={() => navigation.goBack()} />}
             Folder={<Folder />}
@@ -274,6 +290,8 @@ const CreatSpreadsheet = () => {
               extraData={extraData}
               refreshing={false}
               onRefresh={onRefresh}
+             // ref={scrollRef}
+             keyboardShouldPersistTaps="handled"
             />
           </View>
           <View>
@@ -314,7 +332,7 @@ const CreatSpreadsheet = () => {
             </View>
             <View style={Createspreadstyle.Bottomgap}></View>
           </View>
-        </View>
+        </ScrollView>
         </KeyboardAwareScrollView>
       <CommonBottomsheet
         ref={columnTypeRef}
