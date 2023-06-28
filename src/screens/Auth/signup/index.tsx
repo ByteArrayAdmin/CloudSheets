@@ -14,7 +14,7 @@ import { styles } from "./style";
 import InputField from "../../../commonComponents/InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { emailRegex } from "../../../utils/Constant";
-import { Amplify, Auth } from "aws-amplify";
+import { Amplify, Auth,API } from "aws-amplify";
 import awsconfig from "../../../aws-exports";
 import Progfileicon from "../../../assets/Images/profile.svg";
 import Mesageicon from "../../../assets/Images/Message.svg";
@@ -57,6 +57,7 @@ import Geolocation from "@react-native-community/geolocation";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import PasswordInstruction from "../../Popups/PasswordInstruction/index";
 import Instucticon from "../../../assets/Images/instruction.svg";
+
 //Aws configiuration code commented for now
 Amplify.configure(awsconfig);
 
@@ -71,11 +72,42 @@ const Signup = () => {
   const navigation = useNavigation();
   const userName = watch("username");
   const Password = watch("password");
+  const email = watch("email")
   const [isUserExist, setIsUserExist] = useState(false);
   const [passswordpolicy, setPasswordPolicy] = useState(false);
   const ChildRef = useRef();
   const snapPoints = ["60%"];
+
+  // ------------ IsEmail Exist Lamda trigger -------------
+  const isEmailExist = async() => {
+    console.log("lamdaCalled=====",)
+    const apiName = 'checkEmailExist';
+    const path = '/user';
+    const myInit = {
+      
+       queryStringParameters: {
+         email: email // OPTIONAL
+       }
+    };
+      
+      await API.get(apiName, path, myInit).then((response)=>{
+          if(response.length>0){
+            console.log("userExist==========",response)
+            setError("email", {
+              type: "required",
+              message: "Email already exist!",
+            });
+          }else{
+            setError("email",null)
+          }
+       }).catch((error)=>{
+          console.log("isExistError======",error)
+       })
+    
+  }
+  // ------------------------------------------------------
   useEffect(() => {
+    
     console.log("username======", userName);
     console.log("password====>", Password);
     // justCheckPAsswordValidation()
@@ -267,6 +299,11 @@ const Signup = () => {
     }
   };
 
+  const validateEmail = ()=>{
+    isEmailExist()
+
+  }
+
   const Opensheet = () => {
     ChildRef.current.childFunction1();
   };
@@ -343,6 +380,7 @@ const Signup = () => {
                   <InputField
                     name="email"
                     control={control}
+                    // customPassword={true}
                     placeholder={signupLabel.signupcontant.PLACEHOLDER_EMAIL}
                     Image={Mesageicon}
                     rules={{
@@ -352,6 +390,8 @@ const Signup = () => {
                         message: "Email is invalid",
                       },
                     }}
+                    onBlur={validateEmail}
+                    // onChangeCustom={(text: string) => validateEmail(text)}
                     keyboardType={"email-address"}
                     styles={styles.inputview}
                   />
@@ -365,10 +405,10 @@ const Signup = () => {
                     rules={{
                       required:
                         signupLabel.signupcontant.MOBILENO_VALIDATION_MSG,
-                        pattern: {
-                          value: /^(\+)?\d{10}$/,
-                          message: 'Invalid mobile number',
-                        }
+                      pattern: {
+                        value: /^(\+)?\d{10}$/,
+                        message: 'Invalid mobile number',
+                      }
                     }}
                     keyboardType={"phone-pad"}
                     styles={styles.inputview}
