@@ -35,7 +35,8 @@
       },
       "api": {
         "CloudSheetBackendEnv": {},
-        "checkEmailExist": {}
+        "checkEmailExist": {},
+        "checkUserNameExist": {}
       },
       "analytics": {
         "cloudsheetEventTracking": {}
@@ -44,6 +45,10 @@
         "checkEmailExistFunction": {
           "deploymentBucketName": "amplify-amplify4c70b81ad3044-staging-132749-deployment",
           "s3Key": "amplify-builds/checkEmailExistFunction-36522f74397577547072-build.zip"
+        },
+        "checkUserNameExistFunction": {
+          "deploymentBucketName": "amplify-amplify4c70b81ad3044-staging-132749-deployment",
+          "s3Key": "amplify-builds/checkUserNameExistFunction-70744a545731744f4c45-build.zip"
         }
       }
     }

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "auth": {
+      "cloudsheetbackendenv0bf41396": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
