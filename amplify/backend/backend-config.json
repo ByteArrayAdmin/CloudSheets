@@ -41,6 +41,20 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync"
+    },
+    "checkEmailExist": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "checkEmailExistFunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     }
   },
   "auth": {
@@ -50,6 +64,22 @@
       "providerPlugin": "awscloudformation",
       "service": "Cognito",
       "serviceType": "imported"
+    }
+  },
+  "function": {
+    "checkEmailExistFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -170,6 +200,22 @@
         {
           "category": "auth",
           "resourceName": "cloudsheetbackendenve9feab69"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkEmailExistFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkEmailExistFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkEmailExistFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkEmailExistFunction"
         }
       ]
     }
