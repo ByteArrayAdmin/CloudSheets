@@ -5,21 +5,20 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  LayoutAnimation
+  LayoutAnimation,
 } from "react-native";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
-import Ic_upArrow from '../../../../assets/Images/Ic_upArrow.svg';
+import Ic_upArrow from "../../../../assets/Images/Ic_upArrow.svg";
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Animated, {
   useAnimatedStyle,
   withTiming,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
 export const Attendancelistcard = (props: any) => {
-
-  const [items, setItems] = useState(JSON.parse(props?.item.items))
-  const [isOpen, setIsOpen] = useState(false)
+  const [items, setItems] = useState(JSON.parse(props?.item.items));
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleSwitch = () => {
     setIsOpen((prev) => !prev);
@@ -31,39 +30,49 @@ export const Attendancelistcard = (props: any) => {
 
   return (
     <View style={Styles.container}>
-      <View style={[Styles.innercontainer, { borderColor: isOpen ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue }]}>
+      <View
+        style={[
+          Styles.innercontainer,
+          {
+            borderColor: isOpen
+              ? COLOURS.lightgrey
+              : COLOURS.cardBorder_lightBlue,
+          },
+        ]}
+      >
         <View style={Styles.subcontainer}>
           <View>
             <Text style={Styles.nametext}>{items.Name}</Text>
           </View>
           <View style={Styles.emptyview}></View>
-          <TouchableOpacity style={Styles.gap}
-            onPress={toggleSwitch}
-          >
+          <TouchableOpacity style={Styles.gap} onPress={toggleSwitch}>
             {isOpen ? <Ic_upArrow /> : <Downarrow />}
           </TouchableOpacity>
           <View>
-            <TouchableOpacity style={Styles.ThreeDotview} onPress={props.openEditRecord}>
+            <TouchableOpacity
+              style={Styles.ThreeDotview}
+              onPress={props.openEditRecord}
+            >
               <Threedot />
             </TouchableOpacity>
           </View>
         </View>
-        {isOpen ?
+        {isOpen ? (
           <Animated.View style={Styles.bottomgap}>
             <View style={Styles.horizontallineview}>
               <View style={Styles.innerhoeizontaline} />
             </View>
-            {
-              Object.keys(items).map((key) => {
-                return (
-                  <View style={Styles.detailview}>
-                    <Text style={Styles.labelheading}>{key}</Text>
-                    <View style={Styles.emptyview}></View>
-                    <Text style={Styles.detailnametext}>{(items)[key]}</Text>
-                  </View>
-                )
-              })}
-          </Animated.View> : null}
+            {Object.keys(items).map((key) => {
+              return (
+                <View style={Styles.detailview}>
+                  <Text style={Styles.labelheading}>{key}</Text>
+                  <View style={Styles.emptyview}></View>
+                  <Text style={Styles.detailnametext}>{items[key]}</Text>
+                </View>
+              );
+            })}
+          </Animated.View>
+        ) : null}
       </View>
     </View>
   );
@@ -77,7 +86,7 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: COLOURS.white,
     borderRadius: 8,
-    borderWidth: 1
+    borderWidth: 1,
   },
   emptyview: {
     flex: 1,
@@ -92,8 +101,8 @@ const Styles = StyleSheet.create({
     marginRight: 10,
     width: 65,
     height: 30,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   nametext: {
     fontSize: 14,
@@ -123,7 +132,7 @@ const Styles = StyleSheet.create({
   detailview: {
     marginTop: 16,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   bottomgap: {
     marginBottom: 20,
@@ -131,7 +140,7 @@ const Styles = StyleSheet.create({
   ThreeDotview: {
     width: 25,
     height: 25,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

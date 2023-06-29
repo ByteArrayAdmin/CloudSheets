@@ -29,9 +29,6 @@ import {
   update_Template,
   current_UserInfo,
   get_Template_List,
-  delete_Template,
-  get_ColumnByTemplateId,
-  Template_Soft_Delete,
   soft_delete_template,
 } from "../../../../API_Manager/index";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
@@ -82,9 +79,6 @@ const CreateTemplate = () => {
   const [isRefNull, setIsRefNull] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   useEffect(() => {
-    // BackHandler.addEventListener('hardwareBackPress', onBackPress);
-    // DeviceEventEmitter.addListener('openCreateTemplate', () => openCreateTemplatePopup())
-
     DeviceEventEmitter.addListener("refreshTemplateList", () => getUserId());
     if (global.isLoggedInUser) {
       getUserId();
@@ -287,6 +281,7 @@ const CreateTemplate = () => {
     } else {
       track_Click_Event(eventName.TRACK_CLICK, clickName.AGREE_CREATE_TEMPLATE);
       onCreateTemplate(templateName);
+      setError(" ");
     }
   };
 
@@ -637,7 +632,6 @@ const CreateTemplate = () => {
         <CommonBottomsheet
           ref={editTempRef}
           snapPoints={snapPoints}
-         
           children={
             <EditDeleteCloudsheet
               editTemplate={() => onEditTemplate()}

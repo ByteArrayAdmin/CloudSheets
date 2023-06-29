@@ -4,22 +4,22 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  LayoutAnimation
+  LayoutAnimation,
 } from "react-native";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
-import Ic_upArrow from '../../../../assets/Images/Ic_upArrow.svg';
+import Ic_upArrow from "../../../../assets/Images/Ic_upArrow.svg";
 import Animated, {
   useAnimatedStyle,
   withTiming,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
-import moment from 'moment';
+import moment from "moment";
 
 const ListCard = (props: any) => {
-  console.log("items=======", props?.items)
+  console.log("items=======", props?.items);
   const [open, setopen] = useState(false);
-  const [rowData, setRowData] = useState(JSON.parse(props?.items?.items))
+  const [rowData, setRowData] = useState(JSON.parse(props?.items?.items));
   const toggle = () => {
     setopen(!open);
   };
@@ -46,7 +46,15 @@ const ListCard = (props: any) => {
   };
 
   return (
-    <View style={[style.innercontainer, { borderWidth: 1, borderColor: open ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue }]}>
+    <View
+      style={[
+        style.innercontainer,
+        {
+          borderWidth: 1,
+          borderColor: open ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue,
+        },
+      ]}
+    >
       <View style={style.subview}>
         <View style={{height:40,justifyContent:'center'}}>
           {/* <Text style={style.texthead}>{Object.values(rowData)[0]}</Text> */}
@@ -60,7 +68,8 @@ const ListCard = (props: any) => {
         >
           {open ? <Ic_upArrow /> : <Downarrow />}
         </TouchableOpacity>
-        <TouchableOpacity style={style.threeDotStyle}
+        <TouchableOpacity
+          style={style.threeDotStyle}
           onPress={props.onPressThreeDot}
         >
           <Threedot />
@@ -108,7 +117,7 @@ const style = StyleSheet.create({
   arrowstyle: {
     marginRight: 16,
     paddingHorizontal: 18,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   innerhoeizontaline: {
     flex: 1,
@@ -167,11 +176,11 @@ const style = StyleSheet.create({
   threeDotStyle: {
     height: 25,
     width: 25,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   seprator: {
     borderWidth: 1,
-    borderColor: COLOURS.lightgrey
-  }
+    borderColor: COLOURS.lightgrey,
+  },
 });
