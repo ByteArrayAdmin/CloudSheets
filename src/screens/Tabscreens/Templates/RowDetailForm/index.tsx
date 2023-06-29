@@ -233,9 +233,15 @@ const RowdetailForm = (props: any) => {
             }
           });
           console.log("updatedValue========", columnList);
+          columnList.sort(function(a, b) {
+            return a.column_Index - b.column_Index;
+          });
           setColumns(columnList);
           setExtraData(new Date());
         } else {
+          columnList.sort(function(a, b) {
+            return a.column_Index - b.column_Index;
+          });
           setColumns(columnList);
         }
       })
@@ -391,7 +397,7 @@ const RowdetailForm = (props: any) => {
 
   return (
     <TouchableWithoutFeedback onPress={handleScreenTouch} >
-      <KeyboardAvoidingView behavior={Platform.OS=='ios'?'padding':'height'} keyboardVerticalOffset={-300} enabled={true}>
+      {/* <KeyboardAvoidingView   enabled={true}> */}
         
       <View style={Styles.container}>
         <View>
@@ -446,7 +452,7 @@ const RowdetailForm = (props: any) => {
         ) : null}
         {loader ? <CommonLoader /> : null}
       </View>
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </TouchableWithoutFeedback>
   );
 };

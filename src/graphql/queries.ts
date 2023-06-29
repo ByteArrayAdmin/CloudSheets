@@ -528,6 +528,7 @@ export const getTemplateColumns = /* GraphQL */ `
       templatesID
       soft_Deleted
       userID
+      column_Index
       createdAt
       updatedAt
       _version
@@ -551,6 +552,7 @@ export const listTemplateColumns = /* GraphQL */ `
         templatesID
         soft_Deleted
         userID
+        column_Index
         createdAt
         updatedAt
         _version
@@ -583,6 +585,7 @@ export const syncTemplateColumns = /* GraphQL */ `
         templatesID
         soft_Deleted
         userID
+        column_Index
         createdAt
         updatedAt
         _version
@@ -617,6 +620,7 @@ export const templateColumnsByTemplatesID = /* GraphQL */ `
         templatesID
         soft_Deleted
         userID
+        column_Index
         createdAt
         updatedAt
         _version
@@ -651,6 +655,7 @@ export const templateColumnsByUserID = /* GraphQL */ `
         templatesID
         soft_Deleted
         userID
+        column_Index
         createdAt
         updatedAt
         _version
@@ -677,6 +682,7 @@ export const getTemplates = /* GraphQL */ `
           templatesID
           soft_Deleted
           userID
+          column_Index
           createdAt
           updatedAt
           _version
@@ -919,6 +925,7 @@ export const getUser = /* GraphQL */ `
           templatesID
           soft_Deleted
           userID
+          column_Index
           createdAt
           updatedAt
           _version
