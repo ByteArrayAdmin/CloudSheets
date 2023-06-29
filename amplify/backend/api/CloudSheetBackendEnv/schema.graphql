@@ -1,4 +1,4 @@
-type SpreadSheetRows @model @auth(rules: [{ allow: owner }]) {
+type SpreadSheetRows @model @auth(rules: [{allow: owner}]) {
   id: ID!
   items: String
   userID: ID! @index(name: "byUser")
@@ -8,7 +8,7 @@ type SpreadSheetRows @model @auth(rules: [{ allow: owner }]) {
   soft_Deleted: Boolean
 }
 
-type SpreadSheet @model @auth(rules: [{ allow: owner }]) {
+type SpreadSheet @model @auth(rules: [{allow: owner}]) {
   id: ID!
   spreadsheet_name: String
   templatesID: ID! @index(name: "byTemplates")
@@ -18,16 +18,17 @@ type SpreadSheet @model @auth(rules: [{ allow: owner }]) {
   Templates: Templates @belongsTo(fields: ["templatesID"])
 }
 
-type TemplateColumns @model @auth(rules: [{ allow: owner }]) {
+type TemplateColumns @model @auth(rules: [{allow: owner}]) {
   id: ID!
   column_Name: String
   column_Type: String
   templatesID: ID! @index(name: "byTemplates")
   soft_Deleted: Boolean
   userID: ID! @index(name: "byUser")
+  column_Index: Int
 }
 
-type Templates @model @auth(rules: [{ allow: owner }]) {
+type Templates @model @auth(rules: [{allow: owner}]) {
   id: ID!
   template_name: String
   userID: ID! @index(name: "byUser")
@@ -37,7 +38,7 @@ type Templates @model @auth(rules: [{ allow: owner }]) {
   soft_Deleted: Boolean
 }
 
-type User @model @auth(rules: [{ allow: owner }]) {
+type User @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String
   email: String

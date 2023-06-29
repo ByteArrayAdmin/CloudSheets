@@ -185,7 +185,7 @@ export const create_Template_Column = async (newTemplateCol: any) => {
         try {
 
             const txnMutation: any = newTemplateCol.map((txn: any, i: any) => {
-                const dumStr = `mutation${i}: createTemplateColumns(input: {id: "${txn.id}", column_Name:"${txn.column_Name}", templatesID:"${txn.templatesID}", column_Type:"${txn.column_Type}", soft_Deleted:${txn.soft_Deleted}, userID:"${txn.userID}"}) { id,column_Name,templatesID,column_Type,soft_Deleted,userID }`;
+                const dumStr = `mutation${i}: createTemplateColumns(input: {id: "${txn.id}", column_Name:"${txn.column_Name}", templatesID:"${txn.templatesID}", column_Type:"${txn.column_Type}",column_Index:${txn.column_Index}, soft_Deleted:${txn.soft_Deleted}, userID:"${txn.userID}"}) { id,column_Name,templatesID,column_Type,column_Index,soft_Deleted,userID }`;
                 console.log("updateMutation============", dumStr)
                 return dumStr;
             });

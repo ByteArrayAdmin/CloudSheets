@@ -5,7 +5,7 @@ import { Controller } from "react-hook-form";
 import { columnTypeList, COLOURS, FONTS } from '../utils/Constant';
 const DropdownModal = (props: any) => {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(props.columnLength ==0 && props.index ==0?"Sentences" : null);
+    const [value, setValue] = useState(null);
     const [items, setItems] = useState(columnTypeList);
 
     return (
@@ -28,7 +28,7 @@ const DropdownModal = (props: any) => {
                         setValue={setValue}
                         setItems={setItems}
                         listMode={'MODAL'}
-                        disabled={props.columnLength ==0 && props.index ==0? true:false}
+                        // disabled={props.columnLength ==0 && props.index ==0? true:false}
                         modalTitle={"Column type"}
                         modalTitleStyle={styles.modalTitleStyle}
                         modalContentContainerStyle={styles.modalContentContainerStyle}

@@ -159,6 +159,7 @@ export type TemplateColumns = {
   templatesID: string,
   soft_Deleted?: boolean | null,
   userID: string,
+  column_Index?: number | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
@@ -229,6 +230,7 @@ export type CreateTemplateColumnsInput = {
   templatesID: string,
   soft_Deleted?: boolean | null,
   userID: string,
+  column_Index?: number | null,
   _version?: number | null,
 };
 
@@ -238,9 +240,22 @@ export type ModelTemplateColumnsConditionInput = {
   templatesID?: ModelIDInput | null,
   soft_Deleted?: ModelBooleanInput | null,
   userID?: ModelIDInput | null,
+  column_Index?: ModelIntInput | null,
   and?: Array< ModelTemplateColumnsConditionInput | null > | null,
   or?: Array< ModelTemplateColumnsConditionInput | null > | null,
   not?: ModelTemplateColumnsConditionInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type UpdateTemplateColumnsInput = {
@@ -250,6 +265,7 @@ export type UpdateTemplateColumnsInput = {
   templatesID?: string | null,
   soft_Deleted?: boolean | null,
   userID?: string | null,
+  column_Index?: number | null,
   _version?: number | null,
 };
 
@@ -728,6 +744,7 @@ export type CreateTemplateColumnsMutation = {
     templatesID: string,
     soft_Deleted?: boolean | null,
     userID: string,
+    column_Index?: number | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -751,6 +768,7 @@ export type UpdateTemplateColumnsMutation = {
     templatesID: string,
     soft_Deleted?: boolean | null,
     userID: string,
+    column_Index?: number | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -774,6 +792,7 @@ export type DeleteTemplateColumnsMutation = {
     templatesID: string,
     soft_Deleted?: boolean | null,
     userID: string,
+    column_Index?: number | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -804,6 +823,7 @@ export type CreateTemplatesMutation = {
         templatesID: string,
         soft_Deleted?: boolean | null,
         userID: string,
+        column_Index?: number | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -884,6 +904,7 @@ export type UpdateTemplatesMutation = {
         templatesID: string,
         soft_Deleted?: boolean | null,
         userID: string,
+        column_Index?: number | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -964,6 +985,7 @@ export type DeleteTemplatesMutation = {
         templatesID: string,
         soft_Deleted?: boolean | null,
         userID: string,
+        column_Index?: number | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1101,6 +1123,7 @@ export type CreateUserMutation = {
         templatesID: string,
         soft_Deleted?: boolean | null,
         userID: string,
+        column_Index?: number | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1198,6 +1221,7 @@ export type UpdateUserMutation = {
         templatesID: string,
         soft_Deleted?: boolean | null,
         userID: string,
+        column_Index?: number | null,
         createdAt: string,
         updatedAt: string,
         _version: number,
@@ -1295,6 +1319,7 @@ export type DeleteUserMutation = {
         templatesID: string,
         soft_Deleted?: boolean | null,
         userID: string,
+        column_Index?: number | null,
         createdAt: string,
         updatedAt: string,
         _version: number,

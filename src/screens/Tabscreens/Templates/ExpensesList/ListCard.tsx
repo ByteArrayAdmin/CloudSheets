@@ -30,18 +30,28 @@ const ListCard = (props: any) => {
       duration: 300,
     });
   };
+  //----------- check date or word ---------
+  const isWordOrDate = (value) => {
+    return typeof value === "string" && /^[A-Za-z]+$/.test(value);
+  };
 
-  const isDate = (value) => {
-    const newDate = new Date(value);
-    // return !isNaN(newDate.getTime());
-    return !isNaN(newDate.getTime()) && Object.prototype.toString.call(newDate) === '[object Date]'
+  const renderValue = () => {
+    const values = Object.values(rowData);
+    for (let i = 0; i < values.length; i++) {
+      if (isWordOrDate(values[i])) {
+        return values[i];
+      }
+    }
+    return null;
   };
 
   return (
     <View style={[style.innercontainer, { borderWidth: 1, borderColor: open ? COLOURS.lightgrey : COLOURS.cardBorder_lightBlue }]}>
       <View style={style.subview}>
         <View style={{height:40,justifyContent:'center'}}>
-          <Text style={style.texthead}>{rowData?.Name}</Text>
+          {/* <Text style={style.texthead}>{Object.values(rowData)[0]}</Text> */}
+          <Text style={style.texthead}>{renderValue()?renderValue():Object.values(rowData)[Object.values(rowData).length - 1]}</Text>
+
         </View>
         <View style={style.Space}></View>
         <TouchableOpacity
@@ -60,12 +70,12 @@ const ListCard = (props: any) => {
         <Animated.View style={style.horizontalspacing}>
           <Animated.View style={style.seprator}></Animated.View>
           {
-            Object.keys(rowData).map((key) => {
+            Object.keys(rowData).reverse().map((key) => {
               return (
                 <Animated.View style={style.detailview}>
                   <Animated.Text style={style.labelheading}>{key}</Animated.Text>
                   <Animated.View style={style.emptyview}></Animated.View>
-                  <Animated.Text style={style.detailnametext}>{isDate((rowData)[key]) ? moment((rowData)[key]).format("MMM DD, YYYY") : (rowData)[key]}</Animated.Text>
+                  <Animated.Text style={style.detailnametext}>{ (rowData)[key]}</Animated.Text>
                 </Animated.View>
               )
             })}

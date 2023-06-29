@@ -350,6 +350,7 @@ export const onCreateTemplateColumns = /* GraphQL */ `
       templatesID
       soft_Deleted
       userID
+      column_Index
       createdAt
       updatedAt
       _version
@@ -371,6 +372,7 @@ export const onUpdateTemplateColumns = /* GraphQL */ `
       templatesID
       soft_Deleted
       userID
+      column_Index
       createdAt
       updatedAt
       _version
@@ -392,6 +394,7 @@ export const onDeleteTemplateColumns = /* GraphQL */ `
       templatesID
       soft_Deleted
       userID
+      column_Index
       createdAt
       updatedAt
       _version
@@ -418,6 +421,7 @@ export const onCreateTemplates = /* GraphQL */ `
           templatesID
           soft_Deleted
           userID
+          column_Index
           createdAt
           updatedAt
           _version
@@ -490,6 +494,7 @@ export const onUpdateTemplates = /* GraphQL */ `
           templatesID
           soft_Deleted
           userID
+          column_Index
           createdAt
           updatedAt
           _version
@@ -562,6 +567,7 @@ export const onDeleteTemplates = /* GraphQL */ `
           templatesID
           soft_Deleted
           userID
+          column_Index
           createdAt
           updatedAt
           _version
@@ -685,6 +691,7 @@ export const onCreateUser = /* GraphQL */ `
           templatesID
           soft_Deleted
           userID
+          column_Index
           createdAt
           updatedAt
           _version
@@ -772,6 +779,7 @@ export const onUpdateUser = /* GraphQL */ `
           templatesID
           soft_Deleted
           userID
+          column_Index
           createdAt
           updatedAt
           _version
@@ -859,6 +867,7 @@ export const onDeleteUser = /* GraphQL */ `
           templatesID
           soft_Deleted
           userID
+          column_Index
           createdAt
           updatedAt
           _version
