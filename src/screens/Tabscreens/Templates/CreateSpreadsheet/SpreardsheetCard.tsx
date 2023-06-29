@@ -17,7 +17,6 @@ const SpreadsheetCard = (props: any) => {
   const { setError ,handleSubmit} = useForm();
 
   return (
-    <KeyboardAwareScrollView>
     <View style={styles.container}>
       <View>
         <Text style={styles.columntext}>
@@ -29,9 +28,9 @@ const SpreadsheetCard = (props: any) => {
           defaultValue={''}
           name={`column_Name${props.index}`}
           control={props.control}
-          customPassword={true}
-          onChangeCustom={(colname:string)=>props.onChangeCustom(colname,`column_Name${props.index}`)}
-          isEditable={props.columnLength ==0 && props.index == 0 ? false : true}
+          // customPassword={true}
+          // onChangeCustom={(colname:string)=>props.onChangeCustom(colname,`column_Name${props.index}`)}
+          // isEditable={props.columnLength ==0 && props.index == 0 ? false : true}
           isEdit={props.isEdit}
           index={props.index}
           placeholder={labels.Creatcloudsheetlabels.PLACEHOLDERTEXT}
@@ -83,8 +82,6 @@ const SpreadsheetCard = (props: any) => {
         </View> */}
       </View>
     </View>
-    </KeyboardAwareScrollView>
-  
   );
 };
 

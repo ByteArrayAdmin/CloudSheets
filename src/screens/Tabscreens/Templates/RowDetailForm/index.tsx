@@ -235,9 +235,15 @@ const RowdetailForm = (props: any) => {
             }
           });
           console.log("updatedValue========", columnList);
+          columnList.sort(function(a, b) {
+            return a.column_Index - b.column_Index;
+          });
           setColumns(columnList);
           setExtraData(new Date());
         } else {
+          columnList.sort(function(a, b) {
+            return a.column_Index - b.column_Index;
+          });
           setColumns(columnList);
         }
       })

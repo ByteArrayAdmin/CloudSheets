@@ -9,10 +9,14 @@ export type AmplifyDependentResourcesAttributes = {
   "api": {
     "CloudSheetBackendEnv": {
       "GraphQLAPIEndpointOutput": "string",
-      "GraphQLAPIIdOutput": "string",
-      "GraphQLAPIKeyOutput": "string"
+      "GraphQLAPIIdOutput": "string"
     },
     "checkEmailExist": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    },
+    "checkUserNameExist": {
       "ApiId": "string",
       "ApiName": "string",
       "RootUrl": "string"
@@ -20,6 +24,13 @@ export type AmplifyDependentResourcesAttributes = {
   },
   "function": {
     "checkEmailExistFunction": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "checkUserNameExistFunction": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",

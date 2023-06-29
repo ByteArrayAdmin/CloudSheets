@@ -93,6 +93,7 @@ type EagerTemplateColumns = {
   readonly templatesID: string;
   readonly soft_Deleted?: boolean | null;
   readonly userID: string;
+  readonly column_Index?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -108,6 +109,7 @@ type LazyTemplateColumns = {
   readonly templatesID: string;
   readonly soft_Deleted?: boolean | null;
   readonly userID: string;
+  readonly column_Index?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

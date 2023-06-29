@@ -30,6 +30,20 @@ const ListCard = (props: any) => {
       duration: 300,
     });
   };
+  //----------- check date or word ---------
+  const isWordOrDate = (value) => {
+    return typeof value === "string" && /^[A-Za-z]+$/.test(value);
+  };
+
+  const renderValue = () => {
+    const values = Object.values(rowData);
+    for (let i = 0; i < values.length; i++) {
+      if (isWordOrDate(values[i])) {
+        return values[i];
+      }
+    }
+    return null;
+  };
 
   return (
     <View
@@ -42,8 +56,10 @@ const ListCard = (props: any) => {
       ]}
     >
       <View style={style.subview}>
-        <View style={{ height: 40, justifyContent: "center" }}>
-          <Text style={style.texthead}>{rowData?.Name}</Text>
+        <View style={{height:40,justifyContent:'center'}}>
+          {/* <Text style={style.texthead}>{Object.values(rowData)[0]}</Text> */}
+          <Text style={style.texthead}>{renderValue()?renderValue():Object.values(rowData)[Object.values(rowData).length - 1]}</Text>
+
         </View>
         <View style={style.Space}></View>
         <TouchableOpacity
@@ -62,17 +78,16 @@ const ListCard = (props: any) => {
       {open ? (
         <Animated.View style={style.horizontalspacing}>
           <Animated.View style={style.seprator}></Animated.View>
-          {Object.keys(rowData).map((key) => {
-            return (
-              <Animated.View style={style.detailview}>
-                <Animated.Text style={style.labelheading}>{key}</Animated.Text>
-                <Animated.View style={style.emptyview}></Animated.View>
-                <Animated.Text style={style.detailnametext}>
-                  {rowData[key]}
-                </Animated.Text>
-              </Animated.View>
-            );
-          })}
+          {
+            Object.keys(rowData).reverse().map((key) => {
+              return (
+                <Animated.View style={style.detailview}>
+                  <Animated.Text style={style.labelheading}>{key}</Animated.Text>
+                  <Animated.View style={style.emptyview}></Animated.View>
+                  <Animated.Text style={style.detailnametext}>{ (rowData)[key]}</Animated.Text>
+                </Animated.View>
+              )
+            })}
         </Animated.View>
       ) : null}
     </View>

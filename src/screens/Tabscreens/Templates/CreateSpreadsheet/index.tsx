@@ -17,74 +17,90 @@ import Createspreadstyle from "./style";
 import Custombutton from "../../../../commonComponents/Button";
 import { useForm } from "react-hook-form";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import uuid from 'react-native-uuid';
-import moment from 'moment';
-import { create_Template_Column, get_ColumnByTemplateId, templateColumn_softDelete } from '../../../../API_Manager/index';
-import ColumnCard from './ColumnCard';
-import CommonLoader from '../../../../commonComponents/CommonLoader';
-import CommonBottomsheet from '../../../../commonComponents/CommonBottomsheet';
-import ColumnTypePopup from '../../../Popups/ColumnTypePopup';
-import { track_Screen ,track_Click_Event,track_Success_Event,track_Error_Event} from '../../../../eventTracking/index';
-import {eventName,screenName,clickName,successActionName,errorActionName} from '../../../../utils/Constant';
+import uuid from "react-native-uuid";
+import moment from "moment";
+import {
+  create_Template_Column,
+  get_ColumnByTemplateId,
+  templateColumn_softDelete,
+} from "../../../../API_Manager/index";
+import ColumnCard from "./ColumnCard";
+import CommonLoader from "../../../../commonComponents/CommonLoader";
+import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
+import ColumnTypePopup from "../../../Popups/ColumnTypePopup";
+import {
+  track_Screen,
+  track_Click_Event,
+  track_Success_Event,
+  track_Error_Event,
+} from "../../../../eventTracking/index";
+import {
+  eventName,
+  screenName,
+  clickName,
+  successActionName,
+  errorActionName,
+} from "../../../../utils/Constant";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const CreatSpreadsheet = () => {
   const navigation = useNavigation();
-  const route = useRoute()
-  const columnTypeRef = useRef()
+  const route = useRoute();
+  const columnTypeRef = useRef();
   const [Data, setData] = useState([]);
-  const [template, setTemplate] = useState(route?.params?.template)
-  const [templateID, setTemplateID] = useState(route?.params?.template?.id)
-  const [isEdit, setIsEdit] = useState(route?.params?.isEdit)
-  const [isFrom, setIsFrom] = useState(route?.params?.isFrom)
-  const [userId, setUserId] = useState(route?.params?.template?.userID)
+  const [template, setTemplate] = useState(route?.params?.template);
+  const [templateID, setTemplateID] = useState(route?.params?.template?.id);
+  const [isEdit, setIsEdit] = useState(route?.params?.isEdit);
+  const [isFrom, setIsFrom] = useState(route?.params?.isFrom);
+  const [userId, setUserId] = useState(route?.params?.template?.userID);
   const { control, handleSubmit, setValue, setError } = useForm();
   const [columnList, setColumnList] = useState([]);
   const [extraData, setExtraData] = useState(new Date());
   const [extraDataCol, setExtraDataCol] = useState(new Date());
   const [loader, setLoader] = useState(false);
-  const snapPoints = ['80%']
-  const [columnTypeObj, setColumTypeObj] = useState({})
-  const scrollRef = useRef(null)
+  const snapPoints = ["80%"];
+  const [columnTypeObj, setColumTypeObj] = useState({});
+  const scrollRef = useRef(null);
 
   // ----------- useEffect for initial Rendering---------------
   useEffect(() => {
-    console.log("templateName=======", route?.params?.template)
-    console.log("isEdit=========", isEdit)
-    getExistingColumn()
+    console.log("templateName=======", route?.params?.template);
+    console.log("isEdit=========", isEdit);
+    getExistingColumn();
     if (isEdit) {
-
-      track_Screen(eventName.TRACK_SCREEN, screenName.EDIT_COLUMN_SCREEN)
+      track_Screen(eventName.TRACK_SCREEN, screenName.EDIT_COLUMN_SCREEN);
     } else {
-      AddColoumn("Name", "Sentences")
-      track_Screen(eventName.TRACK_SCREEN, screenName.ADD_COLUMN_SCREEN)
+      AddColoumn();
+      track_Screen(eventName.TRACK_SCREEN, screenName.ADD_COLUMN_SCREEN);
     }
-  }, [])
+  }, []);
 
   // ----------- Pull to refresh get Existing Colm ----------
   const onRefresh = () => {
-    getExistingColumn()
-  }
+    getExistingColumn();
+  };
   // ----------- Get Existing Cloumn List---------------
   const getExistingColumn = () => {
-    setLoader(true)
-    get_ColumnByTemplateId(templateID).then((response: any) => {
-      console.log("responseCol=====", response)
-      setLoader(false)
-      setColumnList(response.data.templateColumnsByTemplatesID.items)
-      let columnList = response.data.templateColumnsByTemplatesID.items
-      if (columnList.length == 0) {
-        AddColoumn("Name", "Sentences")
-      }
-      setExtraData(new Date())
-    }).catch((error) => {
-      setLoader(false)
-      console.log("getColmErr=======", error)
-    })
-  }
+    setLoader(true);
+    get_ColumnByTemplateId(templateID)
+      .then((response: any) => {
+        console.log("responseCol=====", response);
+        setLoader(false);
+        setColumnList(response.data.templateColumnsByTemplatesID.items);
+        let columnList = response.data.templateColumnsByTemplatesID.items;
+        if (columnList.length == 0) {
+          AddColoumn();
+        }
+        setExtraData(new Date());
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log("getColmErr=======", error);
+      });
+  };
 
   // --------------Create Cloumn functionality-----------------
   const onSubmit = async (data: any) => {
-    console.log("ColumnArray=======", data)
+    console.log("ColumnArray=======", data);
     const pairs = Object.entries(data);
     const objectsWithPairs = pairs.reduce((result, [key, value], index) => {
       if (index % 2 === 0) {
@@ -98,183 +114,247 @@ const CreatSpreadsheet = () => {
     }, []);
     console.log("updatedColumnArray=======", objectsWithPairs);
 
-    const newArray = objectsWithPairs.map(obj => {
+    const newArray = objectsWithPairs.map((obj) => {
       const keys = Object.keys(obj); // Get the keys of the object
-      const newKeys = keys.map(key => { // Map over the keys array and modify the keys
+      const newKeys = keys.map((key) => {
+        // Map over the keys array and modify the keys
         return key.slice(0, key.lastIndexOf(" ")); // Remove the last word from the key
       });
       const newObj = {}; // Create a new object
-      keys.forEach((key, i) => { // Iterate over the keys of the original object
+      keys.forEach((key, i) => {
+        // Iterate over the keys of the original object
         newObj[newKeys[i]] = obj[key]; // Assign the modified key and value to the new object
       });
 
       return newObj; // Return the modified object
     });
-    console.log("updatedArr==========", newArray)
-    console.log("arrWithID===========", Data)
+    console.log("updatedArr==========", newArray);
+    console.log("arrWithID===========", Data);
 
     newArray.map((el: any, index) => {
-      console.log("arrayIndex======", index)
+      console.log("arrayIndex======", index);
       el.id = Data[index].id;
       el.templatesID = Data[index].templatesID;
       el.soft_Deleted = Data[index].soft_Deleted;
-      el.userID = Data[index].userID
-      return el
-    }
-    );
-    console.log("updateArrWithID===========", newArray)
-    setLoader(true)
-    create_Template_Column(newArray).then((response) => {
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.COLUMN_CREATE_SUCCESSFULLY)
-      setLoader(false)
-      console.log("createColmResponse=========", response)
-    }).catch((error) => {
-      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.CREATE_COLUMN_ERROR)
-      setLoader(false)
-      console.log("createColmErr======", error)
-    })
+      el.userID = Data[index].userID;
+      el.column_Index = Data[index].column_Index;
+      return el;
+    });
+    console.log("updateArrWithID===========", newArray);
+   
+    setLoader(true);
+    create_Template_Column(newArray)
+      .then((response) => {
+        track_Success_Event(
+          eventName.TRACK_SUCCESS_ACTION,
+          successActionName.COLUMN_CREATE_SUCCESSFULLY
+        );
+        setLoader(false);
+        console.log("createColmResponse=========", response);
+      })
+      .catch((error) => {
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.CREATE_COLUMN_ERROR
+        );
+        setLoader(false);
+        console.log("createColmErr======", error);
+      });
     if (isEdit) {
-      navigation.goBack()
+      navigation.goBack();
     } else {
-      navigation.navigate("AddrowClassattendance", { template: template, isFrom: isFrom });
+      navigation.navigate("AddrowClassattendance", {
+        template: template,
+        isFrom: isFrom,
+      });
     }
   };
-  
-  
 
   // --------------Add Column functionality---------------
-  const AddColoumn = (col_name: string, col_Type: string) => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_ADD_COLUMN)
-    
-    let uid = uuid.v1().toString()
-    let timeStamp = moment().unix().toString()
-    let newUniqueId = uid + "-" + timeStamp
-    // if (!isEdit && newIndex == 0) {
-    if (columnList.length == 0 && Data.length ==0) {
-      setValue("column_Name0", col_name)
-      setValue("column_Type0", col_Type)
-    }
+  const AddColoumn = () => {
+    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_ADD_COLUMN);
 
-    setData((oldArray) => [...Data, { id: newUniqueId, templatesID: templateID, soft_Deleted: false, value: '', userID:userId }]);
-    const newIndex = Data.length;
+    let uid = uuid.v1().toString();
+    let timeStamp = moment().unix().toString();
+    let newUniqueId = uid + "-" + timeStamp;
+    // if (!isEdit && newIndex == 0) {
+    // if (columnList.length == 0 && Data.length == 0) {
+    //   setValue("column_Name0", col_name);
+    //   setValue("column_Type0", col_Type);
+    // }
+
+    setData((oldArray) => [
+      ...Data,
+      {
+        id: newUniqueId,
+        templatesID: templateID,
+        soft_Deleted: false,
+        value: "",
+        userID: userId,
+        column_Index: columnList.length + Data.length
+      },
+    ]);
+    const newIndex =columnList.length + Data.length;
     // Alert.alert("myindex", newIndex)
-    console.log("my index@@@@@@@@@======>",newIndex)
-    
+    console.log("my index@@@@@@@@@======>", newIndex);
   };
-//==============ScrollToIndexFunctonality===============
-  
+  //==============ScrollToIndexFunctonality===============
+
   // --------------Remove Existing Column Alert---------------
   const removeColumnAlert = (item: any, index: any) => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.OPEN_REMOVE_COLUMN_ALERT)
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.OPEN_REMOVE_COLUMN_ALERT
+    );
 
-    Alert.alert(labels.Creatcloudsheetlabels.Delete_Column, labels.Creatcloudsheetlabels.Delete_Warning, [
-      {
-        text: labels.Creatcloudsheetlabels.Cancel,
-        onPress: () => { console.log('Cancel Pressed'), track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_CANCEL_REMOVE_COLUMN) },
-        style: 'cancel',
-      },
-      { text: labels.Creatcloudsheetlabels.OK, onPress: () => removeColumn(item, index) },
-    ]);
-  }
+    Alert.alert(
+      labels.Creatcloudsheetlabels.Delete_Column,
+      labels.Creatcloudsheetlabels.Delete_Warning,
+      [
+        {
+          text: labels.Creatcloudsheetlabels.Cancel,
+          onPress: () => {
+            console.log("Cancel Pressed"),
+              track_Click_Event(
+                eventName.TRACK_CLICK,
+                clickName.SELECT_CANCEL_REMOVE_COLUMN
+              );
+          },
+          style: "cancel",
+        },
+        {
+          text: labels.Creatcloudsheetlabels.OK,
+          onPress: () => removeColumn(item, index),
+        },
+      ]
+    );
+  };
 
   // --------------Remove Existing Column Functionality---------------
   const removeColumn = (item: any, index: any) => {
-    track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_DELETE_REMOVE_COLUMN)
-    console.log("removeCol=========", item, index)
-    let arr1 = columnList
-    arr1.splice(index, 1)
-    setColumnList(arr1)
-    setExtraData(new Date())
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.SELECT_DELETE_REMOVE_COLUMN
+    );
+    console.log("removeCol=========", item, index);
+    let arr1 = columnList;
+    arr1.splice(index, 1);
+    setColumnList(arr1);
+    setExtraData(new Date());
     let updatedColm = {
       id: item.id,
       column_Name: item.column_Name,
       column_Type: item.column_Type,
       templatesID: item.templatesID,
       soft_Deleted: true,
-      _version: item._version
-    }
-    setLoader(true)
-    templateColumn_softDelete(updatedColm).then((response: any) => {
-      console.log("removeColmResp=========", response)
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION, successActionName.DELETE_COLUMN_SUCCESSFULLY)
-      setLoader(false)
-    }).catch((error) => {
-      setLoader(false)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.DELETE_COLUMN_ERROR)
-      console.log("removeColmErr=======", error)
-    })
-  }
+      _version: item._version,
+    };
+    setLoader(true);
+    templateColumn_softDelete(updatedColm)
+      .then((response: any) => {
+        console.log("removeColmResp=========", response);
+        track_Success_Event(
+          eventName.TRACK_SUCCESS_ACTION,
+          successActionName.DELETE_COLUMN_SUCCESSFULLY
+        );
+        setLoader(false);
+      })
+      .catch((error) => {
+        setLoader(false);
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.DELETE_COLUMN_ERROR
+        );
+        console.log("removeColmErr=======", error);
+      });
+  };
 
   // ----------- open columnList modal ---------
   const openColumList = (columnObj: any) => {
-    setColumTypeObj(columnObj)
-    columnTypeRef.current.childFunction1()
-  }
+    setColumTypeObj(columnObj);
+    columnTypeRef.current.childFunction1();
+  };
 
   // -------- onSelect Column type ---------
   const onSelectColumn = (selectedType: any) => {
-    console.log("selectedColmType=======", selectedType)
-    console.log("colmObj========", columnTypeObj)
-    columnTypeObj
-    let arr1 = Data
-    arr1.forEach(element => {
+    console.log("selectedColmType=======", selectedType);
+    console.log("colmObj========", columnTypeObj);
+    columnTypeObj;
+    let arr1 = Data;
+    arr1.forEach((element) => {
       if (element.id == columnTypeObj.id) {
-        element.value = selectedType.name
+        element.value = selectedType.name;
       }
     });
-    console.log("updatedArr========", arr1)
-    setData([...arr1])
-    columnTypeRef.current.childFunction2()
-    setExtraDataCol(new Date())
-  }
+    console.log("updatedArr========", arr1);
+    setData([...arr1]);
+    columnTypeRef.current.childFunction2();
+    setExtraDataCol(new Date());
+  };
 
   // ------- checkValidate -------
   const onValidation = (text: string, colname: any) => {
-    console.log("onchangeVal========", text, colname)
+    console.log("onchangeVal========", text, colname);
 
     if (isEdit) {
-      if (text == "Name" && columnList.length>0) {
+      if (text == "Name" && columnList.length > 0) {
         setError(colname, {
-          type: 'required',
-          message: "Name is already added"
-        })
+          type: "required",
+          message: "Name is already added",
+        });
       } else {
-        setError(colname, null)
+        setError(colname, null);
       }
     } else if (!isEdit && Data.length >= 1) {
       if (text == "Name") {
         setError(colname, {
-          type: 'required',
-          message: "Name is already added"
-        })
+          type: "required",
+          message: "Name is already added",
+        });
       } else {
-        setError(colname, null)
+        setError(colname, null);
       }
     }
-
-  }
+  };
 
   // -------------- Render New Column Added -------------
   const renderItems = ({ item, index }: any) => (
     console.log("colItem=====", item),
-    
-    <SpreadsheetCard control={control} setError={setError} onChangeCustom={(text: string, colName: string) => onValidation(text, colName)} item={item} columnLength={columnList.length} index={index} isEdit={isEdit} selectColumnType={() => openColumList(item)} />
+    (
+      <SpreadsheetCard
+        control={control}
+        setError={setError}
+        // onChangeCustom={(text: string, colName: string) =>
+        //   onValidation(text, colName)
+        // }
+        item={item}
+        columnLength={columnList.length}
+        index={index}
+        isEdit={isEdit}
+        selectColumnType={() => openColumList(item)}
+      />
+    )
   );
 
   // ------------ Render Existing Columns ------------
   const renderExistingColumn = ({ item, index }: any) => (
-    <ColumnCard item={item} onPressRemove={() => removeColumnAlert(item, index)} />
-  )
+    <ColumnCard
+      item={item}
+      onPressRemove={() => removeColumnAlert(item, index)}
+    />
+  );
 
   return (
     <>
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}
-      ref={scrollRef}
-      onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: true })}
-      extraScrollHeight={100} enableOnAndroid={true} 
-   keyboardShouldPersistTaps='handled'
-
-      
+      <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
+        // ref={scrollRef}
+        // onContentSizeChange={() =>
+        //   scrollRef.current.scrollToEnd({ animated: true })
+        // }
+        extraScrollHeight={100}
+        enableOnAndroid={true}
+        keyboardShouldPersistTaps="handled"
       >
         <ScrollView>
           <NewCommonHeader
@@ -286,12 +366,12 @@ const CreatSpreadsheet = () => {
           <View>
             <FlatList
               style={{ marginTop: 10, marginHorizontal: 15 }}
-              data={columnList} renderItem={renderExistingColumn}
+              data={columnList}
+              renderItem={renderExistingColumn}
               extraData={extraData}
               refreshing={false}
               onRefresh={onRefresh}
-             // ref={scrollRef}
-             keyboardShouldPersistTaps="handled"
+              keyboardShouldPersistTaps="handled"
             />
           </View>
           <View>
@@ -299,6 +379,8 @@ const CreatSpreadsheet = () => {
               data={Data}
               renderItem={renderItems}
               extraData={extraDataCol}
+              ref={scrollRef}
+              scrollEnabled={true}
             />
             <View style={Createspreadstyle.buttonview}>
               <TouchableOpacity
@@ -316,29 +398,34 @@ const CreatSpreadsheet = () => {
               </TouchableOpacity>
             </View>
             <View>
-              {!isEdit ?
+              {!isEdit ? (
                 <Custombutton
                   onPress={handleSubmit(onSubmit)}
                   Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
-                /> : Data.length > 0 ?
-                  <Custombutton
-                    onPress={handleSubmit(onSubmit)}
-                    Register={labels.Creatcloudsheetlabels.Update_Column}
-                  /> : <Custombutton
-                    onPress={handleSubmit(onSubmit)}
-                    Register={labels.Creatcloudsheetlabels.Done}
-                  />
-              }
+                />
+              ) : Data.length > 0 ? (
+                <Custombutton
+                  onPress={handleSubmit(onSubmit)}
+                  Register={labels.Creatcloudsheetlabels.Update_Column}
+                />
+              ) : (
+                <Custombutton
+                  onPress={handleSubmit(onSubmit)}
+                  Register={labels.Creatcloudsheetlabels.Done}
+                />
+              )}
             </View>
             <View style={Createspreadstyle.Bottomgap}></View>
           </View>
         </ScrollView>
-        </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
       <CommonBottomsheet
         ref={columnTypeRef}
         snapPoints={snapPoints}
         children={
-          <ColumnTypePopup onSelectColumn={(selectedType: any) => onSelectColumn(selectedType)} />
+          <ColumnTypePopup
+            onSelectColumn={(selectedType: any) => onSelectColumn(selectedType)}
+          />
         }
       />
       {loader ? <CommonLoader /> : null}

@@ -20,14 +20,6 @@
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "apiKeyConfig": {
-                "apiKeyExpirationDate": "2023-07-03T07:38:17.986Z",
-                "apiKeyExpirationDays": 7,
-                "description": ""
-              },
-              "authenticationType": "API_KEY"
-            },
-            {
               "authenticationType": "AWS_IAM"
             }
           ],
@@ -55,6 +47,20 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
+    },
+    "checkUserNameExist": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "checkUserNameExistFunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     }
   },
   "auth": {
@@ -68,6 +74,20 @@
   },
   "function": {
     "checkEmailExistFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "cloudsheetbackendenv0bf41396"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "checkUserNameExistFunction": {
       "build": true,
       "dependsOn": [
         {
@@ -216,6 +236,22 @@
         {
           "category": "function",
           "resourceName": "checkEmailExistFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkUserNameExistFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkUserNameExistFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkUserNameExistFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkUserNameExistFunction"
         }
       ]
     }
