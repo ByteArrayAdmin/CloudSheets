@@ -174,7 +174,7 @@ const Attendancelist = () => {
       <View style={Style.container}>
         <View>
           <NewCommonHeader
-            BackButton={<BackButton onPress={() => isFrom == "CloudSheetTab" ? navigation.navigate('ClousheetList') : navigation.navigate('CreateTemplate')} />}
+            BackButton={<BackButton onPress={() => isFrom == "CloudSheetTab" ? navigation.navigate('ClousheetList') :isFrom == "HomeTab" ? navigation.navigate('Home') : navigation.navigate('CreateTemplate')} />}
             Folder={<Document />}
             heading={spreadSheetName}
             styling={120}

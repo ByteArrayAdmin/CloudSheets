@@ -7,7 +7,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  Platform
+  Platform,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -48,7 +48,7 @@ import {
 import SelectDropdown from "react-native-select-dropdown";
 import Dropdowsideicon from "../../../../assets/Images/dropdown.svg";
 import { Controller } from "react-hook-form";
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const RowdetailForm = (props: any) => {
   const navigation = useNavigation();
@@ -68,12 +68,12 @@ const RowdetailForm = (props: any) => {
   const [columns, setColumns] = useState([]);
   const [updatedFormData, setUpdatedFormData] = useState({});
   const { reset, control, handleSubmit, setValue, register } = useForm();
-  const [modalVisible, setModalVisible] = useState(false)
-  const [extraData, setExtraData] = useState(new Date())
-  const [loader, setLoader] = useState(false)
-  const [mount, setMount] = useState(true)
-  const Dropdown = (index: any, data: any) => { };
-  const getYesNo = ["Yes", "No"]
+  const [modalVisible, setModalVisible] = useState(false);
+  const [extraData, setExtraData] = useState(new Date());
+  const [loader, setLoader] = useState(false);
+  const [mount, setMount] = useState(true);
+  const Dropdown = (index: any, data: any) => {};
+  const getYesNo = ["Yes", "No"];
 
   // --------------Initial rendering-------------------
   useEffect(() => {
@@ -82,13 +82,13 @@ const RowdetailForm = (props: any) => {
     console.log("spreadRow======", route.params?.spreadSheetRow);
     console.log("isFromScreen=======", route.params?.isFrom);
 
-    getColumnByID(route?.params?.spreadSheet?.templatesID)
+    getColumnByID(route?.params?.spreadSheet?.templatesID);
 
-    return ()=>{
-      setMount(false)
-      setIsEdit(false)
-    }
-  },[isEdit,mount])
+    return () => {
+      setMount(false);
+      setIsEdit(false);
+    };
+  }, [isEdit, mount]);
 
   useEffect(() => {
     if (isEdit) {
@@ -103,10 +103,12 @@ const RowdetailForm = (props: any) => {
       );
       setExtraData(new Date());
     } else {
-      track_Screen(eventName.TRACK_SCREEN, screenName.EDIT_SPREADSHEET_ROW_SCREEN)
-     
+      track_Screen(
+        eventName.TRACK_SCREEN,
+        screenName.EDIT_SPREADSHEET_ROW_SCREEN
+      );
     }
-  }, [isEdit,mount])
+  }, [isEdit, mount]);
 
   // --------------Create Row Data-----------------
   const onSubmitPressed = async (data: any) => {
@@ -287,11 +289,10 @@ const RowdetailForm = (props: any) => {
               onPress={() => setopen(true)}
             >
               <View>
+
                 <Text style={Styles.enterdate}>
                   {date == "" && isEdit
-                    ? moment(spreadSheetRowItems[item.column_Name]).format(
-                        "YYYY-MM-DD"
-                      )
+                    ? spreadSheetRowItems[item.column_Name]
                     : date != ""
                     ? date
                     : labels.Rowdetailsform.PlaceholderEnterDate}
@@ -390,9 +391,7 @@ const RowdetailForm = (props: any) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handleScreenTouch} >
-      <KeyboardAvoidingView behavior={Platform.OS=='ios'?'padding':'height'} keyboardVerticalOffset={-300} enabled={true}>
-        
+    <TouchableWithoutFeedback onPress={handleScreenTouch}>
       <View style={Styles.container}>
         <View>
           <NewCommonHeader
@@ -446,7 +445,6 @@ const RowdetailForm = (props: any) => {
         ) : null}
         {loader ? <CommonLoader /> : null}
       </View>
-      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
