@@ -20,7 +20,7 @@ import {
   softDelete_spreadSheet_and_rows,
   search_CloudsheetByUserID
 } from '../../../../API_Manager/index';
-import { useNavigation, useRoute,CommonActions } from "@react-navigation/native";
+import { useNavigation, useRoute,CommonActions ,useIsFocused} from "@react-navigation/native";
 import CreateTemplatePopup from '../../../Popups/CreateTemplatePopup';
 import CreateCloudSheetNamePopup from '../../../Popups/CreateCloudSheetNamePopup/index';
 import Popup from "../../../Popups/TemplateEditPopup";
@@ -36,6 +36,7 @@ const ClousheetList = () => {
   const bottomTabHeight = useBottomTabBarHeight();
   const ChildRef = useRef();
   const createTemplateRef = useRef();
+  const isFocused = useIsFocused()
   const openthreeDotRef = useRef()
   const openCloudSheetEditRef = useRef()
   const snapPoints = [350,400];
@@ -86,6 +87,13 @@ const ClousheetList = () => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
     return () => backHandler.remove(); // Clean up the event listener
   }, [isSheetOpen]); 
+
+  useEffect(() => {
+    if (isFocused) {
+      // setIsGlobal((prevState) => !prevState);
+      get_CurrentUserId();
+    }
+  }, [isFocused]);
   // ------------ Get Current userId -------------
   const get_CurrentUserId = () => {
     current_UserInfo().then((response: any) => {
