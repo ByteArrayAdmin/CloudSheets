@@ -58,7 +58,7 @@ const ListCard = (props: any) => {
       <View style={style.subview}>
         <View style={{height:40,justifyContent:'center'}}>
           {/* <Text style={style.texthead}>{Object.values(rowData)[0]}</Text> */}
-          <Text style={style.texthead}>{renderValue()?renderValue():Object.values(rowData)[Object.values(rowData).length - 1]}</Text>
+          <Text style={style.texthead}>{renderValue()?renderValue():Object.values(rowData)[0]}</Text>
 
         </View>
         <View style={style.Space}></View>
@@ -79,7 +79,7 @@ const ListCard = (props: any) => {
         <Animated.View style={style.horizontalspacing}>
           <Animated.View style={style.seprator}></Animated.View>
           {
-            Object.keys(rowData).reverse().map((key) => {
+            Object.keys(rowData).map((key) => {
               return (
                 <Animated.View style={style.detailview}>
                   <Animated.Text style={style.labelheading}>{key}</Animated.Text>

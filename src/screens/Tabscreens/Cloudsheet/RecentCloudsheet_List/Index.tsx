@@ -38,7 +38,8 @@ const ClousheetList = () => {
   const createTemplateRef = useRef();
   const openthreeDotRef = useRef()
   const openCloudSheetEditRef = useRef()
-  const snapPoints = ["40%", "50%"];
+  const snapPoints = [350,400];
+  const ChooseSnapPoints = [300,350]
   const editCloudSheetSnapPoint = ["60%"]
   const [error, setError] = useState("")
   const navigation = useNavigation()
@@ -398,7 +399,7 @@ const ClousheetList = () => {
         />
         <CommonBottomsheet
           ref={ChildRef}
-          snapPoints={snapPoints}
+          snapPoints={ChooseSnapPoints}
           children={<CreatecloudsheetPopup
             inNewTemplate={() => openNewTemplate()}
             inExistingTemplate={() => onExistingTemplate()}

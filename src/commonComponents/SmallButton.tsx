@@ -23,8 +23,7 @@ const Style = StyleSheet.create({
   Button: {
     height: 50,
     justifyContent: "center",
-    paddingHorizontal: 55,
-    paddingVertical: 15,
+    alignItems:'center',
     borderRadius: 8,
     backgroundColor: COLOURS.Skyblue,
   },
@@ -32,5 +31,6 @@ const Style = StyleSheet.create({
     fontSize: 14,
     fontFamily: FONTS.inter_regular,
     color: COLOURS.white,
+    paddingHorizontal: 50,
   },
 });

@@ -28,6 +28,21 @@ export const Attendancelistcard = (props: any) => {
     });
   };
 
+  //----------- check date or word ---------
+  const isWordOrDate = (value) => {
+    return typeof value === "string" && /^[A-Za-z]+$/.test(value);
+  };
+
+  const renderValue = () => {
+    const values = Object.values(items);
+    for (let i = 0; i < values.length; i++) {
+      if (isWordOrDate(values[i])) {
+        return values[i];
+      }
+    }
+    return null;
+  };
+
   return (
     <View style={Styles.container}>
       <View
@@ -42,7 +57,7 @@ export const Attendancelistcard = (props: any) => {
       >
         <View style={Styles.subcontainer}>
           <View>
-            <Text style={Styles.nametext}>{items.Name}</Text>
+            <Text style={Styles.nametext}>{renderValue()?renderValue():Object.values(items)[0]}</Text>
           </View>
           <View style={Styles.emptyview}></View>
           <TouchableOpacity style={Styles.gap} onPress={toggleSwitch}>

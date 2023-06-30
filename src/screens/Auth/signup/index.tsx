@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
   PermissionsAndroid,
+  BackHandler
 } from "react-native";
 import { styles } from "./style";
 import InputField from "../../../commonComponents/InputField";
@@ -75,6 +76,7 @@ const Signup = () => {
   const email = watch("email")
   const [isUserExist, setIsUserExist] = useState(false);
   const [passswordpolicy, setPasswordPolicy] = useState(false);
+  const [isBackHandler, setBackButtonHandler] = useState(true)
   const ChildRef = useRef();
   const snapPoints = ["60%"];
 
@@ -146,7 +148,7 @@ const Signup = () => {
 
   useEffect(() => {
     requestLocationPermission();
-    isUserNameExist()
+    // isUserNameExist()
   }, []);
   // ----------- Location permission -----------
   const requestLocationPermission = async () => {

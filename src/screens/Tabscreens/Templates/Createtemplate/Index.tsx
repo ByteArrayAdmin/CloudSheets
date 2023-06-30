@@ -20,6 +20,7 @@ import {
   useNavigation,
   CommonActions,
   useRoute,
+  useIsFocused,
 } from "@react-navigation/native";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreateTemplatePopup from "./../../../Popups/CreateTemplatePopup";
@@ -64,6 +65,7 @@ const CreateTemplate = () => {
   const child = useRef();
   const editTempRef = useRef();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const route = useRoute();
   const [userId, setUserId] = useState("");
   const [templateList, setTemplateList] = useState([]);
@@ -78,6 +80,7 @@ const CreateTemplate = () => {
   const [isGlobal, setIsGlobal] = useState(false);
   const [isRefNull, setIsRefNull] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
   useEffect(() => {
     DeviceEventEmitter.addListener("refreshTemplateList", () => getUserId());
     if (global.isLoggedInUser) {
@@ -92,25 +95,8 @@ const CreateTemplate = () => {
       console.log("Component unmounted");
       // BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     };
-    console.log("isFrom========", route.params?.isFrom);
   }, []);
 
-  const onBackPress = () => {
-    console.log(
-      "currentRouteName=====",
-      navigationRef.current.getCurrentRoute().name
-    );
-    if (navigationRef.current.getCurrentRoute().name === "CreateTemplate") {
-      if (isRefNull == true) {
-        child.current.childFunction2();
-        editTempRef.current.childFunction2();
-        setIsRefNull(false);
-        return true;
-      } else {
-        return false;
-      }
-    }
-  };
 
   useEffect(() => {
     const backAction = () => {
@@ -134,28 +120,11 @@ const CreateTemplate = () => {
   }, [isSheetOpen]);
 
   useEffect(() => {
-    console.log("isGlobal=======", global.IsFromHome);
-    if (global.IsFromHome == true) {
-      child.current.childFunction1();
-      navigation.addListener("focus", () => openCreateTemplatePopup());
-      setIsGlobal(true);
-      global.IsFromHome = false;
-    } else {
-      setIsGlobal(false);
+    if (isFocused) {
+      setIsGlobal((prevState) => !prevState);
+      getUserId();
     }
-
-    return () => {
-      // This function will be executed when the component unmounts
-      console.log("Component unmounted");
-      global.IsFromHome = false;
-      setIsGlobal(false);
-    };
-  }, [global.IsFromHome, isGlobal]);
-
-  const openCreateTemplatePopup = () => {
-    setIsSheetOpen(true);
-    child.current.childFunction1();
-  };
+  }, [isFocused]);
 
   // --------- Get Guest user Template List --------
   const getGuestUserTemplates = async () => {
@@ -484,7 +453,8 @@ const CreateTemplate = () => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_EDIT_TEMPLATE);
     setIsEditTemplate(true);
   };
-  const snapPoints = ["45%"];
+  const snapPoints = [350,400];
+  const EditSnapPoints = [300,350]
 
   // -------------navigate to detail Screen functionality on Double Tap---------------
   const onDoubleTab = (template: any) => {
@@ -631,7 +601,7 @@ const CreateTemplate = () => {
       <View>
         <CommonBottomsheet
           ref={editTempRef}
-          snapPoints={snapPoints}
+          snapPoints={EditSnapPoints}
           children={
             <EditDeleteCloudsheet
               editTemplate={() => onEditTemplate()}

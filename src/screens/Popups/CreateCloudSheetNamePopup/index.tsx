@@ -95,8 +95,9 @@ const CreateCloudSheetNamePopup = (props: any) => {
           </View>
         </View>
         <View style={Tempatestyle.buttonview}>
+        <View style={Tempatestyle.spaceAround}></View>
           <View>
-            <SmallButton
+            <LightSmallButton
               buttontext={CreateTemplatescreen.CloudSheetNameConstants.Cancel}
               onPress={props.OnClose}
             />
@@ -104,12 +105,13 @@ const CreateCloudSheetNamePopup = (props: any) => {
 
           <View style={Tempatestyle.space}></View>
           <View>
-            <LightSmallButton
+            <SmallButton
               buttontext={props.isEditCloudSheetName ? CreateTemplatescreen.CloudSheetNameConstants.Update : CreateTemplatescreen.CloudSheetNameConstants.Create}
               // onPress={CreatePress}
               onPress={() => props.isEditCloudSheetName ? props.onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId,softDeleted) : props.onCreateSpreadSheet(text)}
             />
           </View>
+        <View style={Tempatestyle.spaceAround}></View>
         </View>
       </View>
       <CommonBottomsheet ref={child} />
@@ -157,7 +159,7 @@ const Tempatestyle = StyleSheet.create({
   },
   buttonview: {
     flexDirection: "row",
-    marginHorizontal: 110,
+    // marginHorizontal: 110,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 40,
@@ -183,6 +185,10 @@ const Tempatestyle = StyleSheet.create({
     borderRadius: 8,
   },
   space: {
-    width: "20%",
+    // width: "20%",
+    flex:1
   },
+  spaceAround:{
+    flex:0.5
+  }
 });

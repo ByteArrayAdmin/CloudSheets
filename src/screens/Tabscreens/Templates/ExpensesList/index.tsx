@@ -45,7 +45,7 @@ const ExpensesList = (props: any) => {
   const navigation = useNavigation();
   const child = useRef();
   const editRecordRef = useRef();
-  const snapPoints = ["35%"];
+  const snapPoints = [300,350];
   const [spreadSheetDetail, setSpreadSheetDetail] = useState(
     route?.params?.spreadSheetDetail
   );
@@ -230,19 +230,57 @@ const ExpensesList = (props: any) => {
   const search_Row = (text: string) => {
     // let row = JSON.parse(JSON.stringify(searchRef.current))
     let row = searchRef.current;
-    let searchedArr = [];
-    row.filter((item) => {
+    // let searchedArr = [];
+    // row.filter((item) => {
+    //   let parseEle = JSON.parse(item.items);
+    //   console.log("filterDataAbove========", parseEle);
+    //   let AllKeys = Object.keys(parseEle)
+    //   console.log("AllKeys========",AllKeys)
+    //   var isTrue  = false
+    //   AllKeys.forEach(element => {
+    //     if(element?.includes(text)){
+    //       // searchedArr.push(item);
+    //       isTrue  = true
+    //       return item;
+    //     }else{
+    //       isTrue  = false
+    //       return null;
+    //     }
+    //   });
+    //   if(isTrue){
+    //     searchedArr.push(item);
+    //     return
+    //   }else{
+    //     return null
+    //   }
+      // searchedArr.push(item);
+      // console.log("AllKeysUpdate========",AllKeys)
+      // if (parseEle.Name?.includes(text)) {
+      //   console.log("filterDataIf========", item);
+      //   searchedArr.push(item);
+      //   return item;
+      // } else {
+      //   console.log("filterDataElse========", parseEle);
+      //   return null;
+      // }
+    // }
+    // );
+
+    let searchedArr = row.filter((item) => {
       let parseEle = JSON.parse(item.items);
       console.log("filterDataAbove========", parseEle);
-      if (parseEle.Name?.includes(text)) {
-        console.log("filterDataIf========", item);
-        searchedArr.push(item);
-        return item;
-      } else {
-        console.log("filterDataElse========", parseEle);
-        return null;
-      }
+      let AllKeys = Object.keys(parseEle)
+      console.log("AllKeys========", AllKeys)
+      var isTrue = false
+      AllKeys.forEach(element => {
+        if (element?.includes(text)) {
+          isTrue = true
+          return;
+        }
+      });
+      return isTrue;
     });
+    
     setSpreadSheetData(searchedArr);
     setExtraData(new Date());
     console.log("searchData=====", row);

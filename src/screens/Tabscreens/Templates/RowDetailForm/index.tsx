@@ -161,6 +161,8 @@ const RowdetailForm = (props: any) => {
     setModalVisible(false);
     if (isFromScreen == "TemplateTab") {
       navigation.navigate("CreateTemplate");
+    }else if(isFromScreen == "HomeTab"){
+      navigation.navigate("DashBoardTab");
     } else {
       navigation.navigate("ClousheetList");
     }
@@ -168,6 +170,7 @@ const RowdetailForm = (props: any) => {
 
   // ----------- Update Row -----------
   const onUpdateRows = (data: any) => {
+    console.log('updatedRowData======',data)
     track_Click_Event(
       eventName.TRACK_CLICK,
       clickName.CLICK_ON_UPDATE_SPREADSHEET_ROW
@@ -232,6 +235,10 @@ const RowdetailForm = (props: any) => {
                 : null;
               console.log("index========", index);
               setValue(element.column_Name, element.defaultValue);
+            }
+            if(element.column_Type == "Date"){
+              let rowVal = JSON.parse(route?.params?.spreadSheetRow?.items);
+              setValue(element.column_Name, rowVal[element.column_Name]);
             }
           });
           console.log("updatedValue========", columnList);

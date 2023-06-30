@@ -39,7 +39,7 @@ const TemplateList = () => {
   const route = useRoute()
   const child = useRef()
   const editCloudSheetRef = useRef()
-  const snapPoints = ["45%"];
+  const snapPoints = [350,400];
   const editCloudSheetSnapPoint = ["60%"];
   const [template, setTemplate] = useState(route?.params?.template)
   const [templateId, setTemplateId] = useState(route?.params?.template?.id)

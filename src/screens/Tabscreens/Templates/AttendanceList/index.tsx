@@ -32,7 +32,7 @@ const Attendancelist = () => {
   const route = useRoute()
   const child = useRef()
   const searchRef = useRef(null);
-  const snapPoints = ["35%", "50%"];
+  const snapPoints = [300, 350];
   const [Data, setdata] = useState([{ id: 1 }]);
   const [spreadSheet, setSpreadSheet] = useState(route?.params?.spreadSheet)
   const [spreadSheetName, setSpreadSheetName] = useState(route?.params?.spreadSheet?.spreadsheet_name)

@@ -90,15 +90,14 @@ const CreateTemplatePopup = (props: any) => {
           </View>
         </View>
         <View style={Tempatestyle.buttonview}>
+        <View style={Tempatestyle.spaceAround}></View>
           <View>
-            
             <LightSmallButton
                buttontext={CreateTemplatescreen.TemBottomsheet.Cancel}
               // onPress={CreatePress}
               onPress={props.OnCloseCreateTemplate}
             />
           </View>
-
           <View style={Tempatestyle.space}></View>
           <View>
             <SmallButton
@@ -108,6 +107,7 @@ const CreateTemplatePopup = (props: any) => {
               onPress={() => props.isEditTemplate ? props.onUpdateTemplate(text, templateId, version,softDeleted) : props.onCreateTemplate(text)}
             />
           </View>
+          <View style={Tempatestyle.spaceAround}></View>
         </View>
       </View>
       <CommonBottomsheet ref={child} />
@@ -159,7 +159,7 @@ const Tempatestyle = StyleSheet.create({
   },
   buttonview: {
     flexDirection: "row",
-    marginHorizontal: 112,
+    // marginHorizontal: 112,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 50,
@@ -186,6 +186,10 @@ const Tempatestyle = StyleSheet.create({
     borderRadius: 8,
   },
   space: {
-    width: "20%",
+    // width: "20%",
+    flex:1
   },
+  spaceAround:{
+    flex:0.5
+  }
 });
