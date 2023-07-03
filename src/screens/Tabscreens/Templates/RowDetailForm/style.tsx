@@ -81,7 +81,9 @@ export const Styles = StyleSheet.create({
       marginTop: 0,
       backgroundColor: COLOURS.offwhite,
       borderRadius: 10,
-      height: 160
+      height: 160,
+      justifyContent:'center',
+      padding:20
     },
     rowStyle: {
       marginHorizontal: 5,
