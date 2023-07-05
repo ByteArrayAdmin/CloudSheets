@@ -17,7 +17,7 @@ const HeadingCard = (props: any) => {
       </View>
       <View>
         <Text style={styles.textstyle}>{props?.template?.template_name}</Text>
-        <Text style={styles.datestyle}>{moment(props?.template?.createdAt,["HH:mm"]).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={styles.datestyle}>{moment(props?.template?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
       </View>
       <View style={styles.space}></View>
       {/* <View style={styles.imagestyle}>

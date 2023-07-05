@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, } from "react-native";
 import { styles } from "screens/Auth/signup/style";
-import { COLOURS, FONTS } from "../../../utils/Constant";
+import { COLOURS, FONTS ,renderValue} from "../../../utils/Constant";
 import CommonCard from "../CommonCard";
 import Edit from "../../../assets/Images/Edit.svg";
 import Delete from "../../../assets/Images/Deleteicon.svg";
@@ -15,7 +15,7 @@ const EditSpreadsheetRecord = (props: any) => {
   return (
     <View style={Style.container}>
       <View style={Style.topSpace}>
-        <Text style={Style.nametext}>{ Object.values(spreadSheetData)[0]}</Text>
+        <Text style={Style.nametext}>{renderValue(spreadSheetData)?renderValue(spreadSheetData):spreadSheetData[0]?.column_Value }</Text>
         <View style={Style.space}>
 
         </View>
@@ -25,7 +25,7 @@ const EditSpreadsheetRecord = (props: any) => {
       </View>
 
       <View>
-        <Text style={Style.datetetxt}>{moment(props?.spreadSheetRow?.createdAt,["HH,mm"]).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={Style.datetetxt}>{moment(props?.spreadSheetRow?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
       </View>
       <View style={Style.newspace}></View>
       <CommonCard

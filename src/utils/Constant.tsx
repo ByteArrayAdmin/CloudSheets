@@ -7,6 +7,7 @@ import Ic_emailPhone  from '../assets/Images/ic_emailPhone.svg';
 import Ic_physicalAddress  from '../assets/Images/ic_physicalAddress.svg';
 import Ic_barcode  from '../assets/Images/ic_barcode.svg';
 import Ic_yesNo from '../assets/Images/ic_yesNo.svg';
+import moment from "moment";
 
 export const emailRegex = /^\w+([\.-]?\w+)*@(\w+([\.-]?\w+)*\.(\w{2,3}|tech))$/
 
@@ -226,3 +227,16 @@ export const eventName = {
   TRACK_SUCCESS_ACTION: 'track_Success_Action',
   TRACK_ERROR_ACTION: 'track_Error_Action',
 }
+
+export const renderValue = (rowDate:any) => {
+  let value = "";
+  rowDate.forEach((element: any) => {
+    if (element.column_Type == "Sentences") {
+      value = element.column_Value;
+    }
+    if (value == "" && element.column_Type == "Date") {
+      value = moment(element.column_Value).format("MMM DD, YYYY");
+    }
+  });
+  return value;
+};

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import label from "../../../../utils/ProjectLabels.json";
 import {
   View,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   LayoutAnimation,
+  FlatList,
 } from "react-native";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
 import Ic_upArrow from "../../../../assets/Images/Ic_upArrow.svg";
@@ -15,10 +16,24 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { styles } from "../TabBarTemplateList/style";
+import moment from "moment";
 
 export const Attendancelistcard = (props: any) => {
-  const [items, setItems] = useState(JSON.parse(props?.item.items));
+  const [items, setItems] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+     arrangeAscendingOrder();
+  }, [props]);
+
+  const arrangeAscendingOrder = () => {
+    let parseItem = JSON.parse(props?.item.items);
+    parseItem.sort(function (a, b) {
+      return a.column_Index - b.column_Index;
+    });
+    setItems(parseItem);
+  };
 
   const toggleSwitch = () => {
     setIsOpen((prev) => !prev);
@@ -29,19 +44,29 @@ export const Attendancelistcard = (props: any) => {
   };
 
   //----------- check date or word ---------
-  const isWordOrDate = (value) => {
-    return typeof value === "string" && /^[A-Za-z]+$/.test(value);
-  };
-
-  const renderValue = () => {
-    const values = Object.values(items);
-    for (let i = 0; i < values.length; i++) {
-      if (isWordOrDate(values[i])) {
-        return values[i];
+  const renderValue = ()=>{
+    let value = ""
+    items.forEach((element: any) => {
+      if(value =='' && element.column_Type == "Sentences" ){
+        value = element.column_Value
       }
-    }
-    return null;
-  };
+      if(value =='' && element.column_Type == "Date" ){
+        value = moment(element.column_Value).format("MMM DD, YYYY")
+      }
+      
+    });
+    return value
+  }
+
+  // ----------- Render Row Items -----------
+
+  const renderRowItems = ({ item }: any) => (
+    <View style={Styles.detailview}>
+      <Text style={Styles.labelheading}>{item.column_Name}</Text>
+      <View style={Styles.emptyview}></View>
+      <Text style={Styles.detailnametext}>{item.column_Type == "Date"? moment(item.column_Value).format("MMM DD, YYYY") : item.column_Value}</Text>
+    </View>
+  );
 
   return (
     <View style={Styles.container}>
@@ -57,7 +82,9 @@ export const Attendancelistcard = (props: any) => {
       >
         <View style={Styles.subcontainer}>
           <View>
-            <Text style={Styles.nametext}>{renderValue()?renderValue():Object.values(items)[0]}</Text>
+            <Text style={Styles.nametext}>
+              {renderValue() ? renderValue() : items[0]?.column_Value}
+            </Text>
           </View>
           <View style={Styles.emptyview}></View>
           <TouchableOpacity style={Styles.gap} onPress={toggleSwitch}>
@@ -77,15 +104,7 @@ export const Attendancelistcard = (props: any) => {
             <View style={Styles.horizontallineview}>
               <View style={Styles.innerhoeizontaline} />
             </View>
-            {Object.keys(items).map((key) => {
-              return (
-                <View style={Styles.detailview}>
-                  <Text style={Styles.labelheading}>{key}</Text>
-                  <View style={Styles.emptyview}></View>
-                  <Text style={Styles.detailnametext}>{items[key]}</Text>
-                </View>
-              );
-            })}
+            <FlatList data={items} renderItem={renderRowItems} />
           </Animated.View>
         ) : null}
       </View>

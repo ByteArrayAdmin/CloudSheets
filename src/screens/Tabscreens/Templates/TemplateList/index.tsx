@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   DeviceEventEmitter,
   Alert,
-  BackHandler
+  BackHandler,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import labels from "../../../../utils/ProjectLabels.json";
@@ -14,7 +14,7 @@ import Folder from "../../../../assets/Images/folder12.svg";
 import CloudsheetListCard from "./CloudsheetListcard";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import FlatlistHeader from './FlatlistHeader';
+import FlatlistHeader from "./FlatlistHeader";
 import { styles } from "./styles";
 import {
   getCloudsheetByTemplateID,
@@ -23,172 +23,238 @@ import {
   update_SpreadSheet,
   spreadSheet_softDelete,
   getSpreadsheetRow_bySpreadsheetId_forSoftDelete,
-  softDelete_spreadSheet_and_rows
-} from '../../../../API_Manager/index';
-import CreateCloudSheetNamePopup from '../../../Popups/CreateCloudSheetNamePopup/index';
+  softDelete_spreadSheet_and_rows,
+} from "../../../../API_Manager/index";
+import CreateCloudSheetNamePopup from "../../../Popups/CreateCloudSheetNamePopup/index";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Popup from "../../../Popups/TemplateEditPopup";
-import uuid from 'react-native-uuid';
-import moment from 'moment';
-import CommonLoader from '../../../../commonComponents/CommonLoader';
-import { track_Click_Event, track_Error_Event, track_Screen, track_Success_Event } from '../../../../eventTracking/index';
-import {clickName, errorActionName, eventName,screenName, successActionName} from '../../../../utils/Constant';
+import uuid from "react-native-uuid";
+import moment from "moment";
+import CommonLoader from "../../../../commonComponents/CommonLoader";
+import {
+  track_Click_Event,
+  track_Error_Event,
+  track_Screen,
+  track_Success_Event,
+} from "../../../../eventTracking/index";
+import {
+  clickName,
+  errorActionName,
+  eventName,
+  screenName,
+  successActionName,
+} from "../../../../utils/Constant";
 const TemplateList = () => {
   // ----------- File States -----------
   const navigation = useNavigation();
-  const route = useRoute()
-  const child = useRef()
-  const editCloudSheetRef = useRef()
-  const snapPoints = [350,400];
+  const route = useRoute();
+  const child = useRef();
+  const editCloudSheetRef = useRef();
+  const snapPoints = [350, 400];
   const editCloudSheetSnapPoint = ["60%"];
-  const [template, setTemplate] = useState(route?.params?.template)
-  const [templateId, setTemplateId] = useState(route?.params?.template?.id)
-  const [spreadSheetList, setSpreadSheetList] = useState([])
-  const [count, setCount] = useState(1)
-  const [isEditCloudSheetName, setIsEditCloudSheetName] = useState(false)
-  const [userId, setUserId] = useState('')
-  const [error, setError] = useState("")
-  const [extraData, setExtraData] = useState(new Date())
-  const [selectedCloudSheet, setSelectedCloudSheet] = useState({})
-  const [loader, setLoader] = useState(false)
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [template, setTemplate] = useState(route?.params?.template);
+  const [templateId, setTemplateId] = useState(route?.params?.template?.id);
+  const [spreadSheetList, setSpreadSheetList] = useState([]);
+  const [isEditCloudSheetName, setIsEditCloudSheetName] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [error, setError] = useState("");
+  const [extraData, setExtraData] = useState(new Date());
+  const [selectedCloudSheet, setSelectedCloudSheet] = useState({});
+  const [loader, setLoader] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [navigateId, setNavigateId] = useState("");
+
   // -------------- initial Render-------------
   useEffect(() => {
-    console.log("template======", route?.params?.template)
-    get_SpreadsheetByTemplateID()
-    getUserId()
-    track_Screen(eventName.TRACK_SCREEN,screenName.SPREADSHEET_LISTSCREEN)
-  }, [])
+    console.log("template======", route?.params?.template);
+    get_SpreadsheetByTemplateID();
+    getUserId();
+    track_Screen(eventName.TRACK_SCREEN, screenName.SPREADSHEET_LISTSCREEN);
+  }, []);
 
   // -----------------Get Curent userId----------------
   const getUserId = () => {
-    current_UserInfo().then((response: any) => {
-      setUserId(response.attributes.sub)
-    }).catch((error) => {
-      console.log("currUserErr======", error)
-    })
-  }
+    current_UserInfo()
+      .then((response: any) => {
+        setUserId(response.attributes.sub);
+      })
+      .catch((error) => {
+        console.log("currUserErr======", error);
+      });
+  };
 
   // --------------- On Refresh SpreadSheet ---------
   const onRefresh = () => {
-    get_SpreadsheetByTemplateID()
-  }
+    get_SpreadsheetByTemplateID();
+  };
 
   // ------------- Get SpreadSheetList------------
   const get_SpreadsheetByTemplateID = () => {
-    setLoader(true)
-    getCloudsheetByTemplateID(templateId).then((response: any) => {
-      setLoader(false)
-      console.log("getSpreadByTempResp=========", response)
-      setSpreadSheetList(response.data.spreadSheetsByTemplatesID.items)
-    }).catch((error) => {
-      setLoader(false)
-      console.log("getSpreadSheetErr=====", error)
-    })
-  }
+    setLoader(true);
+    getCloudsheetByTemplateID(templateId)
+      .then((response: any) => {
+        setLoader(false);
+        console.log("getSpreadByTempResp=========", response);
+       let cloudSheetList = response.data.spreadSheetsByTemplatesID.items
+        cloudSheetList.sort(function compare(a, b) {
+          var dateA = new Date(a.createdAt);
+          var dateB = new Date(b.createdAt);
+          return dateB - dateA ;
+        });
+        setSpreadSheetList(cloudSheetList);
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log("getSpreadSheetErr=====", error);
+      });
+  };
 
   // -------------- Double Click navigation ---------------
   const onDoubleTab = (spreadSheetDetail: any) => {
-    setCount(count + 1)
-    console.log("totalCount======", count)
-    if (count == 2) {
-      navigation.navigate("ExpensesList", { spreadSheetDetail: spreadSheetDetail, isFrom: "TemplateTab" })
-    } else {
+    if (navigateId == "") {
       setTimeout(() => {
-        setCount(1)
-      }, 3000);
+        setNavigateId("");
+      }, 1000);
+      setNavigateId(spreadSheetDetail.id);
+    } else {
+      if (navigateId == spreadSheetDetail.id) {
+        setNavigateId("");
+        navigation.navigate("ExpensesList", {
+          spreadSheetDetail: spreadSheetDetail,
+          isFrom: "TemplateTab",
+        });
+      } else {
+        setTimeout(() => {
+          setNavigateId("");
+        }, 1000);
+        setNavigateId(spreadSheetDetail.id);
+      }
     }
-  }
+  };
 
   const openCreateCloudSheetModal = () => {
-    setIsEditCloudSheetName(false)
-    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_CREATE_SPREADSHEET_MODAL)
+    setIsEditCloudSheetName(false);
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.OPEN_CREATE_SPREADSHEET_MODAL
+    );
     child.current.childFunction1();
-    setIsSheetOpen(true)
-  }
+    setIsSheetOpen(true);
+  };
 
   // -------- Close SpreadSheet Modal --------
   const OnClose = () => {
-    if(isEditCloudSheetName){
-      track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_UPDATE_SPREADSHEET_MODAL)
-    }else{
-      track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_CREATE_SPREADSHEET_MODAL)
+    if (isEditCloudSheetName) {
+      track_Click_Event(
+        eventName.TRACK_CLICK,
+        clickName.CANCEL_UPDATE_SPREADSHEET_MODAL
+      );
+    } else {
+      track_Click_Event(
+        eventName.TRACK_CLICK,
+        clickName.CANCEL_CREATE_SPREADSHEET_MODAL
+      );
     }
     child.current.childFunction2();
-    setError("")
-  }
+    setError("");
+  };
 
   // -------- spreadSheet validation --------
   const spreadSheetValidation = (spreadSheetname: String) => {
-    console.log("spreadSheetname=========", spreadSheetname)
+    console.log("spreadSheetname=========", spreadSheetname);
     if (spreadSheetname == "" || spreadSheetname == undefined) {
-      setError(labels.Templatelistlabel.CloudSheetError)
+      setError(labels.Templatelistlabel.CloudSheetError);
     } else {
-      onCreateSpreadSheet(spreadSheetname)
+      onCreateSpreadSheet(spreadSheetname);
     }
-  }
+  };
 
   // --------- Create Spreadsheet ----------
   const onCreateSpreadSheet = (spreadSheetName: String) => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_CREATE_SPREADSHEET)
-    let uid = uuid.v1().toString()
-    let timeStamp = moment().unix().toString()
-    let newUniqueId = uid + "-" + timeStamp
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.CLICK_ON_CREATE_SPREADSHEET
+    );
+    let uid = uuid.v1().toString();
+    let timeStamp = moment().unix().toString();
+    let newUniqueId = uid + "-" + timeStamp;
     let newSpreadData = {
       id: newUniqueId,
       spreadsheet_name: spreadSheetName,
       templatesID: templateId,
       userID: userId,
-      soft_Deleted: false
-    }
-    console.log("spreadSheetData=======", newSpreadData)
-    let arr1 = spreadSheetList
-    setLoader(true)
-    create_SpreadSheet(newSpreadData).then((response: any) => {
-      console.log("spreadResp=======", response)
-      setLoader(false)
-      arr1.push(response.data.createSpreadSheet)
-      setExtraData(new Date())
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.CREATE_SPREADSHEET_SUCCESSFULLY)
-      DeviceEventEmitter.emit('updateSpreadSheetList')
-    }).catch((error) => {
-      setLoader(false)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.CREATE_SPREADSHEET_ERROR)
-      console.log("spreadErr=====", error)
-    })
+      soft_Deleted: false,
+    };
+    console.log("spreadSheetData=======", newSpreadData);
+    let arr1 = spreadSheetList;
+    setLoader(true);
+    create_SpreadSheet(newSpreadData)
+      .then((response: any) => {
+        console.log("spreadResp=======", response);
+        setLoader(false);
+        arr1.unshift(response.data.createSpreadSheet);
+        setExtraData(new Date());
+        track_Success_Event(
+          eventName.TRACK_SUCCESS_ACTION,
+          successActionName.CREATE_SPREADSHEET_SUCCESSFULLY
+        );
+        DeviceEventEmitter.emit("updateSpreadSheetList");
+      })
+      .catch((error) => {
+        setLoader(false);
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.CREATE_SPREADSHEET_ERROR
+        );
+        console.log("spreadErr=====", error);
+      });
     child.current.childFunction2();
-  }
+  };
 
   // ----------- Open Edit CloudSheet Popup ----------
   const openEditCloudSheetPopup = (selectedCloudSheet: any) => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_SPREADSHEET_ACTION_MODAL)
-    console.log("selectedCloudSheet=======", selectedCloudSheet)
-    setSelectedCloudSheet(selectedCloudSheet)
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.OPEN_SPREADSHEET_ACTION_MODAL
+    );
+    console.log("selectedCloudSheet=======", selectedCloudSheet);
+    setSelectedCloudSheet(selectedCloudSheet);
     editCloudSheetRef.current.childFunction1();
-    setIsSheetOpen(true)
-
-  }
+    setIsSheetOpen(true);
+  };
   // ----------- On Select Edit CloudSheet -----------
   const openEditCloudSheet = () => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.OPEN_EDIT_SPREADSHEET_MODAL)
-    setIsEditCloudSheetName(true)
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.OPEN_EDIT_SPREADSHEET_MODAL
+    );
+    setIsEditCloudSheetName(true);
     editCloudSheetRef.current.childFunction2();
     child.current.childFunction1();
-    
-  }
+  };
 
   // ----------- Update CloudSheet -------------
-  const onUpdateCloudSheet = (text: String, templateId: String, version: any, spreadSheetId: String, userId: String, softDeleted:boolean) => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_UPDATE_SPREADSHEET)
-    let arr1 = spreadSheetList
-    arr1.forEach(element => {
+  const onUpdateCloudSheet = (
+    text: String,
+    templateId: String,
+    version: any,
+    spreadSheetId: String,
+    userId: String,
+    softDeleted: boolean
+  ) => {
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.CLICK_ON_UPDATE_SPREADSHEET
+    );
+    let arr1 = spreadSheetList;
+    arr1.forEach((element) => {
       if (element.id == spreadSheetId) {
-        element.spreadsheet_name = text
+        element.spreadsheet_name = text;
       }
     });
-    setSpreadSheetList(arr1)
-    setExtraData(new Date())
-    setIsEditCloudSheetName(false)
+    setSpreadSheetList(arr1);
+    setExtraData(new Date());
+    setIsEditCloudSheetName(false);
     child.current.childFunction2();
     let newSpreadData = {
       id: spreadSheetId,
@@ -196,48 +262,75 @@ const TemplateList = () => {
       templatesID: templateId,
       userID: userId,
       _version: version,
-      soft_Deleted: softDeleted
-    }
-    setLoader(true)
-    update_SpreadSheet(newSpreadData).then((response) => {
-      setLoader(false)
-      track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.UPDATE_SPREADSHEET_SUCCESSFULLY)
-      console.log("updateResp=======", response)
-    }).catch((error) => {
-      setLoader(false)
-      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.UPDATE_SPREADSHEET_ERROR)
-      console.log("updateCloudSheetErr========", error)
-    })
-  }
+      soft_Deleted: softDeleted,
+    };
+    setLoader(true);
+    update_SpreadSheet(newSpreadData)
+      .then((response) => {
+        setLoader(false);
+        track_Success_Event(
+          eventName.TRACK_SUCCESS_ACTION,
+          successActionName.UPDATE_SPREADSHEET_SUCCESSFULLY
+        );
+        console.log("updateResp=======", response);
+      })
+      .catch((error) => {
+        setLoader(false);
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.UPDATE_SPREADSHEET_ERROR
+        );
+        console.log("updateCloudSheetErr========", error);
+      });
+  };
 
   //--------- Cloudsheet delete Alert ---------
   const openCloudsheetDeleteAlert = () => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_DELETE_SPREADSHEET)
-    track_Screen(eventName.TRACK_SCREEN,screenName.DELETE_SPREADSHEET_ALERT)
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.SELECT_DELETE_SPREADSHEET
+    );
+    track_Screen(eventName.TRACK_SCREEN, screenName.DELETE_SPREADSHEET_ALERT);
     editCloudSheetRef.current.childFunction2();
-    Alert.alert(labels.Templatelistlabel.DeleteAlert, labels.Templatelistlabel.Delete_Quete, [
-      {
-        text: labels.Templatelistlabel.Cancel,
-        onPress: () => {console.log('Cancel Pressed'),track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_DELETE_SPREADSHEET)},
-        style: 'cancel',
-      },
-      { text: labels.Templatelistlabel.OK, onPress: () => onDeleteCloudsheet() },
-    ]);
-  }
+    Alert.alert(
+      labels.Templatelistlabel.DeleteAlert,
+      labels.Templatelistlabel.Delete_Quete,
+      [
+        {
+          text: labels.Templatelistlabel.Cancel,
+          onPress: () => {
+            console.log("Cancel Pressed"),
+              track_Click_Event(
+                eventName.TRACK_CLICK,
+                clickName.CANCEL_DELETE_SPREADSHEET
+              );
+          },
+          style: "cancel",
+        },
+        {
+          text: labels.Templatelistlabel.OK,
+          onPress: () => onDeleteCloudsheet(),
+        },
+      ]
+    );
+  };
 
   // ----------- Delete Cloudsheet ----------
   const onDeleteCloudsheet = () => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.SELECT_DELETE_SPREADSHEET)
-    let arr1 = spreadSheetList
-    let index
-    arr1.forEach(element => {
+    track_Click_Event(
+      eventName.TRACK_CLICK,
+      clickName.SELECT_DELETE_SPREADSHEET
+    );
+    let arr1 = spreadSheetList;
+    let index;
+    arr1.forEach((element) => {
       if (element.id == selectedCloudSheet.id) {
-        index = arr1.indexOf(element)
+        index = arr1.indexOf(element);
       }
     });
-    arr1.splice(index, 1)
-    setSpreadSheetList(arr1)
-    setExtraData(new Date())
+    arr1.splice(index, 1);
+    setSpreadSheetList(arr1);
+    setExtraData(new Date());
     let updatedCloudsheetData = {
       id: selectedCloudSheet.id,
       spreadsheet_name: selectedCloudSheet.spreadsheet_name,
@@ -245,65 +338,82 @@ const TemplateList = () => {
       userID: selectedCloudSheet.userID,
       soft_Deleted: true,
       _version: selectedCloudSheet._version,
-    }
-    setLoader(true)
-    spreadSheet_softDelete(updatedCloudsheetData).then((response: any) => {
-      if (response) {
-        getSpreadsheetRow_bySpreadsheetId_forSoftDelete(selectedCloudSheet.id).then((response: any) => {
-          let spreadSheetRows = response.data.spreadSheetRowsBySpreadsheetID.items
-          track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.DELETE_SPREADSHEET_SUCCESSFULLY)
-          if (spreadSheetRows.length > 0) {
-            spreadSheetRows.forEach((element: any) => {
-              element.soft_Deleted = true
-            });
-            console.log("getRowResp======", spreadSheetRows)
-            softDelete_spreadSheet_and_rows(spreadSheetRows).then((response: any) => {
-              console.log("spreadRowDelete======", response)
-              setLoader(false)
-            }).catch((error) => {
-              setLoader(false)
-              console.log("sfSpreadSheetRow========", error)
+    };
+    setLoader(true);
+    spreadSheet_softDelete(updatedCloudsheetData)
+      .then((response: any) => {
+        if (response) {
+          getSpreadsheetRow_bySpreadsheetId_forSoftDelete(selectedCloudSheet.id)
+            .then((response: any) => {
+              let spreadSheetRows =
+                response.data.spreadSheetRowsBySpreadsheetID.items;
+              track_Success_Event(
+                eventName.TRACK_SUCCESS_ACTION,
+                successActionName.DELETE_SPREADSHEET_SUCCESSFULLY
+              );
+              if (spreadSheetRows.length > 0) {
+                spreadSheetRows.forEach((element: any) => {
+                  element.soft_Deleted = true;
+                });
+                console.log("getRowResp======", spreadSheetRows);
+                softDelete_spreadSheet_and_rows(spreadSheetRows)
+                  .then((response: any) => {
+                    console.log("spreadRowDelete======", response);
+                    setLoader(false);
+                  })
+                  .catch((error) => {
+                    setLoader(false);
+                    console.log("sfSpreadSheetRow========", error);
+                  });
+              }
+              setLoader(false);
             })
-          }
-          setLoader(false)
-        }).catch((error) => {
-          setLoader(false)
-          console.log("getSpRowErr=======", error)
-        })
-      }
-    }).catch((error) => {
-      track_Error_Event(eventName.TRACK_ERROR_ACTION,errorActionName.DELETE_SPREADSHEET_ERROR)
-      setLoader(false)
-      console.log("softDelErr=======", error)
-    })
-  }
+            .catch((error) => {
+              setLoader(false);
+              console.log("getSpRowErr=======", error);
+            });
+        }
+      })
+      .catch((error) => {
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.DELETE_SPREADSHEET_ERROR
+        );
+        setLoader(false);
+        console.log("softDelErr=======", error);
+      });
+  };
 
   const ListCard = ({ item, index }: any) => (
-    <TouchableOpacity
-      onPress={() => onDoubleTab(item)}
-    >
-      <CloudsheetListCard index={index} item={item} openEditCloudSheetPopup={() => openEditCloudSheetPopup(item)} />
+    <TouchableOpacity onPress={() => onDoubleTab(item)}>
+      <CloudsheetListCard
+        index={index}
+        item={item}
+        openEditCloudSheetPopup={() => openEditCloudSheetPopup(item)}
+      />
     </TouchableOpacity>
   );
   useEffect(() => {
     const backAction = () => {
-      if(isSheetOpen){
-        console.log("sheetIsOpen==========")
+      if (isSheetOpen) {
+        console.log("sheetIsOpen==========");
         child.current.childFunction2();
         editCloudSheetRef.current.childFunction2();
-        // backHandler.remove(); 
-        setIsSheetOpen(false)
+        // backHandler.remove();
+        setIsSheetOpen(false);
 
-        
-        return true
-      }else{
-        console.log("sheetIsClosed==========")
+        return true;
+      } else {
+        console.log("sheetIsClosed==========");
         return false;
       }
     };
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
     return () => backHandler.remove(); // Clean up the event listener
-  }, [isSheetOpen]); 
+  }, [isSheetOpen]);
 
   return (
     <View style={styles.container}>
@@ -322,7 +432,8 @@ const TemplateList = () => {
           ListHeaderComponent={<FlatlistHeader template={template} />}
         />
       </View>
-      <TouchableOpacity style={styles.widgetposition}
+      <TouchableOpacity
+        style={styles.widgetposition}
         onPress={() => openCreateCloudSheetModal()}
       >
         <Addwidgeticon />
@@ -330,24 +441,44 @@ const TemplateList = () => {
       <CommonBottomsheet
         ref={child}
         snapPoints={snapPoints}
-        children={<CreateCloudSheetNamePopup
-          OnClose={() => OnClose()}
-          error={error}
-          selectedCloudSheet={selectedCloudSheet}
-          isEditCloudSheetName={isEditCloudSheetName}
-          onUpdateCloudSheet={(text: String, templateId: String, version: any, spreadSheetId: String, userId: String,softDeleted: boolean) => onUpdateCloudSheet(text, templateId, version, spreadSheetId, userId,softDeleted)}
-          onCreateSpreadSheet={(SpreadSheetname: String) => spreadSheetValidation(SpreadSheetname)}
-        />
+        children={
+          <CreateCloudSheetNamePopup
+            OnClose={() => OnClose()}
+            error={error}
+            selectedCloudSheet={selectedCloudSheet}
+            isEditCloudSheetName={isEditCloudSheetName}
+            onUpdateCloudSheet={(
+              text: String,
+              templateId: String,
+              version: any,
+              spreadSheetId: String,
+              userId: String,
+              softDeleted: boolean
+            ) =>
+              onUpdateCloudSheet(
+                text,
+                templateId,
+                version,
+                spreadSheetId,
+                userId,
+                softDeleted
+              )
+            }
+            onCreateSpreadSheet={(SpreadSheetname: String) =>
+              spreadSheetValidation(SpreadSheetname)
+            }
+          />
         }
       />
       <CommonBottomsheet
         snapPoints={editCloudSheetSnapPoint}
         ref={editCloudSheetRef}
-        children={<Popup
-          selectedCloudSheet={selectedCloudSheet}
-          onEditCloudSheet={() => openEditCloudSheet()}
-          onDeleteCloudSheet={() => openCloudsheetDeleteAlert()}
-        />
+        children={
+          <Popup
+            selectedCloudSheet={selectedCloudSheet}
+            onEditCloudSheet={() => openEditCloudSheet()}
+            onDeleteCloudSheet={() => openCloudsheetDeleteAlert()}
+          />
         }
       />
       {loader ? <CommonLoader /> : null}

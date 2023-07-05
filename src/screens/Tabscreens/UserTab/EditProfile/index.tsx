@@ -63,6 +63,7 @@ const EditProfile = () => {
 
   // ----------- getUser from UserTable ---------
   const get_User_from_Table = (userId: any) => {
+    console.log("userID=======",userId)
     get_user_from_table(userId).then((response: any) => {
       console.log("userDetailFromTable======", response)
       setUserDetailTable(response.data.getUser)

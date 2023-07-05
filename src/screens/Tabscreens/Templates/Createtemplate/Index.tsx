@@ -73,13 +73,13 @@ const CreateTemplate = () => {
   const [isEditTemplate, setIsEditTemplate] = useState(false);
   const [extraData, setExtraData] = useState(new Date());
   const bottomTabHeight = useBottomTabBarHeight();
-  const [count, setCount] = useState(1);
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
   const [registerModalVisible, setRegisterModalVisible] = useState(false);
   const [isGlobal, setIsGlobal] = useState(false);
   const [isRefNull, setIsRefNull] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [navigateId, setNavigateId] = useState("");
 
   useEffect(() => {
     DeviceEventEmitter.addListener("refreshTemplateList", () => getUserId());
@@ -96,7 +96,6 @@ const CreateTemplate = () => {
       // BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     };
   }, []);
-
 
   useEffect(() => {
     const backAction = () => {
@@ -235,7 +234,13 @@ const CreateTemplate = () => {
       .then((response: any) => {
         console.log("getTempResp=======", response);
         setLoader(false);
-        setTemplateList(response.data.templatesByUserID.items);
+        let templateList = response.data.templatesByUserID.items
+        templateList.sort(function compare(a, b) {
+          var dateA = new Date(a.createdAt);
+          var dateB = new Date(b.createdAt);
+          return dateB - dateA ;
+        });
+        setTemplateList(templateList)
       })
       .catch((error) => {
         console.log("getTempErr======", error);
@@ -270,13 +275,15 @@ const CreateTemplate = () => {
       soft_Deleted: false,
     };
     console.log("rowData======", newTemplate);
+    
     if (global.isLoggedInUser) {
       setLoader(true);
       create_Template(newTemplate)
         .then((response: any) => {
           console.log("createTempResp=======", response);
           setLoader(false);
-          arr1.push(response.data.createTemplates);
+          // arr1.push(response.data.createTemplates);
+          arr1.unshift(response.data.createTemplates);
           setTemplateList(arr1);
           child.current.childFunction2();
           track_Success_Event(
@@ -453,24 +460,35 @@ const CreateTemplate = () => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_EDIT_TEMPLATE);
     setIsEditTemplate(true);
   };
-  const snapPoints = [350,400];
-  const EditSnapPoints = [300,350]
+  const snapPoints = [350, 400];
+  const EditSnapPoints = [300, 350];
 
   // -------------navigate to detail Screen functionality on Double Tap---------------
   const onDoubleTab = (template: any) => {
-    setCount(count + 1);
-    console.log("totalCount======", count);
-    if (count == 2) {
-      navigation.navigate("TemplateList", { template: template });
-    } else {
+    if (navigateId == "") {
       setTimeout(() => {
-        setCount(1);
-      }, 3000);
+        setNavigateId("");
+      }, 1000);
+      setNavigateId(template.id);
+    } else {
+      if (navigateId == template.id) {
+        setNavigateId("");
+        navigation.navigate("TemplateList", { template: template });
+      } else {
+        setTimeout(() => {
+          setNavigateId("");
+        }, 1000);
+        setNavigateId(template.id);
+      }
     }
   };
 
   const renderItems = ({ item }: any) => (
-    <TouchableOpacity onPress={() => onDoubleTab(item)}>
+    <TouchableOpacity
+      onPress={() => {
+        onDoubleTab(item);
+      }}
+    >
       <Card item={item} onEditTemplate={() => OpenPopup(item)} />
     </TouchableOpacity>
   );

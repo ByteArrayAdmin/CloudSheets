@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { FONTS, COLOURS } from '../../../../utils/Constant';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { FONTS, COLOURS } from "../../../../utils/Constant";
 import Logo from "../../../../assets/Images/ColourFolder.svg";
 import Threedots from "../../../../assets/Images/threedots.svg";
-import moment from 'moment';
-import RightArrow from '../../../../assets/Images/RightArrow.svg';
+import moment from "moment";
+import RightArrow from "../../../../assets/Images/RightArrow.svg";
 const TemplateCard = (props: any) => {
   return (
     <View style={styles.container}>
@@ -13,15 +13,17 @@ const TemplateCard = (props: any) => {
       </View>
       <View>
         <Text style={styles.textstyle}>{props?.item?.template_name}</Text>
-        <Text style={styles.datestyle}>{moment(props?.item?.createdAt,["HH:mm"]).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={styles.datestyle}>
+          {moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm a")}
+        </Text>
       </View>
       <View style={styles.space}></View>
-      <View style={styles.imagestyle} >
+      <View style={styles.imagestyle}>
         <RightArrow />
-      </View >
+      </View>
     </View>
-  )
-}
+  );
+};
 
 export default TemplateCard;
 
@@ -53,8 +55,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imagestyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 25,
     height: 25,
     position: "absolute",
