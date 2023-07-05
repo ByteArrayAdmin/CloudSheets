@@ -34,7 +34,7 @@ const TemplateEditPopup = (props: any) => {
         </View>
       </View>
       <View>
-        <Text style={styles.modifytext}>{moment(props?.selectedCloudSheet?.createdAt,["HH:mm"]).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={styles.modifytext}>{moment(props?.selectedCloudSheet?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.commoncardview}>

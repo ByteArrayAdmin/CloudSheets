@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
   Text,
   TouchableOpacity,
   LayoutAnimation,
+  FlatList,
 } from "react-native";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
@@ -19,10 +20,23 @@ import moment from "moment";
 const ListCard = (props: any) => {
   console.log("items=======", props?.items);
   const [open, setopen] = useState(false);
-  const [rowData, setRowData] = useState(JSON.parse(props?.items?.items));
+  const [rowData, setRowData] = useState([]);
   const toggle = () => {
     setopen(!open);
   };
+
+  useEffect(() => {
+    arrangeAscendingOrder();
+  }, [props]);
+
+  const arrangeAscendingOrder = () => {
+    let parseItem = JSON.parse(props?.items.items);
+    parseItem.sort(function (a, b) {
+      return a.column_Index - b.column_Index;
+    });
+    setRowData(parseItem);
+  };
+
   const toggleButton = () => {
     setopen((prev) => !prev);
     LayoutAnimation.configureNext({
@@ -30,20 +44,33 @@ const ListCard = (props: any) => {
       duration: 300,
     });
   };
-  //----------- check date or word ---------
-  const isWordOrDate = (value) => {
-    return typeof value === "string" && /^[A-Za-z]+$/.test(value);
-  };
 
   const renderValue = () => {
-    const values = Object.values(rowData);
-    for (let i = 0; i < values.length; i++) {
-      if (isWordOrDate(values[i])) {
-        return values[i];
+    let value = "";
+    rowData.forEach((element: any) => {
+      if (value =='' && element.column_Type == "Sentences") {
+        value = element.column_Value;
       }
-    }
-    return null;
+      if (value == "" && element.column_Type == "Date") {
+        value = moment(element.column_Value).format("MMM DD, YYYY");
+      }
+    });
+    return value;
   };
+
+  // ----------- Render Row Items -----------
+
+  const renderRowItems = ({ item }: any) => (
+    <View style={style.detailview}>
+      <Text style={style.labelheading}>{item.column_Name}</Text>
+      <View style={style.emptyview}></View>
+      <Text style={style.detailnametext}>
+        {item.column_Type == "Date"
+          ? moment(item.column_Value).format("MMM DD, YYYY")
+          : item.column_Value}
+      </Text>
+    </View>
+  );
 
   return (
     <View
@@ -56,10 +83,8 @@ const ListCard = (props: any) => {
       ]}
     >
       <View style={style.subview}>
-        <View style={{height:40,justifyContent:'center'}}>
-          {/* <Text style={style.texthead}>{Object.values(rowData)[0]}</Text> */}
-          <Text style={style.texthead}>{renderValue()?renderValue():Object.values(rowData)[0]}</Text>
-
+        <View style={{ height: 40, justifyContent: "center" }}>
+          <Text style={style.texthead}>{renderValue()?renderValue():rowData[0]?.column_Value}</Text>
         </View>
         <View style={style.Space}></View>
         <TouchableOpacity
@@ -78,16 +103,7 @@ const ListCard = (props: any) => {
       {open ? (
         <Animated.View style={style.horizontalspacing}>
           <Animated.View style={style.seprator}></Animated.View>
-          {
-            Object.keys(rowData).map((key) => {
-              return (
-                <Animated.View style={style.detailview}>
-                  <Animated.Text style={style.labelheading}>{key}</Animated.Text>
-                  <Animated.View style={style.emptyview}></Animated.View>
-                  <Animated.Text style={style.detailnametext}>{ (rowData)[key]}</Animated.Text>
-                </Animated.View>
-              )
-            })}
+          <FlatList data={rowData} renderItem={renderRowItems} />
         </Animated.View>
       ) : null}
     </View>

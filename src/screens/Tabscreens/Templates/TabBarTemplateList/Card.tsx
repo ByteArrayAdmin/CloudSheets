@@ -19,7 +19,7 @@ const Card = (props: any) => {
       </View>
       <View>
         <Text style={styles.textstyle}>{props?.item?.template_name}</Text>
-        <Text style={styles.datestyle}>{moment(props?.item?.createdAt,["HH:mm"]).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={styles.datestyle}>{moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
       </View>
       <View style={styles.space}></View>
       <TouchableOpacity style={styles.imagestyle} onPress={props.onEditTemplate}>

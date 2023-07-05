@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -81,9 +82,9 @@ const RowdetailForm = (props: any) => {
     console.log("spreadEdit======", route.params?.isEdit);
     console.log("spreadRow======", route.params?.spreadSheetRow);
     console.log("isFromScreen=======", route.params?.isFrom);
-
-    getColumnByID(route?.params?.spreadSheet?.templatesID);
-
+    if (!isEdit) {
+      getColumnByID(route?.params?.spreadSheet?.templatesID);
+    }
     return () => {
       setMount(false);
       setIsEdit(false);
@@ -102,6 +103,7 @@ const RowdetailForm = (props: any) => {
         route?.params?.spreadSheetRow?.items
       );
       setExtraData(new Date());
+      setDefaultFormValue(JSON.parse(route?.params?.spreadSheetRow?.items));
     } else {
       track_Screen(
         eventName.TRACK_SCREEN,
@@ -110,15 +112,54 @@ const RowdetailForm = (props: any) => {
     }
   }, [isEdit, mount]);
 
+  // ------------- set form Value on Edit -----------
+
+  const setDefaultFormValue = (columnValue: any) => {
+    let arr1 = columnValue;
+    arr1.forEach((element: any) => {
+      if (element.column_Type == "Date") {
+        setValue(element.column_Name, element.column_Value);
+      }
+      if (element.column_Type == "Yes/No") {
+        setValue(element.column_Name, element.column_Value);
+      }
+    });
+    arr1.sort(function (a, b) {
+      return a.column_Index - b.column_Index;
+    });
+    setColumns(arr1);
+  };
+
   // --------------Create Row Data-----------------
   const onSubmitPressed = async (data: any) => {
-    console.log("use form data======>", typeof data);
+    console.log("use form data======>", data);
+    let existingCol = columns;
+    let newArr = [];
+    let keys = Object.keys(data);
+    console.log("allKeys=======", keys);
+    existingCol.forEach((col: any) => {
+      keys.forEach((keys: any) => {
+        if (keys == col.column_Name) {
+          let key = keys;
+          let obj = {};
+          // obj[key] = data[keys];
+          obj.column_Name = keys;
+          obj.column_Value = data[keys];
+          obj.column_Type = col.column_Type;
+          obj.column_Index = col.column_Index;
+          console.log("updatedObj======", obj);
+          newArr.push(obj);
+        }
+      });
+    });
+
+    console.log("updatedArray========", newArr);
+
     track_Click_Event(
       eventName.TRACK_CLICK,
       clickName.CLICK_ON_ADD_SPREADSHEET_ROW
     );
-    const { date } = data;
-    console.log("rowData==============>", date);
+
     let uid = uuid.v1().toString();
     let timeStamp = moment().unix().toString();
     let newUniqueId = uid + "-" + timeStamp;
@@ -127,7 +168,7 @@ const RowdetailForm = (props: any) => {
       userID: spreadSheet?.userID,
       templatesID: spreadSheet?.templatesID,
       spreadsheetID: spreadSheet?.id,
-      items: JSON.stringify(data),
+      items: JSON.stringify(newArr),
       soft_Deleted: false,
     };
     console.log("UpdatedRow=======", newRow);
@@ -161,7 +202,7 @@ const RowdetailForm = (props: any) => {
     setModalVisible(false);
     if (isFromScreen == "TemplateTab") {
       navigation.navigate("CreateTemplate");
-    }else if(isFromScreen == "HomeTab"){
+    } else if (isFromScreen == "HomeTab") {
       navigation.navigate("DashBoardTab");
     } else {
       navigation.navigate("ClousheetList");
@@ -170,7 +211,28 @@ const RowdetailForm = (props: any) => {
 
   // ----------- Update Row -----------
   const onUpdateRows = (data: any) => {
-    console.log('updatedRowData======',data)
+    console.log("updatedRowData======", data);
+    let existingCol = columns;
+    let newArr = [];
+    let keys = Object.keys(data);
+    console.log("allKeys=======", keys);
+    existingCol.forEach((col: any) => {
+      keys.forEach((keys: any) => {
+        if (keys == col.column_Name) {
+          let key = keys;
+          let obj = {};
+          // obj[key] = data[keys];
+          obj.column_Name = keys;
+          obj.column_Value = data[keys];
+          obj.column_Type = col.column_Type;
+          obj.column_Index = col.column_Index;
+          console.log("updatedObj======", obj);
+          newArr.push(obj);
+        }
+      });
+
+      console.log("UpdatedArray========", newArr);
+    });
     track_Click_Event(
       eventName.TRACK_CLICK,
       clickName.CLICK_ON_UPDATE_SPREADSHEET_ROW
@@ -180,7 +242,7 @@ const RowdetailForm = (props: any) => {
       userID: spreadSheetRowData?.userID,
       templatesID: spreadSheetRowData?.templatesID,
       spreadsheetID: spreadSheetRowData?.spreadsheetID,
-      items: JSON.stringify(data),
+      items: JSON.stringify(newArr),
       _version: spreadSheetRowData?._version,
       soft_Deleted: spreadSheetRowData.soft_Deleted,
     };
@@ -236,19 +298,19 @@ const RowdetailForm = (props: any) => {
               console.log("index========", index);
               setValue(element.column_Name, element.defaultValue);
             }
-            if(element.column_Type == "Date"){
+            if (element.column_Type == "Date") {
               let rowVal = JSON.parse(route?.params?.spreadSheetRow?.items);
               setValue(element.column_Name, rowVal[element.column_Name]);
             }
           });
           console.log("updatedValue========", columnList);
-          columnList.sort(function(a, b) {
+          columnList.sort(function (a, b) {
             return a.column_Index - b.column_Index;
           });
           setColumns(columnList);
           setExtraData(new Date());
         } else {
-          columnList.sort(function(a, b) {
+          columnList.sort(function (a, b) {
             return a.column_Index - b.column_Index;
           });
           setColumns(columnList);
@@ -275,9 +337,7 @@ const RowdetailForm = (props: any) => {
             </View>
             <View style={Styles.marginTop_15}>
               <NewInputField
-                defaultValue={
-                  isEdit ? spreadSheetRowItems[item.column_Name] : ""
-                }
+                defaultValue={isEdit ? item.column_Value : ""}
                 name={item.column_Name}
                 control={control}
                 keyboardType={
@@ -293,40 +353,55 @@ const RowdetailForm = (props: any) => {
             </View>
           </View>
         ) : item.column_Type == "Date" ? (
-          <View style={Styles.columnView}>
-            <View>
-              <Text style={Styles.nametext}>{item.column_Name}</Text>
-            </View>
-            <TouchableOpacity
-              style={Styles.datepickerview}
-              onPress={() => setopen(true)}
-            >
-              <View>
+          // <View style={Styles.columnView}>
+          //   <View>
+          //     <Text style={Styles.nametext}>{item.column_Name}</Text>
+          //   </View>
+          //   <TouchableOpacity
+          //     style={Styles.datepickerview}
+          //     onPress={() => setopen(true)}
+          //   >
+          //     <View>
 
-                <Text style={Styles.enterdate}>
-                  {date == "" && isEdit
-                    ? spreadSheetRowItems[item.column_Name]
-                    : date != ""
-                    ? date
-                    : labels.Rowdetailsform.PlaceholderEnterDate}
-                </Text>
-              </View>
-              <View style={Styles.calenderview}></View>
-              <View style={Styles.calenderlogview}>
-                <Calenderlogo />
-              </View>
-            </TouchableOpacity>
+          //       <Text style={Styles.enterdate}>
+          //         {date == "" && isEdit
+          //           ? spreadSheetRowItems[item.column_Name]
+          //           : date != ""
+          //           ? date
+          //           : labels.Rowdetailsform.PlaceholderEnterDate}
+          //       </Text>
+          //     </View>
+          //     <View style={Styles.calenderview}></View>
+          //     <View style={Styles.calenderlogview}>
+          //       <Calenderlogo />
+          //     </View>
+          //   </TouchableOpacity>
+          //   <CommonDatepicker
+          //     open={open}
+          //     name={item.column_Name}
+          //     control={control}
+          //     toggle={toggle}
+          //     onCancel={() => setopen(false)}
+          //     defaultdate={
+          //       isEdit
+          //         ? new Date(spreadSheetRowItems[item.column_Name])
+          //         : defaultdate
+          //     }
+          //   />
+          // </View>
+
+          <View>
             <CommonDatepicker
               open={open}
               name={item.column_Name}
               control={control}
               toggle={toggle}
-              onCancel={() => setopen(false)}
-              defaultdate={
-                isEdit
-                  ? new Date(spreadSheetRowItems[item.column_Name])
-                  : defaultdate
-              }
+              // onCancel={() => setopen(false)}
+              // defaultdate={
+              //   isEdit
+              //     ? new Date(spreadSheetRowItems[item.column_Name])
+              //     : defaultdate
+              // }
             />
           </View>
         ) : item.column_Type == "Yes/No" ? (
@@ -367,7 +442,7 @@ const RowdetailForm = (props: any) => {
                       control={control}
                       data={getYesNo}
                       value={field.value}
-                      defaultValue={item.defaultValue}
+                      defaultValue={isEdit? item.column_Value:null}
                       onSelect={field.onChange}
                       onBlur={field.onBlur}
                       buttonStyle={Styles.buttonstyle}

@@ -5,7 +5,7 @@ import {
   FlatList,
   StyleSheet,
   Alert,
-  BackHandler
+  BackHandler,
 } from "react-native";
 import NewCommonHeader from ".././../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -45,17 +45,17 @@ const ExpensesList = (props: any) => {
   const navigation = useNavigation();
   const child = useRef();
   const editRecordRef = useRef();
-  const snapPoints = [300,350];
+  const snapPoints = [300, 350];
   const [spreadSheetDetail, setSpreadSheetDetail] = useState(
     route?.params?.spreadSheetDetail
   );
   const [spreadSheetData, setSpreadSheetData] = useState([]);
   const searchRef = useRef(null);
-  const [selectedRow, setSelectedRow] = useState({});
+  const [selectedRow, setSelectedRow] = useState([]);
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom);
   const [loader, setLoader] = useState(false);
   const [extraData, setExtraData] = useState(new Date());
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   // ----------- Initial Rendering ------------
   useEffect(() => {
@@ -77,8 +77,14 @@ const ExpensesList = (props: any) => {
       .then((response: any) => {
         setLoader(false);
         console.log("spreadRowResp======", response);
-        setSpreadSheetData(response.data.spreadSheetRowsBySpreadsheetID.items);
-        searchRef.current = response.data.spreadSheetRowsBySpreadsheetID.items;
+        let spreadSheetRowList = response.data.spreadSheetRowsBySpreadsheetID.items
+        spreadSheetRowList.sort(function compare(a, b) {
+          var dateA = new Date(a.createdAt);
+          var dateB = new Date(b.createdAt);
+          return dateB - dateA ;
+        });
+        setSpreadSheetData(spreadSheetRowList);
+        searchRef.current = spreadSheetRowList;
       })
       .catch((error) => {
         setLoader(false);
@@ -92,21 +98,24 @@ const ExpensesList = (props: any) => {
   };
   useEffect(() => {
     const backAction = () => {
-      if(isSheetOpen){
-        console.log("sheetIsOpen==========")
-        
+      if (isSheetOpen) {
+        console.log("sheetIsOpen==========");
+
         editRecordRef.current.childFunction2();
-        // backHandler.remove(); 
-        setIsSheetOpen(false)
-        return true
-      }else{
-        console.log("sheetIsClosed==========")
+        // backHandler.remove();
+        setIsSheetOpen(false);
+        return true;
+      } else {
+        console.log("sheetIsClosed==========");
         return false;
       }
     };
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
     return () => backHandler.remove(); // Clean up the event listener
-  }, [isSheetOpen]); 
+  }, [isSheetOpen]);
 
   // ------------ onClick Edit Record popup ------------
   const onEditRecord = () => {
@@ -133,7 +142,7 @@ const ExpensesList = (props: any) => {
     );
     setSelectedRow(spreadSheetRow);
     editRecordRef.current.childFunction1();
-    setIsSheetOpen(true)
+    setIsSheetOpen(true);
   };
 
   // --------------- Add New SpreadSheet Record ---------------
@@ -228,66 +237,46 @@ const ExpensesList = (props: any) => {
   // ------------ Search shpreadSheetRow -----------
 
   const search_Row = (text: string) => {
-    // let row = JSON.parse(JSON.stringify(searchRef.current))
-    let row = searchRef.current;
-    // let searchedArr = [];
-    // row.filter((item) => {
-    //   let parseEle = JSON.parse(item.items);
-    //   console.log("filterDataAbove========", parseEle);
-    //   let AllKeys = Object.keys(parseEle)
-    //   console.log("AllKeys========",AllKeys)
-    //   var isTrue  = false
-    //   AllKeys.forEach(element => {
-    //     if(element?.includes(text)){
-    //       // searchedArr.push(item);
-    //       isTrue  = true
-    //       return item;
-    //     }else{
-    //       isTrue  = false
-    //       return null;
-    //     }
-    //   });
-    //   if(isTrue){
-    //     searchedArr.push(item);
-    //     return
-    //   }else{
-    //     return null
-    //   }
-      // searchedArr.push(item);
-      // console.log("AllKeysUpdate========",AllKeys)
-      // if (parseEle.Name?.includes(text)) {
-      //   console.log("filterDataIf========", item);
-      //   searchedArr.push(item);
-      //   return item;
-      // } else {
-      //   console.log("filterDataElse========", parseEle);
-      //   return null;
-      // }
-    // }
-    // );
+    let row = JSON.parse(JSON.stringify(searchRef.current));
+    console.log("allitems=======", row);
+    let searchedArr = [];
 
-    let searchedArr = row.filter((item) => {
-      let parseEle = JSON.parse(item.items);
-      console.log("filterDataAbove========", parseEle);
-      let AllKeys = Object.keys(parseEle)
-      console.log("AllKeys========", AllKeys)
-      var isTrue = false
-      AllKeys.forEach(element => {
-        if (element?.includes(text)) {
-          isTrue = true
-          return;
-        }
+    if (text.trim() !== "") {
+      row.filter((item) => {
+        let parseEle = JSON.parse(item.items);
+        let isValue = false;
+
+        console.log("filterDataAbove========", parseEle);
+
+        parseEle.forEach((element) => {
+          if (
+            element.column_Value &&
+            element.column_Value.includes(text) &&
+            !searchedArr.includes(item)
+          ) {
+            console.log("filterDataIf========", item);
+            isValue = true;
+            searchedArr.push(item);
+          }
+        });
       });
-      return isTrue;
-    });
-    
+    } else {
+      searchedArr = [...row];
+    }
+
     setSpreadSheetData(searchedArr);
     setExtraData(new Date());
-    console.log("searchData=====", row);
+    console.log("searchData=====", searchedArr);
   };
 
   const RenderItems = ({ item }: any) => (
-    <ListCard items={item} onPressThreeDot={() => openEditRecordPopup(item)} />
+    console.log("items========", item),
+    (
+      <ListCard
+        items={item}
+        onPressThreeDot={() => openEditRecordPopup(item)}
+      />
+    )
   );
 
   return (

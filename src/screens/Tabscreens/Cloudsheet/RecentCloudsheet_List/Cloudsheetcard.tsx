@@ -37,7 +37,7 @@ const Cloudsheetcard = (props: any) => {
         </View>
         <View>
           <Text style={Cardstyle.jantext}>{props?.item?.spreadsheet_name}</Text>
-          <Text style={Cardstyle.datetext}>{moment(props?.item?.createdAt,["HH:mm"]).format("MMM DD, YYYY | hh:mm:a")}</Text>
+          <Text style={Cardstyle.datetext}>{moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm:a")}</Text>
         </View>
         <View style={Cardstyle.threedotview} />
         <TouchableOpacity style={Cardstyle.threedotstyling}
