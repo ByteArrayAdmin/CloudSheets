@@ -356,7 +356,7 @@ const CreatSpreadsheet = () => {
         enableOnAndroid={true}
         keyboardShouldPersistTaps="handled"
       >
-        <ScrollView>
+        {/* <ScrollView> */}
           <NewCommonHeader
             BackButton={<BackButton onPress={() => navigation.goBack()} />}
             Folder={<Folder />}
@@ -417,7 +417,7 @@ const CreatSpreadsheet = () => {
             </View>
             <View style={Createspreadstyle.Bottomgap}></View>
           </View>
-        </ScrollView>
+        {/* </ScrollView> */}
       </KeyboardAwareScrollView>
       <CommonBottomsheet
         ref={columnTypeRef}

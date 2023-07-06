@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -19,11 +19,41 @@ import { useForm } from "react-hook-form";
 import Mesageicon from "../../../../../assets/Images/Message.svg";
 import { emailRegex } from "../../../../../utils/Constant";
 import Button from "../../../../../commonComponents/Button";
+import email from "react-native-email";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 const Customer_Support_Form = () => {
   const navigation = useNavigation();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, setValue } = useForm();
 
-  const submitCustomerForm = async (data: any) => {};
+  useEffect(() => {
+    setValue("email", "shivam.infowind@gmail.com");
+  }, []);
+
+  const submitCustomerForm = async (data: any) => {
+    console.log("EmailData=======",data)
+    const to = data.email
+    email(to, {
+      // Optional additional arguments
+      cc: [], // string or array of email addresses
+      bcc: "", // string or array of email addresses
+      subject: data.subject,
+      body: data.description,
+      checkCanOpen: false, // Call Linking.canOpenURL prior to Linking.openURL
+    }).catch("sendMailError=======", console.error);
+  };
+
+  const handleEmail = () => {
+    const to = "shivam.infowind@gmail.com"; // string or array of email addresses
+    email(to, {
+      // Optional additional arguments
+      cc: [], // string or array of email addresses
+      bcc: "", // string or array of email addresses
+      subject: "Testing mail",
+      body: "This mail is only for testing purpose",
+      checkCanOpen: false, // Call Linking.canOpenURL prior to Linking.openURL
+    }).catch("sendMailError=======", console.error);
+  };
 
   return (
     <>
@@ -34,7 +64,9 @@ const Customer_Support_Form = () => {
           Folder={<Ic_customer />}
           SecondImg={<Ic_messenger />}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
+        {/* <ScrollView showsVerticalScrollIndicator={false}> */}
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+
           {/* <View style={styles.maincontainer}> */}
           <AuthCard
             subchildren={
@@ -47,6 +79,7 @@ const Customer_Support_Form = () => {
                 <InputField
                   name="email"
                   control={control}
+                  isEditable={false}
                   placeholder={labels.SubscriptionScreen.Enter_Email}
                   Image={Mesageicon}
                   styles={styles.inputview}
@@ -93,14 +126,17 @@ const Customer_Support_Form = () => {
                 <View>
                   <Button
                     Register={labels.SubscriptionScreen.submit}
-                    onPress={handleSubmit(submitCustomerForm)}
+                     onPress={handleSubmit(submitCustomerForm)}
+                    // onPress={() => handleEmail()}
                   />
                 </View>
               </View>
             }
           />
           {/* </View> */}
-        </ScrollView>
+        </KeyboardAwareScrollView>
+
+        {/* </ScrollView> */}
       </View>
     </>
   );

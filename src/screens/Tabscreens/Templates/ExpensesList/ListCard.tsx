@@ -62,13 +62,17 @@ const ListCard = (props: any) => {
 
   const renderRowItems = ({ item }: any) => (
     <View style={style.detailview}>
+      <View>
       <Text style={style.labelheading}>{item.column_Name}</Text>
+      </View>
       <View style={style.emptyview}></View>
+      <View>
       <Text style={style.detailnametext}>
         {item.column_Type == "Date"
           ? moment(item.column_Value).format("MMM DD, YYYY")
           : item.column_Value}
       </Text>
+      </View>
     </View>
   );
 

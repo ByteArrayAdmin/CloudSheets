@@ -40,6 +40,7 @@ const DropdownModal = (props: any) => {
                         listItemContainerStyle={{ marginTop: 25 ,marginLeft: 30 }}
                         labelStyle={styles.labelStyle}
                         theme={'LIGHT'}
+                        disabledItemLabelStyle={{opacity:0.2}}
                     />
                     {error && (
                     <Text style={styles.errortextstyle}>{error.message}</Text>

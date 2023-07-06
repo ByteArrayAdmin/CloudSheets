@@ -20,6 +20,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import {Styles} from "./style"
 import { track_Screen } from '../../../../eventTracking/index';
 import {eventName,screenName} from '../../../../utils/Constant';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 const Rateus = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
@@ -34,13 +36,14 @@ const Rateus = () => {
   const onSubmit = async (data: any) => {
   };
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={Styles.container}>
         <NewCommonHeader
           BackButton={<BackButton onPress={() => navigation.goBack()} />}
           heading={labels.RateUS.Rate}
           Folder={<Logo />}
         />
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+
         <View>
           <AuthCard
             subchildren={
@@ -101,8 +104,10 @@ const Rateus = () => {
             }
           />
         </View>
+        </KeyboardAwareScrollView>
+
       </View>
-    </ScrollView>
+    
   );
 };
 

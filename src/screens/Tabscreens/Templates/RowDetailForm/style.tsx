@@ -6,9 +6,10 @@ import {
 export const Styles = StyleSheet.create({
     container: {
      flex: 1,
+    //  height:'100%'
     },
     sucontainer: {
-      // flex:1,
+       flex:1,
       marginHorizontal: 15,
       marginTop: 18,
       backgroundColor: COLOURS.white,
@@ -59,7 +60,7 @@ export const Styles = StyleSheet.create({
       flex: 1,
     },
     calenderlogview: { marginRight: 17 },
-    lastview: {justifyContent:'flex-end',bottom:30},
+    lastview: {},
     viewMargin:{marginVertical:15},
     marginTop_15:{
       marginTop:15

@@ -327,6 +327,7 @@ const RowdetailForm = (props: any) => {
   const renderItem = ({ item, index }: any) => (
     console.log("itemIndex======", item, index),
     (
+      
       <View style={{ flex: 1 }}>
         {item.column_Type == "Sentences" ||
         item.column_Type == "Numbers" ||
@@ -339,6 +340,7 @@ const RowdetailForm = (props: any) => {
               <NewInputField
                 defaultValue={isEdit ? item.column_Value : ""}
                 name={item.column_Name}
+                 maxLength={30}
                 control={control}
                 keyboardType={
                   item.column_Type == "Numbers" ? "number-pad" : "default"
@@ -353,42 +355,6 @@ const RowdetailForm = (props: any) => {
             </View>
           </View>
         ) : item.column_Type == "Date" ? (
-          // <View style={Styles.columnView}>
-          //   <View>
-          //     <Text style={Styles.nametext}>{item.column_Name}</Text>
-          //   </View>
-          //   <TouchableOpacity
-          //     style={Styles.datepickerview}
-          //     onPress={() => setopen(true)}
-          //   >
-          //     <View>
-
-          //       <Text style={Styles.enterdate}>
-          //         {date == "" && isEdit
-          //           ? spreadSheetRowItems[item.column_Name]
-          //           : date != ""
-          //           ? date
-          //           : labels.Rowdetailsform.PlaceholderEnterDate}
-          //       </Text>
-          //     </View>
-          //     <View style={Styles.calenderview}></View>
-          //     <View style={Styles.calenderlogview}>
-          //       <Calenderlogo />
-          //     </View>
-          //   </TouchableOpacity>
-          //   <CommonDatepicker
-          //     open={open}
-          //     name={item.column_Name}
-          //     control={control}
-          //     toggle={toggle}
-          //     onCancel={() => setopen(false)}
-          //     defaultdate={
-          //       isEdit
-          //         ? new Date(spreadSheetRowItems[item.column_Name])
-          //         : defaultdate
-          //     }
-          //   />
-          // </View>
 
           <View>
             <CommonDatepicker
@@ -405,25 +371,6 @@ const RowdetailForm = (props: any) => {
             />
           </View>
         ) : item.column_Type == "Yes/No" ? (
-          // -------------- Commented Code ---------------
-          // <View style={Styles.columnView}>
-          //   <View >
-          //     <Text style={Styles.nametext}>{item.column_Name}</Text>
-          //   </View>
-          //   <View style={Styles.marginTop_15}>
-          //     <NewInputField
-          //       name={item.column_Name}
-          //       control={control}
-          //       defaultValue={isEdit ? spreadSheetRowItems[item.column_Name] : ''}
-          //       placeholder={item.column_Name}
-          //       rules={{
-          //         required: labels.Rowdetailsform.valodationmessage,
-          //       }}
-          //       styles={Styles.inputview}
-          //     />
-          //   </View>
-          // </View>
-          // -------------- Commented Code -----------
 
           <View style={Styles.columnView}>
             <View>
@@ -472,6 +419,7 @@ const RowdetailForm = (props: any) => {
           </View>
         ) : null}
       </View>
+     
     )
   );
   const handleScreenTouch = () => {
@@ -479,7 +427,9 @@ const RowdetailForm = (props: any) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handleScreenTouch}>
+    <>
+    <TouchableWithoutFeedback  onPress={handleScreenTouch}>
+     
       <View style={Styles.container}>
         <View>
           <NewCommonHeader
@@ -489,15 +439,18 @@ const RowdetailForm = (props: any) => {
             onPress={navigation.canGoBack()}
           />
         </View>
+        <KeyboardAwareScrollView scrollEnabled={true} enableOnAndroid={true}  showsVerticalScrollIndicator={false}>
         <View style={Styles.sucontainer}>
           <FlatList
+          scrollEnabled={false}
             showsVerticalScrollIndicator={false}
             data={columns}
             renderItem={renderItem}
             extraData={extraData}
           />
         </View>
-        <View style={Styles.container}></View>
+        {/* <View style={Styles.container}></View> */}
+        <View style={{flex:1}}></View>
         <View style={Styles.lastview}>
           {isEdit ? (
             <View
@@ -525,15 +478,18 @@ const RowdetailForm = (props: any) => {
             />
           )}
         </View>
-        {modalVisible ? (
+        </KeyboardAwareScrollView>
+      </View>
+      
+    </TouchableWithoutFeedback>
+    {modalVisible ? (
           <UpdatedCloudSheet
             visible={modalVisible}
             onPress={() => cancelModal()}
           />
         ) : null}
         {loader ? <CommonLoader /> : null}
-      </View>
-    </TouchableWithoutFeedback>
+    </>
   );
 };
 

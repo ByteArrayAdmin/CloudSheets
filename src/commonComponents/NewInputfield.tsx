@@ -23,6 +23,7 @@ const NewInputField = (props: any) => {
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
+                  maxLength={props.maxLength}
                   placeholder={props.placeholder}
                   style={props.styles}
                   secureTextEntry={props.secureTextEntry}
@@ -31,7 +32,7 @@ const NewInputField = (props: any) => {
                 />
               </View>
               <View style={styles.flexprop}></View>
-              <View style={styles.scanmargin}>{props.Scanimage}</View>
+              {/* <View style={styles.scanmargin}>{props.Scanimage}</View> */}
               <View></View>
             </View>
             {error && (
@@ -61,9 +62,9 @@ const styles = StyleSheet.create({
   },
 
   textinputview: {
-    width: "75%",
+    width: "100%",
   },
-  viewWidth: { width: "75%" },
+  viewWidth: { width: "100%" },
   errormsgtext:
     { color: COLOURS.red },
   flexprop: {
