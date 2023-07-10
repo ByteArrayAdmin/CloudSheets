@@ -62,6 +62,7 @@ export const columnTypeList = [
   },
   {
     label:"Pick from a List",
+    disabled: true,
     value:"List",
     icon:() =><Ic_pickList/>
   },
@@ -79,11 +80,13 @@ export const columnTypeList = [
   {
     label:"Scan Image or Barcode",
     value:"Barcode",
+    disabled: true,
     icon:() =><Ic_barcode/>
   },
   {
     label:"Physical Address",
     value:"Address",
+    disabled: true,
     icon:() =><Ic_physicalAddress/>
   },
 ]

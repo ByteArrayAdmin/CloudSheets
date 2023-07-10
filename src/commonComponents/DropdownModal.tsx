@@ -39,6 +39,7 @@ const DropdownModal = (props: any) => {
                         // iconContainerStyle={{ marginLeft: 30 }}
                         listItemContainerStyle={{ marginTop: 25 ,marginLeft: 30 }}
                         labelStyle={styles.labelStyle}
+                        disabledItemLabelStyle={{opacity:0.3}}
                         theme={'LIGHT'}
                     />
                     {error && (

@@ -1,31 +1,36 @@
 import React from "react";
-import { View, Text, StyleSheet, } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { styles } from "screens/Auth/signup/style";
-import { COLOURS, FONTS ,renderValue} from "../../../utils/Constant";
+import { COLOURS, FONTS, renderValue } from "../../../utils/Constant";
 import CommonCard from "../CommonCard";
 import Edit from "../../../assets/Images/Edit.svg";
 import Delete from "../../../assets/Images/Deleteicon.svg";
 import labels from "../../../utils/ProjectLabels.json";
 import InfoCircle from "../../../assets/Images/infocircle.svg";
-import moment from 'moment';
+import moment from "moment";
 
 const EditSpreadsheetRecord = (props: any) => {
-    console.log("props=====",props?.spreadSheetRow)
-    let spreadSheetData = JSON.parse(props?.spreadSheetRow?.items)
+  console.log("props=====", props?.spreadSheetRow);
+  let spreadSheetData = JSON.parse(props?.spreadSheetRow?.items);
   return (
     <View style={Style.container}>
       <View style={Style.topSpace}>
-        <Text style={Style.nametext}>{renderValue(spreadSheetData)?renderValue(spreadSheetData):spreadSheetData[0]?.column_Value }</Text>
-        <View style={Style.space}>
-
-        </View>
+        <Text style={Style.nametext}>
+          {renderValue(spreadSheetData)
+            ? renderValue(spreadSheetData)
+            : spreadSheetData[0]?.column_Value}
+        </Text>
+        <View style={Style.space}></View>
         <View>
           <InfoCircle />
         </View>
       </View>
-
       <View>
-        <Text style={Style.datetetxt}>{moment(props?.spreadSheetRow?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={Style.datetetxt}>
+          {moment(props?.spreadSheetRow?.createdAt).format(
+            "MMM DD, YYYY | hh:mm a"
+          )}
+        </Text>
       </View>
       <View style={Style.newspace}></View>
       <CommonCard
@@ -51,28 +56,28 @@ const Style = StyleSheet.create({
   },
   topSpace: {
     marginTop: 30,
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   nametext: {
     fontSize: 18,
     fontFamily: FONTS.inter_semibold,
     paddingBottom: 10,
-    color: COLOURS.black
+    color: COLOURS.black,
   },
   datetetxt: {
     fontSize: 12,
     fontFamily: FONTS.inter_regular,
     paddingBottom: 10,
     opacity: 0.6,
-    color: COLOURS.black
+    color: COLOURS.black,
   },
   Cardspace: {
     marginTop: 25,
   },
   space: {
-    flex: 1
+    flex: 1,
   },
   newspace: {
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 });
