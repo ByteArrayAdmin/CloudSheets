@@ -61,6 +61,12 @@ export const Styles = StyleSheet.create({
     fontSize: 12,
     paddingTop: 5,
   },
+  commingSoonText:{
+    color: COLOURS.red,
+    fontFamily: FONTS.inter_regular,
+    fontSize: 12,
+    paddingTop: 5,
+  },
   space: {
     flex: 1,
   },

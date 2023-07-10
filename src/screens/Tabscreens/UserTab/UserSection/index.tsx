@@ -98,6 +98,9 @@ const UserSection = () => {
                 <Text style={Styles.subcripsubtext}>
                   {labels.SubscriptionScreen.Upgradeformorefeatures}
                 </Text>
+                <Text style={Styles.commingSoonText}>
+                  {labels.SubscriptionScreen.Comming_Soon}
+                </Text>
               </View>
               <View style={Styles.space}></View>
               <View style={Styles.crownpadding}>

@@ -7,13 +7,10 @@ import {
   LayoutAnimation,
   FlatList,
 } from "react-native";
+import Animated from "react-native-reanimated";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
 import Downarrow from "../.././../../assets/Images/dropdown.svg";
 import Ic_upArrow from "../../../../assets/Images/Ic_upArrow.svg";
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import moment from "moment";
 
@@ -21,6 +18,7 @@ const ListCard = (props: any) => {
   console.log("items=======", props?.items);
   const [open, setopen] = useState(false);
   const [rowData, setRowData] = useState([]);
+
   const toggle = () => {
     setopen(!open);
   };
@@ -48,7 +46,7 @@ const ListCard = (props: any) => {
   const renderValue = () => {
     let value = "";
     rowData.forEach((element: any) => {
-      if (value =='' && element.column_Type == "Sentences") {
+      if (value == "" && element.column_Type == "Sentences") {
         value = element.column_Value;
       }
       if (value == "" && element.column_Type == "Date") {
@@ -84,7 +82,9 @@ const ListCard = (props: any) => {
     >
       <View style={style.subview}>
         <View style={{ height: 40, justifyContent: "center" }}>
-          <Text style={style.texthead}>{renderValue()?renderValue():rowData[0]?.column_Value}</Text>
+          <Text style={style.texthead}>
+            {renderValue() ? renderValue() : rowData[0]?.column_Value}
+          </Text>
         </View>
         <View style={style.Space}></View>
         <TouchableOpacity
