@@ -10,7 +10,7 @@ import {
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 import Folder from "../../../../assets/Images/folder12.svg";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import SpreadsheetCard from "./SpreardsheetCard";
 import Addbutton from "../../../../assets/Images/Add.svg";
 import Createspreadstyle from "./style";
@@ -42,7 +42,12 @@ import {
   errorActionName,
 } from "../../../../utils/Constant";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+declare global {
+  var labels: any;
+}
+
 const CreatSpreadsheet = () => {
+  var labels = global.labels;
   const navigation = useNavigation();
   const route = useRoute();
   const columnTypeRef = useRef();
@@ -85,8 +90,12 @@ const CreatSpreadsheet = () => {
       .then((response: any) => {
         console.log("responseCol=====", response);
         setLoader(false);
-        setColumnList(response.data.templateColumnsByTemplatesID.items);
         let columnList = response.data.templateColumnsByTemplatesID.items;
+
+        columnList.sort(function (a, b) {
+          return a.column_Index - b.column_Index;
+        });
+        setColumnList(columnList);
         if (columnList.length == 0) {
           AddColoumn();
         }
@@ -348,10 +357,6 @@ const CreatSpreadsheet = () => {
     <>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        // ref={scrollRef}
-        // onContentSizeChange={() =>
-        //   scrollRef.current.scrollToEnd({ animated: true })
-        // }
         extraScrollHeight={100}
         enableOnAndroid={true}
         keyboardShouldPersistTaps="handled"

@@ -43,18 +43,23 @@ export const styles = StyleSheet.create({
   },
   upgradeContainer: {
     alignItems: "center",
-    flexDirection: "row",
+    // flexDirection: "row",
     borderRadius: 10,
     paddingHorizontal: 9,
     paddingVertical: 11,
     backgroundColor: COLOURS.ligthwhite,
-    height: 42,
+    height: 52,
   },
   upgradetext: {
     paddingLeft: 11,
     fontSize: 13,
     fontFamily: FONTS.inter_medium,
     color: COLOURS.white,
+  },
+  comingSoonStyle:{
+    fontSize: 13,
+    fontFamily: FONTS.inter_medium,
+    color: "#1AD461",
   },
   inputserachview: {
     backgroundColor: COLOURS.white,

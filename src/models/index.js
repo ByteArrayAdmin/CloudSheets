@@ -4,9 +4,11 @@ import { schema } from './schema';
 
 
 
-const { SpreadSheetRows, SpreadSheet, TemplateColumns, Templates, User } = initSchema(schema);
+const { AppConstants, CustomerSupport, SpreadSheetRows, SpreadSheet, TemplateColumns, Templates, User } = initSchema(schema);
 
 export {
+  AppConstants,
+  CustomerSupport,
   SpreadSheetRows,
   SpreadSheet,
   TemplateColumns,

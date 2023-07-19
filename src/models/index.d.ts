@@ -6,6 +6,68 @@ import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@a
 
 
 
+type EagerAppConstants = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<AppConstants, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly appLabels?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyAppConstants = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<AppConstants, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly appLabels?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type AppConstants = LazyLoading extends LazyLoadingDisabled ? EagerAppConstants : LazyAppConstants
+
+export declare const AppConstants: (new (init: ModelInit<AppConstants>) => AppConstants) & {
+  copyOf(source: AppConstants, mutator: (draft: MutableModel<AppConstants>) => MutableModel<AppConstants> | void): AppConstants;
+}
+
+type EagerCustomerSupport = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<CustomerSupport, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly userID?: string | null;
+  readonly email?: string | null;
+  readonly subject?: string | null;
+  readonly description?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyCustomerSupport = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<CustomerSupport, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly userID?: string | null;
+  readonly email?: string | null;
+  readonly subject?: string | null;
+  readonly description?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type CustomerSupport = LazyLoading extends LazyLoadingDisabled ? EagerCustomerSupport : LazyCustomerSupport
+
+export declare const CustomerSupport: (new (init: ModelInit<CustomerSupport>) => CustomerSupport) & {
+  copyOf(source: CustomerSupport, mutator: (draft: MutableModel<CustomerSupport>) => MutableModel<CustomerSupport> | void): CustomerSupport;
+}
+
 type EagerSpreadSheetRows = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<SpreadSheetRows, 'id'>;

@@ -15,7 +15,7 @@
     "SKIP": "Skip"
   },
   "signupcontant": {
-    "SKIP": "skip",
+    "SKIP": "Skip",
     "CREATE_ACCOUNT": "Create Account",
     "REGISTER_TEXT": "Register to get started!",
     "PLACEHOLDER_NAME": "Your Name",
@@ -42,9 +42,9 @@
     "FOGETPASSWORDSUBHEADING": "Enter your email address to retrieve \n your password",
     "SUBMIT": "Submit",
     "BACKTOLOGIN": "Back to Login",
-    "PLACEHOLDERTEXT": "your Email",
+    "PLACEHOLDERTEXT": "Your Email",
     "EMAILREQUIRED": "This Field is Required",
-    "OTP_REQUIRED": "OTP is required",
+    "OTP_REQUIRED": "OTP is Required",
     "ENTER_CODE": "Enter Code",
     "ENTER_NEW_PASSWORD": "Enter New Password",
     "CONFIRM_NEW_PASSWORD": "Confirm New Password",
@@ -74,7 +74,7 @@
     "Clodesheetcardtext": "CloudSheets",
     "Cardtext": "Create your own customize sheet",
     "Cardtexttwo": "by tapping the button below.",
-    "buttontext": "Create Cloud Sheet",
+    "buttontext": "Create CloudSheet",
     "cartext": "At convallis tristique egestas tellus velit. Morbi nec pretium vel.At convallis tristique."
   },
   "cloudsheetlistconstant": {
@@ -82,15 +82,16 @@
     "SHEETS": "Sheets",
     "UPGRADE": "Upgrade",
     "SEARCH_SHEETS": "Search Sheets",
-    "RECENT_CLOUD_SHEETS": "Recent Cloud Sheets",
+    "RECENT_CLOUD_SHEETS": "Recent CloudSheets",
     "VIEWALL": "View All",
     "JANUARY_ATTENDANCE": "January Attendance",
     "MONTHLY_EXPENSES": "Monthly Expenses (3)",
     "Delete_Alert": "Delete Record",
-    "Delete_Quete": "Are you sure want to delete this record!",
+    "Delete_Quete": "Are you sure want to delete this cloudsheet!",
     "Cancel": "Cancel",
     "OK": "OK",
-    "error": "This field is required!"
+    "error": "This field is required!",
+    "coming_soon":"Coming Soon!"
   },
   "Guestbottomsheet": {
     "YOUAREAGUEST": "You are a Guest",
@@ -143,7 +144,8 @@
   "AddrowClassattendance": {
     "ClassAttendance": "Class Attendance",
     "Placeholdertext": "| Enter Spreadsheet Name",
-    "buttontext": "Add Row"
+    "buttontext": "Add Row",
+    "spreadSheetErr":"Spreadsheet name is required!"
   },
   "Rowdetailsform": {
     "headerlabel": "January Attendance",
@@ -217,7 +219,7 @@
     "Edit_CloudSheet_Record": "Edit CloudSheet Record",
     "Delete_CloudSheet_Record": "Delete CloudSheet Record",
     "Delete_Record_Alert": "Delete Record",
-    "Delete_Quete": "Are you sure want to delete this record!",
+    "Delete_Quete": "Are you sure want to delete this template!",
     "Cancel": "Cancel",
     "OK": "OK"
   },

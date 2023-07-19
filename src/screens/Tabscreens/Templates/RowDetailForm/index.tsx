@@ -2,22 +2,17 @@ import React, { useEffect, useState, useRef } from "react";
 import {
   Text,
   View,
-  TouchableOpacity,
   FlatList,
   Keyboard,
   TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import Document from "../../../../assets/Images/documentdark.svg";
 import NewInputField from "../../../../commonComponents/NewInputfield";
 import { useForm } from "react-hook-form";
 import CommonDatepicker from "../../../../commonComponents/CommonDatepicker";
-import Calenderlogo from "../../../../assets/Images/calendar.svg";
 import Custombutton from "../../../../commonComponents/Button";
 import { Styles } from "./style";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -44,14 +39,17 @@ import {
   clickName,
   errorActionName,
   successActionName,
-  yesNoArray,
 } from "../../../../utils/Constant";
 import SelectDropdown from "react-native-select-dropdown";
 import Dropdowsideicon from "../../../../assets/Images/dropdown.svg";
 import { Controller } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+declare global {
+  var labels: any;
+}
 
 const RowdetailForm = (props: any) => {
+  var labels = global.labels;
   const navigation = useNavigation();
   const route = useRoute();
   const childRef = useRef();
@@ -353,43 +351,6 @@ const RowdetailForm = (props: any) => {
             </View>
           </View>
         ) : item.column_Type == "Date" ? (
-          // <View style={Styles.columnView}>
-          //   <View>
-          //     <Text style={Styles.nametext}>{item.column_Name}</Text>
-          //   </View>
-          //   <TouchableOpacity
-          //     style={Styles.datepickerview}
-          //     onPress={() => setopen(true)}
-          //   >
-          //     <View>
-
-          //       <Text style={Styles.enterdate}>
-          //         {date == "" && isEdit
-          //           ? spreadSheetRowItems[item.column_Name]
-          //           : date != ""
-          //           ? date
-          //           : labels.Rowdetailsform.PlaceholderEnterDate}
-          //       </Text>
-          //     </View>
-          //     <View style={Styles.calenderview}></View>
-          //     <View style={Styles.calenderlogview}>
-          //       <Calenderlogo />
-          //     </View>
-          //   </TouchableOpacity>
-          //   <CommonDatepicker
-          //     open={open}
-          //     name={item.column_Name}
-          //     control={control}
-          //     toggle={toggle}
-          //     onCancel={() => setopen(false)}
-          //     defaultdate={
-          //       isEdit
-          //         ? new Date(spreadSheetRowItems[item.column_Name])
-          //         : defaultdate
-          //     }
-          //   />
-          // </View>
-
           <View>
             <CommonDatepicker
               open={open}
@@ -405,26 +366,6 @@ const RowdetailForm = (props: any) => {
             />
           </View>
         ) : item.column_Type == "Yes/No" ? (
-          // -------------- Commented Code ---------------
-          // <View style={Styles.columnView}>
-          //   <View >
-          //     <Text style={Styles.nametext}>{item.column_Name}</Text>
-          //   </View>
-          //   <View style={Styles.marginTop_15}>
-          //     <NewInputField
-          //       name={item.column_Name}
-          //       control={control}
-          //       defaultValue={isEdit ? spreadSheetRowItems[item.column_Name] : ''}
-          //       placeholder={item.column_Name}
-          //       rules={{
-          //         required: labels.Rowdetailsform.valodationmessage,
-          //       }}
-          //       styles={Styles.inputview}
-          //     />
-          //   </View>
-          // </View>
-          // -------------- Commented Code -----------
-
           <View style={Styles.columnView}>
             <View>
               <Text style={Styles.nametext}>{item.column_Name}</Text>
@@ -442,7 +383,7 @@ const RowdetailForm = (props: any) => {
                       control={control}
                       data={getYesNo}
                       value={field.value}
-                      defaultValue={isEdit? item.column_Value:null}
+                      defaultValue={isEdit ? item.column_Value : null}
                       onSelect={field.onChange}
                       onBlur={field.onBlur}
                       buttonStyle={Styles.buttonstyle}

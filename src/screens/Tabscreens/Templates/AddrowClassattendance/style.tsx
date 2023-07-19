@@ -48,7 +48,11 @@ export const Style = StyleSheet.create({
     marginTop: 13,
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 28,
+    // marginHorizontal: 28,
+    marginHorizontal:14,
+    backgroundColor:'#C4D1EB',
+     paddingHorizontal:14,
+     borderRadius:8
   },
   folderview: {
     paddingRight: 13,

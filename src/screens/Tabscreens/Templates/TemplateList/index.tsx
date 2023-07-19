@@ -8,7 +8,7 @@ import {
   BackHandler,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import BackButton from "../../../../commonComponents/Backbutton";
 import Folder from "../../../../assets/Images/folder12.svg";
 import CloudsheetListCard from "./CloudsheetListcard";
@@ -44,8 +44,12 @@ import {
   screenName,
   successActionName,
 } from "../../../../utils/Constant";
+declare global {
+  var labels: any;
+}
 const TemplateList = () => {
   // ----------- File States -----------
+  var labels = global.labels;
   const navigation = useNavigation();
   const route = useRoute();
   const child = useRef();
@@ -95,11 +99,11 @@ const TemplateList = () => {
       .then((response: any) => {
         setLoader(false);
         console.log("getSpreadByTempResp=========", response);
-       let cloudSheetList = response.data.spreadSheetsByTemplatesID.items
+        let cloudSheetList = response.data.spreadSheetsByTemplatesID.items;
         cloudSheetList.sort(function compare(a, b) {
           var dateA = new Date(a.createdAt);
           var dateB = new Date(b.createdAt);
-          return dateB - dateA ;
+          return dateB - dateA;
         });
         setSpreadSheetList(cloudSheetList);
       })

@@ -11,7 +11,7 @@ import EditProfileLogo from "../../../../assets/Images/profile-edit.svg";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 import { useNavigation, CommonActions } from "@react-navigation/native";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import DeleteLogo from "../../../../assets/Images/delete.svg";
 import InputField from "../../../../commonComponents/InputField";
 import { useForm } from "react-hook-form";
@@ -25,8 +25,11 @@ import { Auth, API, graphqlOperation } from 'aws-amplify';
 import codegenNativeCommands from "react-native/Libraries/Utilities/codegenNativeCommands";
 import { track_Screen,track_Click_Event,track_Success_Event,track_Error_Event } from '../../../../eventTracking/index';
 import {eventName,screenName,clickName,successActionName,errorActionName} from '../../../../utils/Constant';
-
+declare global {
+  var labels: any;
+}
 const EditProfile = () => {
+  var labels = global.labels;
   const navigation = useNavigation();
   const { control, handleSubmit, register, setValue } = useForm();
   const child = useRef();

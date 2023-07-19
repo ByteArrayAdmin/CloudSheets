@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import NewCommonHeader from ".././../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Doclogo from "../../../../assets/Images/documentdark.svg";
 import SearcBar from "../../../../commonComponents/Searchbar";
@@ -19,9 +19,7 @@ import SubcriptionPlan from "../../../../screens/Popups/SubcriptionPopup";
 import {
   get_SpreadSheetRowBySpreadSheetId,
   spreadSheetRow_softDelete,
-  search_Spreadsheet_Row,
 } from "../../../../API_Manager/index";
-import EditDeleteCloudsheet from "../../../../screens/Popups/Edit_Delete_Cloudsheet";
 import EditSpreadsheetRecord from "../../../../screens/Popups/EditSpreadsheetRecord/index";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
 import CommonLoader from "../../../../commonComponents/CommonLoader";
@@ -38,9 +36,13 @@ import {
   successActionName,
   errorActionName,
 } from "../../../../utils/Constant";
+declare global {
+  var labels: any;
+}
 
 const ExpensesList = (props: any) => {
   // --------- File States ---------
+  var labels = global.labels;
   const route = useRoute();
   const navigation = useNavigation();
   const child = useRef();
@@ -77,11 +79,12 @@ const ExpensesList = (props: any) => {
       .then((response: any) => {
         setLoader(false);
         console.log("spreadRowResp======", response);
-        let spreadSheetRowList = response.data.spreadSheetRowsBySpreadsheetID.items
+        let spreadSheetRowList =
+          response.data.spreadSheetRowsBySpreadsheetID.items;
         spreadSheetRowList.sort(function compare(a, b) {
-          var dateA = new Date(a.createdAt);
-          var dateB = new Date(b.createdAt);
-          return dateB - dateA ;
+          var dateA = new Date(a.updatedAt);
+          var dateB = new Date(b.updatedAt);
+          return dateB - dateA;
         });
         setSpreadSheetData(spreadSheetRowList);
         searchRef.current = spreadSheetRowList;

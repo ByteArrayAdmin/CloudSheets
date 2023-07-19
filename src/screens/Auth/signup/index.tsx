@@ -32,7 +32,7 @@ import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
 import RedCorss from "../../../assets/Images/redcross.svg";
 import BlueTick from "../../../assets/Images/bluetick.svg";
 import AuthCard from "../../../commonComponents/AuthCard";
-import labels from "../../../utils/ProjectLabels.json";
+// import labels from "../../../utils/ProjectLabels.json";
 import {
   userSignup,
   userExist,
@@ -62,6 +62,10 @@ import Instucticon from "../../../assets/Images/instruction.svg";
 //Aws configiuration code commented for now
 Amplify.configure(awsconfig);
 
+declare global {
+  var labels: any;
+}
+
 const Signup = () => {
   const {
     control,
@@ -79,6 +83,7 @@ const Signup = () => {
   const [isBackHandler, setBackButtonHandler] = useState(true)
   const ChildRef = useRef();
   const snapPoints = ["60%"];
+  var labels = global.labels
 
   // ------------ IsEmail Exist Lamda trigger -------------
   const isEmailExist = async() => {

@@ -1,14 +1,19 @@
 import React,{useEffect} from 'react'
 import { View, SafeAreaView, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { COLOURS, FONTS } from '../../../utils/Constant';
-import labels from '../../../utils/ProjectLabels.json'
+// import labels from '../../../utils/ProjectLabels.json'
 import Folder from '../../../assets/Images/NewFolder.svg'
 import Edit from '../../../assets/Images/Edit.svg'
 import Infoicon from '../../../assets/Images/infocircle.svg'
 import { track_Screen } from '../../../eventTracking/index';
 import { screenName, eventName } from '../../../utils/Constant';
-const CreatecloudsheetPopup = (props: any) => {
 
+declare global {
+  var labels: any;
+}
+
+const CreatecloudsheetPopup = (props: any) => {
+  var labels = global.labels
   useEffect(()=>{
     track_Screen(eventName.TRACK_SCREEN, screenName.SELECT_CREATE_SPREADSHEET_OPTION_MODAL)
   }, [])
@@ -23,7 +28,7 @@ const CreatecloudsheetPopup = (props: any) => {
         </View>
         <View style={Tempatestyle.space} />
         <View>
-          <Infoicon />
+          {/* <Infoicon /> */}
         </View>
       </View>
 

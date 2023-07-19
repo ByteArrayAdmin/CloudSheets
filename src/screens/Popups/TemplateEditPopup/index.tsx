@@ -13,13 +13,16 @@ import Rename from "../../../assets/Images/Rename.svg";
 import Viewicon from "../../../assets/Images/TermLogo.svg";
 import Delete from "../../../assets/Images/Deleteicon.svg";
 import CommonCard from "../CommonCard";
-import labels from "../../../utils/ProjectLabels.json";
+// import labels from "../../../utils/ProjectLabels.json";
 import { ScrollView } from "react-native-gesture-handler";
 import moment from 'moment';
+declare global {
+  var labels: any;
+}
 
 const TemplateEditPopup = (props: any) => {
   const { height } = Dimensions.get('window');
-
+  var labels = global.labels
   return (
     <View style={styles.container}>
       <View style={styles.creatcloudview}>
@@ -30,7 +33,7 @@ const TemplateEditPopup = (props: any) => {
         </View>
         <View style={styles.space} />
         <View>
-          <Infoicon />
+          {/* <Infoicon /> */}
         </View>
       </View>
       <View>

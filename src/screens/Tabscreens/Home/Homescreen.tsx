@@ -1,12 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useRef, useState, useEffect } from "react";
-import { View, SafeAreaView, Text,BackHandler ,Dimensions} from "react-native";
+import {
+  View,
+  SafeAreaView,
+  Text,
+  BackHandler,
+  Dimensions,
+} from "react-native";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../assets/Images/smalllogo.svg";
 import { welcomscreenstyle } from "./style";
 import AuthCard from "../../../commonComponents/AuthCard";
 import Custombutton from "../../../commonComponents/Button";
-import welocmehomelabel from "../../../utils/ProjectLabels.json";
+// import welocmehomelabel from "../../../utils/ProjectLabels.json";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import { current_UserInfo, create_Template } from "../../../API_Manager/index";
 import { useNavigation, CommonActions } from "@react-navigation/native";
@@ -30,7 +36,13 @@ import CreateTemplatePopup from "../../Popups/CreateTemplatePopup";
 import labels from "../../../utils/ProjectLabels.json";
 import uuid from "react-native-uuid";
 import CommonLoader from "../../../commonComponents/CommonLoader";
+declare global {
+  var labels: any;
+  var isLoggedInUser: any;
+}
+
 const Homescreen = (props: any) => {
+  var welocmehomelabel = global.labels;
   const childRef = useRef(null);
   const child = useRef();
   const navigation = useNavigation();
@@ -42,7 +54,7 @@ const Homescreen = (props: any) => {
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const snapPoints = [350,400];
+  const snapPoints = [350, 400];
 
   // --------- Initial Rendering --------
   useEffect(() => {
@@ -268,7 +280,7 @@ const Homescreen = (props: any) => {
         <CommonBottomsheet
           ref={child}
           snapPoints={snapPoints}
-          onBackdropPress={()=>setIsSheetOpen(false)}
+          onBackdropPress={() => setIsSheetOpen(false)}
           children={
             <CreateTemplatePopup
               error={error}

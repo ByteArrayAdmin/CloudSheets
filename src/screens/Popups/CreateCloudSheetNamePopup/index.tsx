@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import { FONTS, COLOURS } from "../../../utils/Constant";
 import Template from "../../../assets/Images/Tempate.svg";
-import CreateTemplatescreen from "../../../utils/ProjectLabels.json";
+// import CreateTemplatescreen from "../../../utils/ProjectLabels.json";
 import { useForm } from "react-hook-form";
 import SmallButton from "../../../commonComponents/SmallButton";
 import LightSmallButton from "../../../commonComponents/LightSmallbutton";
@@ -16,8 +16,11 @@ import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import Logo from "../../../assets/Images/templatemodel.svg";
 import { track_Screen } from '../../../eventTracking/index';
 import { screenName, eventName } from '../../../utils/Constant';
+declare global {
+  var labels: any;
+}
 const CreateCloudSheetNamePopup = (props: any) => {
-
+  var CreateTemplatescreen = global.labels
   const child = useRef();
   const navigation = useNavigation();
   const [text, onChangeText] = useState();

@@ -3,7 +3,7 @@ import { View, SafeAreaView, Text, StyleSheet, Alert, TouchableOpacity } from 'r
 import BackgroundLayout from '../../../commonComponents/Backgroundlayout/BackgroundLayout';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
-import labels from '../../../utils/ProjectLabels.json';
+// import labels from '../../../utils/ProjectLabels.json';
 import { COLOURS, FONTS } from '../../../utils/Constant';
 import AuthCard from '../../../commonComponents/AuthCard';
 import InputField from '../../../commonComponents/InputField';
@@ -15,6 +15,10 @@ import { confirm_Signup, resend_OTP } from '../../../API_Manager/index';
 import CommonLoader from '../../../commonComponents/CommonLoader';
 import {track_Screen,track_Click_Event,track_Success_Event,track_Error_Event} from '../../../eventTracking/index';
 import { eventName,screenName,clickName,successActionName,errorActionName } from '../../../utils/Constant';
+
+declare global {
+    var labels: any;
+  }
 const OtpScreen = () => {
 
     const { control, handleSubmit, watch } = useForm();
@@ -25,6 +29,7 @@ const OtpScreen = () => {
     const [count, setCount] = useState(0)
     const [disable, setDisable] = useState(false)
     const [loader, setLoader] = useState(false)
+    var labels = global.labels
 
     useEffect(()=>{
         track_Screen(eventName.TRACK_SCREEN,screenName.OTP_VERIFY_SCREEN)

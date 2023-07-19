@@ -26,6 +26,10 @@ import OtpScreen from '../screens/Auth/OTP/index';
 import ExistingTemplateList from '../screens/Tabscreens/Cloudsheet/ExistingTemplates/index';
 import { Auth } from 'aws-amplify';
 
+declare global {
+  var session: any;
+}
+
 const Stack = createNativeStackNavigator();
 
 const Rootnavigation = () => {

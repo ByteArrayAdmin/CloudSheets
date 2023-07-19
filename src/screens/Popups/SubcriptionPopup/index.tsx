@@ -7,10 +7,13 @@ import {
   StyleSheet,
 } from "react-native";
 import { FONTS, COLOURS } from "../../../utils/Constant";
-import labels from "../../../utils/ProjectLabels.json";
+// import labels from "../../../utils/ProjectLabels.json";
 import CustonButton from "../../../commonComponents/Button"
-
+declare global {
+  var labels: any;
+}
 const SubcriptionPlan = () => {
+  var labels = global.labels
   return (
     <View style={styles.container}>
       <View style={styles.textview}>

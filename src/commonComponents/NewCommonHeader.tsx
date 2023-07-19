@@ -11,11 +11,11 @@ const NewCommonHeader = (props: any) => {
         <View>
           <View style={styles.headerconatiner}>
             
-              {props.BackButton}
+              {props.BackButton?props.BackButton:null}
           
             <View style={styles.foldericonmargin}>{props.Folder}</View>
-            <View>
-              <Text style={styles.classattendancetext}>{props.heading}</Text>
+            <View style={{width:'80%'}}>
+              <Text numberOfLines={1} ellipsizeMode='tail' style={styles.classattendancetext}>{props.heading}</Text>
             </View>
             <View style={{flex:1}}></View>
             {props.SecondImg?
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   foldericonmargin: {
-    marginLeft: 16,
+    marginLeft: 5,
   },
   classattendancetext: {
     paddingLeft: 8,

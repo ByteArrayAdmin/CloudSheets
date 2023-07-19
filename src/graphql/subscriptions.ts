@@ -2,6 +2,105 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateAppConstants = /* GraphQL */ `
+  subscription OnCreateAppConstants(
+    $filter: ModelSubscriptionAppConstantsFilterInput
+  ) {
+    onCreateAppConstants(filter: $filter) {
+      id
+      appLabels
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateAppConstants = /* GraphQL */ `
+  subscription OnUpdateAppConstants(
+    $filter: ModelSubscriptionAppConstantsFilterInput
+  ) {
+    onUpdateAppConstants(filter: $filter) {
+      id
+      appLabels
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteAppConstants = /* GraphQL */ `
+  subscription OnDeleteAppConstants(
+    $filter: ModelSubscriptionAppConstantsFilterInput
+  ) {
+    onDeleteAppConstants(filter: $filter) {
+      id
+      appLabels
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateCustomerSupport = /* GraphQL */ `
+  subscription OnCreateCustomerSupport(
+    $filter: ModelSubscriptionCustomerSupportFilterInput
+  ) {
+    onCreateCustomerSupport(filter: $filter) {
+      id
+      userID
+      email
+      subject
+      description
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateCustomerSupport = /* GraphQL */ `
+  subscription OnUpdateCustomerSupport(
+    $filter: ModelSubscriptionCustomerSupportFilterInput
+  ) {
+    onUpdateCustomerSupport(filter: $filter) {
+      id
+      userID
+      email
+      subject
+      description
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteCustomerSupport = /* GraphQL */ `
+  subscription OnDeleteCustomerSupport(
+    $filter: ModelSubscriptionCustomerSupportFilterInput
+  ) {
+    onDeleteCustomerSupport(filter: $filter) {
+      id
+      userID
+      email
+      subject
+      description
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateSpreadSheetRows = /* GraphQL */ `
   subscription OnCreateSpreadSheetRows(
     $filter: ModelSubscriptionSpreadSheetRowsFilterInput

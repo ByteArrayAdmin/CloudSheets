@@ -4,12 +4,16 @@ import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
 import { useNavigation } from "@react-navigation/native";
 import Ic_privicy from '../../../../../assets/Images/Ic_privicy.svg';
-import labels from '../../../../../utils/ProjectLabels.json';
+// import labels from '../../../../../utils/ProjectLabels.json';
 import CommonLayout from '../CommonLayout';
 import {COLOURS} from '../../../../../utils/Constant';
 import { track_Screen } from '../../../../../eventTracking/index';
 import {eventName,screenName} from '../../../../../utils/Constant';
+declare global {
+    var labels: any;
+  }
 const PrivacyScreen = () => {
+    var labels = global.labels;
     const navigation = useNavigation()
 
     useEffect(()=>{
@@ -39,6 +43,6 @@ export default PrivacyScreen;
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: COLOURS.lightBlue, flex: 1
+         flex: 1
     }
 })

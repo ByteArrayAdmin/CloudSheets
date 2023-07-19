@@ -1,12 +1,8 @@
-import React,{useEffect} from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import React, { useEffect } from "react";
+import { Text, View, TouchableOpacity } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import Logo from "../../../../assets/Images/star.svg";
 import AuthCard from "../../../../commonComponents/AuthCard";
 import ThumbLogo from "../../../../assets/Images/Rateusthumb.svg";
@@ -17,22 +13,23 @@ import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../.././../commonComponents/Button";
 import { ScrollView } from "react-native-gesture-handler";
-import {Styles} from "./style"
-import { track_Screen } from '../../../../eventTracking/index';
-import {eventName,screenName} from '../../../../utils/Constant';
+import { Styles } from "./style";
+import { track_Screen } from "../../../../eventTracking/index";
+import { eventName, screenName } from "../../../../utils/Constant";
+declare global {
+  var labels: any;
+}
 const Rateus = () => {
+  var labels = global.labels;
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
 
-  useEffect(()=>{
-    track_Screen(eventName.TRACK_SCREEN,screenName.RATEUS_SCREEN)
-  }, [])
+  useEffect(() => {
+    track_Screen(eventName.TRACK_SCREEN, screenName.RATEUS_SCREEN);
+  }, []);
 
-  const ratingCompleted = (rating: number) => {
-    
-  };
-  const onSubmit = async (data: any) => {
-  };
+  const ratingCompleted = (rating: number) => {};
+  const onSubmit = async (data: any) => {};
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={Styles.container}>
@@ -86,7 +83,7 @@ const Rateus = () => {
                       placeholder={labels.RateUS.plceholdertext}
                       styles={Styles.inputview}
                       multiline={true}
-                      textAlignVertical={'top'}
+                      textAlignVertical={"top"}
                     />
                   </View>
 
@@ -107,5 +104,3 @@ const Rateus = () => {
 };
 
 export default Rateus;
-
-

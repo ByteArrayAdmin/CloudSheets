@@ -2,9 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
 import RedCorss from "../../../../assets/Images/redcross.svg";
-import labels from "../../../../utils/ProjectLabels.json";
-
+// import labels from "../../../../utils/ProjectLabels.json";
+declare global {
+  var labels: any;
+}
 const ColumnCard = (props: any) => {
+  var labels = global.labels;
   console.log("columnCardData=======", props?.item);
   return (
     <View style={styles.mainContainer}>

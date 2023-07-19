@@ -2,6 +2,141 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getAppConstants = /* GraphQL */ `
+  query GetAppConstants($id: ID!) {
+    getAppConstants(id: $id) {
+      id
+      appLabels
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listAppConstants = /* GraphQL */ `
+  query ListAppConstants(
+    $filter: ModelAppConstantsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAppConstants(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        appLabels
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncAppConstants = /* GraphQL */ `
+  query SyncAppConstants(
+    $filter: ModelAppConstantsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncAppConstants(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        appLabels
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getCustomerSupport = /* GraphQL */ `
+  query GetCustomerSupport($id: ID!) {
+    getCustomerSupport(id: $id) {
+      id
+      userID
+      email
+      subject
+      description
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listCustomerSupports = /* GraphQL */ `
+  query ListCustomerSupports(
+    $filter: ModelCustomerSupportFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCustomerSupports(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        email
+        subject
+        description
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncCustomerSupports = /* GraphQL */ `
+  query SyncCustomerSupports(
+    $filter: ModelCustomerSupportFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncCustomerSupports(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userID
+        email
+        subject
+        description
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getSpreadSheetRows = /* GraphQL */ `
   query GetSpreadSheetRows($id: ID!) {
     getSpreadSheetRows(id: $id) {

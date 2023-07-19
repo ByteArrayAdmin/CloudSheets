@@ -9,7 +9,8 @@ export type AmplifyDependentResourcesAttributes = {
   "api": {
     "CloudSheetBackendEnv": {
       "GraphQLAPIEndpointOutput": "string",
-      "GraphQLAPIIdOutput": "string"
+      "GraphQLAPIIdOutput": "string",
+      "GraphQLAPIKeyOutput": "string"
     },
     "checkEmailExist": {
       "ApiId": "string",

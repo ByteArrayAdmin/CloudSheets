@@ -8,7 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import BackgroundLayout from "src/commonComponents/Backgroundlayout/BackgroundLayout";
+import BackgroundLayout from "../../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../../assets/Images/smalllogo.svg";
 import labels from "../../../../utils/ProjectLabels.json";
 import { COLOURS, FONTS } from "../../../../utils/Constant";

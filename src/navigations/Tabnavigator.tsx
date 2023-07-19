@@ -129,7 +129,7 @@ export const Tabnavigator = () => {
           },
           tabBarActiveTintColor: COLOURS.Skyblue,
           tabBarInactiveTintColor:COLOURS.inActiveTabColor,
-          tabBarLabel: "Cloudsheet",
+          tabBarLabel: "CloudSheets",
           headerShown: false,
           tabBarIcon: ({ focused }) => {
             return focused ? <Boldcheetsheet /> : <Documenticon />;

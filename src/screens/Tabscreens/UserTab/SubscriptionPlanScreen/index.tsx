@@ -10,7 +10,7 @@ import {
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 import { useNavigation } from "@react-navigation/native";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import UseLogo from "../.../../../../../assets/Images/userLogo.svg";
 import Exclaim from "../../../../assets/Images/exclaimationlogo.svg";
 import { FONTS, COLOURS } from "../../../../utils/Constant";
@@ -25,8 +25,12 @@ import Crown from "../../../../assets/Images/crown.svg";
 import Profile from "../../../../assets/Images/ProfileLogo.svg";
 import PassLogo from "../../../../assets/Images/PasswordLogo.svg";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import {Styles} from "./style"
+import {Styles} from "./style";
+declare global {
+  var labels: any;
+}
 const SubcriptionScreen = () => {
+  var labels = global.labels;
   const navigation = useNavigation();
   const tabheight = useBottomTabBarHeight();
 

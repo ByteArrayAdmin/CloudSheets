@@ -5,12 +5,15 @@ import { COLOURS, FONTS, renderValue } from "../../../utils/Constant";
 import CommonCard from "../CommonCard";
 import Edit from "../../../assets/Images/Edit.svg";
 import Delete from "../../../assets/Images/Deleteicon.svg";
-import labels from "../../../utils/ProjectLabels.json";
+// import labels from "../../../utils/ProjectLabels.json";
 import InfoCircle from "../../../assets/Images/infocircle.svg";
 import moment from "moment";
-
+declare global {
+  var labels: any;
+}
 const EditSpreadsheetRecord = (props: any) => {
   console.log("props=====", props?.spreadSheetRow);
+  var labels = global.labels
   let spreadSheetData = JSON.parse(props?.spreadSheetRow?.items);
   return (
     <View style={Style.container}>

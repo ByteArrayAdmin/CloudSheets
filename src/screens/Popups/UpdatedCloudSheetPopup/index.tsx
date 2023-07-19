@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Smlogo from "../../../../assets/Images/smalllogo.svg";
-import labels from "../../../utils/ProjectLabels.json";
+// import labels from "../../../utils/ProjectLabels.json";
 import { COLOURS, FONTS } from "../../../utils/Constant";
 import AuthCard from "../../../commonComponents/AuthCard";
 import Logo from "../../../assets/Images/updatecloud.svg";
@@ -10,10 +10,13 @@ import { useNavigation } from "@react-navigation/native";
 import { BottomSheet } from 'react-native-btr';
 import { ColorSpace } from 'react-native-reanimated';
 import { styles } from 'screens/Auth/signup/style';
-
+declare global {
+    var labels: any;
+  }
 const UpdatedCloudSheet = (props: any) => {
 
     const navigation = useNavigation()
+    var labels = global.labels
     return (
         <BottomSheet
             visible={props.visible}

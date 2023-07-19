@@ -13,7 +13,7 @@ import BackgroundLayout from "../../../../commonComponents/Backgroundlayout/Back
 import Smlogo from "../../../../assets/Images/smalllogo.svg";
 import AuthCard from "../../../../commonComponents/AuthCard";
 import Custombutton from "../../../../commonComponents/Button";
-import CreateTemplatescreen from "../../../../utils/ProjectLabels.json";
+// import CreateTemplatescreen from "../../../../utils/ProjectLabels.json";
 import Templatelogo from "../../../../assets/Images/Templatelogo.svg";
 import { Tempatestyle } from "./Style";
 import {
@@ -35,7 +35,6 @@ import {
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import Card from "../TabBarTemplateList/Card";
 import labels from "../../../../utils/ProjectLabels.json";
-import BackButton from "../../../../commonComponents/Backbutton";
 import Folder from "../../../../assets/Images/folder12.svg";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
 import { styles } from "../TabBarTemplateList/style";
@@ -58,10 +57,12 @@ import {
 } from "../../../../utils/Constant";
 import RegisterGuestUserPopup from "../../../Popups/RegisterGuestUserPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { navigationRef } from "../../../../navigations/navigationReference";
-
+declare global {
+  var labels: any;
+}
 const CreateTemplate = () => {
   // --------- File States -----------
+  var CreateTemplatescreen = global.labels;
   const child = useRef();
   const editTempRef = useRef();
   const navigation = useNavigation();
@@ -234,13 +235,13 @@ const CreateTemplate = () => {
       .then((response: any) => {
         console.log("getTempResp=======", response);
         setLoader(false);
-        let templateList = response.data.templatesByUserID.items
+        let templateList = response.data.templatesByUserID.items;
         templateList.sort(function compare(a, b) {
-          var dateA = new Date(a.createdAt);
-          var dateB = new Date(b.createdAt);
-          return dateB - dateA ;
+          var dateA = new Date(a.updatedAt);
+          var dateB = new Date(b.updatedAt);
+          return dateB - dateA;
         });
-        setTemplateList(templateList)
+        setTemplateList(templateList);
       })
       .catch((error) => {
         console.log("getTempErr======", error);
@@ -275,7 +276,7 @@ const CreateTemplate = () => {
       soft_Deleted: false,
     };
     console.log("rowData======", newTemplate);
-    
+
     if (global.isLoggedInUser) {
       setLoader(true);
       create_Template(newTemplate)
@@ -315,6 +316,24 @@ const CreateTemplate = () => {
       setTemplateList(guestArr);
       setExtraData(new Date());
       child.current.childFunction2();
+    }
+  };
+
+  // -------------- check Edit validation -----------
+
+  const CheckEditValidation = ( templateName: any,
+    templateId: any,
+    version: any,
+    softDeleted: boolean) => {
+    if (templateName == "" || templateName == undefined) {
+      setError(labels.TabBarTemplateList.TemplateErr);
+    } else {
+      
+      onUpdateTemplates(templateName,
+        templateId,
+        version,
+        softDeleted);
+      setError(" ");
     }
   };
 
@@ -499,7 +518,7 @@ const CreateTemplate = () => {
         <>
           <View style={[styles.container, { marginBottom: bottomTabHeight }]}>
             <NewCommonHeader
-              BackButton={<BackButton onPress={() => navigation.goBack()} />}
+              // BackButton={<BackButton onPress={() => navigation.goBack()} />}
               heading={labels.TabBarTemplateList.Template}
               Folder={<Folder />}
             />
@@ -589,6 +608,7 @@ const CreateTemplate = () => {
       <CommonBottomsheet
         ref={child}
         snapPoints={snapPoints}
+        onBackdropPress={()=>{}}
         children={
           <CreateTemplatePopup
             error={error}
@@ -605,7 +625,7 @@ const CreateTemplate = () => {
               softDeleted: boolean
             ) =>
               global.isLoggedInUser
-                ? onUpdateTemplates(
+                ? CheckEditValidation(
                     templateName,
                     templateId,
                     version,

@@ -2,9 +2,12 @@ import React from 'react';
 import { View, Text ,StyleSheet} from 'react-native';
 import { styles } from "./styles";
 import HeadingCard from "./HeadingCard";
-import labels from "../../../../utils/ProjectLabels.json";
-
+// import labels from "../../../../utils/ProjectLabels.json";
+declare global {
+    var labels: any;
+  }
 const FlatlistHeader = (props: any) => {
+    var labels = global.labels;
     return (
         <View>
             <View style={styles.Flatlistviewone}>

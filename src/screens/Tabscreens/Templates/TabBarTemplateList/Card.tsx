@@ -1,15 +1,14 @@
 import React, { useRef, useState } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Logo from "../../../../assets/Images/ColourFolder.svg";
 import Threedots from "../../../../assets/Images/threedots.svg";
-import moment from 'moment';
+import moment from "moment";
 
 const Card = (props: any) => {
-
   const OpenPopup = () => {
-    child.current.childFunction1()
-  }
+    child.current.childFunction1();
+  };
   const child = useRef();
 
   return (
@@ -18,13 +17,20 @@ const Card = (props: any) => {
         <Logo />
       </View>
       <View>
-        <Text style={styles.textstyle}>{props?.item?.template_name}</Text>
-        <Text style={styles.datestyle}>{moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <View style={{maxWidth:"85%",minWidth:'80%'}}>
+        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.textstyle}>{props?.item?.template_name}</Text>
+        </View>
+        <Text style={styles.datestyle}>
+          {moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm a")}
+        </Text>
       </View>
       <View style={styles.space}></View>
-      <TouchableOpacity style={styles.imagestyle} onPress={props.onEditTemplate}>
+      <TouchableOpacity
+        style={styles.imagestyle}
+        onPress={props.onEditTemplate}
+      >
         <Threedots />
-      </TouchableOpacity >
+      </TouchableOpacity>
     </View>
   );
 };
@@ -58,9 +64,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imagestyle: {
-
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 25,
     height: 25,
     position: "absolute",

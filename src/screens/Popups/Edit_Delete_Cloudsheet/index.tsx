@@ -5,11 +5,14 @@ import { COLOURS, FONTS } from "../../../utils/Constant";
 import CommonCard from "../CommonCard";
 import Edit from "../../../assets/Images/Edit.svg";
 import Delete from "../../../assets/Images/Deleteicon.svg";
-import labels from "../../../utils/ProjectLabels.json";
+// import labels from "../../../utils/ProjectLabels.json";
 import InfoCircle from "../../../assets/Images/infocircle.svg";
 import moment from 'moment';
-
+declare global {
+  var labels: any;
+}
 const EditDeleteCloudsheet = (props: any) => {
+  var labels = global.labels
   return (
     <View style={Style.container}>
       <View style={Style.topSpace}>

@@ -2,25 +2,17 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateSpreadSheetRowsInput = {
+export type CreateAppConstantsInput = {
   id?: string | null,
-  items?: string | null,
-  userID: string,
-  templatesID: string,
-  spreadsheetID: string,
-  soft_Deleted?: boolean | null,
+  appLabels?: string | null,
   _version?: number | null,
 };
 
-export type ModelSpreadSheetRowsConditionInput = {
-  items?: ModelStringInput | null,
-  userID?: ModelIDInput | null,
-  templatesID?: ModelIDInput | null,
-  spreadsheetID?: ModelIDInput | null,
-  soft_Deleted?: ModelBooleanInput | null,
-  and?: Array< ModelSpreadSheetRowsConditionInput | null > | null,
-  or?: Array< ModelSpreadSheetRowsConditionInput | null > | null,
-  not?: ModelSpreadSheetRowsConditionInput | null,
+export type ModelAppConstantsConditionInput = {
+  appLabels?: ModelStringInput | null,
+  and?: Array< ModelAppConstantsConditionInput | null > | null,
+  or?: Array< ModelAppConstantsConditionInput | null > | null,
+  not?: ModelAppConstantsConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -61,6 +53,96 @@ export type ModelSizeInput = {
   ge?: number | null,
   gt?: number | null,
   between?: Array< number | null > | null,
+};
+
+export type AppConstants = {
+  __typename: "AppConstants",
+  id: string,
+  appLabels?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateAppConstantsInput = {
+  id: string,
+  appLabels?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteAppConstantsInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateCustomerSupportInput = {
+  id?: string | null,
+  userID?: string | null,
+  email?: string | null,
+  subject?: string | null,
+  description?: string | null,
+  _version?: number | null,
+};
+
+export type ModelCustomerSupportConditionInput = {
+  userID?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  subject?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  and?: Array< ModelCustomerSupportConditionInput | null > | null,
+  or?: Array< ModelCustomerSupportConditionInput | null > | null,
+  not?: ModelCustomerSupportConditionInput | null,
+};
+
+export type CustomerSupport = {
+  __typename: "CustomerSupport",
+  id: string,
+  userID?: string | null,
+  email?: string | null,
+  subject?: string | null,
+  description?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateCustomerSupportInput = {
+  id: string,
+  userID?: string | null,
+  email?: string | null,
+  subject?: string | null,
+  description?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteCustomerSupportInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateSpreadSheetRowsInput = {
+  id?: string | null,
+  items?: string | null,
+  userID: string,
+  templatesID: string,
+  spreadsheetID: string,
+  soft_Deleted?: boolean | null,
+  _version?: number | null,
+};
+
+export type ModelSpreadSheetRowsConditionInput = {
+  items?: ModelStringInput | null,
+  userID?: ModelIDInput | null,
+  templatesID?: ModelIDInput | null,
+  spreadsheetID?: ModelIDInput | null,
+  soft_Deleted?: ModelBooleanInput | null,
+  and?: Array< ModelSpreadSheetRowsConditionInput | null > | null,
+  or?: Array< ModelSpreadSheetRowsConditionInput | null > | null,
+  not?: ModelSpreadSheetRowsConditionInput | null,
 };
 
 export type ModelIDInput = {
@@ -353,6 +435,123 @@ export type UpdateUserInput = {
 export type DeleteUserInput = {
   id: string,
   _version?: number | null,
+};
+
+export type CreateAppConstantsMutationVariables = {
+  input: CreateAppConstantsInput,
+  condition?: ModelAppConstantsConditionInput | null,
+};
+
+export type CreateAppConstantsMutation = {
+  createAppConstants?:  {
+    __typename: "AppConstants",
+    id: string,
+    appLabels?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateAppConstantsMutationVariables = {
+  input: UpdateAppConstantsInput,
+  condition?: ModelAppConstantsConditionInput | null,
+};
+
+export type UpdateAppConstantsMutation = {
+  updateAppConstants?:  {
+    __typename: "AppConstants",
+    id: string,
+    appLabels?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteAppConstantsMutationVariables = {
+  input: DeleteAppConstantsInput,
+  condition?: ModelAppConstantsConditionInput | null,
+};
+
+export type DeleteAppConstantsMutation = {
+  deleteAppConstants?:  {
+    __typename: "AppConstants",
+    id: string,
+    appLabels?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type CreateCustomerSupportMutationVariables = {
+  input: CreateCustomerSupportInput,
+  condition?: ModelCustomerSupportConditionInput | null,
+};
+
+export type CreateCustomerSupportMutation = {
+  createCustomerSupport?:  {
+    __typename: "CustomerSupport",
+    id: string,
+    userID?: string | null,
+    email?: string | null,
+    subject?: string | null,
+    description?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateCustomerSupportMutationVariables = {
+  input: UpdateCustomerSupportInput,
+  condition?: ModelCustomerSupportConditionInput | null,
+};
+
+export type UpdateCustomerSupportMutation = {
+  updateCustomerSupport?:  {
+    __typename: "CustomerSupport",
+    id: string,
+    userID?: string | null,
+    email?: string | null,
+    subject?: string | null,
+    description?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteCustomerSupportMutationVariables = {
+  input: DeleteCustomerSupportInput,
+  condition?: ModelCustomerSupportConditionInput | null,
+};
+
+export type DeleteCustomerSupportMutation = {
+  deleteCustomerSupport?:  {
+    __typename: "CustomerSupport",
+    id: string,
+    userID?: string | null,
+    email?: string | null,
+    subject?: string | null,
+    description?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
 };
 
 export type CreateSpreadSheetRowsMutationVariables = {

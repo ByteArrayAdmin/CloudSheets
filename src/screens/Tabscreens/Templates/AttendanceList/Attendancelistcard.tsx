@@ -24,7 +24,7 @@ export const Attendancelistcard = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-     arrangeAscendingOrder();
+    arrangeAscendingOrder();
   }, [props]);
 
   const arrangeAscendingOrder = () => {
@@ -44,19 +44,18 @@ export const Attendancelistcard = (props: any) => {
   };
 
   //----------- check date or word ---------
-  const renderValue = ()=>{
-    let value = ""
+  const renderValue = () => {
+    let value = "";
     items.forEach((element: any) => {
-      if(value =='' && element.column_Type == "Sentences" ){
-        value = element.column_Value
+      if (value == "" && element.column_Type == "Sentences") {
+        value = element.column_Value;
       }
-      if(value =='' && element.column_Type == "Date" ){
-        value = moment(element.column_Value).format("MMM DD, YYYY")
+      if (value == "" && element.column_Type == "Date") {
+        value = moment(element.column_Value).format("MMM DD, YYYY");
       }
-      
     });
-    return value
-  }
+    return value;
+  };
 
   // ----------- Render Row Items -----------
 
@@ -64,7 +63,13 @@ export const Attendancelistcard = (props: any) => {
     <View style={Styles.detailview}>
       <Text style={Styles.labelheading}>{item.column_Name}</Text>
       <View style={Styles.emptyview}></View>
-      <Text style={Styles.detailnametext}>{item.column_Type == "Date"? moment(item.column_Value).format("MMM DD, YYYY") : item.column_Value}</Text>
+      <View style={{ width: "75%" }}>
+        <Text style={Styles.detailnametext}>
+          {item.column_Type == "Date"
+            ? moment(item.column_Value).format("MMM DD, YYYY")
+            : item.column_Value}
+        </Text>
+      </View>
     </View>
   );
 
