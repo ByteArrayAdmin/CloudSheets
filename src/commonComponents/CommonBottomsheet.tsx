@@ -1,28 +1,16 @@
 import React, {
-  useEffect,
   useRef,
   useMemo,
   useCallback,
   useImperativeHandle,
   forwardRef,
-  Children,
 } from "react";
-import {
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Button,
-  Alert,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import BottomSheet, {
   BottomSheetModal,
   BottomSheetBackdrop,
   useBottomSheetModal,
 } from "@gorhom/bottom-sheet";
-import { COLOURS } from "../utils/Constant";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const CommonBottomsheet = forwardRef((props: any, ref: any) => {
   const { dismiss, dismissAll } = useBottomSheetModal();
@@ -31,9 +19,9 @@ const CommonBottomsheet = forwardRef((props: any, ref: any) => {
     childFunction1() {
       handlePresentModalPress();
     },
-    childFunction2(){
-      CloseModel()
-    }
+    childFunction2() {
+      CloseModel();
+    },
   }));
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -43,11 +31,11 @@ const CommonBottomsheet = forwardRef((props: any, ref: any) => {
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present()
+    bottomSheetModalRef.current?.present();
   }, []);
-  const CloseModel =()=>{
-    dismiss()
-  }
+  const CloseModel = () => {
+    dismiss();
+  };
   const handleSheetChanges = useCallback((index: number) => {}, []);
 
   const renderBackdrop = useCallback(
@@ -62,19 +50,17 @@ const CommonBottomsheet = forwardRef((props: any, ref: any) => {
   );
 
   return (
-    
-      <BottomSheetModal
-        backdropComponent={renderBackdrop}
-        ref={bottomSheetModalRef}
-        index={0}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        enableDismissOnClose={true}
-        onDismiss={props.onBackdropPress}
-      >
-        {props.children ? <View>{props.children}</View>:null}
-      </BottomSheetModal>
-    
+    <BottomSheetModal
+      backdropComponent={renderBackdrop}
+      ref={bottomSheetModalRef}
+      index={0}
+      snapPoints={snapPoints}
+      onChange={handleSheetChanges}
+      enableDismissOnClose={true}
+      onDismiss={props.onBackdropPress}
+    >
+      {props.children ? <View>{props.children}</View> : null}
+    </BottomSheetModal>
   );
 });
 
@@ -88,12 +74,12 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     padding: 24,
-    justifyContent: 'center',
-    backgroundColor: 'grey',
+    justifyContent: "center",
+    backgroundColor: "grey",
   },
   contentContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
 });
 export default CommonBottomsheet;

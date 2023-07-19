@@ -7,11 +7,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { COLOURS, FONTS } from "../../../utils/Constant";
-import labels from "../../../utils/ProjectLabels.json";
+// import labels from "../../../utils/ProjectLabels.json";
 import Create from "../../../commonComponents/LightSmallbutton"
 import Delete from "../../../commonComponents/SmallButton"
-
+declare global {
+  var labels: any;
+}
 const DeletePopup = (props:any) => {
+  var labels = global.labels
   return (
     <View style={Style.container}>
       <Text style={Style.messagetext}>{labels.Deletpopup.Are_you_sure}</Text>

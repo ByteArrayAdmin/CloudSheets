@@ -5,11 +5,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Text,
+  Alert
 } from "react-native";
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
 import { useNavigation } from "@react-navigation/native";
-import labels from "../../../../../utils/ProjectLabels.json";
+// import labels from "../../../../../utils/ProjectLabels.json";
 import CommonLayout from "../CommonLayout";
 import { COLOURS, FONTS } from "../../../../../utils/Constant";
 import Ic_customer from "../../../../../assets/Images/Ic_customer.svg";
@@ -18,12 +19,22 @@ import Ic_sendMail from "../../../../../assets/Images/Ic_sendMail.svg";
 import Ic_rightArrow from "../../../../../assets/Images/Ic_rightArrow.svg";
 import { track_Screen } from '../../../../../eventTracking/index';
 import {eventName,screenName} from '../../../../../utils/Constant';
+import Clipboard from '@react-native-clipboard/clipboard';
+declare global {
+  var labels: any;
+}
 const Customer_Support_Screen = () => {
+  var labels = global.labels;
   const navigation = useNavigation();
 
   useEffect(()=>{
     track_Screen(eventName.TRACK_SCREEN,screenName.CUSTOMER_SUPPORT_SCREEN)
   }, [])
+
+  const copyToClipboard = (email:string) => {
+    Clipboard.setString(email);
+    Alert.alert("copied")
+  };
 
   return (
     <>
@@ -47,6 +58,7 @@ const Customer_Support_Screen = () => {
           <TouchableOpacity
             style={styles.ButtonStyle}
             onPress={() => navigation.navigate("Customer_Support_Form")}
+            onLongPress={()=>copyToClipboard(labels.SubscriptionScreen.Supported_Mail)}
           >
             <Ic_sendMail />
             <View style={styles.textleftspace}>

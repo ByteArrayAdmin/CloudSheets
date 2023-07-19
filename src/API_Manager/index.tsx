@@ -13,7 +13,8 @@ import {
     templateColumnsByTemplatesID_SoftDelete,
     spreadSheetsByTemplatesID_SoftDelete,
     spreadSheetRowsByTemplatesID_SoftDelete,
-    spreadSheetRowsByTemplatesID
+    spreadSheetRowsByTemplatesID,
+    listAppConstants
 } from '../graphql/queries';
 import {
     createTemplates,
@@ -29,7 +30,8 @@ import {
     deleteSpreadSheetRows,
     deleteSpreadSheet,
     deleteTemplateColumns,
-    deleteUser
+    deleteUser,
+    createCustomerSupport
 
 } from '../graphql/mutations';
 import { DeleteTemplatesInput, DeleteTemplatesMutation } from '../API';
@@ -646,6 +648,31 @@ export const delete_Account = (userId: string) => {
             
             console.log('userDetail======', user)
             resolve(deleteUserAccount);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+// ----------------- Customer Support ----------------
+export const customerSupport_form = async (customerSupportForm: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const customerSupport = await API.graphql(graphqlOperation(createCustomerSupport, { input: customerSupportForm }))
+            resolve(customerSupport);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+// -------------- Get App Constants --------------
+
+export const getAppConstants = async() => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const getAppConstants = await API.graphql(graphqlOperation(listAppConstants))
+            resolve(getAppConstants);
         } catch (e) {
             reject(e);
         }

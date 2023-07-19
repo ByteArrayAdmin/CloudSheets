@@ -1,20 +1,13 @@
 import React, { useRef, useState } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
-import Logo from "../../../../assets/Images/ColourFolder.svg";
 import Threedots from "../../../../assets/Images/threedots.svg";
-import Docimage from "../../../../assets/Images/Colouredattendancelist.svg";
-import Docicon from '../../../../assets/Images/januaryAttendicon.svg';
-import IC_purpleDoc from '../../../../assets/Images/IC_purpleDoc.svg';
-import Ic_redDoc from '../../../../assets/Images/Ic_redDoc.svg';
+import Docicon from "../../../../assets/Images/januaryAttendicon.svg";
+import IC_purpleDoc from "../../../../assets/Images/IC_purpleDoc.svg";
+import Ic_redDoc from "../../../../assets/Images/Ic_redDoc.svg";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Popup from "../../../Popups/TemplateEditPopup";
-import moment from 'moment';
+import moment from "moment";
 
 const CloudsheetListCard = (props: any) => {
   const Child = useRef();
@@ -25,18 +18,26 @@ const CloudsheetListCard = (props: any) => {
   return (
     <View style={styles.container}>
       <View>
-        {props.index % 2 ?
-          <Docicon /> : props.index % 3 ?
-            <IC_purpleDoc /> : <Ic_redDoc />
-        }
+        {props.index % 2 ? (
+          <Docicon />
+        ) : props.index % 3 ? (
+          <IC_purpleDoc />
+        ) : (
+          <Ic_redDoc />
+        )}
       </View>
       <View>
         <Text style={styles.textstyle}>{props?.item?.spreadsheet_name}</Text>
-        <Text style={styles.datestyle}>{moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={styles.datestyle}>
+          {moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm a")}
+        </Text>
       </View>
       <View style={styles.space}></View>
       <View style={styles.imagestyle}>
-        <TouchableOpacity style={styles.ThreeDotview} onPress={props.openEditCloudSheetPopup}>
+        <TouchableOpacity
+          style={styles.ThreeDotview}
+          onPress={props.openEditCloudSheetPopup}
+        >
           <Threedots />
         </TouchableOpacity>
       </View>
@@ -83,5 +84,10 @@ const styles = StyleSheet.create({
     right: 15,
     bottom: 40,
   },
-  ThreeDotview: { width: 25, height: 25, justifyContent: 'center', alignItems: 'center' }
+  ThreeDotview: {
+    width: 25,
+    height: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

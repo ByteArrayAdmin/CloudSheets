@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-} from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import Logo from "../../../../assets/Images/ColourFolder.svg";
 import Threedots from "../../../../assets/Images/threedots.svg";
-import moment from 'moment';
+import moment from "moment";
 
 const HeadingCard = (props: any) => {
   return (
@@ -17,7 +13,9 @@ const HeadingCard = (props: any) => {
       </View>
       <View>
         <Text style={styles.textstyle}>{props?.template?.template_name}</Text>
-        <Text style={styles.datestyle}>{moment(props?.template?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={styles.datestyle}>
+          {moment(props?.template?.createdAt).format("MMM DD, YYYY | hh:mm a")}
+        </Text>
       </View>
       <View style={styles.space}></View>
       {/* <View style={styles.imagestyle}>

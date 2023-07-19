@@ -2,6 +2,111 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createAppConstants = /* GraphQL */ `
+  mutation CreateAppConstants(
+    $input: CreateAppConstantsInput!
+    $condition: ModelAppConstantsConditionInput
+  ) {
+    createAppConstants(input: $input, condition: $condition) {
+      id
+      appLabels
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateAppConstants = /* GraphQL */ `
+  mutation UpdateAppConstants(
+    $input: UpdateAppConstantsInput!
+    $condition: ModelAppConstantsConditionInput
+  ) {
+    updateAppConstants(input: $input, condition: $condition) {
+      id
+      appLabels
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteAppConstants = /* GraphQL */ `
+  mutation DeleteAppConstants(
+    $input: DeleteAppConstantsInput!
+    $condition: ModelAppConstantsConditionInput
+  ) {
+    deleteAppConstants(input: $input, condition: $condition) {
+      id
+      appLabels
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createCustomerSupport = /* GraphQL */ `
+  mutation CreateCustomerSupport(
+    $input: CreateCustomerSupportInput!
+    $condition: ModelCustomerSupportConditionInput
+  ) {
+    createCustomerSupport(input: $input, condition: $condition) {
+      id
+      userID
+      email
+      subject
+      description
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateCustomerSupport = /* GraphQL */ `
+  mutation UpdateCustomerSupport(
+    $input: UpdateCustomerSupportInput!
+    $condition: ModelCustomerSupportConditionInput
+  ) {
+    updateCustomerSupport(input: $input, condition: $condition) {
+      id
+      userID
+      email
+      subject
+      description
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteCustomerSupport = /* GraphQL */ `
+  mutation DeleteCustomerSupport(
+    $input: DeleteCustomerSupportInput!
+    $condition: ModelCustomerSupportConditionInput
+  ) {
+    deleteCustomerSupport(input: $input, condition: $condition) {
+      id
+      userID
+      email
+      subject
+      description
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createSpreadSheetRows = /* GraphQL */ `
   mutation CreateSpreadSheetRows(
     $input: CreateSpreadSheetRowsInput!

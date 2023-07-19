@@ -4,14 +4,12 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  TextInput,
 } from "react-native";
 import DatePicker from "react-native-date-picker";
 import { Controller } from "react-hook-form";
 import moment from "moment";
 import { COLOURS, FONTS } from "../utils/Constant";
 import Calenderlogo from "../assets/Images//calendar.svg";
-
 
 const CommonDatepicker = (props: any) => {
   const [open, setOpen] = useState(false);
@@ -34,7 +32,9 @@ const CommonDatepicker = (props: any) => {
               onPress={() => setOpen(true)}
             >
               <View>
-                <Text style={styles.enterdate}>{value?moment(value).format("MMM DD YYYY"): "Select Date"}</Text>
+                <Text style={styles.enterdate}>
+                  {value ? moment(value).format("MMM DD YYYY") : "Select Date"}
+                </Text>
               </View>
               <View style={styles.calenderview}></View>
               <View style={styles.calenderlogview}>
@@ -52,9 +52,9 @@ const CommonDatepicker = (props: any) => {
                 // Format the selected date using moment
                 const formattedDate = moment(date).format("MMM DD YYYY");
                 onChange(date);
-                setOpen(false)
+                setOpen(false);
               }}
-              onCancel={()=>setOpen(false)}
+              onCancel={() => setOpen(false)}
             />
           </View>
         )}

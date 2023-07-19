@@ -4,9 +4,12 @@ import { BottomSheet } from "react-native-btr";
 import { COLOURS, FONTS } from '../../utils/Constant';
 import Exclaimationlogo from "../../assets/Images/exclaimationlogo.svg";
 import Custombutton from "../../commonComponents/Button";
-import modelLabels from "../../utils/ProjectLabels.json";
-
+// import modelLabels from "../../utils/ProjectLabels.json";
+declare global {
+    var labels: any;
+  }
 const RegisterGuestUserPopup = (props: any) => {
+    var modelLabels = global.labels
     return (
         <BottomSheet
             style={styles.Bottomsheetview}

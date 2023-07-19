@@ -11,7 +11,7 @@ import {
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 import Document from "../../../../assets/Images/documentdark.svg";
-import label from "../../../../utils/ProjectLabels.json";
+// import label from "../../../../utils/ProjectLabels.json";
 import Searchbar from "../../../../commonComponents/Searchbar";
 import Attendancelistcard from "./Attendancelistcard";
 import {
@@ -39,8 +39,11 @@ import {
 } from "../../../../eventTracking/index";
 import { eventName, screenName } from "../../../../utils/Constant";
 const { height } = Dimensions.get("window");
-
+declare global {
+  var labels: any;
+}
 const Attendancelist = () => {
+  var label = global.labels;
   const navigation = useNavigation();
   const route = useRoute();
   const child = useRef();
@@ -82,8 +85,8 @@ const Attendancelist = () => {
         console.log("spreadsheetResp========", response);
         let spreadSheetRowList = response.data.spreadSheetRowsBySpreadsheetID.items
         spreadSheetRowList.sort(function compare(a, b) {
-          var dateA = new Date(a.createdAt);
-          var dateB = new Date(b.createdAt);
+          var dateA = new Date(a.updatedAt);
+          var dateB = new Date(b.updatedAt);
           return dateB - dateA ;
         });
         setSpreadSheetData(spreadSheetRowList);
@@ -280,6 +283,7 @@ const Attendancelist = () => {
         </View>
         <View style={Style.flatlistview}>
           <FlatList
+          showsVerticalScrollIndicator={false}
             data={spreadSheetData}
             renderItem={renderItems}
             ListFooterComponent={<Footer />}

@@ -29,7 +29,7 @@ const ColumnTypePopup = (props: any) => {
                 </View>
                 <View style={{ flex: 1 }}></View>
                 <View>
-                    <Infoicon />
+                    {/* <Infoicon /> */}
                 </View>
             </View>
             <FlatList

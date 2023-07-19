@@ -18,7 +18,7 @@ import BackButton from "../../../commonComponents/Backbutton";
 import AuthCard from "../../../commonComponents/AuthCard";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import Forgotlabel from "../../../utils/ProjectLabels.json";
+// import Forgotlabel from "../../../utils/ProjectLabels.json";
 import Lock from "../../../assets/Images/Lock.svg";
 import {
   forgetPassword_sendEmail,
@@ -28,6 +28,9 @@ import Instucticon from "../../../assets/Images/instruction.svg";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import PasswordInstruction from "../../Popups/PasswordInstruction/index";
 import Loader from "../../../commonComponents/CommonLoader";
+declare global {
+  var labels: any;
+}
 
 const ForgotPassword = () => {
   const useForm1 = useForm();
@@ -41,6 +44,7 @@ const ForgotPassword = () => {
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const snapPoints = ["60%"];
+  var Forgotlabel = global.labels
 
   // ------------ Password Validation ---------
   const validatePassword = (passwordOnChange: string) => {

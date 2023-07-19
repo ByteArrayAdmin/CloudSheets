@@ -62,7 +62,7 @@ export const Styles = StyleSheet.create({
     paddingTop: 5,
   },
   commingSoonText:{
-    color: COLOURS.red,
+    color: "#1AD461",
     fontFamily: FONTS.inter_regular,
     fontSize: 12,
     paddingTop: 5,

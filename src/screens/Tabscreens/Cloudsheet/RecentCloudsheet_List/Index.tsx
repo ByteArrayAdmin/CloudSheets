@@ -17,7 +17,7 @@ import Addwidget from "../../../../assets/Images/Addwidgeticon.svg";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import CreatecloudsheetPopup from "../../../Popups/CreateCloudsheets.tsx";
 import SearcBar from "../../../../commonComponents/Searchbar";
-import Clousheetlistscreen from "../../../../utils/ProjectLabels.json";
+// import Clousheetlistscreen from "../../../../utils/ProjectLabels.json";
 import {
   get_CloudsheetByUserID,
   current_UserInfo,
@@ -27,6 +27,7 @@ import {
   getSpreadsheetRow_bySpreadsheetId_forSoftDelete,
   softDelete_spreadSheet_and_rows,
   search_CloudsheetByUserID,
+  get_Template_List,
 } from "../../../../API_Manager/index";
 import {
   useNavigation,
@@ -43,9 +44,12 @@ import CommonLoader from "../../../../commonComponents/CommonLoader";
 import { track_Screen } from "../../../../eventTracking/index";
 import { screenName, eventName } from "../../../../utils/Constant";
 import RegisterGuestUserPopup from "../../../Popups/RegisterGuestUserPopup";
-
+declare global {
+  var labels: any;
+}
 const ClousheetList = () => {
   // --------- File States ----------
+  var Clousheetlistscreen = global.labels;
   const bottomTabHeight = useBottomTabBarHeight();
   const ChildRef = useRef();
   const createTemplateRef = useRef();
@@ -68,6 +72,8 @@ const ClousheetList = () => {
   const [registerModalVisible, setRegisterModalVisible] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [navigateId, setNavigateId] = useState("");
+  const [viewAll, setViewAll] = useState(false);
+  const [isTemplate, setIsTemplate] = useState(false);
 
   // -------------- Initial Rendering ------------
   useEffect(() => {
@@ -75,9 +81,27 @@ const ClousheetList = () => {
     DeviceEventEmitter.addListener("updateSpreadSheetList", () =>
       get_CurrentUserId()
     );
-    get_CurrentUserId();
+    // get_CurrentUserId();
     track_Screen(eventName.TRACK_SCREEN, screenName.CLOUDSHEET_TAB_SCREEN);
   }, []);
+
+  // --------- Get Template By userID ----------
+  const getTemplateByUserId = (userID: string) => {
+    get_Template_List(userID)
+      .then((response: any) => {
+        console.log("tempalateList========", response);
+        const tempCount = response.data.templatesByUserID.items.length;
+        console.log("TempCount=======",tempCount)
+        if (tempCount == 0) {
+          setIsTemplate(false);
+        }else{
+          setIsTemplate(true);
+        }
+      })
+      .catch((error) => {
+        console.log("getTemplateError======", error);
+      });
+  };
 
   // ------------ backHandler ---------
   useEffect(() => {
@@ -109,6 +133,7 @@ const ClousheetList = () => {
     if (isFocused) {
       // setIsGlobal((prevState) => !prevState);
       get_CurrentUserId();
+      setViewAll(false);
     }
   }, [isFocused]);
   // ------------ Get Current userId -------------
@@ -117,6 +142,7 @@ const ClousheetList = () => {
       .then((response: any) => {
         console.log("currentUserResp======", response.attributes.sub);
         get_CloudsheetBy_UserID(response.attributes.sub);
+        getTemplateByUserId(response.attributes.sub);
         setUserId(response.attributes.sub);
       })
       .catch((error) => {
@@ -159,11 +185,11 @@ const ClousheetList = () => {
       .then((response: any) => {
         setLoader(false);
         console.log("cloudsheetRespByuserID========", response);
-        let cloudSheetList = response.data.spreadSheetsByUserID.items
+        let cloudSheetList = response.data.spreadSheetsByUserID.items;
         cloudSheetList.sort(function compare(a, b) {
-          var dateA = new Date(a.createdAt);
-          var dateB = new Date(b.createdAt);
-          return dateB - dateA ;
+          var dateA = new Date(a.updatedAt);
+          var dateB = new Date(b.updatedAt);
+          return dateB - dateA;
         });
         setCloudSheetList(cloudSheetList);
       })
@@ -265,9 +291,14 @@ const ClousheetList = () => {
 
   // ------------ On Select Existing Template ---------
   const onExistingTemplate = () => {
-    setIsSheetOpen(false);
-    ChildRef.current.childFunction2();
-    navigation.navigate("ExistingTemplateList");
+    console.log("isexist========",isTemplate)
+    if (isTemplate == true) {
+      setIsSheetOpen(false);
+      ChildRef.current.childFunction2();
+      navigation.navigate("ExistingTemplateList");
+    }else{
+      Alert.alert("No template is create yet!")
+    }
   };
 
   // ------- Open CloudSheet Action Modal -------
@@ -291,6 +322,29 @@ const ClousheetList = () => {
     setIsEditCloudSheetName(false);
     setIsSheetOpen(false);
     openCloudSheetEditRef.current.childFunction2();
+  };
+
+  // ------------ check edit validation ----------
+  const CheckEditValidation = (
+    text: string,
+    templateId: string,
+    version: any,
+    spreadSheetId: string,
+    userId: string,
+    softDeleted: any
+  ) => {
+    if (text == "" || text == undefined) {
+      setError(Clousheetlistscreen.cloudsheetlistconstant.error);
+    } else {
+      onUpdateCloudSheet(
+        text,
+        templateId,
+        version,
+        spreadSheetId,
+        userId,
+        softDeleted
+      );
+    }
   };
 
   // ----------- Update CloudSheet -------------
@@ -443,15 +497,15 @@ const ClousheetList = () => {
           </Text>
         </View>
         <View style={styles.lastview} />
-        <View>
+        <TouchableOpacity onPress={() => setViewAll(true)}>
           <Text style={styles.viewalltext}>
             {Clousheetlistscreen.cloudsheetlistconstant.VIEWALL}
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.flatlistview}>
         <FlatList
-          data={cloudSheetList}
+          data={viewAll ? cloudSheetList : cloudSheetList.slice(0, 5)}
           renderItem={renderItems}
           refreshing={false}
           onRefresh={onRefreshList}
@@ -511,7 +565,7 @@ const ClousheetList = () => {
                 userId: String,
                 softDeleted: boolean
               ) =>
-                onUpdateCloudSheet(
+                CheckEditValidation(
                   text,
                   templateId,
                   version,

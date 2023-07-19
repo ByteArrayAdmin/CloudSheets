@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  StyleSheet,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { COLOURS } from "../utils/Constant";
 
 const AuthCard = (props: any) => {

@@ -22,7 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import Googleicon from "../../assets/Images/Googlricon.svg";
 import Appleicon from "../../assets/Images/Apple.svg";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
-import LoginLabels from "../../../utils/ProjectLabels.json";
+// import LoginLabels from "../../../utils/ProjectLabels.json";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { listUsers, getUser } from "../../../graphql/queries";
@@ -43,15 +43,26 @@ import {
   successActionName,
   errorActionName,
 } from "../../../utils/Constant";
+declare global {
+  var labels: any;
+}
+
 
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
   const [loader, setLoader] = useState(false);
+  var LoginLabels = global.labels
 
   useEffect(() => {
     track_Screen(eventName.TRACK_SCREEN, screenName.LOGIN_SCREEN);
+    
   }, []);
+
+  useEffect(()=>{
+     
+     console.log("constants========",LoginLabels)
+  }, [global.labels])
 
   const onLoginPressed = async (data: any) => {
     Keyboard.dismiss()
@@ -119,7 +130,7 @@ const Login = () => {
             }}
           >
             <Text style={loginstyle.skioptextcolor}>
-              {LoginLabels.LoginScreen.SKIP}
+              {LoginLabels?.LoginScreen?.SKIP}
             </Text>
           </TouchableOpacity>
           <View style={loginstyle.createAccountview}>
@@ -128,12 +139,12 @@ const Login = () => {
             </View>
             <View style={loginstyle.createView}>
               <Text style={loginstyle.CreateAccounttext}>
-                {LoginLabels.LoginScreen.WELCOMEMESSAGE}
+                {LoginLabels?.LoginScreen?.WELCOMEMESSAGE}
               </Text>
             </View>
             <View>
               <Text style={loginstyle.registerdText}>
-                {LoginLabels.LoginScreen.LOGINSUBHEADING}
+                {LoginLabels?.LoginScreen?.LOGINSUBHEADING}
               </Text>
             </View>
           </View>
@@ -144,11 +155,11 @@ const Login = () => {
                   <InputField
                     name="youremail"
                     control={control}
-                    placeholder={LoginLabels.LoginScreen.PLACEHOLDER_EMAIL}
+                    placeholder={LoginLabels?.LoginScreen?.PLACEHOLDER_EMAIL}
                     Image={Mesageicon}
                     styles={loginstyle.inputview}
                     rules={{
-                      required: LoginLabels.LoginScreen.EMAIL_VALIDATION,
+                      required: LoginLabels?.LoginScreen?.EMAIL_VALIDATION,
                       pattern: {
                         value: emailRegex,
                         message: "Email is invalid",
@@ -158,10 +169,10 @@ const Login = () => {
                   <InputField
                     name="yourpasswaord"
                     control={control}
-                    placeholder={LoginLabels.LoginScreen.PLACEHOLDER_PASSWARD}
+                    placeholder={LoginLabels?.LoginScreen?.PLACEHOLDER_PASSWARD}
                     Image={Lock}
                     rules={{
-                      required: LoginLabels.LoginScreen.PASSWAORD,
+                      required: LoginLabels?.LoginScreen?.PASSWAORD,
                     }}
                     secureTextEntry={true}
                     styles={loginstyle.inputview}
@@ -169,7 +180,7 @@ const Login = () => {
                   />
                   <CommonButton
                     onPress={handleSubmit(onLoginPressed)}
-                    Register={LoginLabels.LoginScreen.LOGIN}
+                    Register={LoginLabels?.LoginScreen?.LOGIN}
                   />
 
                   <View style={loginstyle.fogetpasswaordview}>
@@ -183,7 +194,7 @@ const Login = () => {
                       }}
                     >
                       <Text style={loginstyle.fogettext}>
-                        {LoginLabels.LoginScreen.FORGET_PASSWARD}
+                        {LoginLabels?.LoginScreen?.FORGET_PASSWARD}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -221,7 +232,7 @@ const Login = () => {
             <View style={loginstyle.lastview}>
               <View>
                 <Text style={loginstyle.alreadyamember}>
-                  {LoginLabels.LoginScreen.DONTHAVE_ACCOUNT}
+                  {LoginLabels?.LoginScreen?.DONTHAVE_ACCOUNT}
                 </Text>
               </View>
               <TouchableOpacity
@@ -234,7 +245,7 @@ const Login = () => {
                 }}
               >
                 <Text style={loginstyle.sigintext}>
-                  {LoginLabels.LoginScreen.SIGNUP}
+                  {LoginLabels?.LoginScreen?.SIGNUP}
                 </Text>
               </TouchableOpacity>
             </View>

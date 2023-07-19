@@ -12,16 +12,21 @@ import AuthCard from "../../../commonComponents/AuthCard";
 import { resetscreenstyle } from "./style";
 import Lock from "../../../assets/Images/Lock.svg";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
-import Resetpasswordlabel from "../../../utils/ProjectLabels.json";
+// import Resetpasswordlabel from "../../../utils/ProjectLabels.json";
 import { Auth } from 'aws-amplify';
 import CommonLoader from '../../../commonComponents/CommonLoader';
 import { track_Screen, track_Click_Event,track_Success_Event,track_Error_Event } from '../../../eventTracking/index';
 import {eventName,screenName,clickName,successActionName,errorActionName} from '../../../utils/Constant';
 
+declare global {
+  var labels: any;
+}
+
 const ResetPassword = () => {
   const { control, handleSubmit, getValues } = useForm();
   const navigation = useNavigation();
   const [loader, setLoader] = useState(false);
+  var Resetpasswordlabel = global.labels
 
   useEffect(()=>{
     track_Screen(eventName.TRACK_SCREEN,screenName.CHANGE_PASSWORD_SCREEN)

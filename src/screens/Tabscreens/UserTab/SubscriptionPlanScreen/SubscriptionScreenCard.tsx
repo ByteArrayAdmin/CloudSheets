@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-
 import Arrow from "../../../../assets/Images/RightArrow.svg";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 

@@ -1,16 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-} from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { Text, View, TouchableOpacity } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import Document from "../../../../assets/Images/documentdark.svg";
 import NewInputField from "../../../../commonComponents/NewInputfield";
 import { useForm } from "react-hook-form";
@@ -25,8 +17,11 @@ import LightSmallButton from "../../../../commonComponents/LightSmallbutton";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Deleteicon from "../../../../assets/Images/delete.svg";
 import DeletePopuop from "../../../Popups/DeletePopup/index";
-
+declare global {
+  var labels: any;
+}
 const Updateattendance = () => {
+  var labels = global.labels;
   const navigation = useNavigation();
   const { control, handleSubmit } = useForm();
   const [open, setopen] = useState(false);
@@ -54,9 +49,8 @@ const Updateattendance = () => {
     }
   };
 
-  useEffect(() => { }, [open]);
+  useEffect(() => {}, [open]);
   return (
-
     <View style={Styles.container}>
       <View>
         <NewCommonHeader
@@ -148,11 +142,12 @@ const Updateattendance = () => {
             <LightSmallButton buttontext={labels.updateRowdetaiform.Cancel} />
           </TouchableOpacity>
           <View style={Styles.justgap}></View>
-          <SmallButton buttontext={labels.updateRowdetaiform.Update} onPress={() => navigation.navigate("ClousheetTab")} />
+          <SmallButton
+            buttontext={labels.updateRowdetaiform.Update}
+            onPress={() => navigation.navigate("ClousheetTab")}
+          />
         </View>
-        <View style={Styles.bottomview}>
-
-        </View>
+        <View style={Styles.bottomview}></View>
       </KeyboardAwareScrollView>
       <CommonBottomsheet
         ref={childRef}

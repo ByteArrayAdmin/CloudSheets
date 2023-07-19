@@ -7,13 +7,16 @@ import {
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import { useNavigation } from "@react-navigation/native";
 import Card from "./Card";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import BackButton from "../../../../commonComponents/Backbutton";
 import Folder from "../../../../assets/Images/folder12.svg";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
 import { styles } from "./style";
-
+declare global {
+  var labels: any;
+}
 const TabBarTemplateList = () => {
+  var labels = global.labels;
   const DATA = useState([{ id: 1 }, { id: 1 }]);
   const navigation = useNavigation();
 

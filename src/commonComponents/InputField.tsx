@@ -10,9 +10,12 @@ import {
 } from "react-native";
 import { Controller } from "react-hook-form";
 import { FONTS, COLOURS } from "../utils/Constant";
-import lables from "../utils/ProjectLabels.json";
-
+// import lables from "../utils/ProjectLabels.json";
+declare global {
+  var labels: any;
+}
 const InputField = (props: any) => {
+  var lables = global.labels
   console.log("defaultValue========", props.defaultValue);
   return (
     <View>

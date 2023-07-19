@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
-  TouchableOpacity,
   StyleSheet,
   Text,
 } from "react-native";
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
 import { useNavigation } from "@react-navigation/native";
-import labels from "../../../../../utils/ProjectLabels.json";
+// import labels from "../../../../../utils/ProjectLabels.json";
 import { COLOURS, FONTS } from "../../../../../utils/Constant";
 import Ic_customer from "../../../../../assets/Images/Ic_customer.svg";
 import Ic_messenger from "../../../../../assets/Images/Ic_messenger.svg";
@@ -19,11 +18,60 @@ import { useForm } from "react-hook-form";
 import Mesageicon from "../../../../../assets/Images/Message.svg";
 import { emailRegex } from "../../../../../utils/Constant";
 import Button from "../../../../../commonComponents/Button";
+import {
+  customerSupport_form,
+  current_UserInfo,
+} from "../../../../../API_Manager/index";
+import CommonLoader from "../../../../../commonComponents/CommonLoader";
+declare global {
+  var labels: any;
+}
 const Customer_Support_Form = () => {
+  var labels = global.labels;
   const navigation = useNavigation();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, reset } = useForm();
+  const [emailID, setEmailID] = useState("");
+  const [userID, setUserID] = useState("");
+  const [loader, setLoader] = useState(false);
 
-  const submitCustomerForm = async (data: any) => {};
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+
+  const getCurrentUser = () => {
+    current_UserInfo()
+      .then((response: any) => {
+        console.log("currUser======", response);
+        setEmailID(response.attributes.email);
+        setUserID(response.attributes.sub);
+      })
+      .catch((error) => {
+        console.log("createIssueErr===========", error);
+      });
+  };
+
+  const submitCustomerForm = async (data: any) => {
+    let obj = {
+      userID: userID,
+      email: emailID,
+      subject: data.subject,
+      description: data.description,
+    };
+    console.log("ticketData======", obj);
+    setLoader(true);
+    customerSupport_form(obj)
+      .then((response) => {
+        if (response) {
+          setLoader(false);
+          reset();
+          navigation.goBack();
+        }
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log("createTicketErr======", error);
+      });
+  };
 
   return (
     <>
@@ -44,20 +92,9 @@ const Customer_Support_Form = () => {
                     {labels.SubscriptionScreen.Email_Address}
                   </Text>
                 </View>
-                <InputField
-                  name="email"
-                  control={control}
-                  placeholder={labels.SubscriptionScreen.Enter_Email}
-                  Image={Mesageicon}
-                  styles={styles.inputview}
-                  rules={{
-                    required: labels.SubscriptionScreen.EMAIL_VALIDATION,
-                    pattern: {
-                      value: emailRegex,
-                      message: "Email is invalid",
-                    },
-                  }}
-                />
+                <View style={styles.emailStyle}>
+                  <Text>{emailID}</Text>
+                </View>
                 <View style={styles.subscriptiontextspacing}>
                   <Text style={styles.headingTextStyle}>
                     {labels.SubscriptionScreen.Subject}
@@ -101,6 +138,7 @@ const Customer_Support_Form = () => {
           />
           {/* </View> */}
         </ScrollView>
+        {loader ? <CommonLoader /> : null}
       </View>
     </>
   );
@@ -141,9 +179,16 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     opacity: 0.6,
   },
-  container: { backgroundColor: COLOURS.lightBlue, flex: 1 },
+  container: {  flex: 1 },
   cardpadding: {
     paddingVertical: 15,
+  },
+  emailStyle: {
+    marginHorizontal: 20,
+    marginTop: 10,
+    padding: 5,
+    backgroundColor: "#F6F8FA",
+    borderRadius: 8,
   },
   textmargin: { marginLeft: 20 },
   subscriptiontextspacing: { marginLeft: 20, marginTop: 20 },
