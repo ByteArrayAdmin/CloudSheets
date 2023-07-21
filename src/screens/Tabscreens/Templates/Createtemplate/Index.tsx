@@ -31,6 +31,8 @@ import {
   current_UserInfo,
   get_Template_List,
   soft_delete_template,
+  checkNetwork
+  
 } from "../../../../API_Manager/index";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import Card from "../TabBarTemplateList/Card";
@@ -85,11 +87,13 @@ const CreateTemplate = () => {
   useEffect(() => {
     DeviceEventEmitter.addListener("refreshTemplateList", () => getUserId());
     if (global.isLoggedInUser) {
-      getUserId();
+      // getUserId();
+      
       track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN);
-    } else {
-      getGuestUserTemplates();
     }
+    //  else {
+    //   getGuestUserTemplates();
+    // }
     return () => {
       // Run this code when the component unmounts or the dependencies change
       setIsRefNull(false);
@@ -97,6 +101,7 @@ const CreateTemplate = () => {
       // BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     };
   }, []);
+
 
   useEffect(() => {
     const backAction = () => {
@@ -122,7 +127,13 @@ const CreateTemplate = () => {
   useEffect(() => {
     if (isFocused) {
       setIsGlobal((prevState) => !prevState);
-      getUserId();
+      if (global.isLoggedInUser) {
+        getUserId();
+        
+      } else {
+        getGuestUserTemplates();
+      }
+      
     }
   }, [isFocused]);
 
@@ -169,7 +180,10 @@ const CreateTemplate = () => {
         console.log("currentUser=========", response);
       })
       .catch((error) => {
-        console.log("currUserErr======", error);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
+        console.log("currUserErr======", error.isConnected);
       });
   };
   // ------------ Register guest user flow ---------
@@ -244,7 +258,10 @@ const CreateTemplate = () => {
         setTemplateList(templateList);
       })
       .catch((error) => {
-        console.log("getTempErr======", error);
+        console.log("getTempErr======", error.isConnected);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         setLoader(false);
       });
   };
@@ -300,6 +317,9 @@ const CreateTemplate = () => {
         })
         .catch((err) => {
           setLoader(false);
+          if(err.isConnected == false){
+            Alert.alert("Not network Connected!")
+          }
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
             errorActionName.CREATE_TEMPLATE_ERROR
@@ -379,6 +399,9 @@ const CreateTemplate = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.UPDATE_TEMPLATE_ERROR
@@ -386,6 +409,7 @@ const CreateTemplate = () => {
         console.log("updateTempErr=======", error);
       });
   };
+
 
   // ----------- Delete Row Alert ------------
   const deleteAlert = () => {
@@ -409,7 +433,7 @@ const CreateTemplate = () => {
         {
           text: labels.ExpensesList.OK,
           onPress: () =>
-            global.isLoggedInUser ? onDeleteTemplate() : deleteGuestTemplate(),
+            global.isLoggedInUser ? checkInternet() : deleteGuestTemplate(),
         },
       ]
     );
@@ -424,6 +448,19 @@ const CreateTemplate = () => {
     setExtraData(new Date());
   };
 
+  // ----------- get network ------------
+  const checkInternet = ()=>{
+    checkNetwork().then((isConnected)=>{
+      console.log("isConectedResp=======",isConnected)
+      if(isConnected){
+        onDeleteTemplate()
+      }else{
+        Alert.alert("Not network Connected!")
+      }
+    }).catch((error)=>{
+      console.log("networkErr======",error)
+    })
+  }
   // -----------------Delete Template functionality----------------
   const onDeleteTemplate = () => {
     track_Click_Event(
@@ -461,6 +498,9 @@ const CreateTemplate = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         console.log("getColErr======", error);
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
@@ -562,13 +602,9 @@ const CreateTemplate = () => {
                     <>
                       <View style={Tempatestyle.Cardcontainer}>
                         <View style={Tempatestyle.subcontainer}>
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate("TabBarTemplateList")
-                            }
-                          >
+                          <View>
                             <Templatelogo />
-                          </TouchableOpacity>
+                          </View>
                           <View style={Tempatestyle.cartdtetxt}>
                             <View>
                               <Text style={Tempatestyle.cardtextstyle}>

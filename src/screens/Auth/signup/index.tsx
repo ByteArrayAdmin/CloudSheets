@@ -37,6 +37,7 @@ import {
   userSignup,
   userExist,
   get_Location_Address,
+  checkNetwork
 } from "../../../API_Manager/index";
 import CommonLoader from "../../../commonComponents/CommonLoader";
 import {
@@ -229,6 +230,21 @@ const Signup = () => {
       return true;
     }
   };
+
+  // ----------- get network ------------
+  const checkInternet = (data:any)=>{
+    checkNetwork().then((isConnected)=>{
+      console.log("isConectedResp=======",isConnected)
+      if(isConnected){
+        onRegisterPressed(data)
+      }else{
+        Alert.alert("Not network Connected!")
+      }
+    }).catch((error)=>{
+      console.log("networkErr======",error)
+    })
+  }
+// -------------- Signup user ------------
   const onRegisterPressed = async (data: any) => {
     if (isNotBlankSpace(data.username)) {
       setError("username", {
@@ -470,7 +486,7 @@ const Signup = () => {
                     onChangeCustom={(text: string) => validatePassword(text)}
                   />
                   <CommonButton
-                    onPress={handleSubmit(onRegisterPressed)}
+                    onPress={handleSubmit(checkInternet)}
                     Register={signupLabel.signupcontant.REGISTER}
                   />
                 </>

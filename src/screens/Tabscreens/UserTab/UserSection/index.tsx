@@ -34,6 +34,8 @@ import {
   errorActionName,
 } from "../../../../utils/Constant";
 import { Auth } from "aws-amplify";
+import {checkNetwork} from '../../../../API_Manager/index';
+import Rate, { AndroidMarket } from 'react-native-rate';
 declare global {
   var labels: any;
 }
@@ -61,11 +63,23 @@ const UserSection = () => {
           },
           style: "cancel",
         },
-        { text: labels.SubscriptionScreen.OK, onPress: () => signOut() },
+        { text: labels.SubscriptionScreen.OK, onPress: () => checkInternet() },
       ]
     );
   };
-
+// ----------- get network ------------
+const checkInternet = ()=>{
+  checkNetwork().then((isConnected)=>{
+    console.log("isConectedResp=======",isConnected)
+    if(isConnected){
+      signOut()
+    }else{
+      Alert.alert("Not network Connected!")
+    }
+  }).catch((error)=>{
+    console.log("networkErr======",error)
+  })
+}
   // ------------ Signout Function ------------
   async function signOut() {
     track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_SIGN_OUT);
@@ -99,6 +113,23 @@ const UserSection = () => {
     );
   };
 
+  // ----------- Handle Rateus --------------
+  const handleRateApp = () => {
+    const options = {
+      GooglePackageName: 'your_package_name', // Replace 'your_package_name' with your Android package name
+      AmazonPackageName: 'your_amazon_package_name', // Replace 'your_amazon_package_name' with your Amazon package name (if applicable)
+      preferredAndroidMarket: AndroidMarket.Google,
+      preferInApp: false,
+      openAppStoreIfInAppFails: true,
+      fallbackPlatformURL: 'your_app_url_on_app_store', // Replace 'your_app_url_on_app_store' with your app's URL on the App Store (for iOS)
+      inAppDelay: 2000,
+      inAppTitle: 'Rate Your App',
+      inAppMessage: 'If you enjoy using this app, would you mind taking a moment to rate it?',
+      // playStoreFlags: [Rate.PlayStoreFlags.InAppReview],
+    };
+
+    Rate.rate(options);
+  };
   return (
     <>
       <NewCommonHeader
@@ -183,7 +214,9 @@ const UserSection = () => {
             Logo={<Ratelogo />}
             heading={labels.Guestscreen.RateUs}
             onPress={() => {
-              navigation.navigate("RateUs"),
+              // navigation.navigate("RateUs")
+              handleRateApp()
+              ,
                 track_Click_Event(
                   eventName.TRACK_CLICK,
                   clickName.CLICK_ON_RATE_US_TAB

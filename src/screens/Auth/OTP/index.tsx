@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../commonComponents/Button';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Auth } from 'aws-amplify';
-import { confirm_Signup, resend_OTP } from '../../../API_Manager/index';
+import { confirm_Signup, resend_OTP ,checkNetwork} from '../../../API_Manager/index';
 import CommonLoader from '../../../commonComponents/CommonLoader';
 import {track_Screen,track_Click_Event,track_Success_Event,track_Error_Event} from '../../../eventTracking/index';
 import { eventName,screenName,clickName,successActionName,errorActionName } from '../../../utils/Constant';
@@ -35,6 +35,20 @@ const OtpScreen = () => {
         track_Screen(eventName.TRACK_SCREEN,screenName.OTP_VERIFY_SCREEN)
     }, [])
 
+    // ----------- get network ------------
+  const checkInternet = (data:any)=>{
+    checkNetwork().then((isConnected)=>{
+      console.log("isConectedResp=======",isConnected)
+      if(isConnected){
+        verificaton(data)
+      }else{
+        Alert.alert("Not network Connected!")
+      }
+    }).catch((error)=>{
+      console.log("networkErr======",error)
+    })
+  }
+// ----------- verify OTP -----------
     const verificaton = async (data: any) => {
         track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_OTP_VERIFY)
         const { otp } = data
@@ -133,7 +147,7 @@ const OtpScreen = () => {
                                     <Text style={!disable ? styles.disableText : styles.enableText}>{labels.OTP_Constants.ResendOTP} {count != 0 ? count : null}</Text>
 
                                 </TouchableOpacity>
-                                <Button Register={labels.OTP_Constants.VerifyOTP} onPress={handleSubmit(verificaton)} />
+                                <Button Register={labels.OTP_Constants.VerifyOTP} onPress={handleSubmit(checkInternet)} />
                             </>
                         }
                     />

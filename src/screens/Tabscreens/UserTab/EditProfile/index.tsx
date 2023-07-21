@@ -19,7 +19,7 @@ import CommonButton from "../../../../commonComponents/Button";
 import { Styles } from "./style";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import DeletePopup from "../../../../screens/Popups/DeletePopup";
-import { current_UserInfo, updateCurrentAuth, updateUserDetail, get_user_from_table, delete_Account } from '../../../../API_Manager/index';
+import { current_UserInfo, updateCurrentAuth, updateUserDetail, get_user_from_table, delete_Account,checkNetwork } from '../../../../API_Manager/index';
 import CommonLoader from '../../../../commonComponents/CommonLoader';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import codegenNativeCommands from "react-native/Libraries/Utilities/codegenNativeCommands";
@@ -71,7 +71,24 @@ const EditProfile = () => {
       console.log("userDetailFromTable======", response)
       setUserDetailTable(response.data.getUser)
     }).catch((error) => {
+      if (error.isConnected == false) {
+        Alert.alert("Not network Connected!");
+      }
       console.log("getUserErr=======", error)
+    })
+  }
+
+  // ----------- get network ------------
+  const checkInternet = (data:any)=>{
+    checkNetwork().then((isConnected)=>{
+      console.log("isConectedResp=======",isConnected)
+      if(isConnected){
+        onEditPressed(data)
+      }else{
+        Alert.alert("Not network Connected!")
+      }
+    }).catch((error)=>{
+      console.log("networkErr======",error)
     })
   }
 
@@ -107,6 +124,7 @@ const EditProfile = () => {
         }).then((error) => {
           track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.UPDATE_PROFILE_ERROR)
           setLoader(false)
+          
           console.log("updateUserErr=======", error)
         })
       }
@@ -116,6 +134,19 @@ const EditProfile = () => {
       console.log("updateCurrAuth=======", error)
     })
   };
+  // ----------- get network ------------
+  const checkInternetDelete = ()=>{
+    checkNetwork().then((isConnected)=>{
+      console.log("isConectedResp=======",isConnected)
+      if(isConnected){
+        delete_userAccount()
+      }else{
+        Alert.alert("Not network Connected!")
+      }
+    }).catch((error)=>{
+      console.log("networkErr======",error)
+    })
+  }
 
   // ------------- Delete Account -----------
   const delete_userAccount = ()=>{
@@ -216,7 +247,7 @@ const EditProfile = () => {
           </View>
           <TouchableOpacity style={Styles.buttonTop}>
             <CommonButton
-              onPress={handleSubmit(onEditPressed)}
+              onPress={handleSubmit(checkInternet)}
               Register={labels.EditProfile.Update_Profile}
             />
           </TouchableOpacity>
@@ -227,7 +258,7 @@ const EditProfile = () => {
           children={
             <DeletePopup
             onCancel={()=>child.current.childFunction2()}
-            onDelete={()=>delete_userAccount()}
+            onDelete={()=>checkInternetDelete()}
               Textone={labels.DeleteAccountpopups.TextFirst}
               Texttwo={labels.DeleteAccountpopups.TextSecond}
               ButtonOnetext={labels.DeleteAccountpopups.Cancel}

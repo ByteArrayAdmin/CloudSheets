@@ -368,5 +368,8 @@
     "basicLatin": "Basic Latin",
     "letter": "letter",
     "loweCase": "Lowercase"
+  },
+  "CheckNetworkConstant":{
+    "networkError":"Not network Connected!"
   }
 }

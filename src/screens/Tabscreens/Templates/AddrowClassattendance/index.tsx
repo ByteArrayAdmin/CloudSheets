@@ -7,6 +7,7 @@ import {
   TextInput,
   StatusBar,
   DeviceEventEmitter,
+  Alert
 } from "react-native";
 
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -93,6 +94,9 @@ const AddrowClassattendance = () => {
         });
       })
       .catch((error) => {
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.CREATE_SPREADSHEET_NAME_ERROR

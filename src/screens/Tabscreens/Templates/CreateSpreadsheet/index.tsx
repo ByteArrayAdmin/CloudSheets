@@ -103,6 +103,9 @@ const CreatSpreadsheet = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         console.log("getColmErr=======", error);
       });
   };
@@ -150,7 +153,7 @@ const CreatSpreadsheet = () => {
       return el;
     });
     console.log("updateArrWithID===========", newArray);
-   
+
     setLoader(true);
     create_Template_Column(newArray)
       .then((response) => {
@@ -166,6 +169,9 @@ const CreatSpreadsheet = () => {
           eventName.TRACK_ERROR_ACTION,
           errorActionName.CREATE_COLUMN_ERROR
         );
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         setLoader(false);
         console.log("createColmErr======", error);
       });
@@ -200,10 +206,10 @@ const CreatSpreadsheet = () => {
         soft_Deleted: false,
         value: "",
         userID: userId,
-        column_Index: columnList.length + Data.length
+        column_Index: columnList.length + Data.length,
       },
     ]);
-    const newIndex =columnList.length + Data.length;
+    const newIndex = columnList.length + Data.length;
     // Alert.alert("myindex", newIndex)
     console.log("my index@@@@@@@@@======>", newIndex);
   };
@@ -247,9 +253,9 @@ const CreatSpreadsheet = () => {
     );
     console.log("removeCol=========", item, index);
     let arr1 = columnList;
-    arr1.splice(index, 1);
-    setColumnList(arr1);
-    setExtraData(new Date());
+    // arr1.splice(index, 1);
+    // setColumnList(arr1);
+    // setExtraData(new Date());
     let updatedColm = {
       id: item.id,
       column_Name: item.column_Name,
@@ -262,6 +268,9 @@ const CreatSpreadsheet = () => {
     templateColumn_softDelete(updatedColm)
       .then((response: any) => {
         console.log("removeColmResp=========", response);
+        arr1.splice(index, 1);
+        setColumnList(arr1);
+        setExtraData(new Date());
         track_Success_Event(
           eventName.TRACK_SUCCESS_ACTION,
           successActionName.DELETE_COLUMN_SUCCESSFULLY
@@ -270,6 +279,9 @@ const CreatSpreadsheet = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.DELETE_COLUMN_ERROR
@@ -356,73 +368,73 @@ const CreatSpreadsheet = () => {
   return (
     <>
       <KeyboardAwareScrollView
+        bounces={false}
         showsVerticalScrollIndicator={false}
         extraScrollHeight={100}
         enableOnAndroid={true}
         keyboardShouldPersistTaps="handled"
       >
-        <ScrollView>
-          <NewCommonHeader
-            BackButton={<BackButton onPress={() => navigation.goBack()} />}
-            Folder={<Folder />}
-            heading={template?.template_name}
-            onPress={navigation.canGoBack()}
+        {/* <ScrollView alwaysBounceVertical={false} style={{borderWidth:1}}> */}
+        <NewCommonHeader
+          BackButton={<BackButton onPress={() => navigation.goBack()} />}
+          Folder={<Folder />}
+          heading={template?.template_name}
+          onPress={navigation.canGoBack()}
+        />
+        <View>
+          <FlatList
+            style={{ marginTop: 10, marginHorizontal: 15 }}
+            data={columnList}
+            renderItem={renderExistingColumn}
+            extraData={extraData}
+            refreshing={false}
+            onRefresh={onRefresh}
+            keyboardShouldPersistTaps="handled"
           />
-          <View>
-            <FlatList
-              style={{ marginTop: 10, marginHorizontal: 15 }}
-              data={columnList}
-              renderItem={renderExistingColumn}
-              extraData={extraData}
-              refreshing={false}
-              onRefresh={onRefresh}
-              keyboardShouldPersistTaps="handled"
-            />
+        </View>
+        <View>
+          <FlatList
+            data={Data}
+            renderItem={renderItems}
+            extraData={extraDataCol}
+            ref={scrollRef}
+          />
+          <View style={Createspreadstyle.buttonview}>
+            <TouchableOpacity
+              onPress={() => AddColoumn("", "")}
+              style={Createspreadstyle.addcoloumbutton}
+            >
+              <View>
+                <Addbutton />
+              </View>
+              <View>
+                <Text style={Createspreadstyle.Addcolumnbuttontext}>
+                  {labels.Creatcloudsheetlabels.AddNewColumn}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <View>
-            <FlatList
-              data={Data}
-              renderItem={renderItems}
-              extraData={extraDataCol}
-              ref={scrollRef}
-              scrollEnabled={true}
-            />
-            <View style={Createspreadstyle.buttonview}>
-              <TouchableOpacity
-                onPress={() => AddColoumn("", "")}
-                style={Createspreadstyle.addcoloumbutton}
-              >
-                <View>
-                  <Addbutton />
-                </View>
-                <View>
-                  <Text style={Createspreadstyle.Addcolumnbuttontext}>
-                    {labels.Creatcloudsheetlabels.AddNewColumn}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View>
-              {!isEdit ? (
-                <Custombutton
-                  onPress={handleSubmit(onSubmit)}
-                  Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
-                />
-              ) : Data.length > 0 ? (
-                <Custombutton
-                  onPress={handleSubmit(onSubmit)}
-                  Register={labels.Creatcloudsheetlabels.Update_Column}
-                />
-              ) : (
-                <Custombutton
-                  onPress={handleSubmit(onSubmit)}
-                  Register={labels.Creatcloudsheetlabels.Done}
-                />
-              )}
-            </View>
-            <View style={Createspreadstyle.Bottomgap}></View>
+            {!isEdit ? (
+              <Custombutton
+                onPress={handleSubmit(onSubmit)}
+                Register={labels.Creatcloudsheetlabels.CreateSpreadsheet}
+              />
+            ) : Data.length > 0 ? (
+              <Custombutton
+                onPress={handleSubmit(onSubmit)}
+                Register={labels.Creatcloudsheetlabels.Update_Column}
+              />
+            ) : (
+              <Custombutton
+                onPress={handleSubmit(onSubmit)}
+                Register={labels.Creatcloudsheetlabels.Done}
+              />
+            )}
           </View>
-        </ScrollView>
+          <View style={Createspreadstyle.Bottomgap}></View>
+        </View>
+        {/* </ScrollView> */}
       </KeyboardAwareScrollView>
       <CommonBottomsheet
         ref={columnTypeRef}

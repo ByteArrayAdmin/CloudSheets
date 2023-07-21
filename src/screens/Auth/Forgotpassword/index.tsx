@@ -23,6 +23,7 @@ import Lock from "../../../assets/Images/Lock.svg";
 import {
   forgetPassword_sendEmail,
   forgetPassword_submit,
+  checkNetwork
 } from "../../../API_Manager/index";
 import Instucticon from "../../../assets/Images/instruction.svg";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
@@ -75,6 +76,25 @@ const ForgotPassword = () => {
       setPasswordPolicy(false);
     }
   };
+
+  // ----------- get network ------------
+  const checkInternet = (data:any)=>{
+    checkNetwork().then((isConnected)=>{
+      console.log("isConectedResp=======",isConnected)
+      if(isConnected){
+        if(isSubmitted){
+          onUpdatePassword(data)
+        }else{
+          onSubmit(data)
+        }
+        
+      }else{
+        Alert.alert("Not network Connected!")
+      }
+    }).catch((error)=>{
+      console.log("networkErr======",error)
+    })
+  }
 
   // ------------ send OTP to email ------------
   const onSubmit = async (data: any) => {
@@ -164,7 +184,7 @@ const ForgotPassword = () => {
                       styles={Forgotscreenstyle.inputview}
                     />
                     <CommonButton
-                      onPress={handleSubmit(onSubmit)}
+                      onPress={handleSubmit(checkInternet)}
                       Register={Forgotlabel.Forgotpassword.SUBMIT}
                     />
                     <TouchableOpacity
@@ -227,7 +247,7 @@ const ForgotPassword = () => {
                         />
                       </View>
                       <CommonButton
-                        onPress={handleSubmit2(onUpdatePassword)}
+                        onPress={handleSubmit2(checkInternet)}
                         Register={
                           Forgotlabel.Forgotpassword.CONFIRM_NEW_PASSWORD
                         }

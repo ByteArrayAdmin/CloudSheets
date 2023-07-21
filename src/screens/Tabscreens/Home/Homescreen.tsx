@@ -6,6 +6,7 @@ import {
   Text,
   BackHandler,
   Dimensions,
+  Alert
 } from "react-native";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../assets/Images/smalllogo.svg";
@@ -14,7 +15,7 @@ import AuthCard from "../../../commonComponents/AuthCard";
 import Custombutton from "../../../commonComponents/Button";
 // import welocmehomelabel from "../../../utils/ProjectLabels.json";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
-import { current_UserInfo, create_Template } from "../../../API_Manager/index";
+import { current_UserInfo, create_Template,checkNetwork } from "../../../API_Manager/index";
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import {
   track_Click_Event,
@@ -36,6 +37,8 @@ import CreateTemplatePopup from "../../Popups/CreateTemplatePopup";
 import labels from "../../../utils/ProjectLabels.json";
 import uuid from "react-native-uuid";
 import CommonLoader from "../../../commonComponents/CommonLoader";
+import NetInfo from "@react-native-community/netinfo";
+
 declare global {
   var labels: any;
   var isLoggedInUser: any;
@@ -60,6 +63,8 @@ const Homescreen = (props: any) => {
   useEffect(() => {
     currentuser();
     track_Screen(eventName.TRACK_SCREEN, screenName.HOME_TAB_SCREEN);
+    
+
   }, []);
 
   // ---------- Handle backHandler ---------
@@ -103,6 +108,9 @@ const Homescreen = (props: any) => {
         }
       })
       .catch((error) => {
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         console.log("currentUserErr=======", error);
       });
   };
@@ -144,6 +152,9 @@ const Homescreen = (props: any) => {
         })
         .catch((err) => {
           setLoader(false);
+          if(err.isConnected == false){
+            Alert.alert("Not network Connected!")
+          }
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
             errorActionName.CREATE_TEMPLATE_ERROR
@@ -231,10 +242,10 @@ const Homescreen = (props: any) => {
           </View>
           <View style={welcomscreenstyle.welcomtextview}>
             <Text style={welcomscreenstyle.cloudtext}>
-              {welocmehomelabel.HomeWelcomeScreen.CLOUDSHEETS}
+              {welocmehomelabel?.HomeWelcomeScreen?.CLOUDSHEETS}
             </Text>
             <Text style={welcomscreenstyle.sheettext}>
-              {welocmehomelabel.HomeWelcomeScreen.SHEETS}
+              {welocmehomelabel?.HomeWelcomeScreen?.SHEETS}
             </Text>
           </View>
           <View style={welcomscreenstyle.cardspace}>
@@ -244,20 +255,20 @@ const Homescreen = (props: any) => {
                   <View style={welcomscreenstyle.subcard}>
                     <View style={welcomscreenstyle.textview}>
                       <Text style={welcomscreenstyle.welcometotext}>
-                        {welocmehomelabel.HomeWelcomeScreen.WELCOMETO}
+                        {welocmehomelabel?.HomeWelcomeScreen?.WELCOMETO}
                       </Text>
                     </View>
                     <View>
                       <Text style={welcomscreenstyle.cloudsheettext}>
-                        {welocmehomelabel.HomeWelcomeScreen.Clodesheetcardtext}
+                        {welocmehomelabel?.HomeWelcomeScreen?.Clodesheetcardtext}
                       </Text>
                     </View>
                     <View style={welcomscreenstyle.secondcardtext}>
                       <Text style={welcomscreenstyle.cardtext}>
-                        {welocmehomelabel.HomeWelcomeScreen.Cardtext}
+                        {welocmehomelabel?.HomeWelcomeScreen?.Cardtext}
                       </Text>
                       <Text style={welcomscreenstyle.cardtext}>
-                        {welocmehomelabel.HomeWelcomeScreen.Cardtexttwo}
+                        {welocmehomelabel?.HomeWelcomeScreen?.Cardtexttwo}
                       </Text>
                     </View>
                   </View>

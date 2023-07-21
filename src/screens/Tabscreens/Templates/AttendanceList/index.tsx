@@ -94,6 +94,9 @@ const Attendancelist = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         console.log("spreadSheetListErr========", error);
       });
   };
@@ -200,6 +203,9 @@ const Attendancelist = () => {
           errorActionName.DELETE_SPREADSHEET_ROW_ERROR
         );
         setLoader(false);
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         console.log("deleteRow=======", error);
       });
   };
