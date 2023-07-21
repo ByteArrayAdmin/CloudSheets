@@ -91,6 +91,9 @@ const ExpensesList = (props: any) => {
       })
       .catch((error) => {
         setLoader(false);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         console.log("spreadRowErr========", error);
       });
   };
@@ -229,6 +232,9 @@ const ExpensesList = (props: any) => {
       })
       .catch((error) => {
         setLoader(false);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.DELETE_SPREADSHEET_ROW_ERROR

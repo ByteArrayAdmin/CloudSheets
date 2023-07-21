@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  Alert
 } from "react-native";
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
@@ -46,6 +47,9 @@ const Customer_Support_Form = () => {
         setUserID(response.attributes.sub);
       })
       .catch((error) => {
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         console.log("createIssueErr===========", error);
       });
   };
@@ -69,6 +73,9 @@ const Customer_Support_Form = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         console.log("createTicketErr======", error);
       });
   };

@@ -24,6 +24,7 @@ import {
   spreadSheet_softDelete,
   getSpreadsheetRow_bySpreadsheetId_forSoftDelete,
   softDelete_spreadSheet_and_rows,
+  checkNetwork 
 } from "../../../../API_Manager/index";
 import CreateCloudSheetNamePopup from "../../../Popups/CreateCloudSheetNamePopup/index";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
@@ -109,6 +110,9 @@ const TemplateList = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         console.log("getSpreadSheetErr=====", error);
       });
   };
@@ -206,6 +210,9 @@ const TemplateList = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.CREATE_SPREADSHEET_ERROR
@@ -280,6 +287,9 @@ const TemplateList = () => {
       })
       .catch((error) => {
         setLoader(false);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.UPDATE_SPREADSHEET_ERROR
@@ -313,11 +323,25 @@ const TemplateList = () => {
         },
         {
           text: labels.Templatelistlabel.OK,
-          onPress: () => onDeleteCloudsheet(),
+          onPress: () => checkInternet(),
         },
       ]
     );
   };
+
+  // ----------- get network ------------
+  const checkInternet = ()=>{
+    checkNetwork().then((isConnected)=>{
+      console.log("isConectedResp=======",isConnected)
+      if(isConnected){
+        onDeleteCloudsheet()
+      }else{
+        Alert.alert("Not network Connected!")
+      }
+    }).catch((error)=>{
+      console.log("networkErr======",error)
+    })
+  }
 
   // ----------- Delete Cloudsheet ----------
   const onDeleteCloudsheet = () => {

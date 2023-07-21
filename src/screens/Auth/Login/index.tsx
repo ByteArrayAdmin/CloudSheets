@@ -27,7 +27,7 @@ import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { listUsers, getUser } from "../../../graphql/queries";
 import { createUser } from "../../../graphql/mutations";
-import { userLogin } from "../../../API_Manager/index";
+import { userLogin,checkNetwork } from "../../../API_Manager/index";
 import CommonLoader from "../../../commonComponents/CommonLoader";
 import {
   track_Screen,
@@ -63,6 +63,19 @@ const Login = () => {
      
      console.log("constants========",LoginLabels)
   }, [global.labels])
+
+  const checkInternet = (data:any)=>{
+    checkNetwork().then((isConnected)=>{
+      console.log("isConectedResp=======",isConnected)
+      if(isConnected){
+        onLoginPressed(data)
+      }else{
+        Alert.alert("Not network Connected!")
+      }
+    }).catch((error)=>{
+      console.log("networkErr======",error)
+    })
+  }
 
   const onLoginPressed = async (data: any) => {
     Keyboard.dismiss()
@@ -176,10 +189,10 @@ const Login = () => {
                     }}
                     secureTextEntry={true}
                     styles={loginstyle.inputview}
-                    onSubmitEditing={handleSubmit(onLoginPressed)}
+                    onSubmitEditing={handleSubmit(checkInternet)}
                   />
                   <CommonButton
-                    onPress={handleSubmit(onLoginPressed)}
+                    onPress={handleSubmit(checkInternet)}
                     Register={LoginLabels?.LoginScreen?.LOGIN}
                   />
 

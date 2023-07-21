@@ -19,7 +19,7 @@ const NewCommonHeader = (props: any) => {
             </View>
             <View style={{flex:1}}></View>
             {props.SecondImg?
-            <TouchableOpacity onPress={props.onpress}>{props.SecondImg}</TouchableOpacity>:null}
+            <TouchableOpacity style={{right:30}} onPress={props.onpress}>{props.SecondImg}</TouchableOpacity>:null}
           </View>
         </View>
       </View></>

@@ -147,6 +147,9 @@ const ClousheetList = () => {
       })
       .catch((error) => {
         console.log("userIdErr=======", error);
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
       });
   };
 
@@ -292,9 +295,10 @@ const ClousheetList = () => {
   // ------------ On Select Existing Template ---------
   const onExistingTemplate = () => {
     console.log("isexist========",isTemplate)
-    if (isTemplate == true) {
-      setIsSheetOpen(false);
+    setIsSheetOpen(false);
       ChildRef.current.childFunction2();
+    if (isTemplate == true) {
+      
       navigation.navigate("ExistingTemplateList");
     }else{
       Alert.alert("No template is create yet!")

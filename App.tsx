@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Rootnavigation from "./src/navigations/Rootnavigation";
 import { NavigationContainer } from "@react-navigation/native";
+import {Alert} from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -12,17 +13,7 @@ import { getAppConstants } from "./src/API_Manager/index";
 import labels from "./src/utils/ProjectLabels.json";
 import {listAppConstants} from './src/graphql/queries'
 Amplify.configure(awsconfig);
-Amplify.configure({
-  API: {
-    endpoints: [
-      {
-        name: 'listAppConstants',
-        endpoint: 'https://nxfhla5oejdz7pvi7nuzhi4n3e.appsync-api.us-east-1.amazonaws.com/graphql',
-        apiKey: 'da2-rlimkghtengcziv3r4pxdajkqa',
-      },
-    ],
-  },
-});
+
 
 function App(): JSX.Element {
   const [isLogIn, setIsLogIn] = useState(false);
@@ -70,6 +61,11 @@ function App(): JSX.Element {
         setIsLogIn(true);
       })
       .catch((error) => {
+        if(error.isConnected == false){
+          Alert.alert("Not network Connected!")
+        }
+        setIsLogIn(true);
+        global.session = false;
         console.log("currentUserErr=======", error);
       });
   };

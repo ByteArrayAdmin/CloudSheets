@@ -5,6 +5,7 @@ import {
   FlatList,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -191,6 +192,9 @@ const RowdetailForm = (props: any) => {
           errorActionName.CREATE_SPREADSHEET_ROW_ERROR
         );
         setLoader(false);
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         console.log("spreadRowErr========", error);
       });
   };
@@ -262,6 +266,9 @@ const RowdetailForm = (props: any) => {
           errorActionName.UPDATE_SPREADSHEET_ROW_ERROR
         );
         setLoader(false);
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         console.log("updateSpreadSheetRowErr========", error);
       });
     console.log("updateRowData========", newRow);
@@ -316,6 +323,9 @@ const RowdetailForm = (props: any) => {
       })
       .catch((error) => {
         setLoader(false);
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
+        }
         console.log("getColmErr=====", error);
       });
   };
