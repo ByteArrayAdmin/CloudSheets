@@ -9,7 +9,6 @@ import IC_purpleDoc from "../../../../assets/Images/IC_purpleDoc.svg";
 import Ic_redDoc from "../../../../assets/Images/Ic_redDoc.svg";
 import moment from "moment";
 import { spreadSheetRow_Count } from "../../../../API_Manager/index";
-import { withDecay } from "react-native-reanimated";
 
 const Cloudsheetcard = (props: any) => {
   const [count, setCount] = useState();
@@ -56,7 +55,7 @@ const Cloudsheetcard = (props: any) => {
             </View>
             <View>
               <Text style={Cardstyle.Text}>
-                {`(${getCounts(props?.item?.id)})`}
+                {getCounts(props?.item?.id)?  `(${getCounts(props?.item?.id)})`: " fetching..."}
               </Text>
             </View>
           </View>

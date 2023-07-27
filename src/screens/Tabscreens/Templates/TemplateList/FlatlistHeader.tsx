@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text ,StyleSheet} from 'react-native';
+import { View, Text ,StyleSheet, TouchableOpacity} from 'react-native';
 import { styles } from "./styles";
 import HeadingCard from "./HeadingCard";
 // import labels from "../../../../utils/ProjectLabels.json";
@@ -18,11 +18,13 @@ const FlatlistHeader = (props: any) => {
                     <Text style={styles.listext}>{labels.Templatelistlabel.Listtxt}</Text>
                 </View>
                 <View style={styles.space}></View>
-                <View>
+                <TouchableOpacity
+                onPress={props.onViewAll}
+                >
                     <Text style={styles.viewalltext}>
                         {labels.Templatelistlabel.ViewAll}
                     </Text>
-                </View>
+                </TouchableOpacity>
             </View>
         </View>
     )

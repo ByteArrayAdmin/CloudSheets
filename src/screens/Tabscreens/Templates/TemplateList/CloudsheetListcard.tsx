@@ -8,12 +8,33 @@ import Ic_redDoc from "../../../../assets/Images/Ic_redDoc.svg";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import Popup from "../../../Popups/TemplateEditPopup";
 import moment from "moment";
+import { spreadSheetRow_Count } from "../../../../API_Manager/index";
 
 const CloudsheetListCard = (props: any) => {
   const Child = useRef();
+  const [count, setCount] = useState();
+  console.log("props=========", props);
   const openPopup = () => {
     Child.current.childFunction1();
   };
+
+  // --------------- Get SpreadSheetRow Count ------------
+  const getCounts = (rowId: any) => {
+    spreadSheetRow_Count(rowId)
+      .then((response: any) => {
+        console.log("RowCounts======", response);
+        setCount(
+          response.data.spreadSheetRowsBySpreadsheetID.items.length.toString()
+        );
+        // console.log("count========",rowCount)
+      })
+      .catch((error) => {
+        console.log("errorCount======", error);
+      });
+    // console.log("rowcount outer=====>",rowCount )
+    return count;
+  };
+
   const SnapPoints = ["60%"];
   return (
     <View style={styles.container}>
@@ -27,7 +48,12 @@ const CloudsheetListCard = (props: any) => {
         )}
       </View>
       <View>
-        <Text style={styles.textstyle}>{props?.item?.spreadsheet_name}</Text>
+        <View style={{ flexDirection: "row",alignItems:'center' }}>
+          <Text style={styles.textstyle}>{props?.item?.spreadsheet_name}</Text>
+          <View>
+            <Text style={styles.Text}>{getCounts(props?.item?.id)? `(${getCounts(props?.item?.id)})`:" fetching..."}</Text>
+          </View>
+        </View>
         <Text style={styles.datestyle}>
           {moment(props?.item?.createdAt).format("MMM DD, YYYY | hh:mm a")}
         </Text>
@@ -89,5 +115,11 @@ const styles = StyleSheet.create({
     height: 25,
     justifyContent: "center",
     alignItems: "center",
+  },
+  Text: {
+    fontFamily: FONTS.inter_regular,
+    fontSize: 12,
+    color: COLOURS.black,
+    opacity: 0.5,
   },
 });

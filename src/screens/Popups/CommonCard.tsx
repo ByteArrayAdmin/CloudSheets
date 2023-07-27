@@ -10,11 +10,11 @@ import { COLOURS, FONTS } from "../../utils/Constant";
 
 const CommonCard = (props: any) => {
   return (
-    <TouchableOpacity style={Style.container}
+    <TouchableOpacity disabled={props.isDisabled} style={Style.container}
     onPress={props.onPress}
     >
-      <View>{props.icon}</View>
-      <Text style={Style.text}>{props.heading}</Text>
+      <View style={{opacity:props.isDisabled?0.3:1}}>{props.icon}</View>
+      <Text style={props.isDisabled? Style.disabeledTextStyle :Style.text}>{props.heading}</Text>
     </TouchableOpacity>
   );
 };
@@ -32,4 +32,10 @@ const Style = StyleSheet.create({
     paddingLeft: 15,
     color:COLOURS.black
   },
+  disabeledTextStyle:{
+    fontFamily: FONTS.inter_regular,
+    fontSize: 15,
+    paddingLeft: 15,
+    color:COLOURS.lightgrey
+  }
 });

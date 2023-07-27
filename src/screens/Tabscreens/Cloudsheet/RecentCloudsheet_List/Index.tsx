@@ -91,10 +91,10 @@ const ClousheetList = () => {
       .then((response: any) => {
         console.log("tempalateList========", response);
         const tempCount = response.data.templatesByUserID.items.length;
-        console.log("TempCount=======",tempCount)
+        console.log("TempCount=======", tempCount);
         if (tempCount == 0) {
           setIsTemplate(false);
-        }else{
+        } else {
           setIsTemplate(true);
         }
       })
@@ -112,10 +112,8 @@ const ClousheetList = () => {
         createTemplateRef.current.childFunction2();
         openthreeDotRef.current.childFunction2();
         openCloudSheetEditRef.current.childFunction2();
-
         // backHandler.remove();
         setIsSheetOpen(false);
-
         return true;
       } else {
         console.log("sheetIsClosed==========");
@@ -147,8 +145,8 @@ const ClousheetList = () => {
       })
       .catch((error) => {
         console.log("userIdErr=======", error);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
         }
       });
   };
@@ -294,14 +292,13 @@ const ClousheetList = () => {
 
   // ------------ On Select Existing Template ---------
   const onExistingTemplate = () => {
-    console.log("isexist========",isTemplate)
+    console.log("isexist========", isTemplate);
     setIsSheetOpen(false);
-      ChildRef.current.childFunction2();
+    ChildRef.current.childFunction2();
     if (isTemplate == true) {
-      
       navigation.navigate("ExistingTemplateList");
-    }else{
-      Alert.alert("No template is create yet!")
+    } else {
+      Alert.alert("No template is create yet!");
     }
   };
 
@@ -509,7 +506,7 @@ const ClousheetList = () => {
       </View>
       <View style={styles.flatlistview}>
         <FlatList
-          data={viewAll ? cloudSheetList : cloudSheetList.slice(0, 5)}
+          data={viewAll ? cloudSheetList : cloudSheetList.slice(0, Clousheetlistscreen.viewAll_length.length)}
           renderItem={renderItems}
           refreshing={false}
           onRefresh={onRefreshList}
@@ -590,6 +587,13 @@ const ClousheetList = () => {
               selectedCloudSheet={selectedCloudSheet}
               onEditCloudSheet={() => openEditCloudSheet()}
               onDeleteCloudSheet={() => openCloudsheetDeleteAlert()}
+              onViewCloudSheet={() => {
+                openthreeDotRef.current.childFunction2(),
+                  navigation.navigate("ExpensesList", {
+                    spreadSheetDetail: selectedCloudSheet,
+                    isFrom: "CloudSheetTab",
+                  });
+              }}
             />
           }
         />

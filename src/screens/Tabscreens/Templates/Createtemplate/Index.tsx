@@ -31,8 +31,7 @@ import {
   current_UserInfo,
   get_Template_List,
   soft_delete_template,
-  checkNetwork
-  
+  checkNetwork,
 } from "../../../../API_Manager/index";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import Card from "../TabBarTemplateList/Card";
@@ -88,7 +87,7 @@ const CreateTemplate = () => {
     DeviceEventEmitter.addListener("refreshTemplateList", () => getUserId());
     if (global.isLoggedInUser) {
       // getUserId();
-      
+
       track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN);
     }
     //  else {
@@ -101,7 +100,6 @@ const CreateTemplate = () => {
       // BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     };
   }, []);
-
 
   useEffect(() => {
     const backAction = () => {
@@ -129,11 +127,9 @@ const CreateTemplate = () => {
       setIsGlobal((prevState) => !prevState);
       if (global.isLoggedInUser) {
         getUserId();
-        
       } else {
         getGuestUserTemplates();
       }
-      
     }
   }, [isFocused]);
 
@@ -180,8 +176,8 @@ const CreateTemplate = () => {
         console.log("currentUser=========", response);
       })
       .catch((error) => {
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
         }
         console.log("currUserErr======", error.isConnected);
       });
@@ -259,8 +255,8 @@ const CreateTemplate = () => {
       })
       .catch((error) => {
         console.log("getTempErr======", error.isConnected);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
         }
         setLoader(false);
       });
@@ -317,8 +313,8 @@ const CreateTemplate = () => {
         })
         .catch((err) => {
           setLoader(false);
-          if(err.isConnected == false){
-            Alert.alert("Not network Connected!")
+          if (err.isConnected == false) {
+            Alert.alert("Not network Connected!");
           }
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
@@ -341,18 +337,16 @@ const CreateTemplate = () => {
 
   // -------------- check Edit validation -----------
 
-  const CheckEditValidation = ( templateName: any,
+  const CheckEditValidation = (
+    templateName: any,
     templateId: any,
     version: any,
-    softDeleted: boolean) => {
+    softDeleted: boolean
+  ) => {
     if (templateName == "" || templateName == undefined) {
       setError(labels.TabBarTemplateList.TemplateErr);
     } else {
-      
-      onUpdateTemplates(templateName,
-        templateId,
-        version,
-        softDeleted);
+      onUpdateTemplates(templateName, templateId, version, softDeleted);
       setError(" ");
     }
   };
@@ -392,15 +386,15 @@ const CreateTemplate = () => {
           eventName.TRACK_SUCCESS_ACTION,
           successActionName.UPDATE_TEMPLATE_SUCCESSFULLY
         );
-        navigation.navigate("CreatSpreadsheet", {
-          template: response.data.updateTemplates,
-          isEdit: isEditTemplate,
-        });
+        // navigation.navigate("CreatSpreadsheet", {
+        //   template: response.data.updateTemplates,
+        //   isEdit: isEditTemplate,
+        // });
       })
       .catch((error) => {
         setLoader(false);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
         }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
@@ -410,13 +404,12 @@ const CreateTemplate = () => {
       });
   };
 
-
   // ----------- Delete Row Alert ------------
   const deleteAlert = () => {
     track_Screen(eventName.TRACK_SCREEN, screenName.DELETE_TEMPLATE_ALERT);
     editTempRef.current.childFunction2();
     Alert.alert(
-      labels.ExpensesList.Delete_Record_Alert,
+      labels.ExpensesList.Delete_Template,
       labels.ExpensesList.Delete_Quete,
       [
         {
@@ -449,18 +442,20 @@ const CreateTemplate = () => {
   };
 
   // ----------- get network ------------
-  const checkInternet = ()=>{
-    checkNetwork().then((isConnected)=>{
-      console.log("isConectedResp=======",isConnected)
-      if(isConnected){
-        onDeleteTemplate()
-      }else{
-        Alert.alert("Not network Connected!")
-      }
-    }).catch((error)=>{
-      console.log("networkErr======",error)
-    })
-  }
+  const checkInternet = () => {
+    checkNetwork()
+      .then((isConnected) => {
+        console.log("isConectedResp=======", isConnected);
+        if (isConnected) {
+          onDeleteTemplate();
+        } else {
+          Alert.alert("Not network Connected!");
+        }
+      })
+      .catch((error) => {
+        console.log("networkErr======", error);
+      });
+  };
   // -----------------Delete Template functionality----------------
   const onDeleteTemplate = () => {
     track_Click_Event(
@@ -498,8 +493,8 @@ const CreateTemplate = () => {
       })
       .catch((error) => {
         setLoader(false);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert("Not network Connected!");
         }
         console.log("getColErr======", error);
         track_Error_Event(
@@ -509,8 +504,18 @@ const CreateTemplate = () => {
       });
   };
 
-  // --------------Open Edit Template popup functionality-------------------
+  // ------------- On Edit Template --------------
   const onEditTemplate = () => {
+    setIsEditTemplate(true);
+    child.current.childFunction2();
+    navigation.navigate("CreatSpreadsheet", {
+      template: selectedTemplate,
+      isEdit: true,
+    });
+  };
+
+  // --------------Open Edit Template Name popup functionality-------------------
+  const onEditTemplateName = () => {
     setIsSheetOpen(true);
     console.log("sheetStatusOnEdit=======", isSheetOpen);
     editTempRef.current.childFunction2();
@@ -520,7 +525,7 @@ const CreateTemplate = () => {
     setIsEditTemplate(true);
   };
   const snapPoints = [350, 400];
-  const EditSnapPoints = [300, 350];
+  const EditSnapPoints = ["60%"];
 
   // -------------navigate to detail Screen functionality on Double Tap---------------
   const onDoubleTab = (template: any) => {
@@ -644,7 +649,7 @@ const CreateTemplate = () => {
       <CommonBottomsheet
         ref={child}
         snapPoints={snapPoints}
-        onBackdropPress={()=>{}}
+        onBackdropPress={() => {}}
         children={
           <CreateTemplatePopup
             error={error}
@@ -680,8 +685,17 @@ const CreateTemplate = () => {
             <EditDeleteCloudsheet
               editTemplate={() => onEditTemplate()}
               deleteTemplate={() => deleteAlert()}
+              editTemplateName={() => onEditTemplateName()}
+              viewTemplate={()=>{
+                editTempRef.current.childFunction2(),
+                navigation.navigate("TemplateList", { template: selectedTemplate })}
+              }
               selectedTemplate={selectedTemplate}
+              editTemplateNameLabel={
+                labels.TemplatePopupExpenses.Edit_Template_Name
+              }
               editlabel={labels.TemplatePopupExpenses.Edit_Template}
+              ViewTemplatelabel={labels.TemplatePopupExpenses.View_Template_Sheets}
               deletelabel={labels.TemplatePopupExpenses["Delete Template"]}
             />
           }

@@ -152,14 +152,13 @@ const Styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: FONTS.inter_regular,
     color: COLOURS.black,
-    textAlign:'right'
+    textAlign: "right",
   },
   labelheading: {
     fontSize: 12,
     fontFamily: FONTS.inter_regular,
     color: COLOURS.black,
     opacity: 0.5,
-   
   },
   horizontallineview: {
     flexDirection: "row",

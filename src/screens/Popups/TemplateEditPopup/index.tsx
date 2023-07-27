@@ -43,27 +43,35 @@ const TemplateEditPopup = (props: any) => {
         <View style={styles.commoncardview}>
           <View>
             <CommonCard
-              icon={<Edit />}
-              heading={labels.EditTemplatePopup.EditCloudSheet}
+              icon={<Rename />}
+              heading={labels.EditTemplatePopup.EditCloudSheetName}
               onPress={props.onEditCloudSheet}
             />
           </View>
           <View style={styles.cardspace}>
             <CommonCard
+            isDisabled={true}
               icon={<Shareicon />}
               heading={labels.EditTemplatePopup.Share_CloudSheet}
             />
           </View>
-          <View style={styles.cardspace}>
+          {/* <View style={styles.cardspace}>
             <CommonCard
               icon={<Rename />}
               heading={labels.EditTemplatePopup.RenameCloudSheet}
             />
-          </View>
+          </View> */}
+          {/* <View style={styles.cardspace}>
+            <CommonCard
+              icon={<Edit />}
+              heading={labels.EditTemplatePopup.EditCloudSheet}
+            />
+          </View> */}
           <View style={styles.cardspace}>
             <CommonCard
               icon={<Viewicon />}
               heading={labels.EditTemplatePopup.View_CloudSheet}
+              onPress={props.onViewCloudSheet}
             />
           </View>
           <View style={styles.cardspace}>

@@ -86,7 +86,7 @@
     "VIEWALL": "View All",
     "JANUARY_ATTENDANCE": "January Attendance",
     "MONTHLY_EXPENSES": "Monthly Expenses (3)",
-    "Delete_Alert": "Delete Record",
+    "Delete_Alert": "Delete CloudSheet",
     "Delete_Quete": "Are you sure want to delete this cloudsheet!",
     "Cancel": "Cancel",
     "OK": "OK",
@@ -218,6 +218,7 @@
     "ExpensesAmount": "Expenses Amount",
     "Edit_CloudSheet_Record": "Edit CloudSheet Record",
     "Delete_CloudSheet_Record": "Delete CloudSheet Record",
+    "Delete_Template":"Delete Template",
     "Delete_Record_Alert": "Delete Record",
     "Delete_Quete": "Are you sure want to delete this template!",
     "Cancel": "Cancel",
@@ -329,6 +330,7 @@
   },
   "EditTemplatePopup": {
     "EditCloudSheet": "Edit CloudSheet",
+    "EditCloudSheetName":"Edit CloudSheet Name",
     "Share_CloudSheet": "Share CloudSheet",
     "RenameCloudSheet": "Rename CloudSheet",
     "View_CloudSheet": "View CloudSheet",
@@ -336,7 +338,9 @@
   },
   "TemplatePopupExpenses": {
     "Edit_Template": "Edit Template",
-    "Delete Template": "Delete Template"
+    "Delete Template": "Delete Template",
+    "Edit_Template_Name":"Edit Template Name",
+    "View_Template_Sheets":"View Template Sheets"
   },
   "SubcriptionplanPoup": {
     "Subscription_Plan": "Subscription Plan",
@@ -371,5 +375,9 @@
   },
   "CheckNetworkConstant":{
     "networkError":"Not network Connected!"
+  },
+  "viewAll_length":{
+    "length":5
   }
+  
 }

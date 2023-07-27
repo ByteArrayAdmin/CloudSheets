@@ -68,6 +68,8 @@ const TemplateList = () => {
   const [loader, setLoader] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [navigateId, setNavigateId] = useState("");
+  const [viewAll, setViewAll] = useState(false);
+
 
   // -------------- initial Render-------------
   useEffect(() => {
@@ -87,6 +89,8 @@ const TemplateList = () => {
         console.log("currUserErr======", error);
       });
   };
+
+  
 
   // --------------- On Refresh SpreadSheet ---------
   const onRefresh = () => {
@@ -452,12 +456,12 @@ const TemplateList = () => {
       />
       <View style={styles.secondflatlistview}>
         <FlatList
-          data={spreadSheetList}
+          data={viewAll? spreadSheetList : spreadSheetList.slice(0, labels.viewAll_length.length)}
           renderItem={ListCard}
           refreshing={false}
           onRefresh={onRefresh}
           extraData={extraData}
-          ListHeaderComponent={<FlatlistHeader template={template} />}
+          ListHeaderComponent={<FlatlistHeader onViewAll={()=>setViewAll(true)} template={template} />}
         />
       </View>
       <TouchableOpacity
