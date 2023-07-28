@@ -59,7 +59,7 @@ export const Styles = StyleSheet.create({
       flex: 1,
     },
     calenderlogview: { marginRight: 17 },
-    lastview: {justifyContent:'flex-end',bottom:30},
+    lastview: {justifyContent:'flex-end',marginVertical:20,},
     viewMargin:{marginVertical:15},
     marginTop_15:{
       marginTop:15

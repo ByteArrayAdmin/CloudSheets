@@ -5,7 +5,8 @@ import {
   FlatList,
   Keyboard,
   TouchableWithoutFeedback,
-  Alert
+  Alert,
+  ScrollView,
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -333,104 +334,101 @@ const RowdetailForm = (props: any) => {
   useEffect(() => {}, [open]);
 
   const renderItem = ({ item, index }: any) => (
-    console.log("itemIndex======", item, index),
-    (
-      <View style={{ flex: 1 }}>
-        {item.column_Type == "Sentences" ||
-        item.column_Type == "Numbers" ||
-        item.column_Type == "EmailPhone" ? (
-          <View style={Styles.columnView}>
-            <View>
-              <Text style={Styles.nametext}>{item.column_Name}</Text>
-            </View>
-            <View style={Styles.marginTop_15}>
-              <NewInputField
-                defaultValue={isEdit ? item.column_Value : ""}
-                name={item.column_Name}
-                control={control}
-                keyboardType={
-                  item.column_Type == "Numbers" ? "number-pad" : "default"
-                }
-                placeholder={item.column_Name}
-                rules={{
-                  required: labels.Rowdetailsform.valodationmessage,
-                }}
-                styles={Styles.inputview}
-                onBlur={() => Keyboard.dismiss()}
-              />
-            </View>
+    <View >
+      {item.column_Type == "Sentences" ||
+      item.column_Type == "Numbers" ||
+      item.column_Type == "EmailPhone" ? (
+        <View style={Styles.columnView}>
+          <View >
+            <Text style={Styles.nametext}>{item.column_Name}</Text>
           </View>
-        ) : item.column_Type == "Date" ? (
-          <View>
-            <CommonDatepicker
-              open={open}
+          <View style={Styles.marginTop_15}>
+            <NewInputField
+              defaultValue={isEdit ? item.column_Value : ""}
               name={item.column_Name}
               control={control}
-              toggle={toggle}
-              // onCancel={() => setopen(false)}
-              // defaultdate={
-              //   isEdit
-              //     ? new Date(spreadSheetRowItems[item.column_Name])
-              //     : defaultdate
-              // }
+              keyboardType={
+                item.column_Type == "Numbers" ? "number-pad" : "default"
+              }
+              placeholder={item.column_Name}
+              rules={{
+                required: labels.Rowdetailsform.valodationmessage,
+              }}
+              styles={Styles.inputview}
+              onBlur={() => Keyboard.dismiss()}
             />
           </View>
-        ) : item.column_Type == "Yes/No" ? (
-          <View style={Styles.columnView}>
-            <View>
-              <Text style={Styles.nametext}>{item.column_Name}</Text>
-            </View>
-            <View style={Styles.marginTop_15}>
-              <Controller
-                control={control}
-                name={item.column_Name}
-                rules={{
-                  required: labels.Creatcloudsheetlabels.Validationmsg,
-                }}
-                render={({ field, fieldState: { error } }) => (
-                  <>
-                    <SelectDropdown
-                      control={control}
-                      data={getYesNo}
-                      value={field.value}
-                      defaultValue={isEdit ? item.column_Value : null}
-                      onSelect={field.onChange}
-                      onBlur={field.onBlur}
-                      buttonStyle={Styles.buttonstyle}
-                      renderDropdownIcon={(isOpened) => {
-                        return isOpened ? (
-                          <Dropdowsideicon />
-                        ) : (
-                          <Dropdowsideicon />
-                        );
-                      }}
-                      dropdownIconPosition={"right"}
-                      buttonTextStyle={Styles.dropDownBtnTextStyle}
-                      dropdownStyle={Styles.dropdowmstyle}
-                      rowStyle={Styles.rowStyle}
-                    />
-                    <View style={Styles.erroview}>
-                      {error && (
-                        <Text style={Styles.Textstyle}>
-                          {error.message || "Error"}
-                        </Text>
-                      )}
-                    </View>
-                  </>
-                )}
-              />
-            </View>
+        </View>
+      ) : item.column_Type == "Date" ? (
+        <View>
+          <CommonDatepicker
+            open={open}
+            name={item.column_Name}
+            control={control}
+            toggle={toggle}
+            // onCancel={() => setopen(false)}
+            // defaultdate={
+            //   isEdit
+            //     ? new Date(spreadSheetRowItems[item.column_Name])
+            //     : defaultdate
+            // }
+          />
+        </View>
+      ) : item.column_Type == "Yes/No" ? (
+        <View style={Styles.columnView}>
+          <View>
+            <Text style={Styles.nametext}>{item.column_Name}</Text>
           </View>
-        ) : null}
-      </View>
-    )
+          <View style={Styles.marginTop_15}>
+            <Controller
+              control={control}
+              name={item.column_Name}
+              rules={{
+                required: labels.Creatcloudsheetlabels.Validationmsg,
+              }}
+              render={({ field, fieldState: { error } }) => (
+                <>
+                  <SelectDropdown
+                    control={control}
+                    data={getYesNo}
+                    value={field.value}
+                    defaultValue={isEdit ? item.column_Value : null}
+                    onSelect={field.onChange}
+                    onBlur={field.onBlur}
+                    buttonStyle={Styles.buttonstyle}
+                    renderDropdownIcon={(isOpened) => {
+                      return isOpened ? (
+                        <Dropdowsideicon />
+                      ) : (
+                        <Dropdowsideicon />
+                      );
+                    }}
+                    dropdownIconPosition={"right"}
+                    buttonTextStyle={Styles.dropDownBtnTextStyle}
+                    dropdownStyle={Styles.dropdowmstyle}
+                    rowStyle={Styles.rowStyle}
+                  />
+                  <View style={Styles.erroview}>
+                    {error && (
+                      <Text style={Styles.Textstyle}>
+                        {error.message || "Error"}
+                      </Text>
+                    )}
+                  </View>
+                </>
+              )}
+            />
+          </View>
+        </View>
+      ) : null}
+    </View>
   );
   const handleScreenTouch = () => {
     Keyboard.dismiss();
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handleScreenTouch}>
+    // <TouchableWithoutFeedback onPress={handleScreenTouch}>
       <View style={Styles.container}>
         <View>
           <NewCommonHeader
@@ -440,42 +438,46 @@ const RowdetailForm = (props: any) => {
             onPress={navigation.canGoBack()}
           />
         </View>
-        <View style={Styles.sucontainer}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={columns}
-            renderItem={renderItem}
-            extraData={extraData}
-          />
-        </View>
-        <View style={Styles.container}></View>
-        <View style={Styles.lastview}>
-          {isEdit ? (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <LightSmallButton
-                buttontext={labels.Rowdetailsform.Cancel}
-                onPress={() => navigation.goBack()}
-              />
-              <View style={{ width: 19 }}></View>
-              <SmallButton
-                buttontext={labels.Rowdetailsform.Update}
-                // onPress={()=>navigation.navigate("UpdateCloudsheet")}
-                onPress={handleSubmit(onUpdateRows)}
-              />
-            </View>
-          ) : (
-            <Custombutton
-              onPress={handleSubmit(onSubmitPressed)}
-              Register={labels.Rowdetailsform.Submit}
+        <KeyboardAwareScrollView scrollEnabled={true} nestedScrollEnabled={true} style={{ flex: 1 }}>
+          <View style={Styles.sucontainer}>
+            <FlatList
+              scrollEnabled={false}
+              
+              showsVerticalScrollIndicator={false}
+              data={columns}
+              renderItem={renderItem}
+              extraData={extraData}
             />
-          )}
-        </View>
+          </View>
+          <View style={Styles.container}></View>
+          <View style={Styles.lastview}>
+            {isEdit ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <LightSmallButton
+                  buttontext={labels.Rowdetailsform.Cancel}
+                  onPress={() => navigation.goBack()}
+                />
+                <View style={{ width: 19 }}></View>
+                <SmallButton
+                  buttontext={labels.Rowdetailsform.Update}
+                  // onPress={()=>navigation.navigate("UpdateCloudsheet")}
+                  onPress={handleSubmit(onUpdateRows)}
+                />
+              </View>
+            ) : (
+              <Custombutton
+                onPress={handleSubmit(onSubmitPressed)}
+                Register={labels.Rowdetailsform.Submit}
+              />
+            )}
+          </View>
+        </KeyboardAwareScrollView>
         {modalVisible ? (
           <UpdatedCloudSheet
             visible={modalVisible}
@@ -484,7 +486,7 @@ const RowdetailForm = (props: any) => {
         ) : null}
         {loader ? <CommonLoader /> : null}
       </View>
-    </TouchableWithoutFeedback>
+    // </TouchableWithoutFeedback>
   );
 };
 
