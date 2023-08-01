@@ -74,7 +74,7 @@ const checkInternet = ()=>{
     if(isConnected){
       signOut()
     }else{
-      Alert.alert("Not network Connected!")
+      Alert.alert(labels.checkNetwork.networkError)
     }
   }).catch((error)=>{
     console.log("networkErr======",error)

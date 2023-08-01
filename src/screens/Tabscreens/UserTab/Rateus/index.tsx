@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 // import labels from "../../../../utils/ProjectLabels.json";
 import Logo from "../../../../assets/Images/star.svg";
 import AuthCard from "../../../../commonComponents/AuthCard";
 import ThumbLogo from "../../../../assets/Images/Rateusthumb.svg";
-import { styles } from "screens/Auth/signup/style";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import InputField from "../../../../commonComponents/InputField";
 import { useForm } from "react-hook-form";

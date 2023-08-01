@@ -11,12 +11,12 @@ const ColumnCard = (props: any) => {
   console.log("columnCardData=======", props?.item);
   return (
     <View style={styles.mainContainer}>
-        <TouchableOpacity
-          style={styles.crossIconView}
-          onPress={props.onPressRemove}
-        >
-          <RedCorss />
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.crossIconView}
+        onPress={props.onPressRemove}
+      >
+        <RedCorss />
+      </TouchableOpacity>
       <View>
         <Text style={styles.columntext}>
           {labels.Creatcloudsheetlabels.ColumnName}

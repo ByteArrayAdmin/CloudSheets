@@ -62,12 +62,12 @@ const ListCard = (props: any) => {
     <View style={style.detailview}>
       <Text style={style.labelheading}>{item.column_Name}</Text>
       <View style={style.emptyview}></View>
-      <View style={{width:'75%'}}>
-      <Text style={style.detailnametext}>
-        {item.column_Type == "Date"
-          ? moment(item.column_Value).format("MMM DD, YYYY")
-          : item.column_Value}
-      </Text>
+      <View style={{ width: "75%" }}>
+        <Text style={style.detailnametext}>
+          {item.column_Type == "Date"
+            ? moment(item.column_Value).format("MMM DD, YYYY")
+            : item.column_Value}
+        </Text>
       </View>
     </View>
   );
@@ -190,7 +190,7 @@ const style = StyleSheet.create({
     fontSize: 14,
     fontFamily: FONTS.inter_regular,
     color: COLOURS.black,
-    textAlign:'right'
+    textAlign: "right",
   },
   threeDotStyle: {
     height: 25,

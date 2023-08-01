@@ -1,39 +1,60 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity,SafeAreaView,Dimensions} from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
 import { COLOURS, FONTS } from "../utils/Constant";
-const { height } = Dimensions.get('window');
-
+const { height } = Dimensions.get("window");
 
 const NewCommonHeader = (props: any) => {
   return (
-    <><SafeAreaView style={styles.backgroundcolour}>
-    </SafeAreaView><View style={[styles.maincontainer,{height:props.styling ? props.styling:100}]}>
+    <>
+      <SafeAreaView style={styles.backgroundcolour}></SafeAreaView>
+      <View
+        style={[
+          styles.maincontainer,
+          { height: props.styling ? props.styling : 100 },
+        ]}
+      >
         <View>
           <View style={styles.headerconatiner}>
-            
-              {props.BackButton?props.BackButton:null}
-          
+            {props.BackButton ? props.BackButton : null}
+
             <View style={styles.foldericonmargin}>{props.Folder}</View>
-            <View style={{width:'80%'}}>
-              <Text numberOfLines={1} ellipsizeMode='tail' style={styles.classattendancetext}>{props.heading}</Text>
+            <View style={{ width: "80%" }}>
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={styles.classattendancetext}
+              >
+                {props.heading}
+              </Text>
             </View>
-            <View style={{flex:1}}></View>
-            {props.SecondImg?
-            <TouchableOpacity style={{right:30}} onPress={props.onpress}>{props.SecondImg}</TouchableOpacity>:null}
+            <View style={{ flex: 1 }}></View>
+            {props.SecondImg ? (
+              <TouchableOpacity style={{ right: 30 }} onPress={props.onpress}>
+                {props.SecondImg}
+              </TouchableOpacity>
+            ) : null}
           </View>
         </View>
-      </View></>
+      </View>
+    </>
   );
 };
 
 export default NewCommonHeader;
 
 const styles = StyleSheet.create({
-  backgroundcolour:{
-    backgroundColor: COLOURS.Skyblue
+  backgroundcolour: {
+    backgroundColor: COLOURS.Skyblue,
   },
   maincontainer: {
-   height: 100,
+    height: 100,
     backgroundColor: COLOURS.Skyblue,
   },
 
@@ -52,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#FFFFFF",
   },
-  space:{
-    flex:1
-  }
+  space: {
+    flex: 1,
+  },
 });

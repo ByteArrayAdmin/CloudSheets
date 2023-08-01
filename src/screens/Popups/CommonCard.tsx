@@ -1,20 +1,18 @@
 import React from "react";
-import {
-  View,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { COLOURS, FONTS } from "../../utils/Constant";
 
 const CommonCard = (props: any) => {
   return (
-    <TouchableOpacity disabled={props.isDisabled} style={Style.container}
-    onPress={props.onPress}
+    <TouchableOpacity
+      disabled={props.isDisabled}
+      style={Style.container}
+      onPress={props.onPress}
     >
-      <View style={{opacity:props.isDisabled?0.3:1}}>{props.icon}</View>
-      <Text style={props.isDisabled? Style.disabeledTextStyle :Style.text}>{props.heading}</Text>
+      <View style={{ opacity: props.isDisabled ? 0.3 : 1 }}>{props.icon}</View>
+      <Text style={props.isDisabled ? Style.disabeledTextStyle : Style.text}>
+        {props.heading}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -30,12 +28,12 @@ const Style = StyleSheet.create({
     fontFamily: FONTS.inter_regular,
     fontSize: 15,
     paddingLeft: 15,
-    color:COLOURS.black
+    color: COLOURS.black,
   },
-  disabeledTextStyle:{
+  disabeledTextStyle: {
     fontFamily: FONTS.inter_regular,
     fontSize: 15,
     paddingLeft: 15,
-    color:COLOURS.lightgrey
-  }
+    color: COLOURS.lightgrey,
+  },
 });

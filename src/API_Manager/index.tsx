@@ -125,9 +125,6 @@ export const current_UserInfo = async () => {
           reject({ error: {}, isConnected: isConnected });
         }
       });
-      // const currentUserInfo = await Auth.currentUserInfo();
-      // const authenticatedUser = await Auth.currentAuthenticatedUser();
-      // console.log("authenticatedIser=========", authenticatedUser);
     } catch (e) {
       reject(e);
     }
@@ -304,8 +301,6 @@ export const update_SpreadSheet = async (newSpreadSheet: any) => {
 
 export const get_CloudsheetByUserID = async (userId: any) => {
   return new Promise(async (resolve, reject) => {
-    let token =
-      "eyJraWQiOiJTZ29MNDVENEF1QytjSlZmYzVhZ0JhN1hhc2kybXhzTUIxazZpQjRPRlhBPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIxMDNjZjdjYi04Yjc5LTRjZmMtODE0Mi0wZmJkZmMwNDY3NjYiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9wQXFRY1BCTUciLCJjbGllbnRfaWQiOiJvazE0YjA4bWpsazRnbW5nY2dlYXRwcGxsIiwib3JpZ2luX2p0aSI6IjFjZDYxMTc2LWE4MmYtNDNlOC1iNmRiLWQ2MGI1MDI0NGQ3NiIsImV2ZW50X2lkIjoiM2EyNTE2OGYtNjQ0ZC00OTZlLWE1MDEtYjg4MGJiNTUyZWFjIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJhd3MuY29nbml0by5zaWduaW4udXNlci5hZG1pbiIsImF1dGhfdGltZSI6MTY4NzUzMDk5NiwiZXhwIjoxNjg3NTM0NTk2LCJpYXQiOjE2ODc1MzA5OTYsImp0aSI6IjYyNTgxNDVhLTg2ZmItNDVlNS05ZDVmLWY4MWVkM2YwY2Y5ZSIsInVzZXJuYW1lIjoic2VtMDFvIn0.C--G5fJpZt5_6QvWBkS71iguPiBg5Y_8gSIa-fq7SnWlbffOsn63TQx0T8IClM1WmLYVCMkQKsEddO6OiR73J5tWe3VgP5emGUStrfGi9H6EWqOMXlT42hi9T3uVZjMKwHU34s7GiOX-k74Ab4V5xqrP1PQSdiCLuYbRv9MbP1x2q2-hukwuU-xlZ5cP0lS2QvPsam43mcHRwjno6jWw-EIy5SJ2eT2SC-vggHtR4YACux7OUTBBSH2-PANbjXfc8hTqOT4IJgfmPiG7FBOJJII2xFhJ9BjxbatA-lxIuuBp9MTuD3dHWQtTPy-ytzbynP58n2riblE0HO8Nqddtgw";
     try {
       const filter = {
         soft_Deleted: {

@@ -1,13 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  Text,
-  View,
-  FlatList,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Alert,
-  ScrollView,
-} from "react-native";
+import { Text, View, FlatList, Keyboard, Alert } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 // import labels from "../../../../utils/ProjectLabels.json";
@@ -194,7 +186,7 @@ const RowdetailForm = (props: any) => {
         );
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("spreadRowErr========", error);
       });
@@ -268,7 +260,7 @@ const RowdetailForm = (props: any) => {
         );
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("updateSpreadSheetRowErr========", error);
       });
@@ -325,7 +317,7 @@ const RowdetailForm = (props: any) => {
       .catch((error) => {
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("getColmErr=====", error);
       });
@@ -334,12 +326,12 @@ const RowdetailForm = (props: any) => {
   useEffect(() => {}, [open]);
 
   const renderItem = ({ item, index }: any) => (
-    <View >
+    <View>
       {item.column_Type == "Sentences" ||
       item.column_Type == "Numbers" ||
       item.column_Type == "EmailPhone" ? (
         <View style={Styles.columnView}>
-          <View >
+          <View>
             <Text style={Styles.nametext}>{item.column_Name}</Text>
           </View>
           <View style={Styles.marginTop_15}>
@@ -429,63 +421,66 @@ const RowdetailForm = (props: any) => {
 
   return (
     // <TouchableWithoutFeedback onPress={handleScreenTouch}>
-      <View style={Styles.container}>
-        <View>
-          <NewCommonHeader
-            BackButton={<BackButton onPress={() => navigation.goBack()} />}
-            Folder={<Document />}
-            heading={spreadSheet?.spreadsheet_name}
-            onPress={navigation.canGoBack()}
+    <View style={Styles.container}>
+      <View>
+        <NewCommonHeader
+          BackButton={<BackButton onPress={() => navigation.goBack()} />}
+          Folder={<Document />}
+          heading={spreadSheet?.spreadsheet_name}
+          onPress={navigation.canGoBack()}
+        />
+      </View>
+      <KeyboardAwareScrollView
+        scrollEnabled={true}
+        nestedScrollEnabled={true}
+        style={{ flex: 1 }}
+      >
+        <View style={Styles.sucontainer}>
+          <FlatList
+            scrollEnabled={false}
+            showsVerticalScrollIndicator={false}
+            data={columns}
+            renderItem={renderItem}
+            extraData={extraData}
           />
         </View>
-        <KeyboardAwareScrollView scrollEnabled={true} nestedScrollEnabled={true} style={{ flex: 1 }}>
-          <View style={Styles.sucontainer}>
-            <FlatList
-              scrollEnabled={false}
-              
-              showsVerticalScrollIndicator={false}
-              data={columns}
-              renderItem={renderItem}
-              extraData={extraData}
-            />
-          </View>
-          <View style={Styles.container}></View>
-          <View style={Styles.lastview}>
-            {isEdit ? (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <LightSmallButton
-                  buttontext={labels.Rowdetailsform.Cancel}
-                  onPress={() => navigation.goBack()}
-                />
-                <View style={{ width: 19 }}></View>
-                <SmallButton
-                  buttontext={labels.Rowdetailsform.Update}
-                  // onPress={()=>navigation.navigate("UpdateCloudsheet")}
-                  onPress={handleSubmit(onUpdateRows)}
-                />
-              </View>
-            ) : (
-              <Custombutton
-                onPress={handleSubmit(onSubmitPressed)}
-                Register={labels.Rowdetailsform.Submit}
+        <View style={Styles.container}></View>
+        <View style={Styles.lastview}>
+          {isEdit ? (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <LightSmallButton
+                buttontext={labels.Rowdetailsform.Cancel}
+                onPress={() => navigation.goBack()}
               />
-            )}
-          </View>
-        </KeyboardAwareScrollView>
-        {modalVisible ? (
-          <UpdatedCloudSheet
-            visible={modalVisible}
-            onPress={() => cancelModal()}
-          />
-        ) : null}
-        {loader ? <CommonLoader /> : null}
-      </View>
+              <View style={{ width: 19 }}></View>
+              <SmallButton
+                buttontext={labels.Rowdetailsform.Update}
+                // onPress={()=>navigation.navigate("UpdateCloudsheet")}
+                onPress={handleSubmit(onUpdateRows)}
+              />
+            </View>
+          ) : (
+            <Custombutton
+              onPress={handleSubmit(onSubmitPressed)}
+              Register={labels.Rowdetailsform.Submit}
+            />
+          )}
+        </View>
+      </KeyboardAwareScrollView>
+      {modalVisible ? (
+        <UpdatedCloudSheet
+          visible={modalVisible}
+          onPress={() => cancelModal()}
+        />
+      ) : null}
+      {loader ? <CommonLoader /> : null}
+    </View>
     // </TouchableWithoutFeedback>
   );
 };

@@ -55,7 +55,9 @@ const Cloudsheetcard = (props: any) => {
             </View>
             <View>
               <Text style={Cardstyle.Text}>
-                {getCounts(props?.item?.id)?  `(${getCounts(props?.item?.id)})`: " fetching..."}
+                {getCounts(props?.item?.id)
+                  ? `(${getCounts(props?.item?.id)})`
+                  : " fetching..."}
               </Text>
             </View>
           </View>
@@ -152,7 +154,7 @@ const Cardstyle = StyleSheet.create({
     alignItems: "center",
     marginTop: 16,
     paddingHorizontal: 15,
-    marginBottom:15
+    marginBottom: 15,
   },
   foldespace: { paddingRight: 6 },
   threedotstyling: {

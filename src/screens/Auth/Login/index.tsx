@@ -27,7 +27,7 @@ import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
 import { Auth, API, graphqlOperation } from "aws-amplify";
 import { listUsers, getUser } from "../../../graphql/queries";
 import { createUser } from "../../../graphql/mutations";
-import { userLogin,checkNetwork } from "../../../API_Manager/index";
+import { userLogin, checkNetwork } from "../../../API_Manager/index";
 import CommonLoader from "../../../commonComponents/CommonLoader";
 import {
   track_Screen,
@@ -47,38 +47,37 @@ declare global {
   var labels: any;
 }
 
-
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
   const [loader, setLoader] = useState(false);
-  var LoginLabels = global.labels
+  var LoginLabels = global.labels;
 
   useEffect(() => {
     track_Screen(eventName.TRACK_SCREEN, screenName.LOGIN_SCREEN);
-    
   }, []);
 
-  useEffect(()=>{
-     
-     console.log("constants========",LoginLabels)
-  }, [global.labels])
+  useEffect(() => {
+    console.log("constants========", LoginLabels);
+  }, [global.labels]);
 
-  const checkInternet = (data:any)=>{
-    checkNetwork().then((isConnected)=>{
-      console.log("isConectedResp=======",isConnected)
-      if(isConnected){
-        onLoginPressed(data)
-      }else{
-        Alert.alert("Not network Connected!")
-      }
-    }).catch((error)=>{
-      console.log("networkErr======",error)
-    })
-  }
+  const checkInternet = (data: any) => {
+    checkNetwork()
+      .then((isConnected) => {
+        console.log("isConectedResp=======", isConnected);
+        if (isConnected) {
+          onLoginPressed(data);
+        } else {
+          Alert.alert(LoginLabels.checkNetwork.networkError);
+        }
+      })
+      .catch((error) => {
+        console.log("networkErr======", error);
+      });
+  };
 
   const onLoginPressed = async (data: any) => {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
     track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_LOGIN);
     // const { youremail, yourpasswaord } = data;
     setLoader(true);
@@ -96,7 +95,6 @@ const Login = () => {
             console.log("user already exist in db");
             return;
           }
-
           const newUser = {
             id: response.attributes.sub,
             name: response.attributes.name,
@@ -131,7 +129,10 @@ const Login = () => {
     <>
       <BackgroundLayout />
       <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='always'>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="always"
+        >
           <TouchableOpacity
             style={loginstyle.skipText}
             onPress={() => {

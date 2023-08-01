@@ -9,13 +9,12 @@ import {
   Alert,
   Platform,
   PermissionsAndroid,
-  BackHandler
 } from "react-native";
 import { styles } from "./style";
 import InputField from "../../../commonComponents/InputField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { emailRegex } from "../../../utils/Constant";
-import { Amplify, Auth,API } from "aws-amplify";
+import { Amplify, Auth, API } from "aws-amplify";
 import awsconfig from "../../../aws-exports";
 import Progfileicon from "../../../assets/Images/profile.svg";
 import Mesageicon from "../../../assets/Images/Message.svg";
@@ -37,7 +36,7 @@ import {
   userSignup,
   userExist,
   get_Location_Address,
-  checkNetwork
+  checkNetwork,
 } from "../../../API_Manager/index";
 import CommonLoader from "../../../commonComponents/CommonLoader";
 import {
@@ -59,7 +58,6 @@ import Geolocation from "@react-native-community/geolocation";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
 import PasswordInstruction from "../../Popups/PasswordInstruction/index";
 import Instucticon from "../../../assets/Images/instruction.svg";
-
 //Aws configiuration code commented for now
 Amplify.configure(awsconfig);
 
@@ -78,65 +76,67 @@ const Signup = () => {
   const navigation = useNavigation();
   const userName = watch("username");
   const Password = watch("password");
-  const email = watch("email")
+  const email = watch("email");
   const [isUserExist, setIsUserExist] = useState(false);
   const [passswordpolicy, setPasswordPolicy] = useState(false);
-  const [isBackHandler, setBackButtonHandler] = useState(true)
+  const [isBackHandler, setBackButtonHandler] = useState(true);
   const ChildRef = useRef();
   const snapPoints = ["60%"];
-  var labels = global.labels
+  var labels = global.labels;
 
   // ------------ IsEmail Exist Lamda trigger -------------
-  const isEmailExist = async() => {
-    console.log("lamdaCalled=====",)
-    const apiName = 'checkEmailExist';
-    const path = '/user';
+  const isEmailExist = async () => {
+    console.log("lamdaCalled=====");
+    const apiName = "checkEmailExist";
+    const path = "/user";
     const myInit = {
-       queryStringParameters: {
-         email: email // OPTIONAL
-       }
+      queryStringParameters: {
+        email: email, // OPTIONAL
+      },
     };
-      
-      await API.get(apiName, path, myInit).then((response)=>{
-          if(response.length>0){
-            console.log("userExist==========",response)
-            setError("email", {
-              type: "required",
-              message: "Email already exist!",
-            });
-          }else{
-            setError("email",null)
-          }
-       }).catch((error)=>{
-          console.log("isExistError======",error)
-       })
-  }
+    await API.get(apiName, path, myInit)
+      .then((response) => {
+        if (response.length > 0) {
+          console.log("userExist==========", response);
+          setError("email", {
+            type: "required",
+            message: "Email already exist!",
+          });
+        } else {
+          setError("email", null);
+        }
+      })
+      .catch((error) => {
+        console.log("isExistError======", error);
+      });
+  };
   // ------------------------------------------------------
 
   // --------------- isUserName exist ------------
-  const isUserNameExist = async()=>{
+  const isUserNameExist = async () => {
     setIsUserExist(false);
-    const apiName = 'checkUserNameExist';
-    const path = '/user';
+    const apiName = "checkUserNameExist";
+    const path = "/user";
     const myInit = {
       queryStringParameters: {
-        username: userName // OPTIONAL
-      }
+        username: userName, // OPTIONAL
+      },
     };
-    await API.get(apiName, path, myInit).then((response)=>{
-      console.log("userNameResp========",response)
-      if(response.length>0){
-        setIsUserExist(true)
-      }else{
-        setIsUserExist(false)
-      }
-   }).catch((error)=>{
-      console.log("isExistError======",error)
-   })
-  }
+    await API.get(apiName, path, myInit)
+      .then((response) => {
+        console.log("userNameResp========", response);
+        if (response.length > 0) {
+          setIsUserExist(true);
+        } else {
+          setIsUserExist(false);
+        }
+      })
+      .catch((error) => {
+        console.log("isExistError======", error);
+      });
+  };
   // ---------------------------------------------
   useEffect(() => {
-    
     console.log("username======", userName);
     console.log("password====>", Password);
     // justCheckPAsswordValidation()
@@ -232,19 +232,21 @@ const Signup = () => {
   };
 
   // ----------- get network ------------
-  const checkInternet = (data:any)=>{
-    checkNetwork().then((isConnected)=>{
-      console.log("isConectedResp=======",isConnected)
-      if(isConnected){
-        onRegisterPressed(data)
-      }else{
-        Alert.alert("Not network Connected!")
-      }
-    }).catch((error)=>{
-      console.log("networkErr======",error)
-    })
-  }
-// -------------- Signup user ------------
+  const checkInternet = (data: any) => {
+    checkNetwork()
+      .then((isConnected) => {
+        console.log("isConectedResp=======", isConnected);
+        if (isConnected) {
+          onRegisterPressed(data);
+        } else {
+          Alert.alert(labels.checkNetwork.networkError);
+        }
+      })
+      .catch((error) => {
+        console.log("networkErr======", error);
+      });
+  };
+  // -------------- Signup user ------------
   const onRegisterPressed = async (data: any) => {
     if (isNotBlankSpace(data.username)) {
       setError("username", {
@@ -344,10 +346,9 @@ const Signup = () => {
     }
   };
 
-  const validateEmail = ()=>{
-    isEmailExist()
-
-  }
+  const validateEmail = () => {
+    isEmailExist();
+  };
 
   const Opensheet = () => {
     ChildRef.current.childFunction1();
@@ -357,7 +358,10 @@ const Signup = () => {
     <>
       <BackgroundLayout />
       <SafeAreaView style={styles.safeareastyle}>
-        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='always'>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="always"
+        >
           <TouchableOpacity
             style={styles.skipText}
             onPress={() => {
@@ -453,8 +457,8 @@ const Signup = () => {
                         signupLabel.signupcontant.MOBILENO_VALIDATION_MSG,
                       pattern: {
                         value: /^(\+)?\d{10}$/,
-                        message: 'Invalid mobile number',
-                      }
+                        message: "Invalid mobile number",
+                      },
                     }}
                     keyboardType={"phone-pad"}
                     styles={styles.inputview}

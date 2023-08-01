@@ -46,6 +46,7 @@ import { screenName, eventName } from "../../../../utils/Constant";
 import RegisterGuestUserPopup from "../../../Popups/RegisterGuestUserPopup";
 declare global {
   var labels: any;
+  var userID: string;
 }
 const ClousheetList = () => {
   // --------- File States ----------
@@ -78,16 +79,15 @@ const ClousheetList = () => {
   // -------------- Initial Rendering ------------
   useEffect(() => {
     console.log("currentUser=======", global.isLoggedInUser);
-    DeviceEventEmitter.addListener("updateSpreadSheetList", () =>
-      get_CurrentUserId()
-    );
-    // get_CurrentUserId();
+    DeviceEventEmitter.addListener("updateSpreadSheetList", () => {
+      get_CloudsheetBy_UserID(), getTemplateByUserId();
+    });
     track_Screen(eventName.TRACK_SCREEN, screenName.CLOUDSHEET_TAB_SCREEN);
   }, []);
 
   // --------- Get Template By userID ----------
-  const getTemplateByUserId = (userID: string) => {
-    get_Template_List(userID)
+  const getTemplateByUserId = () => {
+    get_Template_List(global.userID)
       .then((response: any) => {
         console.log("tempalateList========", response);
         const tempCount = response.data.templatesByUserID.items.length;
@@ -129,27 +129,12 @@ const ClousheetList = () => {
 
   useEffect(() => {
     if (isFocused) {
-      // setIsGlobal((prevState) => !prevState);
-      get_CurrentUserId();
+      // get_CurrentUserId();
+      get_CloudsheetBy_UserID();
+      getTemplateByUserId();
       setViewAll(false);
     }
   }, [isFocused]);
-  // ------------ Get Current userId -------------
-  const get_CurrentUserId = () => {
-    current_UserInfo()
-      .then((response: any) => {
-        console.log("currentUserResp======", response.attributes.sub);
-        get_CloudsheetBy_UserID(response.attributes.sub);
-        getTemplateByUserId(response.attributes.sub);
-        setUserId(response.attributes.sub);
-      })
-      .catch((error) => {
-        console.log("userIdErr=======", error);
-        if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
-        }
-      });
-  };
 
   // ------------ Register guest user flow ---------
   const onClickRegister = () => {
@@ -162,14 +147,14 @@ const ClousheetList = () => {
   };
   // ----------- getCloudSheet Pull to refresh -----------
   const onRefreshList = () => {
-    get_CloudsheetBy_UserID(userId);
+    get_CloudsheetBy_UserID();
   };
 
   // ----------- search CloudSheet ----------
   const searchCloudsheetByUserId = (cloudSheetName: string) => {
     setCloudSheetList([]);
     setSearchCloudsheet(cloudSheetName);
-    search_CloudsheetByUserID(userId, cloudSheetName)
+    search_CloudsheetByUserID(global.userID, cloudSheetName)
       .then((response: any) => {
         console.log("searchResp=======", response);
         setCloudSheetList(response.data.spreadSheetsByUserID.items);
@@ -180,9 +165,9 @@ const ClousheetList = () => {
   };
 
   // ----------- get CloudSheet List ------------
-  const get_CloudsheetBy_UserID = (userID: any) => {
+  const get_CloudsheetBy_UserID = () => {
     setLoader(true);
-    get_CloudsheetByUserID(userID)
+    get_CloudsheetByUserID(global.userID)
       .then((response: any) => {
         setLoader(false);
         console.log("cloudsheetRespByuserID========", response);
@@ -242,7 +227,7 @@ const ClousheetList = () => {
     const newTemplate = {
       id: newUniqueId,
       template_name: templateName,
-      userID: userId,
+      userID: global.userID,
       soft_Deleted: false,
     };
     console.log("rowData======", newTemplate);
@@ -372,7 +357,7 @@ const ClousheetList = () => {
       id: spreadSheetId,
       spreadsheet_name: text,
       templatesID: templateId,
-      userID: userId,
+      userID: global.userID,
       _version: version,
       soft_Deleted: softDeleted,
     };
@@ -506,7 +491,14 @@ const ClousheetList = () => {
       </View>
       <View style={styles.flatlistview}>
         <FlatList
-          data={viewAll ? cloudSheetList : cloudSheetList.slice(0, Clousheetlistscreen.viewAll_length.length)}
+          data={
+            viewAll
+              ? cloudSheetList
+              : cloudSheetList.slice(
+                  0,
+                  Clousheetlistscreen.viewAll_length.length
+                )
+          }
           renderItem={renderItems}
           refreshing={false}
           onRefresh={onRefreshList}

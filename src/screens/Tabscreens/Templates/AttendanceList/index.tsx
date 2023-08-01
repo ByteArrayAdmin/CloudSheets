@@ -83,11 +83,12 @@ const Attendancelist = () => {
       .then((response: any) => {
         setLoader(false);
         console.log("spreadsheetResp========", response);
-        let spreadSheetRowList = response.data.spreadSheetRowsBySpreadsheetID.items
+        let spreadSheetRowList =
+          response.data.spreadSheetRowsBySpreadsheetID.items;
         spreadSheetRowList.sort(function compare(a, b) {
           var dateA = new Date(a.updatedAt);
           var dateB = new Date(b.updatedAt);
-          return dateB - dateA ;
+          return dateB - dateA;
         });
         setSpreadSheetData(spreadSheetRowList);
         searchRef.current = spreadSheetRowList;
@@ -95,7 +96,7 @@ const Attendancelist = () => {
       .catch((error) => {
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("spreadSheetListErr========", error);
       });
@@ -204,7 +205,7 @@ const Attendancelist = () => {
         );
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("deleteRow=======", error);
       });
@@ -289,7 +290,7 @@ const Attendancelist = () => {
         </View>
         <View style={Style.flatlistview}>
           <FlatList
-          showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             data={spreadSheetData}
             renderItem={renderItems}
             ListFooterComponent={<Footer />}

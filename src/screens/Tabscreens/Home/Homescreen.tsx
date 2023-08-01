@@ -102,6 +102,7 @@ const Homescreen = (props: any) => {
         if (response) {
           global.isLoggedInUser = true;
           setUserId(response.attributes.sub);
+          global.userID = response.attributes.sub
           syncDate(response.attributes.sub);
         } else {
           global.isLoggedInUser = false;
@@ -109,7 +110,7 @@ const Homescreen = (props: any) => {
       })
       .catch((error) => {
         if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+          Alert.alert(labels.checkNetwork.networkError)
         }
         console.log("currentUserErr=======", error);
       });
@@ -153,7 +154,7 @@ const Homescreen = (props: any) => {
         .catch((err) => {
           setLoader(false);
           if(err.isConnected == false){
-            Alert.alert("Not network Connected!")
+            Alert.alert(labels.checkNetwork.networkError)
           }
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,

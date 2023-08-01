@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { View, TouchableOpacity, FlatList } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import { useNavigation } from "@react-navigation/native";
 import Card from "./Card";
@@ -20,7 +16,11 @@ const TabBarTemplateList = () => {
   const DATA = useState([{ id: 1 }, { id: 1 }]);
   const navigation = useNavigation();
 
-  const renderItems = () => <TouchableOpacity onPress={() => navigation.navigate("ExpensesList")}><Card /></TouchableOpacity>;
+  const renderItems = () => (
+    <TouchableOpacity onPress={() => navigation.navigate("ExpensesList")}>
+      <Card />
+    </TouchableOpacity>
+  );
   return (
     <>
       <View>
@@ -30,7 +30,11 @@ const TabBarTemplateList = () => {
           Folder={<Folder />}
         />
         <View style={styles.Flatlistviewone}>
-          <FlatList data={DATA} renderItem={renderItems} showsVerticalScrollIndicator={false} />
+          <FlatList
+            data={DATA}
+            renderItem={renderItems}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
       </View>
       <View style={styles.widgetposition}>

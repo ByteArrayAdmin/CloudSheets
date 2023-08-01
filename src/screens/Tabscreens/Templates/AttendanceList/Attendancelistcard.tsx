@@ -12,11 +12,6 @@ import Downarrow from "../.././../../assets/Images/dropdown.svg";
 import Ic_upArrow from "../../../../assets/Images/Ic_upArrow.svg";
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
-import { styles } from "../TabBarTemplateList/style";
 import moment from "moment";
 
 export const Attendancelistcard = (props: any) => {

@@ -1,12 +1,10 @@
 import React from "react";
 import {
   View,
-  Image,
   TextInput,
   StyleSheet,
   Text,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import { Controller } from "react-hook-form";
 import { FONTS, COLOURS } from "../utils/Constant";
@@ -15,7 +13,7 @@ declare global {
   var labels: any;
 }
 const InputField = (props: any) => {
-  var lables = global.labels
+  var lables = global.labels;
   console.log("defaultValue========", props.defaultValue);
   return (
     <View>
@@ -39,10 +37,7 @@ const InputField = (props: any) => {
                   pointerEvents={props.pointerEvents}
                   onChangeText={(text) => {
                     onChange(text),
-                    props.customPassword?
-                      props.onChangeCustom(text):null
-                    
-                    
+                      props.customPassword ? props.onChangeCustom(text) : null;
                   }}
                   onChange={props.onChangePassword}
                   editable={props.isEditable}
@@ -56,7 +51,6 @@ const InputField = (props: any) => {
                   keyboardType={props.keyboardType}
                   multiline={props.multiline}
                   onSubmitEditing={props.onSubmitEditing}
-            
                 />
               </View>
               <View>

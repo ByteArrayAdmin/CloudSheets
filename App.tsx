@@ -62,7 +62,7 @@ function App(): JSX.Element {
       })
       .catch((error) => {
         if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+          Alert.alert(labels.checkNetwork.networkError)
         }
         setIsLogIn(true);
         global.session = false;

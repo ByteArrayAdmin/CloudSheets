@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Image, TextInput, StyleSheet, Text } from "react-native";
+import { View, TextInput, StyleSheet, Text } from "react-native";
 import { Controller } from "react-hook-form";
-import { COLOURS, FONTS } from "../utils/Constant";
+import { COLOURS } from "../utils/Constant";
 import Scan from "../assets/Images/Scan.svg";
 
 const NewInputField = (props: any) => {
@@ -64,16 +64,14 @@ const styles = StyleSheet.create({
     width: "75%",
   },
   viewWidth: { width: "75%" },
-  errormsgtext:
-    { color: COLOURS.red },
+  errormsgtext: { color: COLOURS.red },
   flexprop: {
-    flex: 1
+    flex: 1,
   },
 
   scanmargin: { marginRight: 17 },
   placeholdertext: {
     color: COLOURS.black,
-    opacity: 0.5
-  }
-
+    opacity: 0.5,
+  },
 });

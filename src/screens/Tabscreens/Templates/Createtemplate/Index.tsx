@@ -60,6 +60,7 @@ import RegisterGuestUserPopup from "../../../Popups/RegisterGuestUserPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 declare global {
   var labels: any;
+  var userID: string;
 }
 const CreateTemplate = () => {
   // --------- File States -----------
@@ -84,20 +85,17 @@ const CreateTemplate = () => {
   const [navigateId, setNavigateId] = useState("");
 
   useEffect(() => {
-    DeviceEventEmitter.addListener("refreshTemplateList", () => getUserId());
+    DeviceEventEmitter.addListener("refreshTemplateList", () =>
+      getTemplateList()
+    );
     if (global.isLoggedInUser) {
-      // getUserId();
-
       track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN);
     }
-    //  else {
-    //   getGuestUserTemplates();
-    // }
+
     return () => {
       // Run this code when the component unmounts or the dependencies change
       setIsRefNull(false);
       console.log("Component unmounted");
-      // BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     };
   }, []);
 
@@ -107,7 +105,6 @@ const CreateTemplate = () => {
         console.log("sheetIsOpen==========");
         child.current.childFunction2();
         editTempRef.current.childFunction2();
-        // backHandler.remove();
         setIsSheetOpen(false);
         return true;
       } else {
@@ -126,7 +123,7 @@ const CreateTemplate = () => {
     if (isFocused) {
       setIsGlobal((prevState) => !prevState);
       if (global.isLoggedInUser) {
-        getUserId();
+        getTemplateList();
       } else {
         getGuestUserTemplates();
       }
@@ -153,7 +150,7 @@ const CreateTemplate = () => {
     const newTemplate = {
       id: selectedTemplate.id,
       template_name: templateName,
-      userID: userId,
+      userID: global.userID,
       soft_Deleted: false,
     };
     arr1.push(newTemplate);
@@ -167,21 +164,6 @@ const CreateTemplate = () => {
     child.current.childFunction2();
   };
 
-  // -----------------Get Curent userId----------------
-  const getUserId = () => {
-    current_UserInfo()
-      .then((response: any) => {
-        setUserId(response.attributes.sub);
-        getTemplateList(response.attributes.sub);
-        console.log("currentUser=========", response);
-      })
-      .catch((error) => {
-        if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
-        }
-        console.log("currUserErr======", error.isConnected);
-      });
-  };
   // ------------ Register guest user flow ---------
   const onClickRegister = () => {
     setRegisterModalVisible(!registerModalVisible);
@@ -225,7 +207,6 @@ const CreateTemplate = () => {
   // ----------- Open Create Template popup ----------
   const OpenPopup = (item: any) => {
     console.log("selectedTemp========", item);
-
     setSelectedTemplate(item);
     setIsSheetOpen(true);
     editTempRef.current.childFunction1();
@@ -234,14 +215,14 @@ const CreateTemplate = () => {
 
   // -----------------Get Curent user TemplateList pull to Refresh----------------
   const onRefreshList = () => {
-    getTemplateList(userId);
+    getTemplateList();
   };
 
   // -----------------Get Curent user TemplateList----------------
-  const getTemplateList = (userId: any) => {
+  const getTemplateList = () => {
     let arr = [];
     setLoader(true);
-    get_Template_List(userId)
+    get_Template_List(global.userID)
       .then((response: any) => {
         console.log("getTempResp=======", response);
         setLoader(false);
@@ -254,9 +235,9 @@ const CreateTemplate = () => {
         setTemplateList(templateList);
       })
       .catch((error) => {
-        console.log("getTempErr======", error.isConnected);
+        console.log("getTempErr======", error);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         setLoader(false);
       });
@@ -285,7 +266,7 @@ const CreateTemplate = () => {
     const newTemplate = {
       id: newUniqueId,
       template_name: templateName,
-      userID: userId,
+      userID: global.userID,
       soft_Deleted: false,
     };
     console.log("rowData======", newTemplate);
@@ -296,7 +277,6 @@ const CreateTemplate = () => {
         .then((response: any) => {
           console.log("createTempResp=======", response);
           setLoader(false);
-          // arr1.push(response.data.createTemplates);
           arr1.unshift(response.data.createTemplates);
           setTemplateList(arr1);
           child.current.childFunction2();
@@ -314,7 +294,7 @@ const CreateTemplate = () => {
         .catch((err) => {
           setLoader(false);
           if (err.isConnected == false) {
-            Alert.alert("Not network Connected!");
+            Alert.alert(labels.checkNetwork.networkError);
           }
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
@@ -372,7 +352,7 @@ const CreateTemplate = () => {
     const updateTemplate = {
       id: templateId,
       template_name: templateName,
-      userID: userId,
+      userID: global.userID,
       _version: version,
       soft_Deleted: softDeleted,
     };
@@ -394,7 +374,7 @@ const CreateTemplate = () => {
       .catch((error) => {
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
@@ -449,7 +429,7 @@ const CreateTemplate = () => {
         if (isConnected) {
           onDeleteTemplate();
         } else {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
       })
       .catch((error) => {
@@ -494,7 +474,7 @@ const CreateTemplate = () => {
       .catch((error) => {
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("getColErr======", error);
         track_Error_Event(
@@ -686,16 +666,20 @@ const CreateTemplate = () => {
               editTemplate={() => onEditTemplate()}
               deleteTemplate={() => deleteAlert()}
               editTemplateName={() => onEditTemplateName()}
-              viewTemplate={()=>{
+              viewTemplate={() => {
                 editTempRef.current.childFunction2(),
-                navigation.navigate("TemplateList", { template: selectedTemplate })}
-              }
+                  navigation.navigate("TemplateList", {
+                    template: selectedTemplate,
+                  });
+              }}
               selectedTemplate={selectedTemplate}
               editTemplateNameLabel={
                 labels.TemplatePopupExpenses.Edit_Template_Name
               }
               editlabel={labels.TemplatePopupExpenses.Edit_Template}
-              ViewTemplatelabel={labels.TemplatePopupExpenses.View_Template_Sheets}
+              ViewTemplatelabel={
+                labels.TemplatePopupExpenses.View_Template_Sheets
+              }
               deletelabel={labels.TemplatePopupExpenses["Delete Template"]}
             />
           }

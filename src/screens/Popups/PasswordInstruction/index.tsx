@@ -1,13 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet,ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 // import Label from "../../../utils/ProjectLabels.json";
 import { FONTS, COLOURS } from "../../../utils/Constant";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 declare global {
   var labels: any;
 }
 const PasswordInstruction = () => {
-  var Label = global.labels
+  var Label = global.labels;
   return (
     <ScrollView style={styles.container}>
       <View>

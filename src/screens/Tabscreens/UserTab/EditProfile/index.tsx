@@ -1,11 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Alert
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { FONTS, COLOURS, emailRegex } from "../../../../utils/Constant";
 import EditProfileLogo from "../../../../assets/Images/profile-edit.svg";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
@@ -19,12 +13,30 @@ import CommonButton from "../../../../commonComponents/Button";
 import { Styles } from "./style";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import DeletePopup from "../../../../screens/Popups/DeletePopup";
-import { current_UserInfo, updateCurrentAuth, updateUserDetail, get_user_from_table, delete_Account,checkNetwork } from '../../../../API_Manager/index';
-import CommonLoader from '../../../../commonComponents/CommonLoader';
-import { Auth, API, graphqlOperation } from 'aws-amplify';
+import {
+  current_UserInfo,
+  updateCurrentAuth,
+  updateUserDetail,
+  get_user_from_table,
+  delete_Account,
+  checkNetwork,
+} from "../../../../API_Manager/index";
+import CommonLoader from "../../../../commonComponents/CommonLoader";
+import { Auth, API, graphqlOperation } from "aws-amplify";
 import codegenNativeCommands from "react-native/Libraries/Utilities/codegenNativeCommands";
-import { track_Screen,track_Click_Event,track_Success_Event,track_Error_Event } from '../../../../eventTracking/index';
-import {eventName,screenName,clickName,successActionName,errorActionName} from '../../../../utils/Constant';
+import {
+  track_Screen,
+  track_Click_Event,
+  track_Success_Event,
+  track_Error_Event,
+} from "../../../../eventTracking/index";
+import {
+  eventName,
+  screenName,
+  clickName,
+  successActionName,
+  errorActionName,
+} from "../../../../utils/Constant";
 declare global {
   var labels: any;
 }
@@ -33,146 +45,172 @@ const EditProfile = () => {
   const navigation = useNavigation();
   const { control, handleSubmit, register, setValue } = useForm();
   const child = useRef();
-  const [userDetail, setUserDetail] = useState({})
-  const [loader, setLoader] = useState(false)
-  const [userDetailTable, setUserDetailTable] = useState({})
-  const [userName, setUserName] = useState("")
+  const [userDetail, setUserDetail] = useState({});
+  const [loader, setLoader] = useState(false);
+  const [userDetailTable, setUserDetailTable] = useState({});
+  const [userName, setUserName] = useState("");
   const snapPoints = ["35%"];
 
   // ---------- Initial Rendering ------------
   useEffect(() => {
-    getCurrentUser()
-    track_Screen(eventName.TRACK_SCREEN,screenName.PROFILE_SCREEN)
-  }, [])
+    getCurrentUser();
+    track_Screen(eventName.TRACK_SCREEN, screenName.PROFILE_SCREEN);
+  }, []);
 
   // ---------- Get Current User --------------
   const getCurrentUser = () => {
-    setLoader(true)
-    current_UserInfo().then((response: any) => {
-      console.log("getuserResp======", response)
-      setLoader(false)
-      setUserDetail(response.attributes)
-      setUserName(response.username)
-      register("EditName")
-      register("editemail")
-      setValue("EditName", response.attributes.name)
-      setValue("editemail", response.attributes.email)
-      get_User_from_Table(response.attributes.sub)
-    }).catch((error) => {
-      setLoader(false)
-      console.log("userErr========", error)
-    })
-  }
+    setLoader(true);
+    current_UserInfo()
+      .then((response: any) => {
+        console.log("getuserResp======", response);
+        setLoader(false);
+        setUserDetail(response.attributes);
+        setUserName(response.username);
+        register("EditName");
+        register("editemail");
+        setValue("EditName", response.attributes.name);
+        setValue("editemail", response.attributes.email);
+        get_User_from_Table(response.attributes.sub);
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log("userErr========", error);
+      });
+  };
 
   // ----------- getUser from UserTable ---------
   const get_User_from_Table = (userId: any) => {
-    console.log("userID=======",userId)
-    get_user_from_table(userId).then((response: any) => {
-      console.log("userDetailFromTable======", response)
-      setUserDetailTable(response.data.getUser)
-    }).catch((error) => {
-      if (error.isConnected == false) {
-        Alert.alert("Not network Connected!");
-      }
-      console.log("getUserErr=======", error)
-    })
-  }
+    console.log("userID=======", userId);
+    get_user_from_table(userId)
+      .then((response: any) => {
+        console.log("userDetailFromTable======", response);
+        setUserDetailTable(response.data.getUser);
+      })
+      .catch((error) => {
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
+        }
+        console.log("getUserErr=======", error);
+      });
+  };
 
   // ----------- get network ------------
-  const checkInternet = (data:any)=>{
-    checkNetwork().then((isConnected)=>{
-      console.log("isConectedResp=======",isConnected)
-      if(isConnected){
-        onEditPressed(data)
-      }else{
-        Alert.alert("Not network Connected!")
-      }
-    }).catch((error)=>{
-      console.log("networkErr======",error)
-    })
-  }
+  const checkInternet = (data: any) => {
+    checkNetwork()
+      .then((isConnected) => {
+        console.log("isConectedResp=======", isConnected);
+        if (isConnected) {
+          onEditPressed(data);
+        } else {
+          Alert.alert(labels.checkNetwork.networkError);
+        }
+      })
+      .catch((error) => {
+        console.log("networkErr======", error);
+      });
+  };
 
   // ------------ Update userDetail -----------
   const onEditPressed = async (data: any) => {
-    track_Click_Event(eventName.TRACK_CLICK,clickName.CLICK_ON_UPDATE_PROFILE)
-    console.log("formData=======", data)
+    track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_UPDATE_PROFILE);
+    console.log("formData=======", data);
     let Cog_Obj = {
       name: data.EditName,
-      email: data.editemail
-    }
-    setLoader(true)
-    updateCurrentAuth(Cog_Obj).then((response: any) => {
-      console.log("updateResp=========", response)
-      let user_obj = {
-        id: response.detail.attributes.sub,
-        name: data.EditName,
-        email: data.editemail,
-        _version: userDetailTable._version
-      }
-      if (response.status == 'SUCCESS') {
+      email: data.editemail,
+    };
+    setLoader(true);
+    updateCurrentAuth(Cog_Obj)
+      .then((response: any) => {
+        console.log("updateResp=========", response);
+        let user_obj = {
+          id: response.detail.attributes.sub,
+          name: data.EditName,
+          email: data.editemail,
+          _version: userDetailTable._version,
+        };
+        if (response.status == "SUCCESS") {
+          updateUserDetail(user_obj)
+            .then((response: any) => {
+              console.log("updateuser===", response);
+              console.log("oldEmail====", data.editemail);
+              console.log("newEmail=====", userDetail.email);
+              if (data.editemail != userDetail.email) {
+                navigation.navigate("OtpScreen", {
+                  isFrom: "Profile",
+                  username: userName,
+                });
+              }
+              track_Success_Event(
+                eventName.TRACK_SUCCESS_ACTION,
+                successActionName.UPDATE_PROFILE_SUCCESSFULLY
+              );
+              setLoader(false);
+              navigation.goBack();
+            })
+            .then((error) => {
+              track_Error_Event(
+                eventName.TRACK_ERROR_ACTION,
+                errorActionName.UPDATE_PROFILE_ERROR
+              );
+              setLoader(false);
 
-        updateUserDetail(user_obj).then((response: any) => {
-          console.log("updateuser===", response)
-          console.log("oldEmail====", data.editemail)
-          console.log("newEmail=====", userDetail.email)
-          if (data.editemail != userDetail.email) {
-            navigation.navigate("OtpScreen", { isFrom: "Profile", username: userName })
-          }
-          track_Success_Event(eventName.TRACK_SUCCESS_ACTION,successActionName.UPDATE_PROFILE_SUCCESSFULLY)
-          setLoader(false)
-          navigation.goBack()
-        }).then((error) => {
-          track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.UPDATE_PROFILE_ERROR)
-          setLoader(false)
-          
-          console.log("updateUserErr=======", error)
-        })
-      }
-    }).catch((error) => {
-      track_Error_Event(eventName.TRACK_ERROR_ACTION, errorActionName.UPDATE_PROFILE_ERROR)
-      setLoader(false)
-      console.log("updateCurrAuth=======", error)
-    })
+              console.log("updateUserErr=======", error);
+            });
+        }
+      })
+      .catch((error) => {
+        track_Error_Event(
+          eventName.TRACK_ERROR_ACTION,
+          errorActionName.UPDATE_PROFILE_ERROR
+        );
+        setLoader(false);
+        console.log("updateCurrAuth=======", error);
+      });
   };
   // ----------- get network ------------
-  const checkInternetDelete = ()=>{
-    checkNetwork().then((isConnected)=>{
-      console.log("isConectedResp=======",isConnected)
-      if(isConnected){
-        delete_userAccount()
-      }else{
-        Alert.alert("Not network Connected!")
-      }
-    }).catch((error)=>{
-      console.log("networkErr======",error)
-    })
-  }
+  const checkInternetDelete = () => {
+    checkNetwork()
+      .then((isConnected) => {
+        console.log("isConectedResp=======", isConnected);
+        if (isConnected) {
+          delete_userAccount();
+        } else {
+          Alert.alert(labels.checkNetwork.networkError);
+        }
+      })
+      .catch((error) => {
+        console.log("networkErr======", error);
+      });
+  };
 
   // ------------- Delete Account -----------
-  const delete_userAccount = ()=>{
+  const delete_userAccount = () => {
     child.current.childFunction2();
-     setLoader(true)
-    delete_Account(userDetail.sub).then(async(response)=>{
-      console.log("deleteResp======",response)
-      try {
-        const result = await Auth.deleteUser();
-        console.log("deletedUserr========",result);
-        setLoader(false)
-        Alert.alert(result)
-        navigation.dispatch(CommonActions.reset({
-          routes: [
-            { name: 'Signupscreen' },]
-        }))
-      } catch (error) {
-        console.log('Error deleting user', error);
-        setLoader(false)
-      }
-      setLoader(false)
-    }).catch((error)=>{
-      setLoader(false)
-      console.log('deleteErr========',error)
-    })
-  }
+    setLoader(true);
+    delete_Account(userDetail.sub)
+      .then(async (response) => {
+        console.log("deleteResp======", response);
+        try {
+          const result = await Auth.deleteUser();
+          console.log("deletedUserr========", result);
+          setLoader(false);
+          Alert.alert(result);
+          navigation.dispatch(
+            CommonActions.reset({
+              routes: [{ name: "Signupscreen" }],
+            })
+          );
+        } catch (error) {
+          console.log("Error deleting user", error);
+          setLoader(false);
+        }
+        setLoader(false);
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log("deleteErr========", error);
+      });
+  };
 
   const openDeletePopup = () => {
     child.current.childFunction1();
@@ -257,8 +295,8 @@ const EditProfile = () => {
           snapPoints={snapPoints}
           children={
             <DeletePopup
-            onCancel={()=>child.current.childFunction2()}
-            onDelete={()=>checkInternetDelete()}
+              onCancel={() => child.current.childFunction2()}
+              onDelete={() => checkInternetDelete()}
               Textone={labels.DeleteAccountpopups.TextFirst}
               Texttwo={labels.DeleteAccountpopups.TextSecond}
               ButtonOnetext={labels.DeleteAccountpopups.Cancel}
@@ -269,7 +307,6 @@ const EditProfile = () => {
       </ScrollView>
       {loader ? <CommonLoader /> : null}
     </>
-
   );
 };
 

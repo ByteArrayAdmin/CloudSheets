@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import { Text, View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import BackgroundLayout from "../../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../../assets/Images/smalllogo.svg";
 import labels from "../../../../utils/ProjectLabels.json";

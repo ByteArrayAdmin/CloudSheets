@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { SafeAreaView, Text, View, StyleSheet } from "react-native";
 import Logo from "../assets/Images/Logo.svg";
 import { styles } from "../screens/Auth/signup/style";
 import { Signupconstant } from "../../src/utils/Constant";
-import { FONTS,COLOURS } from "../../src/utils/Constant";
+import { FONTS, COLOURS } from "../../src/utils/Constant";
 
 const Layout = (props: any) => {
   return (

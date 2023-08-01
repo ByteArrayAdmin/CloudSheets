@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  Text,
-  Alert
-} from "react-native";
+import { View, ScrollView, StyleSheet, Text, Alert } from "react-native";
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
 import { useNavigation } from "@react-navigation/native";
@@ -47,8 +41,8 @@ const Customer_Support_Form = () => {
         setUserID(response.attributes.sub);
       })
       .catch((error) => {
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("createIssueErr===========", error);
       });
@@ -73,8 +67,8 @@ const Customer_Support_Form = () => {
       })
       .catch((error) => {
         setLoader(false);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("createTicketErr======", error);
       });
@@ -186,7 +180,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     opacity: 0.6,
   },
-  container: {  flex: 1 },
+  container: { flex: 1 },
   cardpadding: {
     paddingVertical: 15,
   },

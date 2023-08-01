@@ -1,22 +1,25 @@
-import React,{useEffect} from 'react'
-import { View, SafeAreaView, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { COLOURS, FONTS } from '../../../utils/Constant';
+import React, { useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { COLOURS, FONTS } from "../../../utils/Constant";
 // import labels from '../../../utils/ProjectLabels.json'
-import Folder from '../../../assets/Images/NewFolder.svg'
-import Edit from '../../../assets/Images/Edit.svg'
-import Infoicon from '../../../assets/Images/infocircle.svg'
-import { track_Screen } from '../../../eventTracking/index';
-import { screenName, eventName } from '../../../utils/Constant';
+import Folder from "../../../assets/Images/NewFolder.svg";
+import Edit from "../../../assets/Images/Edit.svg";
+import Infoicon from "../../../assets/Images/infocircle.svg";
+import { track_Screen } from "../../../eventTracking/index";
+import { screenName, eventName } from "../../../utils/Constant";
 
 declare global {
   var labels: any;
 }
 
 const CreatecloudsheetPopup = (props: any) => {
-  var labels = global.labels
-  useEffect(()=>{
-    track_Screen(eventName.TRACK_SCREEN, screenName.SELECT_CREATE_SPREADSHEET_OPTION_MODAL)
-  }, [])
+  var labels = global.labels;
+  useEffect(() => {
+    track_Screen(
+      eventName.TRACK_SCREEN,
+      screenName.SELECT_CREATE_SPREADSHEET_OPTION_MODAL
+    );
+  }, []);
 
   return (
     <View style={Tempatestyle.container}>
@@ -27,17 +30,16 @@ const CreatecloudsheetPopup = (props: any) => {
           </Text>
         </View>
         <View style={Tempatestyle.space} />
-        <View>
-          {/* <Infoicon /> */}
-        </View>
+        <View>{/* <Infoicon /> */}</View>
       </View>
 
       <View style={Tempatestyle.seletetmplatetext}>
         <Text>{labels.CreateClousheetPopup.SELECTTEMPLATE}</Text>
       </View>
 
-      <TouchableOpacity style={Tempatestyle.editfolderview}
-      onPress={props.inNewTemplate}
+      <TouchableOpacity
+        style={Tempatestyle.editfolderview}
+        onPress={props.inNewTemplate}
       >
         <View>
           <Folder />
@@ -48,8 +50,9 @@ const CreatecloudsheetPopup = (props: any) => {
           </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={Tempatestyle.folderview}
-      onPress={props.inExistingTemplate}
+      <TouchableOpacity
+        style={Tempatestyle.folderview}
+        onPress={props.inExistingTemplate}
       >
         <View>
           <Edit />
@@ -61,26 +64,25 @@ const CreatecloudsheetPopup = (props: any) => {
         </View>
       </TouchableOpacity>
     </View>
+  );
+};
 
-  )
-}
-
-export default CreatecloudsheetPopup
+export default CreatecloudsheetPopup;
 
 const Tempatestyle = StyleSheet.create({
   container: {
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   bottomsheetview: {
     backgroundColor: COLOURS.white,
-    width: '100%',
+    width: "100%",
     height: 268,
     borderRadius: 25,
   },
   creatcloudview: {
     marginTop: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   createcloudtext: {
     fontFamily: FONTS.manrope_semibold,
@@ -94,32 +96,30 @@ const Tempatestyle = StyleSheet.create({
     color: COLOURS.black,
   },
   folderview: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   editfolderview: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 40,
-    alignItems: 'center',
+    alignItems: "center",
   },
   newtemplatetext: {
     fontFamily: FONTS.inter_regular,
     fontSize: 15,
     color: COLOURS.black,
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   existingtemplate: {
     fontFamily: FONTS.inter_regular,
     fontSize: 15,
-    color: COLOURS.black
+    color: COLOURS.black,
   },
   space: {
-    flex: 1
+    flex: 1,
   },
   exitingtemplateview: {
-    paddingLeft: 15
-  }
-
-
-})
+    paddingLeft: 15,
+  },
+});

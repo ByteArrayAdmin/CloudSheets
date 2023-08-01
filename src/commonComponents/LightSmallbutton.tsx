@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  StyleSheet,
-} from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FONTS } from "../utils/Constant";
 
 const LightSmallButton = (props: any) => {
@@ -23,7 +16,7 @@ const Style = StyleSheet.create({
   Button: {
     height: 50,
     justifyContent: "center",
-    alignItems:'center',
+    alignItems: "center",
     borderRadius: 8,
     backgroundColor: "rgba(0, 97, 255, .1)",
   },
@@ -32,6 +25,5 @@ const Style = StyleSheet.create({
     fontFamily: FONTS.inter_regular,
     color: "#0061FF",
     paddingHorizontal: 50,
-    
   },
 });

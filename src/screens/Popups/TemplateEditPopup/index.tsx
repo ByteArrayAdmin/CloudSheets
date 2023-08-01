@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions
-} from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { FONTS, COLOURS } from "../../../utils/Constant";
 import Infoicon from "../../../assets/Images/infocircle.svg";
 import Edit from "../../../assets/Images/Edit.svg";
@@ -15,29 +10,33 @@ import Delete from "../../../assets/Images/Deleteicon.svg";
 import CommonCard from "../CommonCard";
 // import labels from "../../../utils/ProjectLabels.json";
 import { ScrollView } from "react-native-gesture-handler";
-import moment from 'moment';
+import moment from "moment";
 declare global {
   var labels: any;
 }
 
 const TemplateEditPopup = (props: any) => {
-  const { height } = Dimensions.get('window');
-  var labels = global.labels
+  const { height } = Dimensions.get("window");
+  var labels = global.labels;
   return (
     <View style={styles.container}>
       <View style={styles.creatcloudview}>
         <View>
           <View>
-            <Text style={styles.createcloudtext}>{props?.selectedCloudSheet?.spreadsheet_name}</Text>
+            <Text style={styles.createcloudtext}>
+              {props?.selectedCloudSheet?.spreadsheet_name}
+            </Text>
           </View>
         </View>
         <View style={styles.space} />
-        <View>
-          {/* <Infoicon /> */}
-        </View>
+        <View>{/* <Infoicon /> */}</View>
       </View>
       <View>
-        <Text style={styles.modifytext}>{moment(props?.selectedCloudSheet?.createdAt).format("MMM DD, YYYY | hh:mm a")}</Text>
+        <Text style={styles.modifytext}>
+          {moment(props?.selectedCloudSheet?.createdAt).format(
+            "MMM DD, YYYY | hh:mm a"
+          )}
+        </Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.commoncardview}>
@@ -50,7 +49,7 @@ const TemplateEditPopup = (props: any) => {
           </View>
           <View style={styles.cardspace}>
             <CommonCard
-            isDisabled={true}
+              isDisabled={true}
               icon={<Shareicon />}
               heading={labels.EditTemplatePopup.Share_CloudSheet}
             />
@@ -82,7 +81,7 @@ const TemplateEditPopup = (props: any) => {
             />
           </View>
         </View>
-        <View style={{marginBottom: height * 0.3}}></View>
+        <View style={{ marginBottom: height * 0.3 }}></View>
       </ScrollView>
     </View>
   );
@@ -120,7 +119,5 @@ const styles = StyleSheet.create({
   commoncardview: {
     marginTop: 30,
   },
-  bottomheight:{
-    
-  }
+  bottomheight: {},
 });

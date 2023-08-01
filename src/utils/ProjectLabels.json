@@ -91,7 +91,7 @@
     "Cancel": "Cancel",
     "OK": "OK",
     "error": "This field is required!",
-    "coming_soon":"Coming Soon!"
+    "coming_soon": "Coming Soon!"
   },
   "Guestbottomsheet": {
     "YOUAREAGUEST": "You are a Guest",
@@ -145,7 +145,7 @@
     "ClassAttendance": "Class Attendance",
     "Placeholdertext": "| Enter Spreadsheet Name",
     "buttontext": "Add Row",
-    "spreadSheetErr":"Spreadsheet name is required!"
+    "spreadSheetErr": "Spreadsheet name is required!"
   },
   "Rowdetailsform": {
     "headerlabel": "January Attendance",
@@ -210,6 +210,8 @@
     "guestUserTemplateList": "templateList"
   },
   "ExpensesList": {
+    "ColumnAlert": "Column Not Found!",
+    "ColumnError": "Please add column to the associated template",
     "JanuaryExpenses": "January Expenses",
     "Searchhere": "Search here",
     "ExpensesName": "Expenses Name",
@@ -218,7 +220,7 @@
     "ExpensesAmount": "Expenses Amount",
     "Edit_CloudSheet_Record": "Edit CloudSheet Record",
     "Delete_CloudSheet_Record": "Delete CloudSheet Record",
-    "Delete_Template":"Delete Template",
+    "Delete_Template": "Delete Template",
     "Delete_Record_Alert": "Delete Record",
     "Delete_Quete": "Are you sure want to delete this template!",
     "Cancel": "Cancel",
@@ -250,7 +252,7 @@
     "Help": "Help",
     "SubscriptionPlan": "Subscription Plan",
     "Upgradeformorefeatures": "Upgrade for more features",
-    "Comming_Soon":"Coming Soon!",
+    "Comming_Soon": "Coming Soon!",
     "Password": "Password",
     "Privacy_Policy": "Privacy Policy",
     "Our_Privacy_Policy": "Our Privacy Policy",
@@ -277,9 +279,9 @@
     "How_App_Work": "How app works?",
     "FaqContent": "Nibh tristique ut sit sed penatibus malesuada suscipit praesent aliquam. Sagittis scelerisque nunc elementum nunc aenean nunc. Dignissim eu nulla aliquam tincidunt. Morbi sit sed mi eget.",
     "SIGNOUT_ALERT": "Signout",
-    "SIGNOUT_QUOTE":"Are you sure want to signout?",
-    "CANCEL":"Cancel",
-    "OK":"OK"
+    "SIGNOUT_QUOTE": "Are you sure want to signout?",
+    "CANCEL": "Cancel",
+    "OK": "OK"
   },
   "EditProfile": {
     "Edit_Profile": "Edit Profile",
@@ -330,7 +332,7 @@
   },
   "EditTemplatePopup": {
     "EditCloudSheet": "Edit CloudSheet",
-    "EditCloudSheetName":"Edit CloudSheet Name",
+    "EditCloudSheetName": "Edit CloudSheet Name",
     "Share_CloudSheet": "Share CloudSheet",
     "RenameCloudSheet": "Rename CloudSheet",
     "View_CloudSheet": "View CloudSheet",
@@ -339,8 +341,8 @@
   "TemplatePopupExpenses": {
     "Edit_Template": "Edit Template",
     "Delete Template": "Delete Template",
-    "Edit_Template_Name":"Edit Template Name",
-    "View_Template_Sheets":"View Template Sheets"
+    "Edit_Template_Name": "Edit Template Name",
+    "View_Template_Sheets": "View Template Sheets"
   },
   "SubcriptionplanPoup": {
     "Subscription_Plan": "Subscription Plan",
@@ -373,11 +375,10 @@
     "letter": "letter",
     "loweCase": "Lowercase"
   },
-  "CheckNetworkConstant":{
-    "networkError":"Not network Connected!"
+  "viewAll_length": {
+    "length": 5
   },
-  "viewAll_length":{
-    "length":5
+  "checkNetwork": {
+    "networkError": "Not network Connected!"
   }
-  
 }

@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import InputField from "../../../../commonComponents/InputField";
-import { useForm } from "react-hook-form";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import labels from "../../../../utils/ProjectLabels.json";
 import DropdownModal from "../../../../commonComponents/DropdownModal";
 
 const SpreadsheetCard = (props: any) => {
-  const { setError, handleSubmit } = useForm();
-
   return (
     <View style={styles.container}>
       <View>

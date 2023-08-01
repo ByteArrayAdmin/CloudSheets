@@ -24,7 +24,7 @@ import {
   spreadSheet_softDelete,
   getSpreadsheetRow_bySpreadsheetId_forSoftDelete,
   softDelete_spreadSheet_and_rows,
-  checkNetwork 
+  checkNetwork,
 } from "../../../../API_Manager/index";
 import CreateCloudSheetNamePopup from "../../../Popups/CreateCloudSheetNamePopup/index";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
@@ -70,7 +70,6 @@ const TemplateList = () => {
   const [navigateId, setNavigateId] = useState("");
   const [viewAll, setViewAll] = useState(false);
 
-
   // -------------- initial Render-------------
   useEffect(() => {
     console.log("template======", route?.params?.template);
@@ -89,8 +88,6 @@ const TemplateList = () => {
         console.log("currUserErr======", error);
       });
   };
-
-  
 
   // --------------- On Refresh SpreadSheet ---------
   const onRefresh = () => {
@@ -114,8 +111,8 @@ const TemplateList = () => {
       })
       .catch((error) => {
         setLoader(false);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("getSpreadSheetErr=====", error);
       });
@@ -214,8 +211,8 @@ const TemplateList = () => {
       })
       .catch((error) => {
         setLoader(false);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
         }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
@@ -291,8 +288,8 @@ const TemplateList = () => {
       })
       .catch((error) => {
         setLoader(false);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
         }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
@@ -334,18 +331,20 @@ const TemplateList = () => {
   };
 
   // ----------- get network ------------
-  const checkInternet = ()=>{
-    checkNetwork().then((isConnected)=>{
-      console.log("isConectedResp=======",isConnected)
-      if(isConnected){
-        onDeleteCloudsheet()
-      }else{
-        Alert.alert("Not network Connected!")
-      }
-    }).catch((error)=>{
-      console.log("networkErr======",error)
-    })
-  }
+  const checkInternet = () => {
+    checkNetwork()
+      .then((isConnected) => {
+        console.log("isConectedResp=======", isConnected);
+        if (isConnected) {
+          onDeleteCloudsheet();
+        } else {
+          Alert.alert(labels.checkNetwork.networkError);
+        }
+      })
+      .catch((error) => {
+        console.log("networkErr======", error);
+      });
+  };
 
   // ----------- Delete Cloudsheet ----------
   const onDeleteCloudsheet = () => {
@@ -456,12 +455,22 @@ const TemplateList = () => {
       />
       <View style={styles.secondflatlistview}>
         <FlatList
-          data={viewAll? spreadSheetList : spreadSheetList.slice(0, labels.viewAll_length.length)}
+          showsVerticalScrollIndicator={false}
+          data={
+            viewAll
+              ? spreadSheetList
+              : spreadSheetList.slice(0, labels.viewAll_length.length)
+          }
           renderItem={ListCard}
           refreshing={false}
           onRefresh={onRefresh}
           extraData={extraData}
-          ListHeaderComponent={<FlatlistHeader onViewAll={()=>setViewAll(true)} template={template} />}
+          ListHeaderComponent={
+            <FlatlistHeader
+              onViewAll={() => setViewAll(true)}
+              template={template}
+            />
+          }
         />
       </View>
       <TouchableOpacity

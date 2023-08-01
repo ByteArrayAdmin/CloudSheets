@@ -19,6 +19,7 @@ import SubcriptionPlan from "../../../../screens/Popups/SubcriptionPopup";
 import {
   get_SpreadSheetRowBySpreadSheetId,
   spreadSheetRow_softDelete,
+  get_ColumnByTemplateId,
 } from "../../../../API_Manager/index";
 import EditSpreadsheetRecord from "../../../../screens/Popups/EditSpreadsheetRecord/index";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
@@ -58,12 +59,14 @@ const ExpensesList = (props: any) => {
   const [loader, setLoader] = useState(false);
   const [extraData, setExtraData] = useState(new Date());
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isColumnExist, setIsColumnExist] = useState(false);
 
   // ----------- Initial Rendering ------------
   useEffect(() => {
     console.log("spreadSheetId========", spreadSheetDetail);
     // OpenPopup();
     get_SpreadSheetRowBySpreadSheetID();
+    getColumn();
     track_Screen(eventName.TRACK_SCREEN, screenName.SPREADSHEET_ROWLIST_SCREEN);
   }, []);
 
@@ -91,10 +94,25 @@ const ExpensesList = (props: any) => {
       })
       .catch((error) => {
         setLoader(false);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("spreadRowErr========", error);
+      });
+  };
+
+  // ------------ Get Column By TemplateID ----------
+  const getColumn = () => {
+    get_ColumnByTemplateId(spreadSheetDetail.templatesID)
+      .then((response: any) => {
+        console.log("getColumnList=========", response);
+        if (response.data.templateColumnsByTemplatesID.items.length > 0) {
+          console.log("True==========");
+          setIsColumnExist(true);
+        }
+      })
+      .catch((error) => {
+        console.log("getColErr=======", error);
       });
   };
 
@@ -106,9 +124,7 @@ const ExpensesList = (props: any) => {
     const backAction = () => {
       if (isSheetOpen) {
         console.log("sheetIsOpen==========");
-
         editRecordRef.current.childFunction2();
-        // backHandler.remove();
         setIsSheetOpen(false);
         return true;
       } else {
@@ -157,10 +173,18 @@ const ExpensesList = (props: any) => {
       eventName.TRACK_CLICK,
       clickName.SELECT_ADD_SPREADSHEET_ROW
     );
-    navigation.navigate("RowdetailForm", {
-      spreadSheet: spreadSheetDetail,
-      isFrom: isFrom,
-    });
+    if (isColumnExist) {
+      navigation.navigate("RowdetailForm", {
+        spreadSheet: spreadSheetDetail,
+        isFrom: isFrom,
+      });
+    } else {
+      Alert.alert(
+        labels.ExpensesList.ColumnAlert,
+        labels.ExpensesList.ColumnError,
+        [{ text: labels.ExpensesList.OK, onPress: () => navigation.goBack() }]
+      );
+    }
   };
 
   // ----------- Delete Row Alert ------------
@@ -232,8 +256,8 @@ const ExpensesList = (props: any) => {
       })
       .catch((error) => {
         setLoader(false);
-        if(error.isConnected == false){
-          Alert.alert("Not network Connected!")
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
         }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
@@ -249,14 +273,11 @@ const ExpensesList = (props: any) => {
     let row = JSON.parse(JSON.stringify(searchRef.current));
     console.log("allitems=======", row);
     let searchedArr = [];
-
     if (text.trim() !== "") {
       row.filter((item) => {
         let parseEle = JSON.parse(item.items);
         let isValue = false;
-
         console.log("filterDataAbove========", parseEle);
-
         parseEle.forEach((element) => {
           if (
             element.column_Value &&
@@ -272,7 +293,6 @@ const ExpensesList = (props: any) => {
     } else {
       searchedArr = [...row];
     }
-
     setSpreadSheetData(searchedArr);
     setExtraData(new Date());
     console.log("searchData=====", searchedArr);

@@ -1,10 +1,7 @@
 import React from "react";
 import {
-  SafeAreaView,
   Text,
-  View,
   TouchableOpacity,
-  Alert,
   StyleSheet,
 } from "react-native";
 import { COLOURS, FONTS } from "../utils/Constant";

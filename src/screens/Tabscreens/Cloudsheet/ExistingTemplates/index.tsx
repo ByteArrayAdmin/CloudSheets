@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  SafeAreaView,
-  Text,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { View, FlatList, TouchableOpacity } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import { styles } from "./styles";
 import BackButton from "../../../../commonComponents/Backbutton";

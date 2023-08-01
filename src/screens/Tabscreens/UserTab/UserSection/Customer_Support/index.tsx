@@ -1,11 +1,11 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   View,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
   Text,
-  Alert
+  Alert,
 } from "react-native";
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
@@ -17,9 +17,9 @@ import Ic_customer from "../../../../../assets/Images/Ic_customer.svg";
 import Ic_messenger from "../../../../../assets/Images/Ic_messenger.svg";
 import Ic_sendMail from "../../../../../assets/Images/Ic_sendMail.svg";
 import Ic_rightArrow from "../../../../../assets/Images/Ic_rightArrow.svg";
-import { track_Screen } from '../../../../../eventTracking/index';
-import {eventName,screenName} from '../../../../../utils/Constant';
-import Clipboard from '@react-native-clipboard/clipboard';
+import { track_Screen } from "../../../../../eventTracking/index";
+import { eventName, screenName } from "../../../../../utils/Constant";
+import Clipboard from "@react-native-clipboard/clipboard";
 declare global {
   var labels: any;
 }
@@ -27,13 +27,13 @@ const Customer_Support_Screen = () => {
   var labels = global.labels;
   const navigation = useNavigation();
 
-  useEffect(()=>{
-    track_Screen(eventName.TRACK_SCREEN,screenName.CUSTOMER_SUPPORT_SCREEN)
-  }, [])
+  useEffect(() => {
+    track_Screen(eventName.TRACK_SCREEN, screenName.CUSTOMER_SUPPORT_SCREEN);
+  }, []);
 
-  const copyToClipboard = (email:string) => {
+  const copyToClipboard = (email: string) => {
     Clipboard.setString(email);
-    Alert.alert("copied")
+    Alert.alert("copied");
   };
 
   return (
@@ -58,7 +58,9 @@ const Customer_Support_Screen = () => {
           <TouchableOpacity
             style={styles.ButtonStyle}
             onPress={() => navigation.navigate("Customer_Support_Form")}
-            onLongPress={()=>copyToClipboard(labels.SubscriptionScreen.Supported_Mail)}
+            onLongPress={() =>
+              copyToClipboard(labels.SubscriptionScreen.Supported_Mail)
+            }
           >
             <Ic_sendMail />
             <View style={styles.textleftspace}>
@@ -79,7 +81,7 @@ export default Customer_Support_Screen;
 
 const styles = StyleSheet.create({
   backgroundcolor: {
-   // backgroundColor: COLOURS.Skyblue,
+    // backgroundColor: COLOURS.Skyblue,
     flex: 1,
   },
   ButtonStyle: {
@@ -103,9 +105,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLOURS.white,
   },
-  Comonlayoutspaces:{ marginTop: 20, marginHorizontal: 15 },
-  textleftspace:{ marginLeft: 11 },
-  commonspace:{
-    flex:1
-  }
+  Comonlayoutspaces: { marginTop: 20, marginHorizontal: 15 },
+  textleftspace: { marginLeft: 11 },
+  commonspace: {
+    flex: 1,
+  },
 });

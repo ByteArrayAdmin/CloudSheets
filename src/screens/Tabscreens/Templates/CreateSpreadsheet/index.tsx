@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { Text, View, TouchableOpacity, FlatList, Alert } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 import Folder from "../../../../assets/Images/folder12.svg";
@@ -104,7 +97,7 @@ const CreatSpreadsheet = () => {
       .catch((error) => {
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("getColmErr=======", error);
       });
@@ -170,7 +163,7 @@ const CreatSpreadsheet = () => {
           errorActionName.CREATE_COLUMN_ERROR
         );
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         setLoader(false);
         console.log("createColmErr======", error);
@@ -188,15 +181,9 @@ const CreatSpreadsheet = () => {
   // --------------Add Column functionality---------------
   const AddColoumn = () => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.SELECT_ADD_COLUMN);
-
     let uid = uuid.v1().toString();
     let timeStamp = moment().unix().toString();
     let newUniqueId = uid + "-" + timeStamp;
-    // if (!isEdit && newIndex == 0) {
-    // if (columnList.length == 0 && Data.length == 0) {
-    //   setValue("column_Name0", col_name);
-    //   setValue("column_Type0", col_Type);
-    // }
 
     setData((oldArray) => [
       ...Data,
@@ -210,7 +197,6 @@ const CreatSpreadsheet = () => {
       },
     ]);
     const newIndex = columnList.length + Data.length;
-    // Alert.alert("myindex", newIndex)
     console.log("my index@@@@@@@@@======>", newIndex);
   };
   //==============ScrollToIndexFunctonality===============
@@ -221,7 +207,6 @@ const CreatSpreadsheet = () => {
       eventName.TRACK_CLICK,
       clickName.OPEN_REMOVE_COLUMN_ALERT
     );
-
     Alert.alert(
       labels.Creatcloudsheetlabels.Delete_Column,
       labels.Creatcloudsheetlabels.Delete_Warning,
@@ -253,9 +238,6 @@ const CreatSpreadsheet = () => {
     );
     console.log("removeCol=========", item, index);
     let arr1 = columnList;
-    // arr1.splice(index, 1);
-    // setColumnList(arr1);
-    // setExtraData(new Date());
     let updatedColm = {
       id: item.id,
       column_Name: item.column_Name,
@@ -280,7 +262,7 @@ const CreatSpreadsheet = () => {
       .catch((error) => {
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert("Not network Connected!");
+          Alert.alert(labels.checkNetwork.networkError);
         }
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
@@ -313,31 +295,6 @@ const CreatSpreadsheet = () => {
     setExtraDataCol(new Date());
   };
 
-  // ------- checkValidate -------
-  const onValidation = (text: string, colname: any) => {
-    console.log("onchangeVal========", text, colname);
-
-    if (isEdit) {
-      if (text == "Name" && columnList.length > 0) {
-        setError(colname, {
-          type: "required",
-          message: "Name is already added",
-        });
-      } else {
-        setError(colname, null);
-      }
-    } else if (!isEdit && Data.length >= 1) {
-      if (text == "Name") {
-        setError(colname, {
-          type: "required",
-          message: "Name is already added",
-        });
-      } else {
-        setError(colname, null);
-      }
-    }
-  };
-
   // -------------- Render New Column Added -------------
   const renderItems = ({ item, index }: any) => (
     console.log("colItem=====", item),
@@ -345,9 +302,6 @@ const CreatSpreadsheet = () => {
       <SpreadsheetCard
         control={control}
         setError={setError}
-        // onChangeCustom={(text: string, colName: string) =>
-        //   onValidation(text, colName)
-        // }
         item={item}
         columnLength={columnList.length}
         index={index}
