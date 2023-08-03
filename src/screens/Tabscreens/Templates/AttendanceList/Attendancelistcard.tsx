@@ -13,6 +13,7 @@ import Ic_upArrow from "../../../../assets/Images/Ic_upArrow.svg";
 import Threedot from "../.././../../assets/Images/Darkthreedots.svg";
 import { COLOURS, FONTS } from "../../../../utils/Constant";
 import moment from "moment";
+import Animated from "react-native-reanimated";
 
 export const Attendancelistcard = (props: any) => {
   const [items, setItems] = useState([]);

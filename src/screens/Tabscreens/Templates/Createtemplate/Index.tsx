@@ -517,7 +517,11 @@ const CreateTemplate = () => {
     } else {
       if (navigateId == template.id) {
         setNavigateId("");
-        navigation.navigate("TemplateList", { template: template });
+        // navigation.navigate("TemplateList", { template: template });
+        navigation.navigate("CreatSpreadsheet", {
+          template: template,
+          isEdit: true,
+        });
       } else {
         setTimeout(() => {
           setNavigateId("");

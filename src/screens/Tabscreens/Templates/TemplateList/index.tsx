@@ -308,8 +308,8 @@ const TemplateList = () => {
     track_Screen(eventName.TRACK_SCREEN, screenName.DELETE_SPREADSHEET_ALERT);
     editCloudSheetRef.current.childFunction2();
     Alert.alert(
-      labels.Templatelistlabel.DeleteAlert,
-      labels.Templatelistlabel.Delete_Quete,
+      labels.Templatelistlabel.Delete_Cloudsheet_Alert,
+      labels.Templatelistlabel.Delete_CloudSheet_Quete,
       [
         {
           text: labels.Templatelistlabel.Cancel,
