@@ -36,11 +36,11 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Cloudsheet wants your location for better experience</string>
+	<string>CloudSheet uses your location for geo-specific functionalities like logging locations of mobile inventory asset scans, enhancing your spreadsheet utility.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Cloudsheet wants your location for better experience</string>
+	<string>CloudSheet uses your location for geo-specific functionalities like logging locations of mobile inventory asset scans, enhancing your spreadsheet utility.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Cloudsheet wants your location for better experience</string>
+	<string>CloudSheet uses your location for geo-specific functionalities like logging locations of mobile inventory asset scans, enhancing your spreadsheet utility.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Black.ttf</string>
