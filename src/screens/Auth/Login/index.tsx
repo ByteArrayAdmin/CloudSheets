@@ -2,6 +2,11 @@
 import React, { useEffect, useState } from "react";
 import AuthCard from "../../../commonComponents/AuthCard";
 import InputField from "../../../commonComponents/InputField";
+
+//Added 
+
+import { AdMobBanner } from 'react-native-admob'
+
 import {
   SafeAreaView,
   Text,
@@ -263,8 +268,23 @@ const Login = () => {
                 </Text>
               </TouchableOpacity>
             </View>
+
+//$$$$ Code 
+{/* Add AdMob Banner here */
+
+
+}
+<AdMobBanner
+  adSize="fullBanner"
+  adUnitID="ca-app-pub-6577477548977855/1913088834" // Test ID, Replace with your-admob-unit-id
+  testDeviceID="EMULATOR"
+  onAdFailedToLoad={error => console.error(error)}
+/>
+//$$$$ Code 
+
             <View style={loginstyle.BottomGap} />
           </View>
+
         </KeyboardAwareScrollView>
         {loader ? <CommonLoader /> : null}
       </SafeAreaView>

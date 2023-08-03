@@ -55,11 +55,17 @@ target 'CloudSheets' do
     :flipper_configuration => flipper_config,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
+    
+   
   )
 
   target 'CloudSheetsTests' do
     inherit! :complete
     # Pods for testing
+    #Added
+    pod 'RNAdMob', :path => '../node_modules/react-native-admob'
+
+
   end
 
   post_install do |installer|
