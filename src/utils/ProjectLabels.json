@@ -65,7 +65,7 @@
     "SHEETS": "Sheets",
     "WELCOMETO": "Welcome to",
     "Clodesheetcardtext": "CloudSheets",
-    "cartext": "At convallis tristique egestas tellus velit. Morbi nec pretium vel.At convallis tristique."
+    "cartext": "CloudSheet: The perfect blend of simplicity and efficiency. Ideal for all your daily organization needs, from study plans to business inventories."
   },
   "HomeWelcomeScreen": {
     "CLOUDSHEETS": "Cloud",
@@ -75,7 +75,7 @@
     "Cardtext": "Create your own customize sheet",
     "Cardtexttwo": "by tapping the button below.",
     "buttontext": "Create CloudSheet",
-    "cartext": "At convallis tristique egestas tellus velit. Morbi nec pretium vel.At convallis tristique."
+    "cartext": "CloudSheet: The perfect blend of simplicity and efficiency. Ideal for all your daily organization needs, from study plans to business inventories."
   },
   "cloudsheetlistconstant": {
     "CLOUDSHEETS": "Cloud",
