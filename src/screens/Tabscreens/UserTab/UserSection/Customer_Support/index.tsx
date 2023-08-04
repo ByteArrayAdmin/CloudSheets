@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useRoute } from "@react-navigation/native";
 // import labels from "../../../../../utils/ProjectLabels.json";
 import CommonLayout from "../CommonLayout";
 import { COLOURS, FONTS } from "../../../../../utils/Constant";
@@ -26,6 +26,8 @@ declare global {
 const Customer_Support_Screen = () => {
   var labels = global.labels;
   const navigation = useNavigation();
+  const route = useRoute();
+  const [isSuspended, setIsSuspended] = useState(route?.params?.suspended)
 
   useEffect(() => {
     track_Screen(eventName.TRACK_SCREEN, screenName.CUSTOMER_SUPPORT_SCREEN);
@@ -57,7 +59,7 @@ const Customer_Support_Screen = () => {
           </View>
           <TouchableOpacity
             style={styles.ButtonStyle}
-            onPress={() => navigation.navigate("Customer_Support_Form")}
+            onPress={() => navigation.navigate("Customer_Support_Form",{suspended:isSuspended})}
             onLongPress={() =>
               copyToClipboard(labels.SubscriptionScreen.Supported_Mail)
             }

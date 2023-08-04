@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, TouchableOpacity } from "react-native";
+import { View, FlatList, TouchableOpacity, Alert } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import { styles } from "./styles";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -10,9 +10,12 @@ import TemplateCard from "./TemplateCard";
 import {
   get_Template_List,
   current_UserInfo,
+  get_ColumnByTemplateId,
+  get_CloudsheetByUserID,
 } from "../../../../API_Manager/index";
 import { track_Screen } from "../../../../eventTracking/index";
 import { screenName, eventName } from "../../../../utils/Constant";
+import CommonLoader from '../../../../commonComponents/CommonLoader';
 declare global {
   var labels: any;
 }
@@ -22,6 +25,8 @@ const ExistingTemplateList = () => {
   const navigation = useNavigation();
   const [templateList, setTemplateList] = useState([]);
   const [userId, setUserId] = useState("");
+  const [cloudSheetCount, setCloudSheetCount] = useState(0);
+  const [loader, setLoader] = useState(false);
 
   // ------------ Initial Rendering -----------
   useEffect(() => {
@@ -38,6 +43,7 @@ const ExistingTemplateList = () => {
       .then((response: any) => {
         setUserId(response.attributes.sub);
         getTemplateList(response.attributes.sub);
+        getCloudsheetByUserID();
         console.log("currentUser=========", response);
       })
       .catch((error) => {
@@ -49,30 +55,85 @@ const ExistingTemplateList = () => {
     getTemplateList(userId);
   };
 
+  // ----------- Get CloudSheet by UserId -------------
+  const getCloudsheetByUserID = () => {
+    get_CloudsheetByUserID(global.userID)
+      .then((response: any) => {
+        console.log("cloudSheet========", response);
+        let cloudSheetLength = response.data.spreadSheetsByUserID.items.length;
+        setCloudSheetCount(cloudSheetLength);
+      })
+      .catch((error) => {
+        console.log("getCloudsheetErr=========", error);
+      });
+  };
+
   // ----------- Get Template List ----------
   const getTemplateList = (userId: any) => {
+    setLoader(true)
     get_Template_List(userId)
       .then((response: any) => {
         console.log("templateResp=======", response);
+        setLoader(false)
         setTemplateList(response.data.templatesByUserID.items);
       })
       .catch((error) => {
+        setLoader(false)
         console.log("getTempalteErr========", error);
       });
   };
 
+  // ------------- Get Template Column By TemplateID --------------
+  const getTemplateColumn = (item: any) => {
+    setLoader(true)
+    get_ColumnByTemplateId(item.id)
+      .then((response: any) => {
+        console.log("colResp==========", response);
+        setLoader(false)
+        let cloumnLength =
+          response.data.templateColumnsByTemplatesID.items.length;
+        if (cloumnLength > 0) {
+          if (
+            global.isPremium == "false" &&
+            cloudSheetCount >= labels.trialConstants.trial_Cloudsheet_Limit
+          ) {
+            Alert.alert(labels.limitConstants.CloudSheet_Limit_Exceed);
+          } else {
+            navigation.navigate("AddrowClassattendance", {
+              template: item,
+              isFrom: "CloudSheetTab",
+            });
+          }
+        }else{
+          Alert.alert(
+            labels.ExpensesList.ColumnAlert,
+            labels.ExpensesList.ColumnError,
+            [{ text: labels.ExpensesList.OK, onPress: () => {} }]
+          );
+        }
+      })
+      .catch((error) => {
+        console.log("colErr==========", error);
+        setLoader(false)
+      });
+  };
+
   const renderItems = ({ item }: any) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("AddrowClassattendance", {
-          template: item,
-          isFrom: "CloudSheetTab",
-        })
-      }
-      // onPress={() => onDoubleTab(item)}
-    >
-      <TemplateCard item={item} />
-    </TouchableOpacity>
+    console.log("tempItem========", item),
+    (
+      <TouchableOpacity
+        // onPress={() =>
+        //   navigation.navigate("AddrowClassattendance", {
+        //     template: item,
+        //     isFrom: "CloudSheetTab",
+        //   })
+        // }
+        onPress={() => getTemplateColumn(item)}
+        // onPress={() => onDoubleTab(item)}
+      >
+        <TemplateCard item={item} />
+      </TouchableOpacity>
+    )
   );
 
   return (
@@ -92,6 +153,7 @@ const ExistingTemplateList = () => {
           />
         </View>
       </View>
+      {loader? <CommonLoader/>:null}
     </View>
   );
 };

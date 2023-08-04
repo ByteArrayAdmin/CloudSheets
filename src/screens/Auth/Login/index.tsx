@@ -43,6 +43,7 @@ import {
   successActionName,
   errorActionName,
 } from "../../../utils/Constant";
+import SuspensionModal from '../../../commonComponents/SuspensionModal';
 declare global {
   var labels: any;
 }
@@ -51,6 +52,7 @@ const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
   const [loader, setLoader] = useState(false);
+  const [isVisible,setIsVisible] = useState(false);
   var LoginLabels = global.labels;
 
   useEffect(() => {
@@ -85,7 +87,7 @@ const Login = () => {
       .then((response: any) => {
         console.log("signInResp=======", response);
         signIn_Event();
-        setLoader(false);
+        
         const syncUser = async () => {
           const userData = await API.graphql(
             graphqlOperation(getUser, { id: response.attributes.sub })
@@ -105,7 +107,16 @@ const Login = () => {
           );
         };
         syncUser();
-        navigation.navigate("Tabnavigator");
+        let userInfo = response.attributes
+         const isSuspended = userInfo[labels.checkAccountSuspended.isSuspended]
+         console.log("isAccountSuspended=========",isSuspended)
+         if(isSuspended == 'true'){
+          setIsVisible(true)
+         }else{
+          navigation.navigate("Tabnavigator");
+         }
+         setLoader(false);
+        
       })
       .catch((e) => {
         console.log("loginErr=======", e);
@@ -266,7 +277,12 @@ const Login = () => {
             <View style={loginstyle.BottomGap} />
           </View>
         </KeyboardAwareScrollView>
-        {loader ? <CommonLoader /> : null}
+        {loader?<CommonLoader/>:null}
+        {<SuspensionModal visible={isVisible} onPress={()=>{
+          setIsVisible(false),
+          navigation.navigate('Customer_Support_Screen',{suspended:true})
+        }}/>}
+        
       </SafeAreaView>
     </>
   );

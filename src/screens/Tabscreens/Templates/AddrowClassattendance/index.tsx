@@ -23,7 +23,7 @@ import {
 } from "../../../../utils/Constant";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { create_SpreadSheet } from "../../../../API_Manager/index";
+import { create_SpreadSheet,get_CloudsheetByUserID } from "../../../../API_Manager/index";
 import uuid from "react-native-uuid";
 import moment from "moment";
 import CommonLoader from "../../../../commonComponents/CommonLoader";
@@ -47,18 +47,36 @@ const AddrowClassattendance = () => {
   const [template, setTemplate] = useState(route.params.template);
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom);
   const [loader, setLoader] = useState(false);
+  const [cloudSheetCount, setCloudSheetCount] = useState(0)
 
   useEffect(() => {
     console.log("columns=======", route.params.template);
     track_Screen(eventName.TRACK_SCREEN, screenName.CREATE_SPREADSHEET_SCREEN);
+    getCloudSheetBy_userID()
   }, []);
+
+// ---------- getCloudsheetBy UserID ------------
+const getCloudSheetBy_userID = ()=>{
+  get_CloudsheetByUserID(global.userID).then((response:any)=>{
+    console.log("respo==========",response)
+    let cloudSheetCount = response.data.spreadSheetsByUserID.items.length
+    setCloudSheetCount(cloudSheetCount)
+  }).catch((error)=>{
+    console.log("cloudErr=======",error)
+  })
+}
 
   // ---------------Check form validation----------------
   const checkValidation = () => {
     if (text == "") {
       setError(labels.AddrowClassattendance.spreadSheetErr);
     } else {
-      onAddRow();
+      if(global.isPremium == 'false' && cloudSheetCount >= labels.trialConstants.trial_Cloudsheet_Limit){
+        Alert.alert(labels.limitConstants.CloudSheet_Limit_Exceed)
+      }else{
+        onAddRow();
+      }
+     
     }
   };
 

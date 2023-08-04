@@ -75,6 +75,7 @@ const ClousheetList = () => {
   const [navigateId, setNavigateId] = useState("");
   const [viewAll, setViewAll] = useState(false);
   const [isTemplate, setIsTemplate] = useState(false);
+  const [templateCount, setTemplateCount] = useState(0);
 
   // -------------- Initial Rendering ------------
   useEffect(() => {
@@ -92,6 +93,7 @@ const ClousheetList = () => {
         console.log("tempalateList========", response);
         const tempCount = response.data.templatesByUserID.items.length;
         console.log("TempCount=======", tempCount);
+        setTemplateCount(tempCount)
         if (tempCount == 0) {
           setIsTemplate(false);
         } else {
@@ -254,8 +256,14 @@ const ClousheetList = () => {
   // ------------ Open select Template Type Popup ------------
   const Opensheet = () => {
     if (global.isLoggedInUser) {
-      setIsSheetOpen(true);
+      if( global.isPremium == "false" && cloudSheetList.length >= labels.trialConstants.trial_Cloudsheet_Limit){
+        Alert.alert(labels.limitConstants.CloudSheet_Limit_Exceed)
+      }else{
+        setIsSheetOpen(true);
       ChildRef.current.childFunction1();
+      }
+      // setIsSheetOpen(true);
+      // ChildRef.current.childFunction1();
     } else {
       setRegisterModalVisible(!registerModalVisible);
     }
@@ -272,7 +280,14 @@ const ClousheetList = () => {
     setError("");
     setIsSheetOpen(true);
     ChildRef.current.childFunction2();
-    createTemplateRef.current.childFunction1();
+    if( global.isPremium == "false" &&  templateCount >= labels.trialConstants.trial_Template_Limit){
+      Alert.alert(labels.limitConstants.template_Limit_Exceed)
+    }else{
+      createTemplateRef.current.childFunction1();
+    }
+    
+
+    
   };
 
   // ------------ On Select Existing Template ---------
@@ -283,7 +298,7 @@ const ClousheetList = () => {
     if (isTemplate == true) {
       navigation.navigate("ExistingTemplateList");
     } else {
-      Alert.alert("No template is create yet!");
+      Alert.alert(labels.limitConstants.No_Template_Available);
     }
   };
 

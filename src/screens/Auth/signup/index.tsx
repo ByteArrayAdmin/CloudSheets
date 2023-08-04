@@ -265,6 +265,8 @@ const Signup = () => {
           email: email,
           phone_number: mobilenumber,
           name: name,
+          'custom:premium':"false",
+          'custom:suspended':"false"
         },
       };
       setLoader(true);

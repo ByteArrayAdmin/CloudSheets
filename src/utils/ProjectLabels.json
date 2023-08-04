@@ -225,6 +225,7 @@
     "Delete_Template": "Delete Template",
     "Delete_Record_Alert": "Delete Record",
     "Delete_Quete": "Are you sure want to delete this record!",
+    "Delete_Template_Quete":"Are you sure want to delete this template!",
     "Cancel": "Cancel",
     "OK": "OK"
   },
@@ -382,5 +383,31 @@
   },
   "checkNetwork": {
     "networkError": "Not network Connected!"
+  },
+  "checkPremium":{
+    "isPremium":"custom:premium"
+  },
+  "checkAccountSuspended":{
+    "isSuspended":"custom:suspended"
+  },
+  "suspensionConstants":{
+    "mainHeading1":"This Account has been",
+    "mainHeading2":"Suspended!",
+    "subHeading1":"Account temporarily suspended,",
+    "subHeading2":"please contact support.",
+    "superSubHeading1":"Lorem Ipsum is simply dummy text",
+    "superSubHeading2":"Lorem Ipsum is simply dummy text",
+    "contactSupport":"Contact Support"
+  },
+  "trialConstants":{
+    "trial_Template_Limit":1,
+    "trial_Cloudsheet_Limit":1,
+    "trial_Record_Limit":1
+  },
+  "limitConstants":{
+    "template_Limit_Exceed":"Template limit exceed!",
+    "CloudSheet_Limit_Exceed":"CloudSheet limit exceed!",
+    "Record_Limit_Exceed":"Record limit exceed!",
+    "No_Template_Available":"Please create template first"
   }
 }

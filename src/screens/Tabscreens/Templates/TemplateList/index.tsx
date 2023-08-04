@@ -25,6 +25,7 @@ import {
   getSpreadsheetRow_bySpreadsheetId_forSoftDelete,
   softDelete_spreadSheet_and_rows,
   checkNetwork,
+  get_CloudsheetByUserID,
 } from "../../../../API_Manager/index";
 import CreateCloudSheetNamePopup from "../../../Popups/CreateCloudSheetNamePopup/index";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
@@ -69,12 +70,14 @@ const TemplateList = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [navigateId, setNavigateId] = useState("");
   const [viewAll, setViewAll] = useState(false);
+  const [cloudSheetCount, setCloudSheetCount] = useState(0);
 
   // -------------- initial Render-------------
   useEffect(() => {
     console.log("template======", route?.params?.template);
     get_SpreadsheetByTemplateID();
     getUserId();
+    getCloudSheetCount();
     track_Screen(eventName.TRACK_SCREEN, screenName.SPREADSHEET_LISTSCREEN);
   }, []);
 
@@ -86,6 +89,19 @@ const TemplateList = () => {
       })
       .catch((error) => {
         console.log("currUserErr======", error);
+      });
+  };
+
+  // ---------- Get CloudSheet by UserId --------
+  const getCloudSheetCount = () => {
+    get_CloudsheetByUserID(global.userID)
+      .then((response: any) => {
+        console.log("cloudResp========", response);
+        let cloudSheetCount = response.data.spreadSheetsByUserID.items.length;
+        setCloudSheetCount(cloudSheetCount);
+      })
+      .catch((error) => {
+        console.log("cloudErr========", error);
       });
   };
 
@@ -142,13 +158,20 @@ const TemplateList = () => {
   };
 
   const openCreateCloudSheetModal = () => {
-    setIsEditCloudSheetName(false);
-    track_Click_Event(
-      eventName.TRACK_CLICK,
-      clickName.OPEN_CREATE_SPREADSHEET_MODAL
-    );
-    child.current.childFunction1();
-    setIsSheetOpen(true);
+    if (
+      global.isPremium == "false" &&
+      cloudSheetCount >= labels.trialConstants.trial_Cloudsheet_Limit
+    ) {
+      Alert.alert(labels.limitConstants.CloudSheet_Limit_Exceed);
+    } else {
+      setIsEditCloudSheetName(false);
+      track_Click_Event(
+        eventName.TRACK_CLICK,
+        clickName.OPEN_CREATE_SPREADSHEET_MODAL
+      );
+      child.current.childFunction1();
+      setIsSheetOpen(true);
+    }
   };
 
   // -------- Close SpreadSheet Modal --------

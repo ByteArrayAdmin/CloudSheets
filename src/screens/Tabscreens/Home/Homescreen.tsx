@@ -6,7 +6,7 @@ import {
   Text,
   BackHandler,
   Dimensions,
-  Alert
+  Alert,
 } from "react-native";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../assets/Images/smalllogo.svg";
@@ -15,8 +15,17 @@ import AuthCard from "../../../commonComponents/AuthCard";
 import Custombutton from "../../../commonComponents/Button";
 // import welocmehomelabel from "../../../utils/ProjectLabels.json";
 import CommonBottomsheet from "../../../commonComponents/CommonBottomsheet";
-import { current_UserInfo, create_Template,checkNetwork } from "../../../API_Manager/index";
-import { useNavigation, CommonActions } from "@react-navigation/native";
+import {
+  current_UserInfo,
+  create_Template,
+  checkNetwork,
+  get_Template_List,
+} from "../../../API_Manager/index";
+import {
+  useNavigation,
+  CommonActions,
+  useIsFocused,
+} from "@react-navigation/native";
 import {
   track_Click_Event,
   track_Error_Event,
@@ -38,14 +47,17 @@ import labels from "../../../utils/ProjectLabels.json";
 import uuid from "react-native-uuid";
 import CommonLoader from "../../../commonComponents/CommonLoader";
 import NetInfo from "@react-native-community/netinfo";
+import SuspensionModal from "../../../commonComponents/SuspensionModal";
 
 declare global {
   var labels: any;
   var isLoggedInUser: any;
+  var isPremium: any;
 }
 
 const Homescreen = (props: any) => {
   var welocmehomelabel = global.labels;
+  const isFocused = useIsFocused();
   const childRef = useRef(null);
   const child = useRef();
   const navigation = useNavigation();
@@ -57,15 +69,17 @@ const Homescreen = (props: any) => {
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [templateCount, setTemplateCount] = useState(0);
   const snapPoints = [350, 400];
 
   // --------- Initial Rendering --------
   useEffect(() => {
-    currentuser();
+    if (isFocused) {
+      currentuser();
+    }
     track_Screen(eventName.TRACK_SCREEN, screenName.HOME_TAB_SCREEN);
-    
-
-  }, []);
+  }, [isFocused]);
 
   // ---------- Handle backHandler ---------
   useEffect(() => {
@@ -102,17 +116,42 @@ const Homescreen = (props: any) => {
         if (response) {
           global.isLoggedInUser = true;
           setUserId(response.attributes.sub);
-          global.userID = response.attributes.sub
+          global.userID = response.attributes.sub;
+          getTemplateList(response.attributes.sub);
+          let userInfo = response.attributes;
+          const isSuspended =
+            userInfo[labels.checkAccountSuspended.isSuspended];
+          global.isPremium = userInfo[labels.checkPremium.isPremium];
+          console.log("isAccountSuspended=========", isSuspended);
+          if (isSuspended == "true") {
+            setIsVisible(true);
+          }
           syncDate(response.attributes.sub);
         } else {
           global.isLoggedInUser = false;
         }
       })
       .catch((error) => {
-        if(error.isConnected == false){
-          Alert.alert(labels.checkNetwork.networkError)
+        if (error.isConnected == false) {
+          Alert.alert(labels.checkNetwork.networkError);
         }
         console.log("currentUserErr=======", error);
+      });
+  };
+
+  // -------------- Get Template count by userId ----------
+  const getTemplateList = (userId: string) => {
+    setLoader(true)
+    get_Template_List(userId)
+      .then((response: any) => {
+        console.log("resp==========", response);
+        setLoader(false)
+        let tempCount = response.data.templatesByUserID.items.length;
+        setTemplateCount(tempCount);
+      })
+      .catch((error) => {
+        setLoader(false)
+        console.log("tempErr========", error);
       });
   };
   // -----------------Create Template functionality----------------
@@ -153,8 +192,8 @@ const Homescreen = (props: any) => {
         })
         .catch((err) => {
           setLoader(false);
-          if(err.isConnected == false){
-            Alert.alert(labels.checkNetwork.networkError)
+          if (err.isConnected == false) {
+            Alert.alert(labels.checkNetwork.networkError);
           }
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
@@ -215,9 +254,16 @@ const Homescreen = (props: any) => {
   const onCreateCloudsheet = () => {
     //Toggling the visibility state of the bottom sheet
     if (global.isLoggedInUser) {
-      setError("");
-      setIsSheetOpen(true);
-      child.current.childFunction1();
+      if (
+        global.isPremium == "false" &&
+        templateCount >= labels.trialConstants.trial_Template_Limit
+      ) {
+        Alert.alert(labels.limitConstants.template_Limit_Exceed)
+      } else {
+        setError("");
+        setIsSheetOpen(true);
+        child.current.childFunction1();
+      }
     } else {
       setRegisterModalVisible(!registerModalVisible);
     }
@@ -261,7 +307,10 @@ const Homescreen = (props: any) => {
                     </View>
                     <View>
                       <Text style={welcomscreenstyle.cloudsheettext}>
-                        {welocmehomelabel?.HomeWelcomeScreen?.Clodesheetcardtext}
+                        {
+                          welocmehomelabel?.HomeWelcomeScreen
+                            ?.Clodesheetcardtext
+                        }
                       </Text>
                     </View>
                     <View style={welcomscreenstyle.secondcardtext}>
@@ -306,6 +355,17 @@ const Homescreen = (props: any) => {
           }
         />
         {loader ? <CommonLoader /> : null}
+        {
+          <SuspensionModal
+            visible={isVisible}
+            onPress={() => {
+              setIsVisible(false),
+                navigation.navigate("Customer_Support_Screen", {
+                  suspended: true,
+                });
+            }}
+          />
+        }
       </SafeAreaView>
     </>
   );

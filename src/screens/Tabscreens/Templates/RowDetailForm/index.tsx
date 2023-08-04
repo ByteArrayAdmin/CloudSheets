@@ -14,6 +14,7 @@ import {
   get_ColumnByTemplateId,
   create_SpreadSheet_Row,
   update_SpreadSheetRow,
+  getSpreadSheetRowBy_userId
 } from "../../../../API_Manager/index";
 import uuid from "react-native-uuid";
 import moment from "moment";
@@ -67,6 +68,7 @@ const RowdetailForm = (props: any) => {
   const [mount, setMount] = useState(true);
   const Dropdown = (index: any, data: any) => {};
   const getYesNo = ["Yes", "No"];
+  const [rowCount, setRowCount]  = useState(0)
 
   // --------------Initial rendering-------------------
   useEffect(() => {
@@ -74,6 +76,7 @@ const RowdetailForm = (props: any) => {
     console.log("spreadEdit======", route.params?.isEdit);
     console.log("spreadRow======", route.params?.spreadSheetRow);
     console.log("isFromScreen=======", route.params?.isFrom);
+    getRowCount()
     if (!isEdit) {
       getColumnByID(route?.params?.spreadSheet?.templatesID);
     }
@@ -121,6 +124,26 @@ const RowdetailForm = (props: any) => {
     });
     setColumns(arr1);
   };
+
+  //  ------------- GetSpreadSheetRow Count -----------
+  const getRowCount = ()=>{
+    getSpreadSheetRowBy_userId().then((response: any)=>{
+      console.log("rowResp=========",response)
+      let rowCount = response.data.spreadSheetRowsByUserID.items.length
+      setRowCount(rowCount)
+    }).catch((error)=>{
+      console.log("rowErr=======",error)
+    })
+  }
+
+  // ----------- check RowCount ---------------
+  const checkRowCount = (data:any)=>{
+    if(global.isPremium == 'false' && rowCount >= labels.trialConstants.trial_Record_Limit){
+        Alert.alert(labels.limitConstants.Record_Limit_Exceed)
+    }else{
+      onSubmitPressed(data)
+    }
+  }
 
   // --------------Create Row Data-----------------
   const onSubmitPressed = async (data: any) => {
@@ -467,7 +490,8 @@ const RowdetailForm = (props: any) => {
             </View>
           ) : (
             <Custombutton
-              onPress={handleSubmit(onSubmitPressed)}
+              // onPress={handleSubmit(onSubmitPressed)}
+              onPress={handleSubmit(checkRowCount)}
               Register={labels.Rowdetailsform.Submit}
             />
           )}

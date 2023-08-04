@@ -35,7 +35,7 @@ import {
 } from "../../../../API_Manager/index";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import Card from "../TabBarTemplateList/Card";
-import labels from "../../../../utils/ProjectLabels.json";
+// import labels from "../../../../utils/ProjectLabels.json";
 import Folder from "../../../../assets/Images/folder12.svg";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
 import { styles } from "../TabBarTemplateList/style";
@@ -64,7 +64,7 @@ declare global {
 }
 const CreateTemplate = () => {
   // --------- File States -----------
-  var CreateTemplatescreen = global.labels;
+  var labels = global.labels;
   const child = useRef();
   const editTempRef = useRef();
   const navigation = useNavigation();
@@ -185,8 +185,13 @@ const CreateTemplate = () => {
       clickName.OPEN_CREATE_TEMPLATE_MODAL
     );
     if (global.isLoggedInUser) {
-      setIsSheetOpen(true);
+      if( global.isPremium == "false" && templateList.length >= labels.trialConstants.trial_Template_Limit){
+        Alert.alert(labels.limitConstants.template_Limit_Exceed)
+      }else{
+        setIsSheetOpen(true);
       child.current.childFunction1();
+      }
+      
     } else {
       if (templateList.length > 0) {
         setRegisterModalVisible(true);
@@ -390,7 +395,7 @@ const CreateTemplate = () => {
     editTempRef.current.childFunction2();
     Alert.alert(
       labels.ExpensesList.Delete_Template,
-      labels.ExpensesList.Delete_Quete,
+      labels.ExpensesList.Delete_Template_Quete,
       [
         {
           text: labels.ExpensesList.Cancel,
@@ -578,10 +583,10 @@ const CreateTemplate = () => {
               </View>
               <View style={Tempatestyle.cloudview}>
                 <Text style={Tempatestyle.cloudtext}>
-                  {CreateTemplatescreen.CreateTemplatescreen.Cloud}
+                  {labels.CreateTemplatescreen.Cloud}
                 </Text>
                 <Text style={Tempatestyle.sheetetxt}>
-                  {CreateTemplatescreen.CreateTemplatescreen.Sheets}
+                  {labels.CreateTemplatescreen.Sheets}
                 </Text>
               </View>
 
@@ -598,7 +603,7 @@ const CreateTemplate = () => {
                             <View>
                               <Text style={Tempatestyle.cardtextstyle}>
                                 {
-                                  CreateTemplatescreen.CreateTemplatescreen
+                                  labels.CreateTemplatescreen
                                     .CARDTEXT
                                 }
                               </Text>
@@ -606,7 +611,7 @@ const CreateTemplate = () => {
                             <View style={Tempatestyle.cardtetxt2}>
                               <Text style={Tempatestyle.cardtextstyle}>
                                 {
-                                  CreateTemplatescreen.CreateTemplatescreen
+                                  labels.CreateTemplatescreen
                                     .CARDTEXT2
                                 }
                               </Text>
@@ -615,7 +620,7 @@ const CreateTemplate = () => {
                         </View>
                         <Custombutton
                           Register={
-                            CreateTemplatescreen.CreateTemplatescreen
+                            labels.CreateTemplatescreen
                               .CreateTemplate
                           }
                           onPress={() => toggleBottomNavigationView()}

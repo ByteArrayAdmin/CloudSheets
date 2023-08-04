@@ -41,6 +41,7 @@ export const COLOURS = {
   shadow_colour: "#000",
   cardBorder_lightBlue: "rgba(0, 97, 255, 0.5)",
   inActiveTabColor: "#7C8BA6",
+  lightPink:'#FF7878'
 };
 
 export const columnTypeList = [

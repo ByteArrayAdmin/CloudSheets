@@ -20,6 +20,7 @@ import {
   get_SpreadSheetRowBySpreadSheetId,
   spreadSheetRow_softDelete,
   get_ColumnByTemplateId,
+  getSpreadSheetRowBy_userId
 } from "../../../../API_Manager/index";
 import EditSpreadsheetRecord from "../../../../screens/Popups/EditSpreadsheetRecord/index";
 import Addwidgeticon from "../../../../assets/Images/Addwidgeticon.svg";
@@ -60,6 +61,7 @@ const ExpensesList = (props: any) => {
   const [extraData, setExtraData] = useState(new Date());
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isColumnExist, setIsColumnExist] = useState(false);
+  const [totalRowLength, setTotalRowLength] = useState(0)
 
   // ----------- Initial Rendering ------------
   useEffect(() => {
@@ -67,6 +69,7 @@ const ExpensesList = (props: any) => {
     // OpenPopup();
     get_SpreadSheetRowBySpreadSheetID();
     getColumn();
+    getRowByUserId()
     track_Screen(eventName.TRACK_SCREEN, screenName.SPREADSHEET_ROWLIST_SCREEN);
   }, []);
 
@@ -74,6 +77,18 @@ const ExpensesList = (props: any) => {
   const onRefresh = () => {
     get_SpreadSheetRowBySpreadSheetID();
   };
+
+  // ------------ Spreadsheet Row by userId -------------
+
+  const getRowByUserId = ()=>{
+    getSpreadSheetRowBy_userId().then((response: any)=>{
+      console.log("rowByuser=======",response)
+        let rows = response.data.spreadSheetRowsByUserID.items.length
+        setTotalRowLength(rows)
+    }).catch((error)=>{
+      console.log("error=======",error)
+    })
+  }
 
   // ----------- Get SpreadSheet Row Data -------------
   const get_SpreadSheetRowBySpreadSheetID = () => {
@@ -174,10 +189,15 @@ const ExpensesList = (props: any) => {
       clickName.SELECT_ADD_SPREADSHEET_ROW
     );
     if (isColumnExist) {
-      navigation.navigate("RowdetailForm", {
-        spreadSheet: spreadSheetDetail,
-        isFrom: isFrom,
-      });
+      if(global.isPremium == "false" && totalRowLength >= labels.trialConstants.trial_Record_Limit){
+        Alert.alert(labels.limitConstants.Record_Limit_Exceed)
+      }else{
+        navigation.navigate("RowdetailForm", {
+          spreadSheet: spreadSheetDetail,
+          isFrom: isFrom,
+        });
+      }
+      
     } else {
       Alert.alert(
         labels.ExpensesList.ColumnAlert,

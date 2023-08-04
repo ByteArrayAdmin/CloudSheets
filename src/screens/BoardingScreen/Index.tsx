@@ -61,8 +61,8 @@ const BoardingScreen = () => {
    
     HomescreenLabel ?
     <View style={Homestyle.container}>
-      <View style={{ position: "absolute" }}>
-        <Ic_design />
+      <View style={Homestyle.backgroundImgStyle}>
+        <Ic_design style={{width:"100%"}} />
       </View>
       <View style={Homestyle.logoview}>
         <Largelogo  />
@@ -77,6 +77,12 @@ const BoardingScreen = () => {
         <View>
           <View style={Homestyle.cutcardview}>
             <Cutcard />
+            <TouchableOpacity
+                onPress={() => navigation.navigate("Login")}
+                style={Homestyle.Arrowbutton}
+              >
+                <Arrowbutton />
+              </TouchableOpacity>
             <View style={Homestyle.cardview}>
               <View>
                 <Text style={Homestyle.welcometotext}>
@@ -93,12 +99,12 @@ const BoardingScreen = () => {
                   {HomescreenLabel?.HomeWelcomeScreen?.cartext}
                 </Text>
               </View>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => navigation.navigate("Login")}
                 style={Homestyle.Arrowbutton}
               >
                 <Arrowbutton />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         </View>

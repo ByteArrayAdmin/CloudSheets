@@ -497,6 +497,30 @@ export const getSpreadsheetRow_bySpreadsheetId_forSoftDelete = (
 })
 };
 
+export const getSpreadSheetRowBy_userId = async()=>{
+  return checkNetwork().then((isConnected) => {
+    console.log("networkResp=======", isConnected);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const filter = {
+        soft_Deleted: {
+          eq: false,
+        },
+      };
+      const getSpreadsheet = await API.graphql(
+        graphqlOperation(spreadSheetRowsByUserID, {
+          userID: global.userID,
+          filter: filter,
+        })
+      );
+      resolve(getSpreadsheet);
+    } catch (e) {
+      reject({ error: e, isConnected: isConnected });
+    }
+  });
+})
+}
+
 // ---------------- Soft Delete Template ----------------
 
 export const soft_delete_template = async (template: any) => {

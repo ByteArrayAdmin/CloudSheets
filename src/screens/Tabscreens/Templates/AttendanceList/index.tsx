@@ -27,6 +27,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   get_SpreadSheetRowBySpreadSheetId,
   spreadSheetRow_softDelete,
+  getSpreadSheetRowBy_userId
 } from "../../../../API_Manager/index";
 import CommonBottomsheet from "../../../../commonComponents/CommonBottomsheet";
 import EditSpreadsheetRecord from "../../../Popups/EditSpreadsheetRecord";
@@ -59,12 +60,14 @@ const Attendancelist = () => {
   const [isFrom, setIsFrom] = useState(route?.params?.isFrom);
   const [loader, setLoader] = useState(false);
   const [extraData, setExtraData] = useState(new Date());
+  const [rowCount, setRowCount]  = useState(0)
 
   // ---------- Initial Rendering ---------
   useEffect(() => {
     console.log("spreadsheet========", route?.params?.spreadSheet);
     console.log("isFrom===========", route?.params?.isFrom);
     getSpreadsheetBySpreadsheetId(route?.params?.spreadSheet?.id);
+    getSpreadSheetRowCount()
     track_Screen(
       eventName.TRACK_SCREEN,
       screenName.SPREADSHEET_ROW_LIST_SCREEN
@@ -75,6 +78,17 @@ const Attendancelist = () => {
   const onRefresh = () => {
     getSpreadsheetBySpreadsheetId(spreadSheet.id);
   };
+  
+  // ------------ getSpreadsheetRowByUserID ------------
+  const getSpreadSheetRowCount = ()=>{
+    getSpreadSheetRowBy_userId().then((response: any)=>{
+      console.log("getRow======",response)
+      let rowCount = response.data.spreadSheetRowsByUserID.items.length
+      setRowCount(rowCount)
+    }).catch((error)=>{
+      console.log("RowErr======",error)
+    })
+  }
 
   // ------------- Get SpreadSheet List -----------
   const getSpreadsheetBySpreadsheetId = (spreadSheetId: String) => {
@@ -96,7 +110,7 @@ const Attendancelist = () => {
       .catch((error) => {
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert(labels.checkNetwork.networkError);
+          Alert.alert(label.checkNetwork.networkError);
         }
         console.log("spreadSheetListErr========", error);
       });
@@ -205,7 +219,7 @@ const Attendancelist = () => {
         );
         setLoader(false);
         if (error.isConnected == false) {
-          Alert.alert(labels.checkNetwork.networkError);
+          Alert.alert(label.checkNetwork.networkError);
         }
         console.log("deleteRow=======", error);
       });
@@ -245,6 +259,15 @@ const Attendancelist = () => {
     setExtraData(new Date());
     console.log("searchData=====", searchedArr);
   };
+
+  // ------------ Check limit and navigate to rowForm ----------
+  const checkLimit = () =>{
+    if( global.isPremium == "false" && rowCount>= label.trialConstants.trial_Record_Limit){
+      Alert.alert(label.limitConstants.Record_Limit_Exceed)
+    }else{
+      navigation.navigate("RowdetailForm", { spreadSheet: spreadSheet })
+    }
+  }
 
   const Footer = () => {
     return <View style={Style.footer} />;
@@ -302,9 +325,10 @@ const Attendancelist = () => {
         <TouchableOpacity
           style={Style.buttonmainview}
           // onPress={() => navigation.navigate("Updateattendance")}
-          onPress={() =>
-            navigation.navigate("RowdetailForm", { spreadSheet: spreadSheet })
-          }
+          // onPress={() =>
+          //   navigation.navigate("RowdetailForm", { spreadSheet: spreadSheet })
+          // }
+          onPress={()=>checkLimit()}
         >
           <View style={Style.buttonviewnew}>
             <Fatlogo />

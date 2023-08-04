@@ -60,11 +60,22 @@ export const Homestyle = StyleSheet.create({
     paddingBottom: 77,
   },
   Arrowbutton: {
-    position: "absolute",
-    bottom: -70,
+    //  position: "absolute",
+    //  alignSelf:'center',
+    // bottom: "-22%",
+    //  Top:90,
+    alignSelf:'center',
+    bottom:"15%",
     borderColor: COLOURS.Skyblue,
   },
   cutcardview: {
     marginTop: 160,
   },
+  backgroundImgStyle:{
+    position: "absolute",
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    alignSelf:'center'
+  }
 });

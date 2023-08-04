@@ -76,9 +76,7 @@ const Cloudsheetcard = (props: any) => {
           <Threedots />
         </TouchableOpacity>
       </View>
-      <View style={Cardstyle.Horizontalline}>
-        <View style={Cardstyle.emptyview} />
-      </View>
+      <View style={Cardstyle.Horizontalline}></View>
       <View style={Cardstyle.lastView}>
         <View style={Cardstyle.foldespace}>
           <Smallfolder />
@@ -125,7 +123,9 @@ const Cardstyle = StyleSheet.create({
   Horizontalline: {
     marginHorizontal: 15,
     marginTop: 20,
-    opacity: 0.5,
+    opacity: 0.1,
+    borderWidth:0.5,
+    borderColor:'#001521'
   },
   lastview: {
     paddingHorizontal: 15,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, ScrollView, StyleSheet, Text, Alert } from "react-native";
 import NewCommonHeader from "../../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../../commonComponents/Backbutton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute,CommonActions } from "@react-navigation/native";
 // import labels from "../../../../../utils/ProjectLabels.json";
 import { COLOURS, FONTS } from "../../../../../utils/Constant";
 import Ic_customer from "../../../../../assets/Images/Ic_customer.svg";
@@ -18,16 +18,21 @@ import {
   current_UserInfo,
 } from "../../../../../API_Manager/index";
 import CommonLoader from "../../../../../commonComponents/CommonLoader";
+import { Auth } from "aws-amplify";
+
 declare global {
   var labels: any;
 }
 const Customer_Support_Form = () => {
   var labels = global.labels;
   const navigation = useNavigation();
+  const route = useRoute()
   const { control, handleSubmit, reset } = useForm();
   const [emailID, setEmailID] = useState("");
   const [userID, setUserID] = useState("");
   const [loader, setLoader] = useState(false);
+  const [isSuspended, setIsSuspended] = useState(route?.params?.suspended);
+
 
   useEffect(() => {
     getCurrentUser();
@@ -62,7 +67,12 @@ const Customer_Support_Form = () => {
         if (response) {
           setLoader(false);
           reset();
+          if(isSuspended){
+            signOut()
+          }else{
           navigation.goBack();
+          }
+          
         }
       })
       .catch((error) => {
@@ -73,6 +83,23 @@ const Customer_Support_Form = () => {
         console.log("createTicketErr======", error);
       });
   };
+
+  // ------------ Signout Function ------------
+  async function signOut() {
+    setLoader(true);
+    try {
+      await Auth.signOut();
+      setLoader(false);
+      navigation.dispatch(
+        CommonActions.reset({
+          routes: [{ name: "Login" }],
+        })
+      );
+    } catch (error) {
+      setLoader(false);
+      console.log("error signing out: ", error);
+    }
+  }
 
   return (
     <>
