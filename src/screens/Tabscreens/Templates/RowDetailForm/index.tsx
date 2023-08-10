@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Text, View, FlatList, Keyboard, Alert } from "react-native";
+import { Text, View, FlatList, Keyboard, Alert,DeviceEventEmitter } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
 // import labels from "../../../../utils/ProjectLabels.json";
@@ -190,6 +190,7 @@ const RowdetailForm = (props: any) => {
     setLoader(true);
     create_SpreadSheet_Row(newRow)
       .then((response) => {
+        DeviceEventEmitter.emit("updateSpreadSheetList");
         track_Success_Event(
           eventName.TRACK_SUCCESS_ACTION,
           successActionName.CREATE_SPREADSHEET_ROW_SUCCESSFULLY

@@ -85,15 +85,20 @@ const CreateTemplate = () => {
   const [navigateId, setNavigateId] = useState("");
 
   useEffect(() => {
-    DeviceEventEmitter.addListener("refreshTemplateList", () =>
-      getTemplateList()
+    const refreshTemplate = DeviceEventEmitter.addListener(
+      "refreshTemplateList",
+      () => getTemplateList()
     );
-    if (global.isLoggedInUser) {
-      track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN);
-    }
 
+    if (global.isLoggedInUser) {
+      getTemplateList();
+    } else {
+      getGuestUserTemplates();
+    }
+    track_Screen(eventName.TRACK_SCREEN, screenName.TEMPLATE_TAB_SCREEN);
     return () => {
       // Run this code when the component unmounts or the dependencies change
+      refreshTemplate.remove(); // Clean up the event listener
       setIsRefNull(false);
       console.log("Component unmounted");
     };
@@ -119,16 +124,16 @@ const CreateTemplate = () => {
     return () => backHandler.remove(); // Clean up the event listener
   }, [isSheetOpen]);
 
-  useEffect(() => {
-    if (isFocused) {
-      setIsGlobal((prevState) => !prevState);
-      if (global.isLoggedInUser) {
-        getTemplateList();
-      } else {
-        getGuestUserTemplates();
-      }
-    }
-  }, [isFocused]);
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     setIsGlobal((prevState) => !prevState);
+  //     if (global.isLoggedInUser) {
+  //       getTemplateList();
+  //     } else {
+  //       getGuestUserTemplates();
+  //     }
+  //   }
+  // }, [isFocused]);
 
   // --------- Get Guest user Template List --------
   const getGuestUserTemplates = async () => {
@@ -185,13 +190,15 @@ const CreateTemplate = () => {
       clickName.OPEN_CREATE_TEMPLATE_MODAL
     );
     if (global.isLoggedInUser) {
-      if( global.isPremium == "false" && templateList.length >= labels.trialConstants.trial_Template_Limit){
-        Alert.alert(labels.limitConstants.template_Limit_Exceed)
-      }else{
+      if (
+        global.isPremium == "false" &&
+        templateList.length >= labels.trialConstants.trial_Template_Limit
+      ) {
+        Alert.alert(labels.limitConstants.template_Limit_Exceed);
+      } else {
         setIsSheetOpen(true);
-      child.current.childFunction1();
+        child.current.childFunction1();
       }
-      
     } else {
       if (templateList.length > 0) {
         setRegisterModalVisible(true);
@@ -550,7 +557,9 @@ const CreateTemplate = () => {
     <View style={styles.container}>
       {templateList.length > 0 ? (
         <>
-          <View style={[styles.container, { marginBottom: bottomTabHeight }]}>
+          <View
+            style={[styles.container, { marginBottom: bottomTabHeight + 20 }]}
+          >
             <NewCommonHeader
               // BackButton={<BackButton onPress={() => navigation.goBack()} />}
               heading={labels.TabBarTemplateList.Template}
@@ -602,27 +611,18 @@ const CreateTemplate = () => {
                           <View style={Tempatestyle.cartdtetxt}>
                             <View>
                               <Text style={Tempatestyle.cardtextstyle}>
-                                {
-                                  labels.CreateTemplatescreen
-                                    .CARDTEXT
-                                }
+                                {labels.CreateTemplatescreen.CARDTEXT}
                               </Text>
                             </View>
                             <View style={Tempatestyle.cardtetxt2}>
                               <Text style={Tempatestyle.cardtextstyle}>
-                                {
-                                  labels.CreateTemplatescreen
-                                    .CARDTEXT2
-                                }
+                                {labels.CreateTemplatescreen.CARDTEXT2}
                               </Text>
                             </View>
                           </View>
                         </View>
                         <Custombutton
-                          Register={
-                            labels.CreateTemplatescreen
-                              .CreateTemplate
-                          }
+                          Register={labels.CreateTemplatescreen.CreateTemplate}
                           onPress={() => toggleBottomNavigationView()}
                         />
                       </View>

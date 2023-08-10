@@ -31,7 +31,7 @@ const Terms_Conditions_Screen = () => {
           heading={labels.SubscriptionScreen.Terms_Conditions}
           Folder={<Ic_terms />}
         />
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <CommonLayout
             Heading={labels.SubscriptionScreen.Terms_Conditions}
             Content={labels.SubscriptionScreen.Terms_Content}

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Alert,
+  DeviceEventEmitter
 } from "react-native";
 import NewCommonHeader from "../../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -81,11 +82,14 @@ const Attendancelist = () => {
   
   // ------------ getSpreadsheetRowByUserID ------------
   const getSpreadSheetRowCount = ()=>{
+    setLoader(true)
     getSpreadSheetRowBy_userId().then((response: any)=>{
       console.log("getRow======",response)
       let rowCount = response.data.spreadSheetRowsByUserID.items.length
       setRowCount(rowCount)
+      setLoader(false)
     }).catch((error)=>{
+      setLoader(false)
       console.log("RowErr======",error)
     })
   }
@@ -205,6 +209,8 @@ const Attendancelist = () => {
     setLoader(true);
     spreadSheetRow_softDelete(deleteRow)
       .then((response: any) => {
+        getSpreadSheetRowCount()
+        DeviceEventEmitter.emit("updateSpreadSheetList");
         console.log("softDeleteRowResp=========", response);
         track_Success_Event(
           eventName.TRACK_SUCCESS_ACTION,

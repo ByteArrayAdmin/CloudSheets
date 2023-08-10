@@ -7,6 +7,7 @@ import {
   BackHandler,
   Dimensions,
   Alert,
+  DeviceEventEmitter,
 } from "react-native";
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import Smlogo from "../../../assets/Images/smalllogo.svg";
@@ -43,7 +44,7 @@ import RegisterGuestUserPopup from "../../Popups/RegisterGuestUserPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import CreateTemplatePopup from "../../Popups/CreateTemplatePopup";
-import labels from "../../../utils/ProjectLabels.json";
+// import labels from "../../../utils/ProjectLabels.json";
 import uuid from "react-native-uuid";
 import CommonLoader from "../../../commonComponents/CommonLoader";
 import NetInfo from "@react-native-community/netinfo";
@@ -56,7 +57,7 @@ declare global {
 }
 
 const Homescreen = (props: any) => {
-  var welocmehomelabel = global.labels;
+  var labels = global.labels;
   const isFocused = useIsFocused();
   const childRef = useRef(null);
   const child = useRef();
@@ -141,16 +142,16 @@ const Homescreen = (props: any) => {
 
   // -------------- Get Template count by userId ----------
   const getTemplateList = (userId: string) => {
-    setLoader(true)
+    // setLoader(true)
     get_Template_List(userId)
       .then((response: any) => {
         console.log("resp==========", response);
-        setLoader(false)
+        // setLoader(false)
         let tempCount = response.data.templatesByUserID.items.length;
         setTemplateCount(tempCount);
       })
       .catch((error) => {
-        setLoader(false)
+        // setLoader(false)
         console.log("tempErr========", error);
       });
   };
@@ -173,6 +174,7 @@ const Homescreen = (props: any) => {
       setLoader(true);
       create_Template(newTemplate)
         .then((response: any) => {
+          DeviceEventEmitter.emit('refreshTemplateList');
           console.log("createTempResp=======", response);
           setLoader(false);
           arr1.push(response.data.createTemplates);
@@ -189,6 +191,7 @@ const Homescreen = (props: any) => {
             isFrom: "HomeTab",
           });
           setExtraData(new Date());
+         
         })
         .catch((err) => {
           setLoader(false);
@@ -226,7 +229,7 @@ const Homescreen = (props: any) => {
   // ---------- sync guestUser Template to logInUser ---------
   const syncDate = async (userId: string) => {
     await AsyncStorage.getItem(
-      welocmehomelabel.TabBarTemplateList.guestUserTemplateList
+      labels.TabBarTemplateList.guestUserTemplateList
     ).then((response: any) => {
       if (response != null) {
         let dataParse = JSON.parse(response);
@@ -240,7 +243,7 @@ const Homescreen = (props: any) => {
           .then(async (response) => {
             console.log("syncDataResp========", response);
             await AsyncStorage.removeItem(
-              welocmehomelabel.TabBarTemplateList.guestUserTemplateList
+              labels.TabBarTemplateList.guestUserTemplateList
             );
           })
           .catch((error) => {
@@ -289,10 +292,10 @@ const Homescreen = (props: any) => {
           </View>
           <View style={welcomscreenstyle.welcomtextview}>
             <Text style={welcomscreenstyle.cloudtext}>
-              {welocmehomelabel?.HomeWelcomeScreen?.CLOUDSHEETS}
+              {labels?.HomeWelcomeScreen?.CLOUDSHEETS}
             </Text>
             <Text style={welcomscreenstyle.sheettext}>
-              {welocmehomelabel?.HomeWelcomeScreen?.SHEETS}
+              {labels?.HomeWelcomeScreen?.SHEETS}
             </Text>
           </View>
           <View style={welcomscreenstyle.cardspace}>
@@ -302,28 +305,28 @@ const Homescreen = (props: any) => {
                   <View style={welcomscreenstyle.subcard}>
                     <View style={welcomscreenstyle.textview}>
                       <Text style={welcomscreenstyle.welcometotext}>
-                        {welocmehomelabel?.HomeWelcomeScreen?.WELCOMETO}
+                        {labels?.HomeWelcomeScreen?.WELCOMETO}
                       </Text>
                     </View>
                     <View>
                       <Text style={welcomscreenstyle.cloudsheettext}>
                         {
-                          welocmehomelabel?.HomeWelcomeScreen
+                          labels?.HomeWelcomeScreen
                             ?.Clodesheetcardtext
                         }
                       </Text>
                     </View>
                     <View style={welcomscreenstyle.secondcardtext}>
                       <Text style={welcomscreenstyle.cardtext}>
-                        {welocmehomelabel?.HomeWelcomeScreen?.Cardtext}
+                        {labels?.HomeWelcomeScreen?.Cardtext}
                       </Text>
                       <Text style={welcomscreenstyle.cardtext}>
-                        {welocmehomelabel?.HomeWelcomeScreen?.Cardtexttwo}
+                        {labels?.HomeWelcomeScreen?.Cardtexttwo}
                       </Text>
                     </View>
                   </View>
                   <Custombutton
-                    Register={welocmehomelabel.HomeWelcomeScreen.buttontext}
+                    Register={labels.HomeWelcomeScreen.buttontext}
                     // onPress={() => OpenCreateTemplatePopup()}
                     onPress={() => onCreateCloudsheet()}
                   />

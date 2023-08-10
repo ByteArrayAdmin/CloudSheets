@@ -116,12 +116,13 @@ const checkInternet = ()=>{
   // ----------- Handle Rateus --------------
   const handleRateApp = () => {
     const options = {
-      GooglePackageName: 'your_package_name', // Replace 'your_package_name' with your Android package name
+      AppleAppID:"6446942863",
+      GooglePackageName: 'com.cloudsheets', // Replace 'your_package_name' with your Android package name
       AmazonPackageName: 'your_amazon_package_name', // Replace 'your_amazon_package_name' with your Amazon package name (if applicable)
       preferredAndroidMarket: AndroidMarket.Google,
       preferInApp: false,
       openAppStoreIfInAppFails: true,
-      fallbackPlatformURL: 'your_app_url_on_app_store', // Replace 'your_app_url_on_app_store' with your app's URL on the App Store (for iOS)
+      fallbackPlatformURL: 'https://apps.apple.com/in/app/cloudsheet/id6446942863', // Replace 'your_app_url_on_app_store' with your app's URL on the App Store (for iOS)
       inAppDelay: 2000,
       inAppTitle: 'Rate Your App',
       inAppMessage: 'If you enjoy using this app, would you mind taking a moment to rate it?',
@@ -302,7 +303,7 @@ const checkInternet = ()=>{
                 );
             }}
           />
-          <View style={{ height: Tabheight }}></View>
+          <View style={{ height: Tabheight+50 }}></View>
         </ScrollView>
         {loader ? <CommonLoader /> : null}
       </View>

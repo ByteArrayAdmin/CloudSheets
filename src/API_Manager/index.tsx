@@ -270,33 +270,33 @@ export const templateColumn_softDelete = async (updateColumn: any) => {
 export const create_SpreadSheet = async (newSpreadSheet: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const createSpreadsheet = await API.graphql(
-        graphqlOperation(createSpreadSheet, { input: newSpreadSheet })
-      );
-      resolve(createSpreadsheet);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const createSpreadsheet = await API.graphql(
+          graphqlOperation(createSpreadSheet, { input: newSpreadSheet })
+        );
+        resolve(createSpreadsheet);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 export const update_SpreadSheet = async (newSpreadSheet: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const updateSpreadsheet = await API.graphql(
-        graphqlOperation(updateSpreadSheet, { input: newSpreadSheet })
-      );
-      resolve(updateSpreadsheet);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updateSpreadsheet = await API.graphql(
+          graphqlOperation(updateSpreadSheet, { input: newSpreadSheet })
+        );
+        resolve(updateSpreadsheet);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 export const get_CloudsheetByUserID = async (userId: any) => {
@@ -323,25 +323,25 @@ export const get_CloudsheetByUserID = async (userId: any) => {
 export const getCloudsheetByTemplateID = async (templateId: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const filter = {
-        soft_Deleted: {
-          eq: false,
-        },
-      };
-      const getCloudsheet = await API.graphql(
-        graphqlOperation(spreadSheetsByTemplatesID, {
-          templatesID: templateId,
-          filter: filter,
-        })
-      );
-      resolve(getCloudsheet);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const filter = {
+          soft_Deleted: {
+            eq: false,
+          },
+        };
+        const getCloudsheet = await API.graphql(
+          graphqlOperation(spreadSheetsByTemplatesID, {
+            templatesID: templateId,
+            filter: filter,
+          })
+        );
+        resolve(getCloudsheet);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 export const spreadSheet_softDelete = (softDelete_SpreadSheet: any) => {
@@ -379,41 +379,41 @@ export const softDelete_spreadSheet_and_rows = (spreadSheetRowData: any) => {
 export const create_SpreadSheet_Row = async (newSpreadSheetRow: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const createSpreadsheet = await API.graphql(
-        graphqlOperation(createSpreadSheetRows, { input: newSpreadSheetRow })
-      );
-      resolve(createSpreadsheet);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const createSpreadsheet = await API.graphql(
+          graphqlOperation(createSpreadSheetRows, { input: newSpreadSheetRow })
+        );
+        resolve(createSpreadsheet);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 export const get_SpreadSheetRowBySpreadSheetId = async (spreadSheetId: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const filter = {
-        soft_Deleted: {
-          eq: false,
-        },
-      };
-      const getSpreadsheet = await API.graphql(
-        graphqlOperation(spreadSheetRowsBySpreadsheetID, {
-          spreadsheetID: spreadSheetId,
-          filter: filter,
-        })
-      );
-      resolve(getSpreadsheet);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const filter = {
+          soft_Deleted: {
+            eq: false,
+          },
+        };
+        const getSpreadsheet = await API.graphql(
+          graphqlOperation(spreadSheetRowsBySpreadsheetID, {
+            spreadsheetID: spreadSheetId,
+            filter: filter,
+          })
+        );
+        resolve(getSpreadsheet);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 export const spreadSheetRow_Count = (spreadSheetId: any) => {
@@ -440,35 +440,37 @@ export const spreadSheetRow_Count = (spreadSheetId: any) => {
 export const update_SpreadSheetRow = async (updateSpreadSheetRow: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const updateSpreadSheetRowData = await API.graphql(
-        graphqlOperation(updateSpreadSheetRows, { input: updateSpreadSheetRow })
-      );
-      resolve(updateSpreadSheetRowData);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updateSpreadSheetRowData = await API.graphql(
+          graphqlOperation(updateSpreadSheetRows, {
+            input: updateSpreadSheetRow,
+          })
+        );
+        resolve(updateSpreadSheetRowData);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 export const spreadSheetRow_softDelete = (softDelete_SpreadSheetRow: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const softDeleteSpreadSheetRow = await API.graphql(
-        graphqlOperation(updateSpreadSheetRows, {
-          input: softDelete_SpreadSheetRow,
-        })
-      );
-      resolve(softDeleteSpreadSheetRow);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const softDeleteSpreadSheetRow = await API.graphql(
+          graphqlOperation(updateSpreadSheetRows, {
+            input: softDelete_SpreadSheetRow,
+          })
+        );
+        resolve(softDeleteSpreadSheetRow);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 export const getSpreadsheetRow_bySpreadsheetId_forSoftDelete = (
@@ -476,50 +478,50 @@ export const getSpreadsheetRow_bySpreadsheetId_forSoftDelete = (
 ) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const filter = {
-        soft_Deleted: {
-          eq: false,
-        },
-      };
-      const getSpreadsheet = await API.graphql(
-        graphqlOperation(spreadSheetRowsBySpreadsheetID, {
-          spreadsheetID: spreadSheetId,
-          filter: filter,
-        })
-      );
-      resolve(getSpreadsheet);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const filter = {
+          soft_Deleted: {
+            eq: false,
+          },
+        };
+        const getSpreadsheet = await API.graphql(
+          graphqlOperation(spreadSheetRowsBySpreadsheetID, {
+            spreadsheetID: spreadSheetId,
+            filter: filter,
+          })
+        );
+        resolve(getSpreadsheet);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
-export const getSpreadSheetRowBy_userId = async()=>{
+export const getSpreadSheetRowBy_userId = async () => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const filter = {
-        soft_Deleted: {
-          eq: false,
-        },
-      };
-      const getSpreadsheet = await API.graphql(
-        graphqlOperation(spreadSheetRowsByUserID, {
-          userID: global.userID,
-          filter: filter,
-        })
-      );
-      resolve(getSpreadsheet);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const filter = {
+          soft_Deleted: {
+            eq: false,
+          },
+        };
+        const getSpreadsheet = await API.graphql(
+          graphqlOperation(spreadSheetRowsByUserID, {
+            userID: global.userID,
+            filter: filter,
+          })
+        );
+        resolve(getSpreadsheet);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
-}
+};
 
 // ---------------- Soft Delete Template ----------------
 
@@ -532,8 +534,6 @@ export const soft_delete_template = async (template: any) => {
         },
       };
       console.log("templatedDeleted1===========", template);
-      // const getColumn = await API.graphql(graphqlOperation(templateColumnsByTemplatesID_SoftDelete, { templatesID: template.id, filter: filter }))
-      // let columnList = getColumn.data.templateColumnsByTemplatesID.items
 
       const getSpreadSheet = await API.graphql(
         graphqlOperation(spreadSheetsByTemplatesID, {
@@ -546,22 +546,16 @@ export const soft_delete_template = async (template: any) => {
 
       console.log("spreadsheetList========", spreadSheetList);
 
-      // const getSpreadSheetRow = await API.graphql(graphqlOperation(spreadSheetRowsByTemplatesID_SoftDelete, { templatesID: template.id, filter: filter }))
-      // let spreadSheetRowList = getSpreadSheetRow.data.spreadSheetRowsByTemplatesID.items
+      const getSpreadSheetRow = await API.graphql(
+        graphqlOperation(spreadSheetRowsByTemplatesID, {
+          templatesID: template.id,
+          filter: filter,
+        })
+      );
+      const spreadSheetRowList = getSpreadSheetRow.data.spreadSheetRowsByTemplatesID.items;
 
-      // if (columnList.length > 0) {
-      //     columnList.forEach((element: any) => {
-      //         element.soft_Deleted = true
-      //     });
-      //     console.log("ColmList======", columnList)
-      //     const txnMutation: any = columnList.map((txn: any, i: any) => {
-      //         const updatedCol = `mutation${i}: updateTemplateColumns(input: {id: "${txn.id}", soft_Deleted:${txn.soft_Deleted}, _version:${txn._version}, }) { id,soft_Deleted,_version }`;
-      //         console.log("updateMutation============", updatedCol)
-      //         return updatedCol;
-      //     });
-      //     const updatedColumn = await API.graphql(graphqlOperation(`mutation batchMutation {
-      //         ${txnMutation}}`))
-      // }
+
+      // ---------------------------- Delete spreadsheet by templateID -------------------------
       if (spreadSheetList.length > 0) {
         spreadSheetList.forEach((element: any) => {
           element.soft_Deleted = true;
@@ -577,22 +571,33 @@ export const soft_delete_template = async (template: any) => {
         );
         console.log("spreadSheetList======", spreadSheetList);
       }
-      // if (spreadSheetRowList.length > 0) {
-      //     spreadSheetRowList.forEach((element: any) => {
-      //         element.soft_Deleted = true
-      //     });
-      //     console.log("spreadSheetRowList======", spreadSheetRowList)
-      //     const txnMutation: any = spreadSheetRowList.map((txn: any, i: any) => {
-      //         const updateSpreadsheetRow = `mutation${i}: updateSpreadSheetRows(input: {id: "${txn.id}", soft_Deleted:${txn.soft_Deleted}, _version:${txn._version} }) { id,soft_Deleted,_version }`;
-      //         console.log("updateMutation============", updateSpreadsheetRow)
-      //         return updateSpreadsheetRow;
-      //     });
-      //     const updatedSpreadSheet = await API.graphql(graphqlOperation(`mutation batchMutation {
-      //         ${txnMutation}}`))
-      // }
+      // ----------------------------------------------------------------------------------------------
+
+      // ------------------ delete SpreadsheetRow by templateID ------------
+      console.log("spreadSheetRowList----------",spreadSheetRowList)
+      if (spreadSheetRowList.length > 0) {
+        spreadSheetRowList.forEach((element: any) => {
+          element.soft_Deleted = true;
+        });
+        console.log("spreadSheetRowList======", spreadSheetRowList);
+        const txnMutation: any = spreadSheetRowList.map((txn: any, i: any) => {
+          const updateSpreadsheetRow = `mutation${i}: updateSpreadSheetRows(input: {id: "${txn.id}", soft_Deleted:${txn.soft_Deleted}, _version:${txn._version} }) { id,soft_Deleted,_version }`;
+          console.log("updateMutation============", updateSpreadsheetRow);
+          return updateSpreadsheetRow;
+        });
+        const updatedSpreadSheetRow = await API.graphql(
+          graphqlOperation(`mutation batchMutation {
+              ${txnMutation}}`)
+        );
+      }
+
+      // --------------------------------------------------------------------------
+
       const updateTemplate = await API.graphql(
-        graphqlOperation(updateTemplates, { input: template })
+         graphqlOperation(updateTemplates, { input: template })
       );
+
+     
       resolve(updateTemplate);
     } catch (e) {
       reject(e);
@@ -604,17 +609,17 @@ export const soft_delete_template = async (template: any) => {
 export const updateUserDetail = (userData: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const updateCurrUser = await API.graphql(
-        graphqlOperation(updateUser, { input: userData })
-      );
-      resolve(updateCurrUser);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updateCurrUser = await API.graphql(
+          graphqlOperation(updateUser, { input: userData })
+        );
+        resolve(updateCurrUser);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 export const get_user_from_table = async (userId: string) => {
@@ -835,17 +840,19 @@ export const delete_Account = (userId: string) => {
 export const customerSupport_form = async (customerSupportForm: any) => {
   return checkNetwork().then((isConnected) => {
     console.log("networkResp=======", isConnected);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const customerSupport = await API.graphql(
-        graphqlOperation(createCustomerSupport, { input: customerSupportForm })
-      );
-      resolve(customerSupport);
-    } catch (e) {
-      reject({ error: e, isConnected: isConnected });
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const customerSupport = await API.graphql(
+          graphqlOperation(createCustomerSupport, {
+            input: customerSupportForm,
+          })
+        );
+        resolve(customerSupport);
+      } catch (e) {
+        reject({ error: e, isConnected: isConnected });
+      }
+    });
   });
-})
 };
 
 // -------------- Get App Constants --------------

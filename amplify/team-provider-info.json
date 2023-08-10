@@ -52,5 +52,53 @@
         }
       }
     }
+  },
+  "production": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-cloudsheetbackendenv-production-191327-authRole",
+      "UnauthRoleArn": "arn:aws:iam::308754397164:role/amplify-cloudsheetbackendenv-production-191327-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::308754397164:role/amplify-cloudsheetbackendenv-production-191327-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-cloudsheetbackendenv-production-191327-deployment",
+      "UnauthRoleName": "amplify-cloudsheetbackendenv-production-191327-unauthRole",
+      "StackName": "amplify-cloudsheetbackendenv-production-191327",
+      "StackId": "arn:aws:cloudformation:us-east-1:308754397164:stack/amplify-cloudsheetbackendenv-production-191327/6ad78fe0-3528-11ee-b116-1222855c2fdd",
+      "AmplifyAppId": "dtoy4aokzss7t"
+    },
+    "categories": {
+      "auth": {
+        "cloudsheetbackendenv0bf41396": {
+          "userPoolId": "us-east-1_JWgMx8Kdh",
+          "userPoolName": "CloudSheet_Production",
+          "webClientId": "1ij7tgalv40vsvdeng5oftedat",
+          "nativeClientId": "1ij7tgalv40vsvdeng5oftedat",
+          "identityPoolId": "us-east-1:55c8362b-10b5-4fbc-920a-eeb8026f5fc0",
+          "identityPoolName": "cloudSheet_Identity_Prod",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::308754397164:role/amplify-cloudsheetbackendenv-production-184651-authRole",
+          "authRoleName": "amplify-cloudsheetbackendenv-production-184651-authRole",
+          "unauthRoleArn": "arn:aws:iam::308754397164:role/amplify-cloudsheetbackendenv-production-184651-unauthRole",
+          "unauthRoleName": "amplify-cloudsheetbackendenv-production-184651-unauthRole"
+        }
+      },
+      "function": {
+        "checkEmailExistFunction": {
+          "deploymentBucketName": "amplify-cloudsheetbackendenv-production-191327-deployment",
+          "s3Key": "amplify-builds/checkEmailExistFunction-36522f74397577547072-build.zip"
+        },
+        "checkUserNameExistFunction": {
+          "deploymentBucketName": "amplify-cloudsheetbackendenv-production-191327-deployment",
+          "s3Key": "amplify-builds/checkUserNameExistFunction-70744a545731744f4c45-build.zip"
+        }
+      },
+      "analytics": {
+        "cloudsheetEventTracking": {}
+      },
+      "api": {
+        "CloudSheetBackendEnv": {},
+        "checkEmailExist": {},
+        "checkUserNameExist": {}
+      }
+    }
   }
 }

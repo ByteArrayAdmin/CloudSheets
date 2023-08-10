@@ -1,5 +1,6 @@
 import { Amplify, Analytics } from 'aws-amplify';
 import { current_UserInfo } from '../API_Manager/index';
+Analytics.enable();
 
 export const track_Screen = (eventName: string, screenName: string) => {
      current_UserInfo().then((response: any) => {
@@ -9,7 +10,11 @@ export const track_Screen = (eventName: string, screenName: string) => {
           } else {
                userEmail = 'guestUser'
           }
-          Analytics.record({ name: eventName, attributes: { screenName: screenName, userEmail: userEmail }, immediate: true })
+          Analytics.record({ name: eventName, attributes: { screenName: screenName, userEmail: userEmail }, immediate: true }).then((response)=>{
+               console.log("trackResponse============",response)
+          }).catch((error)=>{
+               console.log("trackScreenErr============",error)
+          })
      }).catch((error) => {
           console.log("CurrUser======", error)
      })

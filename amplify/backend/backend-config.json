@@ -198,38 +198,6 @@
         }
       ]
     },
-    "AMPLIFY_auth_cloudsheetbackendenve9feab69_nativeClientId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "cloudsheetbackendenve9feab69"
-        }
-      ]
-    },
-    "AMPLIFY_auth_cloudsheetbackendenve9feab69_userPoolId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "cloudsheetbackendenve9feab69"
-        }
-      ]
-    },
-    "AMPLIFY_auth_cloudsheetbackendenve9feab69_userPoolName": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "cloudsheetbackendenve9feab69"
-        }
-      ]
-    },
-    "AMPLIFY_auth_cloudsheetbackendenve9feab69_webClientId": {
-      "usedBy": [
-        {
-          "category": "auth",
-          "resourceName": "cloudsheetbackendenve9feab69"
-        }
-      ]
-    },
     "AMPLIFY_function_checkEmailExistFunction_deploymentBucketName": {
       "usedBy": [
         {

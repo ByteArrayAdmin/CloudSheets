@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   BackHandler,
+  DeviceEventEmitter
 } from "react-native";
 import NewCommonHeader from ".././../../../commonComponents/NewCommonHeader";
 import BackButton from "../../../../commonComponents/Backbutton";
@@ -81,11 +82,14 @@ const ExpensesList = (props: any) => {
   // ------------ Spreadsheet Row by userId -------------
 
   const getRowByUserId = ()=>{
+    setLoader(true)
     getSpreadSheetRowBy_userId().then((response: any)=>{
       console.log("rowByuser=======",response)
         let rows = response.data.spreadSheetRowsByUserID.items.length
         setTotalRowLength(rows)
+        setLoader(false)
     }).catch((error)=>{
+      setLoader(false)
       console.log("error=======",error)
     })
   }
@@ -267,11 +271,14 @@ const ExpensesList = (props: any) => {
     setLoader(true);
     spreadSheetRow_softDelete(deleteRow)
       .then((response: any) => {
+        getRowByUserId()
         console.log("softDeleteRowResp=========", response);
+        DeviceEventEmitter.emit("updateSpreadSheetList");
         track_Success_Event(
           eventName.TRACK_SUCCESS_ACTION,
           successActionName.DELETE_SPREADSHEET_ROW_SUCCESSFULLY
         );
+        
         setLoader(false);
       })
       .catch((error) => {

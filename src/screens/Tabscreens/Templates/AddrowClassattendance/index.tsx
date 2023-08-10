@@ -98,12 +98,13 @@ const getCloudSheetBy_userID = ()=>{
     create_SpreadSheet(newSpreadData)
       .then((response: any) => {
         setLoader(false);
+        DeviceEventEmitter.emit("updateSpreadSheetList");
         track_Success_Event(
           eventName.TRACK_SUCCESS_ACTION,
           successActionName.CREATE_SPREADSHEET_NAME_SUCCESSFULLY
         );
         console.log("spreadResp=======", response);
-        DeviceEventEmitter.emit("updateSpreadSheetList");
+        
         navigation.navigate("RowdetailForm", {
           spreadSheet: response.data.createSpreadSheet,
           isFrom: isFrom,

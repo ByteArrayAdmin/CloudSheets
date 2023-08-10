@@ -223,14 +223,15 @@ const TemplateList = () => {
     create_SpreadSheet(newSpreadData)
       .then((response: any) => {
         console.log("spreadResp=======", response);
+        DeviceEventEmitter.emit("updateSpreadSheetList");
         setLoader(false);
         arr1.unshift(response.data.createSpreadSheet);
         setExtraData(new Date());
+        getCloudSheetCount()
         track_Success_Event(
           eventName.TRACK_SUCCESS_ACTION,
           successActionName.CREATE_SPREADSHEET_SUCCESSFULLY
         );
-        DeviceEventEmitter.emit("updateSpreadSheetList");
       })
       .catch((error) => {
         setLoader(false);
@@ -303,6 +304,7 @@ const TemplateList = () => {
     update_SpreadSheet(newSpreadData)
       .then((response) => {
         setLoader(false);
+        DeviceEventEmitter.emit("updateSpreadSheetList");
         track_Success_Event(
           eventName.TRACK_SUCCESS_ACTION,
           successActionName.UPDATE_SPREADSHEET_SUCCESSFULLY
@@ -397,6 +399,7 @@ const TemplateList = () => {
     spreadSheet_softDelete(updatedCloudsheetData)
       .then((response: any) => {
         if (response) {
+          DeviceEventEmitter.emit("updateSpreadSheetList");
           getSpreadsheetRow_bySpreadsheetId_forSoftDelete(selectedCloudSheet.id)
             .then((response: any) => {
               let spreadSheetRows =
@@ -426,7 +429,9 @@ const TemplateList = () => {
               setLoader(false);
               console.log("getSpRowErr=======", error);
             });
+            
         }
+        getCloudSheetCount()
       })
       .catch((error) => {
         track_Error_Event(
@@ -542,6 +547,13 @@ const TemplateList = () => {
             selectedCloudSheet={selectedCloudSheet}
             onEditCloudSheet={() => openEditCloudSheet()}
             onDeleteCloudSheet={() => openCloudsheetDeleteAlert()}
+            onViewCloudSheet={()=>{
+              editCloudSheetRef.current.childFunction2(),
+              navigation.navigate("ExpensesList", {
+                spreadSheetDetail: selectedCloudSheet,
+                isFrom: "TemplateTab",
+              })
+            }}
           />
         }
       />

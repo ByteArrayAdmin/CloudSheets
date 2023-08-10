@@ -80,10 +80,17 @@ const ClousheetList = () => {
   // -------------- Initial Rendering ------------
   useEffect(() => {
     console.log("currentUser=======", global.isLoggedInUser);
-    DeviceEventEmitter.addListener("updateSpreadSheetList", () => {
+    const refreshCloudSheet =  DeviceEventEmitter.addListener("updateSpreadSheetList", () => {
       get_CloudsheetBy_UserID(), getTemplateByUserId();
     });
     track_Screen(eventName.TRACK_SCREEN, screenName.CLOUDSHEET_TAB_SCREEN);
+    get_CloudsheetBy_UserID();
+      getTemplateByUserId();
+      setViewAll(false);
+    return () => {
+      // Run this code when the component unmounts or the dependencies change
+      refreshCloudSheet.remove() // Clean up the event listener
+    };
   }, []);
 
   // --------- Get Template By userID ----------
@@ -129,14 +136,14 @@ const ClousheetList = () => {
     return () => backHandler.remove(); // Clean up the event listener
   }, [isSheetOpen]);
 
-  useEffect(() => {
-    if (isFocused) {
-      // get_CurrentUserId();
-      get_CloudsheetBy_UserID();
-      getTemplateByUserId();
-      setViewAll(false);
-    }
-  }, [isFocused]);
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     // get_CurrentUserId();
+  //     get_CloudsheetBy_UserID();
+  //     getTemplateByUserId();
+  //     setViewAll(false);
+  //   }
+  // }, [isFocused]);
 
   // ------------ Register guest user flow ---------
   const onClickRegister = () => {
@@ -238,6 +245,7 @@ const ClousheetList = () => {
       .then((response: any) => {
         setLoader(false);
         console.log("createTempResp=======", response);
+        DeviceEventEmitter.emit("refreshTemplateList");
         createTemplateRef.current.childFunction2();
         setIsSheetOpen(false);
         navigation.navigate("CreatSpreadsheet", {
@@ -245,7 +253,7 @@ const ClousheetList = () => {
           isEdit: isEditTemplate,
           isFrom: "CloudSheetTab",
         });
-        DeviceEventEmitter.emit("refreshTemplateList");
+        
       })
       .catch((err) => {
         setLoader(false);
@@ -465,7 +473,7 @@ const ClousheetList = () => {
   };
 
   const Footer = () => {
-    return <View style={{ height: bottomTabHeight }} />;
+    return <View style={{ height: bottomTabHeight+50 }} />;
   };
 
   const renderItems = ({ item, index }: any) => (
