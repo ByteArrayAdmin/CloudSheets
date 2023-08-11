@@ -3,14 +3,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Homescreen from "../screens/Tabscreens/Home/Homescreen";
 import Home from "../assets/Images/Home.svg";
-import {COLOURS, FONTS } from "../utils/Constant";
-
+import { COLOURS, FONTS } from "../utils/Constant";
 import Boldhome from "../assets/Images/Boldhome.svg";
 import ClousheetList from "../screens/Tabscreens/Cloudsheet/RecentCloudsheet_List/Index";
 import CreateTemplate from "../screens/Tabscreens/Templates/Createtemplate/Index";
 import Documenticon from "../assets/Images/document.svg";
 import Template from "../assets/Images/Template.svg";
-import UserSection from "../screens/Tabscreens/UserTab/UserSection"
+import UserSection from "../screens/Tabscreens/UserTab/UserSection";
 import UserCircle from "../assets/Images/usercircle.svg";
 import Boldcheetsheet from "../assets/Images/Boldcheatsheet.svg";
 import Boldtemplateicon from "../assets/Images/Bloldtemplateicon.svg";
@@ -46,7 +45,11 @@ const CloudsheetList = () => {
       <Stack.Screen
         name="UpdateCloudsheet"
         component={UpdateCloudsheet}
-        options={{ headerShown: false, gestureEnabled: false ,animation:'fade'}}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
       />
     </Stack.Navigator>
   );
@@ -77,7 +80,7 @@ const User = () => {
         component={UserSection}
         options={{ headerShown: false, gestureEnabled: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="SubcriptionScreen"
         component={SubcriptionScreen}
         options={{ headerShown: false, gestureEnabled: false }}
@@ -110,7 +113,7 @@ export const Tabnavigator = () => {
             fontSize: 10,
           },
           tabBarActiveTintColor: COLOURS.Skyblue,
-          tabBarInactiveTintColor:COLOURS.inActiveTabColor,
+          tabBarInactiveTintColor: COLOURS.inActiveTabColor,
           tabBarLabel: "Home",
           headerShown: false,
           tabBarIcon: ({ focused }) => {
@@ -128,7 +131,7 @@ export const Tabnavigator = () => {
             fontSize: 10,
           },
           tabBarActiveTintColor: COLOURS.Skyblue,
-          tabBarInactiveTintColor:COLOURS.inActiveTabColor,
+          tabBarInactiveTintColor: COLOURS.inActiveTabColor,
           tabBarLabel: "CloudSheets",
           headerShown: false,
           tabBarIcon: ({ focused }) => {
@@ -145,7 +148,7 @@ export const Tabnavigator = () => {
             fontSize: 10,
           },
           tabBarActiveTintColor: COLOURS.Skyblue,
-          tabBarInactiveTintColor:COLOURS.inActiveTabColor,
+          tabBarInactiveTintColor: COLOURS.inActiveTabColor,
           tabBarLabel: "Templates",
           headerShown: false,
           tabBarIcon: ({ focused }) => {
@@ -162,7 +165,7 @@ export const Tabnavigator = () => {
             fontSize: 10,
           },
           tabBarActiveTintColor: COLOURS.Skyblue,
-          tabBarInactiveTintColor:COLOURS.inActiveTabColor,
+          tabBarInactiveTintColor: COLOURS.inActiveTabColor,
           tabBarLabel: "User",
           headerShown: false,
           tabBarIcon: ({ focused }) => {

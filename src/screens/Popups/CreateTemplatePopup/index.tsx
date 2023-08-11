@@ -7,7 +7,6 @@ import {
 import { FONTS, COLOURS } from "../../../utils/Constant";
 import Template from "../../../assets/Images/Tempate.svg";
 // import CreateTemplatescreen from "../../../utils/ProjectLabels.json";
-import { useForm } from "react-hook-form";
 import SmallButton from "../../../commonComponents/SmallButton";
 import LightSmallButton from "../../../commonComponents/LightSmallbutton";
 import { useNavigation } from "@react-navigation/native";
@@ -27,14 +26,6 @@ const CreateTemplatePopup = (props: any) => {
   const [templateId, setTemplateId] = useState('')
   const [version, setVersion] = useState()
   const [softDeleted,setSoftDeleted] = useState()
-
-  const OnClose = () => {
-    if (props.isEditTemplate) {
-      track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_UPDATE_TEMPLATE)
-    }
-    track_Click_Event(eventName.TRACK_CLICK,clickName.CANCEL_CREATE_TEMPLATE)
-    child.current.childFunction2();
-  };
 
   useEffect(() => {
     if (props.isEditTemplate) {
@@ -97,7 +88,6 @@ const CreateTemplatePopup = (props: any) => {
           <View>
             <LightSmallButton
                buttontext={CreateTemplatescreen.TemBottomsheet.Cancel}
-              // onPress={CreatePress}
               onPress={props.OnCloseCreateTemplate}
             />
           </View>

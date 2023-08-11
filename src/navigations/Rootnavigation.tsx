@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Signup from "../screens/Auth/signup";
 import Login from "../screens/Auth/Login";
@@ -14,17 +14,16 @@ import TemplateList from "../screens/Tabscreens/Templates/TemplateList";
 import ExpensesList from "../screens/Tabscreens/Templates/ExpensesList";
 import EditProfile from "../screens/Tabscreens/UserTab/EditProfile";
 import RateUs from "../screens/Tabscreens/UserTab/Rateus";
-import ResetPassword from '../screens/Auth/Resetpassword/index';
+import ResetPassword from "../screens/Auth/Resetpassword/index";
 
-import PrivacyScreen from '../screens/Tabscreens/UserTab/UserSection/Privacy_Policy/index';
-import Terms_Conditions_Screen from '../screens/Tabscreens/UserTab/UserSection/Terms_Conditions/index';
-import Help_Screen from '../screens/Tabscreens/UserTab/UserSection/Help/index';
-import Customer_Support_Screen from '../screens/Tabscreens/UserTab/UserSection/Customer_Support/index';
-import Customer_Support_Form from '../screens/Tabscreens/UserTab/UserSection/Customer_Support_Form/index';
-import Faq_Screen from '../screens/Tabscreens/UserTab/UserSection/FAQ/index';
-import OtpScreen from '../screens/Auth/OTP/index';
-import ExistingTemplateList from '../screens/Tabscreens/Cloudsheet/ExistingTemplates/index';
-import { Auth } from 'aws-amplify';
+import PrivacyScreen from "../screens/Tabscreens/UserTab/UserSection/Privacy_Policy/index";
+import Terms_Conditions_Screen from "../screens/Tabscreens/UserTab/UserSection/Terms_Conditions/index";
+import Help_Screen from "../screens/Tabscreens/UserTab/UserSection/Help/index";
+import Customer_Support_Screen from "../screens/Tabscreens/UserTab/UserSection/Customer_Support/index";
+import Customer_Support_Form from "../screens/Tabscreens/UserTab/UserSection/Customer_Support_Form/index";
+import Faq_Screen from "../screens/Tabscreens/UserTab/UserSection/FAQ/index";
+import OtpScreen from "../screens/Auth/OTP/index";
+import ExistingTemplateList from "../screens/Tabscreens/Cloudsheet/ExistingTemplates/index";
 
 declare global {
   var session: any;
@@ -33,10 +32,14 @@ declare global {
 const Stack = createNativeStackNavigator();
 
 const Rootnavigation = () => {
-  console.log("globlogin=======",global.session)
-  
+  console.log("globlogin=======", global.session);
+
   return (
-    <Stack.Navigator initialRouteName={global.session == true?'Tabnavigator':'BoardingScreen'} >
+    <Stack.Navigator
+      initialRouteName={
+        global.session == true ? "Tabnavigator" : "BoardingScreen"
+      }
+    >
       <Stack.Screen
         name="BoardingScreen"
         component={BoardingScreen}
@@ -217,7 +220,7 @@ const Rootnavigation = () => {
           animation: "fade",
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="EditProfile"
         component={EditProfile}
         options={{
@@ -226,7 +229,7 @@ const Rootnavigation = () => {
           animation: "fade",
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="RateUs"
         component={RateUs}
         options={{

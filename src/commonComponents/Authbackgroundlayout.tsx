@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  StyleSheet,
 } from 'react-native';
 import {Signupconstant} from '../../src/utils/Constant';
 import {styles} from '../screens/Auth/signup/style';

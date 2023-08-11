@@ -4,7 +4,7 @@ import { COLOURS,FONTS } from '../utils/Constant';
 import ImgSuspend from '../assets/Images/ic_suspend.svg';
 import InfoRed from '../assets/Images/infoRed.svg';
 import Button from '../commonComponents/Button';
-import labels from "../utils/ProjectLabels.json";
+// import labels from "../utils/ProjectLabels.json";
 import { useNavigation, CommonActions } from "@react-navigation/native";
 
 declare global {

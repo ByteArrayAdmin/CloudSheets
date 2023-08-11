@@ -54,7 +54,6 @@ const ClousheetList = () => {
   const bottomTabHeight = useBottomTabBarHeight();
   const ChildRef = useRef();
   const createTemplateRef = useRef();
-  const isFocused = useIsFocused();
   const openthreeDotRef = useRef();
   const openCloudSheetEditRef = useRef();
   const snapPoints = [350, 400];
@@ -80,16 +79,19 @@ const ClousheetList = () => {
   // -------------- Initial Rendering ------------
   useEffect(() => {
     console.log("currentUser=======", global.isLoggedInUser);
-    const refreshCloudSheet =  DeviceEventEmitter.addListener("updateSpreadSheetList", () => {
-      get_CloudsheetBy_UserID(), getTemplateByUserId();
-    });
+    const refreshCloudSheet = DeviceEventEmitter.addListener(
+      "updateSpreadSheetList",
+      () => {
+        get_CloudsheetBy_UserID(), getTemplateByUserId();
+      }
+    );
     track_Screen(eventName.TRACK_SCREEN, screenName.CLOUDSHEET_TAB_SCREEN);
     get_CloudsheetBy_UserID();
-      getTemplateByUserId();
-      setViewAll(false);
+    getTemplateByUserId();
+    setViewAll(false);
     return () => {
       // Run this code when the component unmounts or the dependencies change
-      refreshCloudSheet.remove() // Clean up the event listener
+      refreshCloudSheet.remove(); // Clean up the event listener
     };
   }, []);
 
@@ -100,7 +102,7 @@ const ClousheetList = () => {
         console.log("tempalateList========", response);
         const tempCount = response.data.templatesByUserID.items.length;
         console.log("TempCount=======", tempCount);
-        setTemplateCount(tempCount)
+        setTemplateCount(tempCount);
         if (tempCount == 0) {
           setIsTemplate(false);
         } else {
@@ -121,7 +123,6 @@ const ClousheetList = () => {
         createTemplateRef.current.childFunction2();
         openthreeDotRef.current.childFunction2();
         openCloudSheetEditRef.current.childFunction2();
-        // backHandler.remove();
         setIsSheetOpen(false);
         return true;
       } else {
@@ -135,15 +136,6 @@ const ClousheetList = () => {
     );
     return () => backHandler.remove(); // Clean up the event listener
   }, [isSheetOpen]);
-
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     // get_CurrentUserId();
-  //     get_CloudsheetBy_UserID();
-  //     getTemplateByUserId();
-  //     setViewAll(false);
-  //   }
-  // }, [isFocused]);
 
   // ------------ Register guest user flow ---------
   const onClickRegister = () => {
@@ -253,7 +245,6 @@ const ClousheetList = () => {
           isEdit: isEditTemplate,
           isFrom: "CloudSheetTab",
         });
-        
       })
       .catch((err) => {
         setLoader(false);
@@ -264,11 +255,14 @@ const ClousheetList = () => {
   // ------------ Open select Template Type Popup ------------
   const Opensheet = () => {
     if (global.isLoggedInUser) {
-      if( global.isPremium == "false" && cloudSheetList.length >= labels.trialConstants.trial_Cloudsheet_Limit){
-        Alert.alert(labels.limitConstants.CloudSheet_Limit_Exceed)
-      }else{
+      if (
+        global.isPremium == "false" &&
+        cloudSheetList.length >= labels.trialConstants.trial_Cloudsheet_Limit
+      ) {
+        Alert.alert(labels.limitConstants.CloudSheet_Limit_Exceed);
+      } else {
         setIsSheetOpen(true);
-      ChildRef.current.childFunction1();
+        ChildRef.current.childFunction1();
       }
       // setIsSheetOpen(true);
       // ChildRef.current.childFunction1();
@@ -288,14 +282,14 @@ const ClousheetList = () => {
     setError("");
     setIsSheetOpen(true);
     ChildRef.current.childFunction2();
-    if( global.isPremium == "false" &&  templateCount >= labels.trialConstants.trial_Template_Limit){
-      Alert.alert(labels.limitConstants.template_Limit_Exceed)
-    }else{
+    if (
+      global.isPremium == "false" &&
+      templateCount >= labels.trialConstants.trial_Template_Limit
+    ) {
+      Alert.alert(labels.limitConstants.template_Limit_Exceed);
+    } else {
       createTemplateRef.current.childFunction1();
     }
-    
-
-    
   };
 
   // ------------ On Select Existing Template ---------
@@ -473,7 +467,7 @@ const ClousheetList = () => {
   };
 
   const Footer = () => {
-    return <View style={{ height: bottomTabHeight+50 }} />;
+    return <View style={{ height: bottomTabHeight + 50 }} />;
   };
 
   const renderItems = ({ item, index }: any) => (

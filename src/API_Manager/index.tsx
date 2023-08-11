@@ -9,10 +9,6 @@ import {
   spreadSheetsByTemplatesID,
   spreadSheetRowsByUserID,
   templateColumnsByUserID,
-  spreadSheetRowsBySpreadSheetID_SoftDelete,
-  templateColumnsByTemplatesID_SoftDelete,
-  spreadSheetsByTemplatesID_SoftDelete,
-  spreadSheetRowsByTemplatesID_SoftDelete,
   spreadSheetRowsByTemplatesID,
   listAppConstants,
 } from "../graphql/queries";
@@ -554,7 +550,6 @@ export const soft_delete_template = async (template: any) => {
       );
       const spreadSheetRowList = getSpreadSheetRow.data.spreadSheetRowsByTemplatesID.items;
 
-
       // ---------------------------- Delete spreadsheet by templateID -------------------------
       if (spreadSheetList.length > 0) {
         spreadSheetList.forEach((element: any) => {
@@ -590,14 +585,12 @@ export const soft_delete_template = async (template: any) => {
               ${txnMutation}}`)
         );
       }
-
       // --------------------------------------------------------------------------
 
       const updateTemplate = await API.graphql(
          graphqlOperation(updateTemplates, { input: template })
       );
 
-     
       resolve(updateTemplate);
     } catch (e) {
       reject(e);
@@ -761,9 +754,6 @@ export const delete_Account = (userId: string) => {
       let spreadSheetRowList = user.data.getUser.SpreadSheetRows.items;
       let columnList = user.data.getUser.TemplateColumns.items;
 
-      // const getSpreadSheetRows = await API.graphql(graphqlOperation(spreadSheetRowsByUserID, { userID: userId,filter: filter }))
-      // console.log("wants to delete spreadSheetRow====", getSpreadSheetRows)
-      // let spreadSheetRowList = getSpreadSheetRows.data.spreadSheetRowsByUserID.items
       if (spreadSheetRowList.length > 0) {
         const txnMutation: any = spreadSheetRowList.map((txn: any, i: any) => {
           const deleteSpreadsheetRow = `mutation${i}: deleteSpreadSheetRows(input: {id: "${txn.id}", _version:${txn._version}}) { id, _version }`;
@@ -776,9 +766,6 @@ export const delete_Account = (userId: string) => {
         );
       }
 
-      // const getSpreadSheet = await API.graphql(graphqlOperation(spreadSheetsByUserID, { userID: userId,filter: filter }))
-      // console.log("wants to delete spreadSheet====", getSpreadSheet)
-      // let spreadSheetList = getSpreadSheet.data.spreadSheetsByUserID.items
       if (spreadSheetList.length > 0) {
         const txnMutation: any = spreadSheetList.map((txn: any, i: any) => {
           const deleteSpreadsheet = `mutation${i}: deleteSpreadSheet(input: {id: "${txn.id}", _version:${txn._version}}) { id, _version }`;
@@ -790,9 +777,7 @@ export const delete_Account = (userId: string) => {
                     ${txnMutation}}`)
         );
       }
-      // const getColumn = await API.graphql(graphqlOperation(templateColumnsByUserID, { userID: userId ,filter: filter}))
-      //  console.log("wants to delete column====", getColumn)
-      //  let columnList = getColumn.data.templateColumnsByUserID.items
+      
       if (columnList.length > 0) {
         const txnMutation: any = columnList.map((txn: any, i: any) => {
           const deleteColumn = `mutation${i}: deleteTemplateColumns(input: {id: "${txn.id}", _version:${txn._version}}) { id, _version }`;
@@ -804,9 +789,7 @@ export const delete_Account = (userId: string) => {
                     ${txnMutation}}`)
         );
       }
-      // const getTemplate = await API.graphql(graphqlOperation(templatesByUserID, { userID: userId,filter: filter }))
-      // console.log("wants to delete template====", getTemplate)
-      // let templateList = getTemplate.data.templatesByUserID.items
+      
       if (templateList.length > 0) {
         const txnMutation: any = templateList.map((txn: any, i: any) => {
           const deleteTemplate = `mutation${i}: deleteTemplates(input: {id: "${txn.id}", _version:${txn._version}}) { id, _version }`;

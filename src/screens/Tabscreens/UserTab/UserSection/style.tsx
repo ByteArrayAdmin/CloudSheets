@@ -1,11 +1,5 @@
 import { COLOURS, FONTS } from "../../../../utils/Constant";
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet } from "react-native";
 
 export const Styles = StyleSheet.create({
   container: {
@@ -29,7 +23,7 @@ export const Styles = StyleSheet.create({
     fontFamily: FONTS.inter_regular,
     fontSize: 14,
     paddingVertical: 25,
-    color:COLOURS.black
+    color: COLOURS.black,
   },
   innerhoeizontaline: {
     flex: 1,
@@ -61,7 +55,7 @@ export const Styles = StyleSheet.create({
     fontSize: 12,
     paddingTop: 5,
   },
-  commingSoonText:{
+  commingSoonText: {
     color: "#1AD461",
     fontFamily: FONTS.inter_regular,
     fontSize: 12,
@@ -70,5 +64,5 @@ export const Styles = StyleSheet.create({
   space: {
     flex: 1,
   },
-  crownpadding:{ paddingRight: 24 }
+  crownpadding: { paddingRight: 24 },
 });

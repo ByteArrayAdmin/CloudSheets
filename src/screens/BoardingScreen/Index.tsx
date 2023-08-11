@@ -58,7 +58,6 @@ const BoardingScreen = () => {
   };
 
   return  (
-   
     HomescreenLabel ?
     <View style={Homestyle.container}>
       <View style={Homestyle.backgroundImgStyle}>
@@ -110,7 +109,6 @@ const BoardingScreen = () => {
         </View>
       </View>
     </View>: loader?<CommonLoader/>:null
-    
   ) 
 };
 

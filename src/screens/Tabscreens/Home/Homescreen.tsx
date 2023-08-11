@@ -47,7 +47,6 @@ import CreateTemplatePopup from "../../Popups/CreateTemplatePopup";
 // import labels from "../../../utils/ProjectLabels.json";
 import uuid from "react-native-uuid";
 import CommonLoader from "../../../commonComponents/CommonLoader";
-import NetInfo from "@react-native-community/netinfo";
 import SuspensionModal from "../../../commonComponents/SuspensionModal";
 
 declare global {
@@ -142,16 +141,13 @@ const Homescreen = (props: any) => {
 
   // -------------- Get Template count by userId ----------
   const getTemplateList = (userId: string) => {
-    // setLoader(true)
     get_Template_List(userId)
       .then((response: any) => {
         console.log("resp==========", response);
-        // setLoader(false)
         let tempCount = response.data.templatesByUserID.items.length;
         setTemplateCount(tempCount);
       })
       .catch((error) => {
-        // setLoader(false)
         console.log("tempErr========", error);
       });
   };
@@ -174,7 +170,7 @@ const Homescreen = (props: any) => {
       setLoader(true);
       create_Template(newTemplate)
         .then((response: any) => {
-          DeviceEventEmitter.emit('refreshTemplateList');
+          DeviceEventEmitter.emit("refreshTemplateList");
           console.log("createTempResp=======", response);
           setLoader(false);
           arr1.push(response.data.createTemplates);
@@ -191,7 +187,6 @@ const Homescreen = (props: any) => {
             isFrom: "HomeTab",
           });
           setExtraData(new Date());
-         
         })
         .catch((err) => {
           setLoader(false);
@@ -261,7 +256,7 @@ const Homescreen = (props: any) => {
         global.isPremium == "false" &&
         templateCount >= labels.trialConstants.trial_Template_Limit
       ) {
-        Alert.alert(labels.limitConstants.template_Limit_Exceed)
+        Alert.alert(labels.limitConstants.template_Limit_Exceed);
       } else {
         setError("");
         setIsSheetOpen(true);
@@ -310,10 +305,7 @@ const Homescreen = (props: any) => {
                     </View>
                     <View>
                       <Text style={welcomscreenstyle.cloudsheettext}>
-                        {
-                          labels?.HomeWelcomeScreen
-                            ?.Clodesheetcardtext
-                        }
+                        {labels?.HomeWelcomeScreen?.Clodesheetcardtext}
                       </Text>
                     </View>
                     <View style={welcomscreenstyle.secondcardtext}>

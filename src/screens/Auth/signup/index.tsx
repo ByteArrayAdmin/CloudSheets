@@ -265,8 +265,8 @@ const Signup = () => {
           email: email,
           phone_number: mobilenumber,
           name: name,
-          'custom:premium':"false",
-          'custom:suspended':"false"
+          "custom:premium": "false",
+          "custom:suspended": "false",
         },
       };
       setLoader(true);
@@ -300,24 +300,6 @@ const Signup = () => {
         },
       ]
     );
-
-  const isUserNameAlreadyExist = async () => {
-    setIsUserExist(false);
-    const temp_code = "000000";
-    console.log("userName=======", userName);
-    userExist(userName, temp_code)
-      .then((response) => {
-        console.log("checkIsExist========", response);
-      })
-      .catch((err) => {
-        if (
-          err.code === "CodeMismatchException" ||
-          err.code === "AliasExistsException"
-        ) {
-          setIsUserExist(true);
-        }
-      });
-  };
 
   const validatePassword = (passwordOnChange: string) => {
     console.log("updatePass======", passwordOnChange);
@@ -413,7 +395,6 @@ const Signup = () => {
                     control={control}
                     value={userName}
                     isUserExist={isUserExist}
-                    // onBlur={isUserNameAlreadyExist}
                     onBlur={isUserNameExist}
                     onChangeUser={(text: string) =>
                       console.log("onChangeText=========", text)
@@ -432,7 +413,6 @@ const Signup = () => {
                   <InputField
                     name="email"
                     control={control}
-                    // customPassword={true}
                     placeholder={signupLabel.signupcontant.PLACEHOLDER_EMAIL}
                     Image={Mesageicon}
                     rules={{
@@ -443,7 +423,6 @@ const Signup = () => {
                       },
                     }}
                     onBlur={validateEmail}
-                    // onChangeCustom={(text: string) => validateEmail(text)}
                     keyboardType={"email-address"}
                     styles={styles.inputview}
                   />

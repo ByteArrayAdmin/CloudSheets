@@ -124,17 +124,6 @@ const CreateTemplate = () => {
     return () => backHandler.remove(); // Clean up the event listener
   }, [isSheetOpen]);
 
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     setIsGlobal((prevState) => !prevState);
-  //     if (global.isLoggedInUser) {
-  //       getTemplateList();
-  //     } else {
-  //       getGuestUserTemplates();
-  //     }
-  //   }
-  // }, [isFocused]);
-
   // --------- Get Guest user Template List --------
   const getGuestUserTemplates = async () => {
     await AsyncStorage.getItem(
