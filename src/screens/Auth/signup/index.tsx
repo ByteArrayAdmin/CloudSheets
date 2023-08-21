@@ -246,6 +246,10 @@ const Signup = () => {
         console.log("networkErr======", error);
       });
   };
+
+
+
+
   // -------------- Signup user ------------
   const onRegisterPressed = async (data: any) => {
     if (isNotBlankSpace(data.username)) {
@@ -288,48 +292,41 @@ const Signup = () => {
         });
     }
   };
+          const showAlert = (username: any) =>
+          Alert.alert(
+            labels.signupcontant.SUCCESFULLY_REGISTERED,
+            "You have successfully registered!", // Updated message
+            [
+              {
+                text: "Ok",
+                onPress: () => navigation.navigate("Login"), // Navigate to a different screen
+              },
+            ]
+          );
 
-  const showAlert = (username: any) =>
-    Alert.alert(
-      labels.signupcontant.SUCCESFULLY_REGISTERED,
-      labels.signupcontant.confirmEmailText,
-      [
-        {
-          text: "Ok",
-          onPress: () =>
-            navigation.navigate("OtpScreen", { username: username }),
-        },
-      ]
-    );
 
-  const validatePassword = (passwordOnChange: string) => {
-    console.log("updatePass======", passwordOnChange);
-    const passwordRegex = /^.{6,}$/;
-    const passwordPatternRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/;
-    if (!passwordOnChange) {
-      setError("password", {
-        type: "required",
-        message: "Password is required",
-      });
-      setPasswordPolicy(true);
-    } else if (!passwordRegex.test(passwordOnChange)) {
-      setError("password", {
-        type: "minLength",
-        message: "Password must be at least 6 characters long.",
-      });
-      setPasswordPolicy(true);
-    } else if (!passwordPatternRegex.test(passwordOnChange)) {
-      setError("password", {
-        type: "pattern",
-        message:
-          "Password must contain at least one number, one special character, and one uppercase letter",
-      });
-      setPasswordPolicy(true);
-    } else {
-      setError("password", null); // Clear the error if validation passes
-      setPasswordPolicy(false);
-    }
-  };
+    const validatePassword = (passwordOnChange: string) => {
+      console.log("updatePass======", passwordOnChange);
+      const passwordRegex = /^.{6,}$/; // This will check for a minimum length of 6 characters
+    
+      if (!passwordOnChange) {
+        setError("password", {
+          type: "required",
+          message: "Password is required",
+        });
+        setPasswordPolicy(true);
+      } else if (!passwordRegex.test(passwordOnChange)) {
+        setError("password", {
+          type: "minLength",
+          message: "Password must be at least 6 characters long.",
+        });
+        setPasswordPolicy(true);
+      } else {
+        setError("password", null); // Clear the error if validation passes
+        setPasswordPolicy(false);
+      }
+    };
+    
 
   const validateEmail = () => {
     isEmailExist();
@@ -445,32 +442,31 @@ const Signup = () => {
                     keyboardType={"phone-pad"}
                     styles={styles.inputview}
                   />
-                  <InputField
-                    name="password"
-                    control={control}
-                    placeholder={signupLabel.signupcontant.PLACEHOLDER_PASSWORD}
-                    Image={Lock}
-                    rules={{
-                      required:
-                        signupLabel.signupcontant.PASSWARD_VALIDATION_MSG,
-                      minLength: {
-                        value: 6, // Replace with your desired minimum length
-                        message: "Username must be at least 6 characters long.",
-                      },
-                      pattern: {
-                        value: /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z]).+$/, // Regular expression pattern for at least one number, one special character, and one uppercase letter
-                        message:
-                          "Password must contain at least one number, one special character, and one uppercase letter.",
-                      },
-                    }}
-                    customPassword={true}
-                    secureTextEntry={true}
-                    styles={styles.inputview}
-                    instructionIcon={Instucticon}
-                    Opensheet={Opensheet}
-                    passswordpolicy={passswordpolicy}
-                    onChangeCustom={(text: string) => validatePassword(text)}
-                  />
+
+
+                    <InputField
+                      name="password"
+                      control={control}
+                      placeholder={signupLabel.signupcontant.PLACEHOLDER_PASSWORD}
+                      Image={Lock}
+                      rules={{
+                        required: signupLabel.signupcontant.PASSWARD_VALIDATION_MSG,
+                        minLength: {
+                          value: 6, // Minimum length of 6 characters
+                          message: "Password must be at least 6 characters long.",
+                        },
+                      }}
+                      customPassword={true}
+                      secureTextEntry={true}
+                      styles={styles.inputview}
+                      instructionIcon={Instucticon}
+                      Opensheet={Opensheet}
+                      passswordpolicy={passswordpolicy}
+                      onChangeCustom={(text: string) => validatePassword(text)}
+                    />
+
+
+
                   <CommonButton
                     onPress={handleSubmit(checkInternet)}
                     Register={signupLabel.signupcontant.REGISTER}
