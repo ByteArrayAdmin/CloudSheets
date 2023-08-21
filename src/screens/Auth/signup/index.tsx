@@ -279,7 +279,8 @@ const Signup = () => {
         .catch((e) => {
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
-            errorActionName.SIGN_UP_ERROR
+            errorActionName.SIGN_UP_ERROR, 
+            { errorMessage: e?.message } // Additional attributes
           );
           setLoader(false);
           console.log("SignupErr=======", e);
