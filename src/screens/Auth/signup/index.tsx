@@ -32,6 +32,10 @@ import RedCorss from "../../../assets/Images/redcross.svg";
 import BlueTick from "../../../assets/Images/bluetick.svg";
 import AuthCard from "../../../commonComponents/AuthCard";
 // import labels from "../../../utils/ProjectLabels.json";
+//Fix KeyBoard Drop Issue 
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+
+
 import {
   userSignup,
   userExist,
@@ -292,17 +296,21 @@ const Signup = () => {
         });
     }
   };
+
+
+
           const showAlert = (username: any) =>
-          Alert.alert(
-            labels.signupcontant.SUCCESFULLY_REGISTERED,
-            "You have successfully registered!", // Updated message
-            [
-              {
-                text: "Ok",
-                onPress: () => navigation.navigate("Login"), // Navigate to a different screen
-              },
-            ]
-          );
+    Alert.alert(
+      labels.signupcontant.SUCCESFULLY_REGISTERED,
+      labels.signupcontant.confirmEmailText,
+      [
+        {
+          text: "Ok",
+          onPress: () =>
+            navigation.navigate("OtpScreen", { username: username }),
+        },
+      ]
+    );
 
 
     const validatePassword = (passwordOnChange: string) => {
@@ -339,6 +347,7 @@ const Signup = () => {
   return (
     <>
       <BackgroundLayout />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={styles.safeareastyle}>
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
@@ -533,6 +542,7 @@ const Signup = () => {
           children={<PasswordInstruction />}
         />
       </SafeAreaView>
+      </TouchableWithoutFeedback>
     </>
   );
 };
