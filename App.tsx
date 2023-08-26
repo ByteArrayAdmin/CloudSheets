@@ -12,8 +12,8 @@ import { navigationRef } from "./src/navigations/navigationReference";
 import { getAppConstants } from "./src/API_Manager/index";
 import labels from "./src/utils/ProjectLabels.json";
 import {listAppConstants} from './src/graphql/queries'
-Amplify.configure(awsconfig);
 
+Amplify.configure(awsconfig);
 
 function App(): JSX.Element {
   const [isLogIn, setIsLogIn] = useState(false);

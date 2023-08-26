@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Homestyle } from "./style";
@@ -77,7 +78,8 @@ const BoardingScreen = () => {
           <View style={Homestyle.cutcardview}>
             <Cutcard />
             <TouchableOpacity
-                onPress={() => navigation.navigate("Login")}
+                //onPress={() => navigation.navigate("Login")}
+                onPress={() => navigation.navigate("GuestDetail")}
                 style={Homestyle.Arrowbutton}
               >
                 <Arrowbutton />

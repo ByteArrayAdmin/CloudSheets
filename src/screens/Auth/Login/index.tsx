@@ -144,7 +144,8 @@ const Login = () => {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="always"
         >
-          <TouchableOpacity
+          
+          {/*<TouchableOpacity
             style={loginstyle.skipText}
             onPress={() => {
               navigation.navigate("Tabnavigator"),
@@ -158,6 +159,9 @@ const Login = () => {
               {LoginLabels?.LoginScreen?.SKIP}
             </Text>
           </TouchableOpacity>
+          */}
+
+
           <View style={loginstyle.createAccountview}>
             <View>
               <Mediumlogo />

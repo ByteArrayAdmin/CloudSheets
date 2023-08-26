@@ -1,6 +1,9 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Signup from "../screens/Auth/signup";
+
+import GuestDetail from '../screens/GuestDetail';
+
 import Login from "../screens/Auth/Login";
 import ForgotPassword from "../screens/Auth/Forgotpassword";
 import BoardingScreen from "../screens/BoardingScreen/Index";
@@ -35,11 +38,15 @@ const Rootnavigation = () => {
   console.log("globlogin=======", global.session);
 
   return (
+
+
     <Stack.Navigator
       initialRouteName={
         global.session == true ? "Tabnavigator" : "BoardingScreen"
       }
     >
+    
+
       <Stack.Screen
         name="BoardingScreen"
         component={BoardingScreen}
@@ -49,6 +56,17 @@ const Rootnavigation = () => {
           animation: "fade",
         }}
       />
+      
+      <Stack.Screen
+        name="GuestDetail"
+        component={GuestDetail}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: "fade",
+        }}
+      />
+
       <Stack.Screen
         name="Signupscreen"
         component={Signup}
