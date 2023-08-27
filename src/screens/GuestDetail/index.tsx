@@ -161,6 +161,8 @@ const GuestDetail = ({ navigation }) => {
 
 
   return (
+
+    
         <View style={Homestyle.container}>
         <View style={Homestyle.logoview}>
             <Text style={Homestyle.clousheetstext}>Howdy, Stranger!</Text>
@@ -183,7 +185,8 @@ const GuestDetail = ({ navigation }) => {
             <Text style={Homestyle.buttonText}>Maybe later</Text>
         </TouchableOpacity>
         </View>
-
+ 
+      
 
 
 
