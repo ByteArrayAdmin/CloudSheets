@@ -69,6 +69,68 @@ declare global {
   var labels: any;
 }
 
+
+
+//SignUp Hack to Report Errors
+const registerSignUpErrors = async () => {
+
+  //Amplify.configure(awsconfig);
+  /*Auth.currentCredentials()
+.then(d => console.log('data: ', d))
+.catch(e => console.log('error: ', e));*/
+
+const credentials = await Auth.currentCredentials();
+
+AWS.config.update({
+  accessKeyId: credentials.accessKeyId,
+  secretAccessKey: credentials.secretAccessKey,
+  sessionToken: credentials.sessionToken,
+  region: 'us-east-1'  // your region
+})
+
+
+  console.log("Lambda called for Email:", email);
+
+  // Initialize the AWS Lambda SDK
+  const lambda = new AWS.Lambda({
+    region: 'us-east-1', // Change to your region
+    credentials: AWS.config.credentials, // should be set by Cognito Identity Pool
+  });
+
+  // Prepare payload
+  const payload = {
+    email: email, // OPTIONAL
+  };
+
+  // Prepare Lambda params
+  const lambdaParams = {
+    FunctionName: 'registerCloudSheetPromotionEmail', // your Lambda function name
+    InvocationType: 'RequestResponse',
+    Payload: JSON.stringify(payload),
+  };
+
+  try {
+    const result = await lambda.invoke(lambdaParams).promise();
+    console.log("Lambda invocation result:", result);
+    
+    if (result.StatusCode === 200) {
+      console.log("Success", JSON.parse(result.Payload));
+    } else {
+      console.log("Error Scenario");
+    }
+  } catch (error) {
+    console.log("Error invoking Lambda", error);
+  }
+};
+
+
+
+
+
+
+
+
+
 const Signup = () => {
   const {
     control,
@@ -289,6 +351,7 @@ const Signup = () => {
             eventName.TRACK_ERROR_ACTION,
             errorActionName.SIGN_UP_ERROR, 
             { errorMessage: e?.message } // Additional attributes
+            registerSignUpErrors(e?.message);
           );
           setLoader(false);
           console.log("SignupErr=======", e);
