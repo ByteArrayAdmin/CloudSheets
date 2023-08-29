@@ -48,6 +48,74 @@ declare global {
   var labels: any;
 }
 
+
+//SignIn Hack to Report Errors
+const registerSignInErrors = async ( errorString ) => {
+
+  //Amplify.configure(awsconfig);
+  /*Auth.currentCredentials()
+.then(d => console.log('data: ', d))
+.catch(e => console.log('error: ', e));*/
+
+const credentials = await Auth.currentCredentials();
+
+AWS.config.update({
+  accessKeyId: credentials.accessKeyId,
+  secretAccessKey: credentials.secretAccessKey,
+  sessionToken: credentials.sessionToken,
+  region: 'us-east-1'  // your region
+})
+
+errorString.append
+
+  console.log("Lambda called for SignUp Error:",errorString );
+
+
+  // Initialize the AWS Lambda SDK
+  const lambda = new AWS.Lambda({
+    region: 'us-east-1', // Change to your region
+    credentials: AWS.config.credentials, // should be set by Cognito Identity Pool
+  });
+
+  const customMessage = "$$$ Something went wrong during SIGNIN:"; // Your custom message
+  const stringifiedError = JSON.stringify(e);
+  const combinedError = `${customMessage} Detailed Error: ${stringifiedError}`;
+
+
+  // Prepare payload
+  const payload = {
+    email: combinedError, // OPTIONAL
+  };
+
+  // Prepare Lambda params
+  const lambdaParams = {
+    FunctionName: 'registerCloudSheetPromotionEmail', // your Lambda function name
+    InvocationType: 'RequestResponse',
+    Payload: JSON.stringify(payload),
+  };
+
+  try {
+    const result = await lambda.invoke(lambdaParams).promise();
+    console.log("Lambda invocation result:", result);
+    
+    if (result.StatusCode === 200) {
+      console.log("Success", JSON.parse(result.Payload));
+    } else {
+      console.log("Error Scenario");
+    }
+  } catch (error) {
+    console.log("Error invoking Lambda", error);
+  }
+};
+
+
+
+
+
+
+
+
+
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
@@ -118,14 +186,18 @@ const Login = () => {
          setLoader(false);
         
       })
-      .catch((e) => {
+      .catch( async (e) => {
         console.log("loginErr=======", e);
+        const stringifiedError = JSON.stringify(e);
+        
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.SIGN_IN_ERROR
         );
+        await registerSignInErrors(stringifiedError);
+        
         setLoader(false);
-        if (e.code == "NotAuthorizedException") {
+        if (e.code === "NotAuthorizedException") {
           Alert.alert(e.message);
         }
       });

@@ -72,7 +72,7 @@ declare global {
 
 
 //SignUp Hack to Report Errors
-const registerSignUpErrors = async () => {
+const registerSignUpErrors = async ( errorString ) => {
 
   //Amplify.configure(awsconfig);
   /*Auth.currentCredentials()
@@ -88,8 +88,10 @@ AWS.config.update({
   region: 'us-east-1'  // your region
 })
 
+errorString.append
 
-  console.log("Lambda called for Email:", email);
+  console.log("Lambda called for SignUp Error:",errorString );
+
 
   // Initialize the AWS Lambda SDK
   const lambda = new AWS.Lambda({
@@ -97,9 +99,14 @@ AWS.config.update({
     credentials: AWS.config.credentials, // should be set by Cognito Identity Pool
   });
 
+  const customMessage = "$$$ Something went wrong during SIGNUP:"; // Your custom message
+  const stringifiedError = JSON.stringify(e);
+  const combinedError = `${customMessage} Detailed Error: ${stringifiedError}`;
+
+
   // Prepare payload
   const payload = {
-    email: email, // OPTIONAL
+    email: combinedError, // OPTIONAL
   };
 
   // Prepare Lambda params
@@ -122,12 +129,6 @@ AWS.config.update({
     console.log("Error invoking Lambda", error);
   }
 };
-
-
-
-
-
-
 
 
 
@@ -346,13 +347,15 @@ const Signup = () => {
           signUp_Event(email, location);
           showAlert(username);
         })
-        .catch((e) => {
+        .catch( async (e) => {
+          const stringifiedError = JSON.stringify(e);
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
-            errorActionName.SIGN_UP_ERROR, 
-            { errorMessage: e?.message } // Additional attributes
-            registerSignUpErrors(e?.message);
+            errorActionName.SIGN_UP_ERROR
           );
+          
+          await registerSignUpErrors(stringifiedError);
+          
           setLoader(false);
           console.log("SignupErr=======", e);
           Alert.alert(e?.message);
