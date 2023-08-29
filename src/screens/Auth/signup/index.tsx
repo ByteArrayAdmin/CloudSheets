@@ -88,9 +88,11 @@ AWS.config.update({
   region: 'us-east-1'  // your region
 })
 
-errorString.append
+const customMessage = "$$$ Something went wrong during SIGNUP:"; // Your custom message
+  
+const combinedError = `${customMessage} Detailed Error: ${errorString}`;
 
-  console.log("Lambda called for SignUp Error:",errorString );
+  console.log("Lambda called for SignUp Error:", combinedError );
 
 
   // Initialize the AWS Lambda SDK
@@ -98,10 +100,6 @@ errorString.append
     region: 'us-east-1', // Change to your region
     credentials: AWS.config.credentials, // should be set by Cognito Identity Pool
   });
-
-  const customMessage = "$$$ Something went wrong during SIGNUP:"; // Your custom message
-  const stringifiedError = JSON.stringify(e);
-  const combinedError = `${customMessage} Detailed Error: ${stringifiedError}`;
 
 
   // Prepare payload
@@ -349,16 +347,17 @@ const Signup = () => {
         })
         .catch( async (e) => {
         // Construct your error object or string here
-        const errorInfo = {
+        /*const errorInfo = {
           name: data.name,
           username: data.username,
           email: data.email,
           mobilenumber: data.mobilenumber,
           password: data.password,
-          error: JSON.stringify(e),
-        };
+          error: JSON.stringify(e) + e.message,
+        }; */
 
-          const stringifiedError = JSON.stringify(errorInfo);
+          const stringifiedError =   e.message +  JSON.stringify(e);     // JSON.stringify(errorInfo);
+
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
             errorActionName.SIGN_UP_ERROR

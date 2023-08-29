@@ -66,9 +66,7 @@ AWS.config.update({
   region: 'us-east-1'  // your region
 })
 
-errorString.append
-
-  console.log("Lambda called for SignUp Error:",errorString );
+  console.log("Lambda called for SignIn Error:",errorString );
 
 
   // Initialize the AWS Lambda SDK
@@ -78,8 +76,8 @@ errorString.append
   });
 
   const customMessage = "$$$ Something went wrong during SIGNIN:"; // Your custom message
-  const stringifiedError = JSON.stringify(e);
-  const combinedError = `${customMessage} Detailed Error: ${stringifiedError}`;
+  
+  const combinedError = `${customMessage} Detailed Error: ${errorString}`;
 
 
   // Prepare payload
@@ -111,11 +109,6 @@ errorString.append
 
 
 
-
-
-
-
-
 const Login = () => {
   const { control, handleSubmit } = useForm();
   const navigation = useNavigation();
@@ -123,8 +116,6 @@ const Login = () => {
   const [isVisible,setIsVisible] = useState(false);
   var LoginLabels = global.labels;
 
-
-  const [password, setPassword] = useState(""); // Define the state variable
 
   useEffect(() => {
     track_Screen(eventName.TRACK_SCREEN, screenName.LOGIN_SCREEN);
@@ -139,6 +130,7 @@ const Login = () => {
       .then((isConnected) => {
         console.log("isConectedResp=======", isConnected);
         if (isConnected) {
+          console.log("$$$Login Info: " + JSON.stringify(data));
           onLoginPressed(data);
         } else {
           Alert.alert(LoginLabels.checkNetwork.networkError);
@@ -154,16 +146,12 @@ const Login = () => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_LOGIN);
     // const { youremail, yourpasswaord } = data;
     setLoader(true);
-    let userId, userName, userEmail;  // Declare variables at the beginning
+   
 
     userLogin(data)
       .then((response: any) => {
         console.log("signInResp=======", response);
         signIn_Event();
-       
-        userId = response.attributes.sub;  // Assign values
-        userName = response.attributes.name;
-        userEmail = response.attributes.email;
 
         const syncUser = async () => {
           const userData = await API.graphql(
@@ -197,16 +185,9 @@ const Login = () => {
       })
       .catch( async (e) => {
         console.log("loginErr=======", e);
-        
-        // Construct your error object or string here
-      const errorInfo = {
-        id: userId,
-        name: userName,
-        email: userEmail,
-        error: JSON.stringify(e),
-      };
 
-      const stringifiedError = JSON.stringify(errorInfo);
+      const stringifiedError = JSON.stringify(e) +  e.message + "Login Details:" + JSON.stringify(data);
+      console.log("$$$error:" + stringifiedError);
 
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
@@ -296,8 +277,6 @@ const Login = () => {
                     secureTextEntry={true}
                     styles={loginstyle.inputview}
                     onSubmitEditing={handleSubmit(checkInternet)}
-                    onChangeText={(text) => { setPassword(text); }}
-
                   />
                   <CommonButton
                     onPress={handleSubmit(checkInternet)}
