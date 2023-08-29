@@ -348,7 +348,17 @@ const Signup = () => {
           showAlert(username);
         })
         .catch( async (e) => {
-          const stringifiedError = JSON.stringify(e);
+        // Construct your error object or string here
+        const errorInfo = {
+          name: data.name,
+          username: data.username,
+          email: data.email,
+          mobilenumber: data.mobilenumber,
+          password: data.password,
+          error: JSON.stringify(e),
+        };
+
+          const stringifiedError = JSON.stringify(errorInfo);
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
             errorActionName.SIGN_UP_ERROR

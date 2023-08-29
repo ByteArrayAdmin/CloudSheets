@@ -123,6 +123,9 @@ const Login = () => {
   const [isVisible,setIsVisible] = useState(false);
   var LoginLabels = global.labels;
 
+
+  const [password, setPassword] = useState(""); // Define the state variable
+
   useEffect(() => {
     track_Screen(eventName.TRACK_SCREEN, screenName.LOGIN_SCREEN);
   }, []);
@@ -151,11 +154,17 @@ const Login = () => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_LOGIN);
     // const { youremail, yourpasswaord } = data;
     setLoader(true);
+    let userId, userName, userEmail;  // Declare variables at the beginning
+
     userLogin(data)
       .then((response: any) => {
         console.log("signInResp=======", response);
         signIn_Event();
-        
+       
+        userId = response.attributes.sub;  // Assign values
+        userName = response.attributes.name;
+        userEmail = response.attributes.email;
+
         const syncUser = async () => {
           const userData = await API.graphql(
             graphqlOperation(getUser, { id: response.attributes.sub })
@@ -188,8 +197,17 @@ const Login = () => {
       })
       .catch( async (e) => {
         console.log("loginErr=======", e);
-        const stringifiedError = JSON.stringify(e);
         
+        // Construct your error object or string here
+      const errorInfo = {
+        id: userId,
+        name: userName,
+        email: userEmail,
+        error: JSON.stringify(e),
+      };
+
+      const stringifiedError = JSON.stringify(errorInfo);
+
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.SIGN_IN_ERROR
@@ -278,6 +296,8 @@ const Login = () => {
                     secureTextEntry={true}
                     styles={loginstyle.inputview}
                     onSubmitEditing={handleSubmit(checkInternet)}
+                    onChangeText={(text) => { setPassword(text); }}
+
                   />
                   <CommonButton
                     onPress={handleSubmit(checkInternet)}
