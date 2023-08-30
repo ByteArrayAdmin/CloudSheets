@@ -88,11 +88,11 @@ AWS.config.update({
   region: 'us-east-1'  // your region
 })
 
-const customMessage = "$$$ Something went wrong during SIGNUP:"; // Your custom message
+const customMessage = ""; // Your custom message
   
-const combinedError = `${customMessage} Detailed Error: ${errorString}`;
+const combinedError = `Detailed Message: ${errorString}`;
 
-  console.log("Lambda called for SignUp Error:", combinedError );
+  console.log("", combinedError );
 
 
   // Initialize the AWS Lambda SDK
@@ -151,7 +151,7 @@ const Signup = () => {
 
   // ------------ IsEmail Exist Lamda trigger -------------
   const isEmailExist = async () => {
-    console.log("lamdaCalled=====");
+    //console.log("lamdaCalled=====");
     const apiName = "checkEmailExist";
     const path = "/user";
     const myInit = {
@@ -317,6 +317,8 @@ const Signup = () => {
 
   // -------------- Signup user ------------
   const onRegisterPressed = async (data: any) => {
+
+    await registerSignUpErrors( "$$$SignUp Attempted with details" + JSON.stringify(data));
     if (isNotBlankSpace(data.username)) {
       setError("username", {
         message: "This field cannot contain only whitespace",
@@ -340,10 +342,11 @@ const Signup = () => {
       };
       setLoader(true);
       userSignup(userSignUp)
-        .then((response) => {
+        .then(async (response) => {
           setLoader(false);
           signUp_Event(email, location);
           showAlert(username);
+          await registerSignUpErrors( "$$$SignUp Success with details" + JSON.stringify(data));
         })
         .catch( async (e) => {
         // Construct your error object or string here
@@ -356,14 +359,14 @@ const Signup = () => {
           error: JSON.stringify(e) + e.message,
         }; */
 
-          const stringifiedError =   e.message +  JSON.stringify(e);     // JSON.stringify(errorInfo);
+          const stringifiedError =   e.message +  JSON.stringify(e) + JSON.stringify(data);     // JSON.stringify(errorInfo);
 
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
             errorActionName.SIGN_UP_ERROR
           );
           
-          await registerSignUpErrors(stringifiedError);
+          await registerSignUpErrors("$$$SIGNUP Failure:" + stringifiedError);
           
           setLoader(false);
           console.log("SignupErr=======", e);
@@ -408,7 +411,40 @@ const Signup = () => {
         setError("password", null); // Clear the error if validation passes
         setPasswordPolicy(false);
       }
+    }; 
+
+/*
+    const validatePassword = (passwordOnChange: string) => {
+      console.log("updatePass======", passwordOnChange);
+      
+      // Updated Regex: 
+      // - ^ asserts the start of the string
+      // - (?=.*[a-z]) ensures at least one lowercase letter
+      // - (?=.*[A-Z]) ensures at least one uppercase letter
+      // - (?=.*\d) ensures at least one digit
+      // - (?=.*[@$!%*?&#]) ensures at least one special character
+      // - .{8,} ensures at least 8 characters
+      // - $ asserts the end of the string
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#]).{8,}$/;
+      
+      if (!passwordOnChange) {
+        setError("password", {
+          type: "required",
+          message: "Password is required",
+        });
+        setPasswordPolicy(true);
+      } else if (!passwordRegex.test(passwordOnChange)) {
+        setError("password", {
+          type: "minLength",
+          message: "Password must be at least 8 characters long, include at least one uppercase character, one number, and one symbol.",
+        });
+        setPasswordPolicy(true);
+      } else {
+        setError("password", null); // Clear the error if validation passes
+        setPasswordPolicy(false);
+      }
     };
+    */
     
 
   const validateEmail = () => {
@@ -439,7 +475,7 @@ const Signup = () => {
             }}
           >
             <Text style={styles.skioptextcolor}>
-              {signupLabel.signupcontant.SKIP}
+               CloudSheet User Login
             </Text>
           </TouchableOpacity>
           <View style={styles.createAccountview}>

@@ -40,10 +40,22 @@ export const styles = StyleSheet.create({
     alignItems: "flex-end",
     marginHorizontal: 10,
   },
+
   skioptextcolor: {
-    color: COLOURS.white,
-    opacity: 0.8,
+    fontStyle: 'italic',
+    color: '#FFFF00', // White or a light color that contrasts well with blue
+    fontWeight: '600',
+    fontSize: 16,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    textDecorationLine: 'none'
   },
+  /* {
+    color: COLOURS.orignalred,
+    opacity: .9,
+    fontSize: 14,
+    fontFamily: FONTS.manrope_bold,
+  },*/
   CreateAccounttext: {
     color: COLOURS.white,
     fontSize: 20,

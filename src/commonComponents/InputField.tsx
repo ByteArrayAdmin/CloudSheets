@@ -14,7 +14,7 @@ declare global {
 }
 const InputField = (props: any) => {
   var lables = global.labels;
-  console.log("defaultValue========", props.defaultValue);
+  //console.log("defaultValue========", props.defaultValue);
   return (
     <View>
       <Controller

@@ -28,7 +28,8 @@ const GuestDetail = ({ navigation }) => {
       if (isEmailValid) {
         console.log("$$$ Email format valid; navigating to Login");
         await registerEmail();
-        navigation.navigate("Login");
+        //navigation.navigate("Login");
+        navigation.navigate("Signupscreen");
       }
     } else {
       Alert.alert("Hold up! We need your email first.");
@@ -38,7 +39,8 @@ const GuestDetail = ({ navigation }) => {
 
   const handleSkip = () => {
     registerPromotionSkip();
-    navigation.navigate("Login");
+    //navigation.navigate("Login");
+    navigation.navigate("Signupscreen");
   };
 
   const checkEmailFormat = () => {
