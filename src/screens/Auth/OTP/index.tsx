@@ -38,10 +38,20 @@ import {
   errorActionName,
 } from "../../../utils/Constant";
 
+import {registerCWErrors} from "../../../utils/AWSLog"
+
 declare global {
   var labels: any;
 }
-const OtpScreen = () => {
+
+
+
+
+
+
+
+
+const OtpScreen  = () => { 
   const { control, handleSubmit, watch } = useForm();
   const route = useRoute();
   const navigation = useNavigation();
@@ -52,12 +62,26 @@ const OtpScreen = () => {
   const [loader, setLoader] = useState(false);
   var labels = global.labels;
 
+
+
   useEffect(() => {
-    track_Screen(eventName.TRACK_SCREEN, screenName.OTP_VERIFY_SCREEN);
+    const runAsyncTasks = async () => {
+      try {
+        await registerCWErrors("In the OTP Screen:  User: " + userName);
+        track_Screen(eventName.TRACK_SCREEN, screenName.OTP_VERIFY_SCREEN);
+        await registerCWErrors("Value of isFrom: " + isFrom); // 1. Print the value of isFrom
+        await registerCWErrors("OTP Screen Launched: User: " + userName); // 2. Log that the OTP screen is launched
+      } catch (e) {
+        console.error("Error logging:", e);
+        await registerCWErrors(`OTP Screen Error: ${e?.message}`); 
+      }
+    };
+
+    runAsyncTasks();
   }, []);
 
   // ----------- get network ------------
-  const checkInternet = (data: any) => {
+  function checkInternet(data: any): void {
     checkNetwork()
       .then((isConnected) => {
         console.log("isConectedResp=======", isConnected);
@@ -70,18 +94,29 @@ const OtpScreen = () => {
       .catch((error) => {
         console.log("networkErr======", error);
       });
-  };
+  }
   // ----------- verify OTP -----------
   const verificaton = async (data: any) => {
+
     track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_OTP_VERIFY);
     const { otp } = data;
+    
+    
     console.log("OTPData========", data, userName);
+    await registerCWErrors( `Attempting to verify OTP: Details:${data} : ${userName} OTP: ${otp}`);
+
+
+    
     setLoader(true);
+    await registerCWErrors( `Decision making based on isFrom: ${isFrom}` ); // 3. Log decision being made based on isFrom
+
+
     if (isFrom == "Profile") {
       await Auth.verifyCurrentUserAttributeSubmit("email", otp)
-        .then((response: any) => {
+        .then(async (response: any) => {
           if (response) {
             setLoader(false);
+            await registerCWErrors( `Profile Pathway : OTP Verified for User: ${userName}` );
             Alert.alert(labels.OTP_Constants.Confirmed);
             track_Success_Event(
               eventName.TRACK_SUCCESS_ACTION,
@@ -90,33 +125,44 @@ const OtpScreen = () => {
             navigation.goBack();
           }
         })
-        .catch((error) => {
+        .catch(async (error) => {
           setLoader(false);
+
+          await registerCWErrors( "OTP Verification Failed for User: " + userName + " : Error : " + error?.message );
+
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
             errorActionName.CHANGE_PASSWORD_OTP_VERIFY_ERROR
           );
+
           console.log("OptErr====", error);
         });
     } else {
+
       confirm_Signup(userName, otp)
-        .then((response) => {
+        .then( async (response) => {
           console.log("OTPResp=========", response);
           setLoader(false);
+          await registerCWErrors( "User SignUp Successfull with OTP!" + " : User : " + userName + " : OTP : " + otp );
+
           Alert.alert(labels.OTP_Constants.Confirmed);
           track_Success_Event(
             eventName.TRACK_SUCCESS_ACTION,
             successActionName.SIGNUP_OTP_VERIFY_SUCCESSFULLY
           );
+          await registerCWErrors( "Navigating to Login Screen!");
           navigation.navigate("Login");
         })
-        .catch((e) => {
+        .catch( async (e) => {
           setLoader(false);
           track_Error_Event(
             eventName.TRACK_ERROR_ACTION,
             errorActionName.SIGNUP_OTP_VERIFY_ERROR
           );
           console.log("OTPErr=======", e);
+
+          await registerCWErrors( `OTP Verification Failed for User: ${userName} : Error : ${e?.message} : OTP: ${otp}` );
+
           Alert.alert(e?.message);
         });
     }
@@ -138,23 +184,28 @@ const OtpScreen = () => {
     setDisable(true);
     setCount(labels.OTP_Constants.Sixty_Sec);
     setLoader(true);
+    await registerCWErrors("Attempting OTP Resend: User: " + userName);
     resend_OTP(userName)
-      .then((response) => {
+      .then(async (response) => {
         setLoader(false);
         console.log("resendResp=========", response);
         track_Success_Event(
           eventName.TRACK_SUCCESS_ACTION,
           successActionName.RESEND_PASSWORD_SUCCESSFULLY
         );
+
+        await registerCWErrors("Resend OTP Success: User: " + userName);
+        
         Alert.alert(labels.OTP_Constants.ResendOTPSuccess);
       })
-      .catch((err) => {
+      .catch( async (err) => {
         setLoader(false);
         track_Error_Event(
           eventName.TRACK_ERROR_ACTION,
           errorActionName.RESEND_PASSWORD_ERROR
         );
         console.log("error resending code: ", err);
+        await registerCWErrors(`Resend OTP Failure: User: ${userName} : Error :${err?.message}`);
         Alert.alert(err?.message);
       });
   };

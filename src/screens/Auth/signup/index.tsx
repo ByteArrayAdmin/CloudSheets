@@ -34,6 +34,10 @@ import AuthCard from "../../../commonComponents/AuthCard";
 // import labels from "../../../utils/ProjectLabels.json";
 //Fix KeyBoard Drop Issue 
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { registerCWErrors } from "../../../utils/AWSLog"
+
+//import React, { useState } from 'react';
+
 
 
 import {
@@ -148,6 +152,10 @@ const Signup = () => {
   const ChildRef = useRef();
   const snapPoints = ["60%"];
   var labels = global.labels;
+
+  const [isSignUpInProgress, setIsSignUpInProgress] = useState(false);
+
+
 
   // ------------ IsEmail Exist Lamda trigger -------------
   const isEmailExist = async () => {
@@ -298,6 +306,8 @@ const Signup = () => {
 
   // ----------- get network ------------
   const checkInternet = (data: any) => {
+    setIsSignUpInProgress(true);  // Disable the button
+
     checkNetwork()
       .then((isConnected) => {
         console.log("isConectedResp=======", isConnected);
@@ -305,10 +315,12 @@ const Signup = () => {
           onRegisterPressed(data);
         } else {
           Alert.alert(labels.checkNetwork.networkError);
+          setIsSignUpInProgress(false);  // Enable the button back
         }
       })
       .catch((error) => {
         console.log("networkErr======", error);
+        setIsSignUpInProgress(false);  // Enable the button back
       });
   };
 
@@ -319,6 +331,7 @@ const Signup = () => {
   const onRegisterPressed = async (data: any) => {
 
     await registerSignUpErrors( "$$$SignUp Attempted with details" + JSON.stringify(data));
+
     if (isNotBlankSpace(data.username)) {
       setError("username", {
         message: "This field cannot contain only whitespace",
@@ -326,7 +339,12 @@ const Signup = () => {
       return;
     }
     track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_REGISTER);
+
+
     if (isUserExist) {
+
+      await registerSignUpErrors( "$$$Entered SignUp With User Already Registered: " + JSON.stringify(data));
+
     } else {
       const { name, username, email, mobilenumber, password } = data;
       const userSignUp = {
@@ -344,9 +362,10 @@ const Signup = () => {
       userSignup(userSignUp)
         .then(async (response) => {
           setLoader(false);
+          //setIsSignUpInProgress(false);  // Enable the button back
           signUp_Event(email, location);
-          showAlert(username);
           await registerSignUpErrors( "$$$SignUp Success with details" + JSON.stringify(data));
+          showAlert(username);
         })
         .catch( async (e) => {
         // Construct your error object or string here
@@ -370,25 +389,45 @@ const Signup = () => {
           
           setLoader(false);
           console.log("SignupErr=======", e);
+          setIsSignUpInProgress(false);  // Enable the button back
           Alert.alert(e?.message);
         });
     }
   };
 
 
+  const showAlert = async (username: any) =>
+  { 
+    await registerCWErrors("Entered ShowAlert Pathway for OTP Screen" );
+    // Disable the button before showing the alert
+    setIsSignUpInProgress(true);
 
-          const showAlert = (username: any) =>
     Alert.alert(
-      labels.signupcontant.SUCCESFULLY_REGISTERED,
-      labels.signupcontant.confirmEmailText,
-      [
-        {
-          text: "Ok",
-          onPress: () =>
-            navigation.navigate("OtpScreen", { username: username }),
+    labels.signupcontant.SUCCESFULLY_REGISTERED,
+    labels.signupcontant.confirmEmailText,
+    [
+      {
+        text: "Ok",
+        onPress: async () => { 
+          try {
+            await registerCWErrors("Attempting to navigate to OTPScreen");
+            navigation.navigate("OtpScreen", { username: username });
+            await registerCWErrors("Post OTP Screen Navigation; Ideally Should Not Occur");
+             // Enable the button back if an error occurs
+             //setIsSignUpInProgress(false);
+
+          } catch (error) {
+            await registerCWErrors(`Failed to navigate to OTPScreen: ${error?.message}`);
+             // Enable the button back if an error occurs
+             setIsSignUpInProgress(false);
+          }
         },
-      ]
-    );
+      },
+    ]
+  );
+  
+};
+
 
 
     const validatePassword = (passwordOnChange: string) => {
@@ -587,10 +626,12 @@ const Signup = () => {
 
 
 
-                  <CommonButton
-                    onPress={handleSubmit(checkInternet)}
-                    Register={signupLabel.signupcontant.REGISTER}
-                  />
+                      <CommonButton
+                        onPress={isSignUpInProgress ? () => {} : handleSubmit(checkInternet)}
+                        Register={signupLabel.signupcontant.REGISTER}
+                        disabled={isSignUpInProgress} // Disable the button if the sign-up process is ongoing
+                      />
+
                 </>
               }
             />
