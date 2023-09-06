@@ -398,7 +398,8 @@ const Signup = () => {
 
   const showAlert = async (username: any) =>
   { 
-    await registerCWErrors("Entered ShowAlert Pathway for OTP Screen" );
+    const usr_name = { username: username };
+    await registerCWErrors("Entered ShowAlert Pathway for OTP Screen: User:" + usr_name );
     // Disable the button before showing the alert
     setIsSignUpInProgress(true);
 
@@ -410,9 +411,10 @@ const Signup = () => {
         text: "Ok",
         onPress: async () => { 
           try {
-            await registerCWErrors("Attempting to navigate to OTPScreen");
+
+            await registerCWErrors("Attempting to navigate to OTPScreen: User:" + usr_name );
             navigation.navigate("OtpScreen", { username: username });
-            await registerCWErrors("Post OTP Screen Navigation; Ideally Should Not Occur");
+            await registerCWErrors("Post OTP Screen Navigation Call. User: " +  usr_name );
              // Enable the button back if an error occurs
              //setIsSignUpInProgress(false);
 
@@ -583,24 +585,24 @@ const Signup = () => {
                     keyboardType={"email-address"}
                     styles={styles.inputview}
                   />
-                  <InputField
-                    name="mobilenunber"
-                    control={control}
-                    placeholder={
-                      signupLabel.signupcontant.PLACEHOLDER_MOBILNUMBER
-                    }
-                    Image={VectorIcom}
-                    rules={{
-                      required:
-                        signupLabel.signupcontant.MOBILENO_VALIDATION_MSG,
-                      pattern: {
-                        value: /^(\+)?\d{10}$/,
-                        message: "Invalid mobile number",
-                      },
-                    }}
-                    keyboardType={"phone-pad"}
-                    styles={styles.inputview}
-                  />
+
+                <InputField
+                  name="mobilenumber"
+                  control={control}
+                  placeholder={signupLabel.signupcontant.PLACEHOLDER_MOBILNUMBER}
+                  Image={VectorIcom}
+                  rules={{
+                    required: signupLabel.signupcontant.MOBILENO_VALIDATION_MSG,
+                    pattern: {
+                      //value: /^\+\d{10,15}$/,  // '+' is mandatory and allows 10 to 15 digits
+                      value: /^\+(\d{1,4})\d{10}$/, 
+                      message: "Invalid mobile number, must be 10 digits and include country code starting with +",
+                    },
+                  }}
+                  keyboardType={"phone-pad"}
+                  styles={styles.inputview}
+                />
+
 
 
                     <InputField

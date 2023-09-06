@@ -47,10 +47,6 @@ declare global {
 
 
 
-
-
-
-
 const OtpScreen  = () => { 
   const { control, handleSubmit, watch } = useForm();
   const route = useRoute();
@@ -62,7 +58,7 @@ const OtpScreen  = () => {
   const [loader, setLoader] = useState(false);
   var labels = global.labels;
 
-
+  const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
 
   useEffect(() => {
     const runAsyncTasks = async () => {
@@ -84,6 +80,7 @@ const OtpScreen  = () => {
   function checkInternet(data: any): void {
     checkNetwork()
       .then((isConnected) => {
+        setIsVerifyingOTP(true); // Set to true when verification starts
         console.log("isConectedResp=======", isConnected);
         if (isConnected) {
           verificaton(data);
@@ -94,6 +91,7 @@ const OtpScreen  = () => {
       .catch((error) => {
         console.log("networkErr======", error);
       });
+      setIsVerifyingOTP(false); // Set back to false when verification ends
   }
   // ----------- verify OTP -----------
   const verificaton = async (data: any) => {
@@ -123,6 +121,7 @@ const OtpScreen  = () => {
               successActionName.CHANGE_PASSWORD_OTP_VERIFY_SUCCESSFULLY
             );
             navigation.goBack();
+            setIsVerifyingOTP(false); // Set back to false when verification ends
           }
         })
         .catch(async (error) => {
@@ -136,6 +135,7 @@ const OtpScreen  = () => {
           );
 
           console.log("OptErr====", error);
+          setIsVerifyingOTP(false); // Set back to false when verification ends
         });
     } else {
 
@@ -152,6 +152,7 @@ const OtpScreen  = () => {
           );
           await registerCWErrors( "Navigating to Login Screen!");
           navigation.navigate("Login");
+          setIsVerifyingOTP(false); // Set back to false when verification ends
         })
         .catch( async (e) => {
           setLoader(false);
@@ -164,8 +165,10 @@ const OtpScreen  = () => {
           await registerCWErrors( `OTP Verification Failed for User: ${userName} : Error : ${e?.message} : OTP: ${otp}` );
 
           Alert.alert(e?.message);
-        });
-    }
+          setIsVerifyingOTP(false); // Set back to false when verification ends
+        }
+
+        )};
   };
 
   useEffect(() => {
@@ -184,6 +187,7 @@ const OtpScreen  = () => {
     setDisable(true);
     setCount(labels.OTP_Constants.Sixty_Sec);
     setLoader(true);
+    setIsVerifyingOTP(false); // Set back to false 
     await registerCWErrors("Attempting OTP Resend: User: " + userName);
     resend_OTP(userName)
       .then(async (response) => {
@@ -205,9 +209,12 @@ const OtpScreen  = () => {
           errorActionName.RESEND_PASSWORD_ERROR
         );
         console.log("error resending code: ", err);
+
         await registerCWErrors(`Resend OTP Failure: User: ${userName} : Error :${err?.message}`);
+
         Alert.alert(err?.message);
       });
+      
   };
 
   return (
@@ -249,10 +256,13 @@ const OtpScreen  = () => {
                     {labels.OTP_Constants.ResendOTP} {count != 0 ? count : null}
                   </Text>
                 </TouchableOpacity>
+                
                 <Button
                   Register={labels.OTP_Constants.VerifyOTP}
                   onPress={handleSubmit(checkInternet)}
+                  disabled={isVerifyingOTP} // Disable the button if OTP verification is ongoing
                 />
+
               </>
             }
           />
