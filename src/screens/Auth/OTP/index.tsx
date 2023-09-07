@@ -91,7 +91,8 @@ const OtpScreen  = () => {
       .catch((error) => {
         console.log("networkErr======", error);
       });
-      setIsVerifyingOTP(false); // Set back to false when verification ends
+      console.log(">>>>>>>>>>>>>>>");
+      //setIsVerifyingOTP(false); // Set back to false when verification ends
   }
   // ----------- verify OTP -----------
   const verificaton = async (data: any) => {
@@ -99,7 +100,7 @@ const OtpScreen  = () => {
     track_Click_Event(eventName.TRACK_CLICK, clickName.CLICK_ON_OTP_VERIFY);
     const { otp } = data;
     
-    
+    //setIsVerifyingOTP(true); 
     console.log("OTPData========", data, userName);
     await registerCWErrors( `Attempting to verify OTP: Details:${data} : ${userName} OTP: ${otp}`);
 
@@ -164,11 +165,27 @@ const OtpScreen  = () => {
 
           await registerCWErrors( `OTP Verification Failed for User: ${userName} : Error : ${e?.message} : OTP: ${otp}` );
 
-          Alert.alert(e?.message);
-          setIsVerifyingOTP(false); // Set back to false when verification ends
+          //Alert.alert(e?.message);
+          //setIsVerifyingOTP(false); // Set back to false when verification ends
+
+          Alert.alert(
+            'Error',
+            e?.message,
+            [
+              {
+                text: 'OK',
+                onPress: () => {
+                  setIsVerifyingOTP(false); // This will be executed only when "OK" is pressed
+                }
+              },
+            ]
+          );
+          
         }
 
         )};
+
+        //setIsVerifyingOTP(false);
   };
 
   useEffect(() => {

@@ -315,13 +315,15 @@ const Signup = () => {
           onRegisterPressed(data);
         } else {
           Alert.alert(labels.checkNetwork.networkError);
-          setIsSignUpInProgress(false);  // Enable the button back
         }
       })
       .catch((error) => {
         console.log("networkErr======", error);
-        setIsSignUpInProgress(false);  // Enable the button back
       });
+
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
+      //setIsSignUpInProgress(false);  // Enable the button back
+
   };
 
 
@@ -344,6 +346,7 @@ const Signup = () => {
     if (isUserExist) {
 
       await registerSignUpErrors( "$$$Entered SignUp With User Already Registered: " + JSON.stringify(data));
+      setIsSignUpInProgress(false);  // Enable the button back
 
     } else {
       const { name, username, email, mobilenumber, password } = data;
@@ -362,7 +365,6 @@ const Signup = () => {
       userSignup(userSignUp)
         .then(async (response) => {
           setLoader(false);
-          //setIsSignUpInProgress(false);  // Enable the button back
           signUp_Event(email, location);
           await registerSignUpErrors( "$$$SignUp Success with details" + JSON.stringify(data));
           showAlert(username);
@@ -401,7 +403,7 @@ const Signup = () => {
     const usr_name = { username: username };
     await registerCWErrors("Entered ShowAlert Pathway for OTP Screen: User:" + usr_name );
     // Disable the button before showing the alert
-    setIsSignUpInProgress(true);
+    //setIsSignUpInProgress(true);
 
     Alert.alert(
     labels.signupcontant.SUCCESFULLY_REGISTERED,
@@ -415,14 +417,13 @@ const Signup = () => {
             await registerCWErrors("Attempting to navigate to OTPScreen: User:" + usr_name );
             navigation.navigate("OtpScreen", { username: username });
             await registerCWErrors("Post OTP Screen Navigation Call. User: " +  usr_name );
-             // Enable the button back if an error occurs
-             //setIsSignUpInProgress(false);
 
           } catch (error) {
             await registerCWErrors(`Failed to navigate to OTPScreen: ${error?.message}`);
-             // Enable the button back if an error occurs
-             setIsSignUpInProgress(false);
           }
+          // Enable the button back if an error occurs
+          setIsSignUpInProgress(false);
+
         },
       },
     ]
