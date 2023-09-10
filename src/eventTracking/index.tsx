@@ -1,5 +1,9 @@
 import { Amplify, Analytics } from 'aws-amplify';
 import { current_UserInfo } from '../API_Manager/index';
+import { registerCWErrors, determineChannelType } from "../utils/AWSLog"
+
+
+
 Analytics.enable();
 
 export const track_Screen = (eventName: string, screenName: string) => {
@@ -105,58 +109,43 @@ export const signUp_Event = (email: string, userLocation: string) => {
 }
 
 
+export const updatePinpointEndpoint = async (data, location) => {
 
-// Hack to Report Errors
-export const registerCWErrors = async ( errorString ) => {
-
-     //Amplify.configure(awsconfig);
-     /*Auth.currentCredentials()
-   .then(d => console.log('data: ', d))
-   .catch(e => console.log('error: ', e));*/
+   const channelType = await determineChannelType();
+   const data_str = "%%%%%% " + data.name + data.username + data.email + data.mobilenumber + location + channelType;
    
-   const credentials = await Auth.currentCredentials();
-   
-   AWS.config.update({
-     accessKeyId: credentials.accessKeyId,
-     secretAccessKey: credentials.secretAccessKey,
-     sessionToken: credentials.sessionToken,
-     region: 'us-east-1'  // your region
-   })
-   
-   const customMessage = ""; // Your custom message
+  try {
      
-   const combinedError = `Detailed Message: ${errorString}`;
-   
-   console.log("", combinedError );
-   
-     // Initialize the AWS Lambda SDK
-     const lambda = new AWS.Lambda({
-       region: 'us-east-1', // Change to your region
-       credentials: AWS.config.credentials, // should be set by Cognito Identity Pool
+     console.log( data_str );
+
+    // Record the attributes
+    if (Analytics && Analytics.updateEndpoint) {
+
+     await Analytics.updateEndpoint({
+       address: data.email,
+       channelType: channelType,
+       attributes: { 
+          name: [data.name],
+          username: [data.username],
+          email: [data.email],
+          mobilenumber: [data.mobilenumber],
+          customPremium: ["false"],
+          customSuspended: ["false"],
+          location: [location] // Add location to the attributes
+       },    
      });
+
+     await registerCWErrors("Successfully registered PinPoint EndPoint: " + data_str )
+
+
+   } else {
+     await registerCWErrors("Error:  Analytics.updateEndpoint is not available: " + data_str );
+   }
+  } catch (error) {
+
+     await registerCWErrors( "An error occurred while updating the Pinpoint endpoint:", error?.message  + ": Data : " + data_str );
+    
+  }
+};
+
    
-     // Prepare payload
-     const payload = {
-       email: combinedError, // OPTIONAL
-     };
-   
-     // Prepare Lambda params
-     const lambdaParams = {
-       FunctionName: 'registerCloudSheetPromotionEmail', // your Lambda function name
-       InvocationType: 'RequestResponse',
-       Payload: JSON.stringify(payload),
-     };
-   
-     try {
-       const result = await lambda.invoke(lambdaParams).promise();
-       console.log("Lambda invocation result:", result);
-       
-       if (result.StatusCode === 200) {
-         console.log("Success", JSON.parse(result.Payload));
-       } else {
-         console.log("Error Scenario");
-       }
-     } catch (error) {
-       console.log("Error invoking Lambda", error);
-     }
-   };

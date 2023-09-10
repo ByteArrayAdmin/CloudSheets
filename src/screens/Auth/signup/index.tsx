@@ -34,9 +34,11 @@ import AuthCard from "../../../commonComponents/AuthCard";
 // import labels from "../../../utils/ProjectLabels.json";
 //Fix KeyBoard Drop Issue 
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { registerCWErrors } from "../../../utils/AWSLog"
+import { registerCWErrors, logDeviceInfo } from "../../../utils/AWSLog"
 
 //import React, { useState } from 'react';
+
+
 
 
 
@@ -54,6 +56,7 @@ import {
   track_Error_Event,
   signIn_Event,
   signUp_Event,
+  updatePinpointEndpoint,
 } from "../../../eventTracking/index";
 import {
   eventName,
@@ -309,8 +312,12 @@ const Signup = () => {
     setIsSignUpInProgress(true);  // Disable the button
 
     checkNetwork()
-      .then((isConnected) => {
+      .then(async (isConnected) => {
         console.log("isConectedResp=======", isConnected);
+        
+        await registerCWErrors("Logging Device Info Against User Details: " +  JSON.stringify(data));
+        await logDeviceInfo();
+
         if (isConnected) {
           onRegisterPressed(data);
         } else {
@@ -367,6 +374,7 @@ const Signup = () => {
           setLoader(false);
           signUp_Event(email, location);
           await registerSignUpErrors( "$$$SignUp Success with details" + JSON.stringify(data));
+          await updatePinpointEndpoint(data, location);
           showAlert(username);
         })
         .catch( async (e) => {
@@ -388,6 +396,7 @@ const Signup = () => {
           );
           
           await registerSignUpErrors("$$$SIGNUP Failure:" + stringifiedError);
+          await updatePinpointEndpoint(data, location);
           
           setLoader(false);
           console.log("SignupErr=======", e);
