@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   View,
   SafeAreaView,
@@ -7,6 +8,7 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
+
 import BackgroundLayout from "../../../commonComponents/Backgroundlayout/BackgroundLayout";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Mediumlogo from "../../../assets/Images/Mediumlogo.svg";
@@ -18,6 +20,7 @@ import { useForm } from "react-hook-form";
 import Button from "../../../commonComponents/Button";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
+
 import {
   confirm_Signup,
   resend_OTP,
@@ -262,6 +265,11 @@ const OtpScreen  = () => {
                   styles={styles.inputview}
                   keyboardType={"numeric"}
                 />
+
+                <Text style={styles.infoTextStyle}>
+                  If you haven't received the OTP, please check your spam or junk folder.
+                </Text>
+
                 <TouchableOpacity
                   disabled={disable}
                   style={styles.resendBtnView}
@@ -338,4 +346,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLOURS.red,
   },
+  infoTextStyle: {
+    color: 'red',
+    fontSize: 14,
+    textAlign: 'center',
+    marginVertical: 10,
+    //fontWeight: 'bold'
+    fontStyle: 'italic'
+  },
+  
+  
 });
